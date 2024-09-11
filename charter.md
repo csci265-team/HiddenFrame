@@ -9,6 +9,7 @@
 
 *note which person has been designated the main contact person for questions from the instructor*
 
+ - Amitoj Singh, amitojsingh.chopra@my.viu.ca
  - Dave Narealdave, nareal@somewhere.ca *main contact*
  - David Naughtdave, dndve@geemail.dv
  - Davey Fakedave, fakedave111@alldaves.net
