@@ -45,7 +45,7 @@ Provide a list of your team members and their initially assigned roles:
 Identify how the team plans to communicate during the term (discord, text, email, zoom, etc)
 
 Identify at least one time per week that the team will meet outside of 265 class/lab time
- - Weekday, time
+ - Friday, 7am
  - Weekday, time
 
 Describe any rules for preparing for, running, tracking decisions made, and following up on meetings,
