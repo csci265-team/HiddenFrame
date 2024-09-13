@@ -9,10 +9,12 @@
 
 *note which person has been designated the main contact person for questions from the instructor*
 
- - Dave Narealdave, nareal@somewhere.ca *main contact*
- - David Naughtdave, dndve@geemail.dv
- - Davey Fakedave, fakedave111@alldaves.net
- - Duhyve Reeldave, dave1234567@oldemailserver.ne
+ - Artem Trefilov, artov59@gmail.com *main contact*
+ - Patrick Candy, candy.pat@gmail.com
+ - Jeremy Shumuk, admin@payrollinsights.ca
+ - Yagna Patel, yagna111204@gmail.com
+ - William Thornley, will.fet23@gmail.com
+ - Amitoj Singh, amitojsingh.chopra@my.viu.ca
 
 ## Project intro
 
