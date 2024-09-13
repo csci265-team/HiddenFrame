@@ -9,6 +9,7 @@
 
 *note which person has been designated the main contact person for questions from the instructor*
 
+
  - Artem Trefilov, artov59@gmail.com *main contact*
  - Patrick Candy, candy.pat@gmail.com
  - Jeremy Shumuk, admin@payrollinsights.ca
