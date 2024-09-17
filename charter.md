@@ -10,12 +10,12 @@
 *note which person has been designated the main contact person for questions from the instructor*
 
 
- - Artem Trefilov, artlov59@gmail.com *main contact*
- - Patrick Candy, candy.pat@gmail.com
- - Jeremy Shumuk, admin@payrollinsights.ca
- - Yagna Patel, yagna111204@gmail.com
- - William Thornley, will.fet23@gmail.com
- - Amitoj Singh, amitojsingh.chopra@my.viu.ca
+ - Artem Trefilov   artlov59@gmail.com *main contact*
+ - Amitoj Singh     amitojsingh.chopra@my.viu.ca
+ - Jeremy Shumuk    admin@payrollinsights.ca
+ - Patrick Candy    candy.pat@gmail.com
+ - William Thornley will.fet23@gmail.com
+ - Yagna Patel      yagna111204@gmail.com
 
 ## Project intro
 
@@ -23,7 +23,9 @@ Provide one or two paragraphs outlining the product in general.
 
 ## Team philosophy
 
-What are the core goals, priorities, and philosophies of the team this term
+Our goals for this group project include improving our collaborative coding skills and experienece by working as team on a larger project than we're used to, improving our knowledge and experience with git and other coding tools. We have set the academic goal of 90% on the overall group project grade as a floor. Our priorities include meeting deadlines (see Deadlines and Deliverables) to allow sufficient time for team members to review eachother's work before submission deadlines are imminent.
+
+Our team is committed to engaging with one another as active participants and respectfully in class, lab, and group discussions. Active participation includes regular attendance at class, labs and team meetings. Respectful communication includes active listening and participation in group discussions, and approaching discussions from a solutions oriented perspective.
 
 ## Team roles/responsibilities
 
@@ -33,20 +35,18 @@ Include a description of
  - how new roles/responsibilities will be allocated as the need arises.
 
 Provide a list of your team members and their initially assigned roles:
- - NameA, role(s)
- - NameB, role(s)
- - NameC, role(s)
- - NameD, role(s)
- - NameE, role(s)
- - NameF, role(s)
+ - Artem Trefilov will be our Main Contact with Professor Dave Wessels. Artem's resonsibility include bringing group questions about project deliverables to Prof. Wessels for the group.
+ - Amitoj Singh will be the team primary git contact.
+ - Jeremy Shumuk will record team decisions in the Action Item List.
+ - Patrick Candy - developer.
+ - William Thornley - developer.
+ - Yagna Patel - developer.
 
 ## Planned team meeting time(s) and communication plans
 
 Identify how the team plans to communicate during the term (discord, text, email, zoom, etc)
 
-Identify at least one time per week that the team will meet outside of 265 class/lab time
- - Friday, 1:30pm
- - Weekday, time
+The group will meet in the library at 2:30pm on Thursdays unless agreed beforehand in the team Discord chat that a team meeting will not be neccessary.
 
 Describe any rules for preparing for, running, tracking decisions made, and following up on meetings,
 and how you'll handle situations where a team member is unable to attend a meeting.
