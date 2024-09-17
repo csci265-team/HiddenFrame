@@ -40,12 +40,12 @@ The prime purpose of the project will be to create a program that:
 
 ### Public View
 We aim to provide a a nice looking website similar to Pintrest or Imigur. Both of these websites employ a splash page of popular photos in a 'card' format. We plan to duplicate this.
-![Public View](/csci265/resources/images/HiddenFrame%20Public%20View.png)
+![Public View](./resources/images/HiddenFrame%20Public%20View.png)
 
 ### Private View
-We also intend to have a private view that retrieves the payload from images. The images that do not contain 
+We also intend to have a private view that retrieves the payload from images. The images that do not contain a payload should be left as is. 
 
-![Private View](/csci265/resources/images/HiddenFrame%20Private%20View.png)
+![Private View](./resources/images/HiddenFrame%20Private%20View.png)
 
 ## Scaling plans
 
