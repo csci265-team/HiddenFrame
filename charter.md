@@ -66,9 +66,9 @@ If a team member repeatedly misses deadlines or deliverables without a valid rea
 Provide a short discussion of how your team plans on dealing with disagreements within the team
 regarding participation (or lack thereof), workloads, design, project features, etc.
 
-Decisions are made unanimously by the team. In the event of a conflict of opinion, a poll will be conducted to reach a decision. Jeremy will track all proposed decisions and deadlines, incase jeremy is unable to do so, another member of the team will take charge.
+Decisions are made unanimously by the team. In the event of a conflict of opinion, a poll will be conducted to reach a decision. A decision needs at least 4 memebers to be present to be concidered valid.
 
-A decision needs at least 4 memebers to be present to be concidered valid.
+Jeremy will track all proposed decisions and deadlines, incase jeremy is unable to do so, another member of the team will take charge.
 
 In the case of lack of participation or excess participation the team will discuss the member's participation during a meeting and then come with a plan to deal with the same. (Eg: Too little participation would get more tasks assigned, excess participation will get their tasks distributed among the rest of the team)
 
@@ -76,7 +76,7 @@ In the case of lack of participation or excess participation the team will discu
 
 - No pushing directly to `master`.
 - Pull requests need to be created against `master` to get code merged in.
-- At least two team members need to approve changes before code can be merged into `master`.
+- At least two team members need to approve changes in a PR before code can be merged into `master`.
 - The creator of the pull request can not merge their own pull request.
 - Force pushes should be avoided.
 
