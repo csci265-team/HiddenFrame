@@ -84,7 +84,7 @@ Team members are expected to respond within 24 hours of a discord message and wi
 Describe any rules for preparing for, running, tracking decisions made, and following up on meetings,
 and how you'll handle situations where a team member is unable to attend a meeting.
 
-In each meeting the team will discuss any deadlines or deliverables that need to be looked at. If any member is unable to attend the meeting they must inform the team before the meeting is helf so alternate arrangements can be made. In case the meeting is held without the team member they can join on duscord or get caught up on what was discussed by another team member.
+In each meeting the team will discuss any deadlines or deliverables that need to be looked at. If any member is unable to attend the meeting they must inform the team before the meeting is held so alternate arrangements can be made. In case the meeting is held without the team member they can join on discord or get caught up on what was discussed by another team member.
 
 ## Deadlines and deliverables
 
