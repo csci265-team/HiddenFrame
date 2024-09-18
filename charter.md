@@ -126,3 +126,4 @@ Our team has identified that we have varying backgrounds, skillsets, and experie
 - Some team members have taken some time away form coding in favour of gaining other experience, while others have been working on coding projects more recently.
 
 In one respect this is a strength in that we have a broad range of past experience. In another respect, this will require that team members with experience that will prove especially useful to a particular aspect of the project may need to explain their thinking to teammates who may have limited experience in that topic. We're committed to meeting this challenge by engaging respectfully with one another and ultimately improving our communication skills.
+
