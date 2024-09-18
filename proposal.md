@@ -67,4 +67,4 @@ Ideas for scaling up, include:
 
 The team does not, overall, have a strong foundation in website creation. Since a 'social media site' is a large portion of the functionality of this project, this knowledge gap could be a potential problem. 
 
-As with many security/privacy tool, this project has the potential to be abused my malicious actors. 
+As with any security/privacy tool, this project has the potential to be abused my malicious actors. 
