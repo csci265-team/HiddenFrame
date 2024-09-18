@@ -56,7 +56,7 @@ If the project needs to be scaled down we will either:
 - focus on producing a picture sharing site, without the steganographic features.
 
 Ideas for scaling up, include: 
--  supporting additonal input/output file types e.g.: seeding a picture with audio payload instead of text, or seeding an audio file with ta payload. 
+-  supporting additional input/output file types e.g.: seeding a picture with audio payload instead of text, or seeding an audio file with ta payload. 
 -  getting the project/AI to generate images instead of being provided with an image to seed.
 -  End-to-End encryption of the message. 
 -  Single read messages.
