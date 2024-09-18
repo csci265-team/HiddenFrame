@@ -23,7 +23,7 @@ Project HiddenFrame is, in brief, a picture board (like pintrest), that will use
 
 ## Team philosophy
 
-Our goals for this group project include improving our collaborative coding skills and experienece by working as team on a larger project than we're used to, improving our knowledge and experience with git and other coding tools. We have set the academic goal of 90% on the overall group project grade as a floor. Our priorities include meeting deadlines (see Deadlines and Deliverables) to allow sufficient time for team members to review eachother's work before submission deadlines are imminent.
+Our goals for this group project include improving our collaborative coding skills and experienece by working as team on a larger project than we're used to, improving our knowledge and experience with git and other coding tools. We have set the academic goal of 90% on the overall group project grade as a floor. Our priorities include meeting deadlines [(see Deadlines and Deliverables)](#deadlines-and-deliverables) to allow sufficient time for team members to review eachother's work before submission deadlines are imminent.
 
 Our team is committed to engaging with one another as active participants and respectfully in class, lab, and group discussions. Active participation includes regular attendance at class, labs and team meetings. Respectful communication includes active listening and participation in group discussions, and approaching discussions from a solutions oriented perspective.
 
@@ -99,7 +99,7 @@ If a team member repeatedly misses deadlines or deliverables without a valid rea
 Provide a short discussion of how your team plans on dealing with disagreements within the team
 regarding participation (or lack thereof), workloads, design, project features, etc.
 
-Decisions are made unanimously by the team. In the event of a conflict of opinion, a poll will be conducted to reach a decision. A decision needs at least 4 memebers to be present to be concidered valid.
+Decisions are made unanimously by the team. If not unanimous, team decisions will be made by majority vote where a quorum of six (6) is required in the team Discord chat, or a quorum of four (4) is required at the weekly team meeting [(see Planned Meeting Time(s) and Communication Plan)](#planned-team-meeting-times-and-communication-plans). In the event of a team vote resulting in a tie in either circumstance, a coin flip will decide the outcome of the vote.
 
 Documentation team will track all proposed decisions and deadlines, incase Documentation team is unable to do so, another member of the team will take charge.
 
