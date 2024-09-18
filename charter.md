@@ -5,6 +5,8 @@
 
 ## Project/product name: HiddenFrame
 
+## Github URL: https://github.com/csci265-team/project.git
+
 ## Members and contact email
 
 *note which person has been designated the main contact person for questions from the instructor*
