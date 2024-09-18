@@ -31,7 +31,7 @@ The project will rely upon a social media site in order to camouflage its true p
 
 ### Secret Messages
 
-The prime purpose of the project will be to create a program that: 
+The other purpose of the project will be to create a program that: 
 - accepts an image as it's input 
 - processes the image in such a way that the image is unremarkably different to a human, but now contains some data payload within the image.
 - process a carrier image to retrieve the original payload. 
