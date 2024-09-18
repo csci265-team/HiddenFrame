@@ -39,7 +39,7 @@ The prime purpose of the project will be to create a program that:
 ## Preliminary interface sketches
 
 ### Public View
-We aim to provide a a nice looking website similar to Pintrest or Imigur. Both of these websites employ a splash page of popular photos in a 'card' format. We plan to duplicate this.
+We aim to provide a a nice looking website similar to Pintrest or Imgur. Both of these websites employ a splash page of popular photos in a 'card' format. We plan to duplicate this.
 ![Public View](./resources/images/HiddenFrame%20Public%20View.png)
 
 ### Private View
