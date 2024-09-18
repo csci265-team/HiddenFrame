@@ -96,9 +96,6 @@ If a team member repeatedly misses deadlines or deliverables without a valid rea
 
 ## Conflict resolution scheme
 
-Provide a short discussion of how your team plans on dealing with disagreements within the team
-regarding participation (or lack thereof), workloads, design, project features, etc.
-
 Decisions are made unanimously by the team. If not unanimous, team decisions will be made by majority vote where a quorum of six (6) is required in the team Discord chat, or a quorum of four (4) is required at the weekly team meeting [(see Planned Meeting Time(s) and Communication Plan)](#planned-team-meeting-times-and-communication-plans). In the event of a team vote resulting in a tie in either circumstance, a coin flip will decide the outcome of the vote.
 
 Documentation team will track all proposed decisions and deadlines, incase Documentation team is unable to do so, another member of the team will take charge.
@@ -122,6 +119,10 @@ In the case of lack of participation or excess participation the team will discu
 
 ## Discussion of team strengths/weaknesses
 
-Replace this with a discussion of what, as a group, you perceive your team's core strengths
-and weaknesses will be for this term project, based on the skills
-and interests of the different team members.
+Our team has identified that we have varying backgrounds, skillsets, and experience. For example:
+
+- Some team members have extensive experience with git, while others do not;
+- Some team members have programming experience in multiple languages, while others do not; and
+- Some team members have taken some time away form coding in favour of gaining other experience, while others have been working on coding projects more recently.
+
+In one respect this is a strength in that we have a broad range of past experience. In another respect, this will require that team members with experience that will prove especially useful to a particular aspect of the project may need to explain their thinking to teammates who may have limited experience in that topic. We're committed to meeting this challenge by engaging respectfully with one another and ultimately improving our communication skills.
