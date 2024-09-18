@@ -3,12 +3,11 @@
 
 ## Team name: the-name-of-your-team-goes-here
 
-## Project/product name: the-name-of-your-product-goes-here
+## Project/product name: HiddenFrame
 
 ## Members and contact email
 
 *note which person has been designated the main contact person for questions from the instructor*
-
 
  - Artem Trefilov   artlov59@gmail.com *main contact*
  - Amitoj Singh     amitojsingh.chopra@my.viu.ca
@@ -19,7 +18,7 @@
 
 ## Project intro
 
-Provide one or two paragraphs outlining the product in general.
+Project HiddenFrame is, in brief, a picture board (like pintrest), that will use various technologies like DBMS, WebRTC, APIs and also acts as a secret message board by using stenography. HiddenFrame will be publicly accessible and encourage the general public to share photographic content; meanwhile select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. (Which only a select few will know about)
 
 ## Team philosophy
 
@@ -44,28 +43,50 @@ Provide a list of your team members and their initially assigned roles:
 
 ## Planned team meeting time(s) and communication plans
 
-Identify how the team plans to communicate during the term (discord, text, email, zoom, etc)
+The group will meet in the library at 2:30pm on Thursdays unless agreed beforehand in the team Discord chat that a team meeting will not be neccessary. Team members can also use phone calls to contact each other in urgent situations
 
-The group will meet in the library at 2:30pm on Thursdays unless agreed beforehand in the team Discord chat that a team meeting will not be neccessary.
+Team members are expected to respond within 24 hours of a discord message and within 1 hour of a phone call.
 
 Describe any rules for preparing for, running, tracking decisions made, and following up on meetings,
 and how you'll handle situations where a team member is unable to attend a meeting.
 
+In each meeting the team will discuss any deadlines or deliverables that need to be looked at. If any member is unable to attend the meeting they must inform the team before the meeting is helf so alternate arrangements can be made. In case the meeting is held without the team member they can join on duscord or get caught up on what was discussed by another team member.
+
 ## Deadlines and deliverables
 
-Describe how the team will handle the biweekly project phase deadlines and presentations,
-ensuring that everyone has their part done in time to put the needed deliverables together
-for submission.
+Our meetings on Thursdays are when we decide on deliverables. We as a team will hold each other accountable. Deadlines and deliverables will be noted down by Jeremy in the action item list. 
+
+Everyone on the team is expected to behave as reasonable adults. Therefore, it is acceptable if a team member is unable to meet a deadline or deliverable, provided they have a valid reason and have communicated this in advance. 
+
+If a team member repeatedly misses deadlines or deliverables without a valid reason, the issue will be escalated and discussed in meetings. If the team is unable to reach a resolution, we will consult the professor.
+
 
 ## Conflict resolution scheme
 
 Provide a short discussion of how your team plans on dealing with disagreements within the team
 regarding participation (or lack thereof), workloads, design, project features, etc.
 
+Decisions are made unanimously by the team. In the event of a conflict of opinion, a poll will be conducted to reach a decision. Jeremy will track all proposed decisions and deadlines, incase jeremy is unable to do so, another member of the team will take charge.
+
+A decision needs at least 4 memebers to be present to be concidered valid.
+
+In the case of lack of participation or excess participation the team will discuss the member's participation during a meeting and then come with a plan to deal with the same. (Eg: Too little participation would get more tasks assigned, excess participation will get their tasks distributed among the rest of the team)
+
+## Team Git policies
+
+- No pushing directly to `master`.
+- Pull requests need to be created against `master` to get code merged in.
+- At least two team members need to approve changes before code can be merged into `master`.
+- The creator of the pull request can not merge their own pull request.
+- Force pushes should be avoided.
+
 ## Team AI policies
 
-Discuss what forms of AI use are/are not acceptable for the team (to ensure an agreement is
-reached on this before anyone begins using it).
+- AI can be used to help in research
+- AI can be used in identifying and fixing bugs. But the user must not copy paste fixes directly or at the least understand how the fix works so a similar bugs do not arise in the future.
+- AI can be used to generate sample data
+- AI **can NOT** be used to directly write code/features
+
 
 ## Discussion of team strengths/weaknesses
 
