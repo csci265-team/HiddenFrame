@@ -76,9 +76,9 @@ In the case of lack of participation or excess participation the team will discu
 
 ## Team Git policies
 
-- No pushing directly to `master`.
-- Pull requests need to be created against `master` to get code merged in.
-- At least two team members need to approve changes in a PR before code can be merged into `master`.
+- No pushing directly to [`master`](/github/csci265-team/project/tree/master).
+- Pull requests need to be created against [`master`](/github/csci265-team/project/tree/master) to get code merged in.
+- At least two team members need to approve changes in a PR before code can be merged into [`master`](/github/csci265-team/project/tree/master).
 - The creator of the pull request can not merge their own pull request.
 - Force pushes should be avoided.
 
