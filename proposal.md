@@ -13,7 +13,7 @@ Patrick Candy - candy.pat@gmail.com
 
 Project HiddenFrame is, in brief, a picture board (like pintrest), that will use various technologies like DBMS, WebRTC, APIs and also acts as a secret message board by using stenography. HiddenFrame will be publicly accessible and encourage the general public to share photographic content; meanwhile select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. (Which only a select few will know about)
 
-HiddenFrame will achieve its purpose by first providing an attractive social media experience, in order to attract as many users as possible and thereby provide better obstrufucation for the secret messages. The secret messages, section of the site will access controlled and  
+HiddenFrame will achieve its purpose by first providing an attractive social media experience, in order to attract as many users as possible and thereby provide better obstrufucation for the secret messages. The secret messages, section of the site will access controlled and allow users to communicate covertly.
 
 ## Target audience and motivation
 
@@ -51,8 +51,9 @@ We also intend to have a private view that retrieves the payload from images. Th
 
 Provide a short discussion of how the project can be scaled up/down in the future if it begins to look too large to complete on time or too small to provide a suitable challenge for the team.
 
-If the project needs to be scaled down: 
-- we will focus on producing a progam that successfully completes the stenographic process, without the picture board site.
+If the project needs to be scaled down we will either: 
+- focus on producing a progam that successfully completes the steganographic process, without the picture board site.
+- focus on producing a picture sharing site, without the steganographic features.
 
 Ideas for scaling up, include: 
 -  supporting additonal input/output file types e.g.: seeding a picture with audio payload instead of text, or seeding an audio file with ta payload. 
