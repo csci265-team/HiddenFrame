@@ -59,7 +59,7 @@ Ideas for scaling up, include:
 -  getting the project/AI to generate images instead of being provided with an image to seed.
 -  End-to-End encryption of the message. 
 -  Single read messages.
--  Spread Payload accross multiple carriers. 
+-  Spread Payload across multiple carriers. 
 
 
 ## Risks and potential issues
