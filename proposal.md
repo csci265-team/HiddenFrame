@@ -27,7 +27,7 @@ Our team discussed a very diverse set of possible projects. We ultimately settle
 
 The project will rely upon a social media site in order to camouflage its true purpose. None-the-less, the social media aspect needs to be attracive and user-friendly in order elicit widespread use. Primary features we hope to provide are:
 - Image upload and download to servers
-- WebGUI with privelledge section for secret sharing. 
+- WebGUI with privileged section for secret sharing. 
 
 ### Secret Messages
 
