@@ -29,20 +29,11 @@ Our team is committed to engaging with one another as active participants and re
 
 ## Team roles/responsibilities
 
-Include a description of
-
-- how your team plans to divide up the roles/responsibilities for the project,
-- how you plan on adjusting those if/when the need arises (team members join or leave during the semester, individual team members turn out to be over/underworked based on the original allocation),
-- how new roles/responsibilities will be allocated as the need arises.
-
 Provide a list of your team members and their initially assigned roles:
 
 - Artem Trefilov will be our Main Contact with Professor Dave Wessels. Artem's resonsibility include bringing group questions about project deliverables to Prof. Wessels for the group.
-- Amitoj Singh will be the team primary git contact.
+- Amitoj Singh will be the team primary git and development contact.
 - Jeremy Shumuk will record team decisions in the Action Item List and will work on documentation
-- Patrick Candy - developer.
-- William Thornley - developer.
-- Yagna Patel - developer.
 
 The lead roles assigned to the team members are as follows:
 
@@ -97,7 +88,7 @@ In each meeting the team will discuss any deadlines or deliverables that need to
 
 ## Deadlines and deliverables
 
-Our meetings on Thursdays are when we decide on deliverables. We as a team will hold each other accountable. Deadlines and deliverables will be noted down by Jeremy in the action item list.
+Our meetings on Thursdays are when we decide on deliverables. We as a team will hold each other accountable. Deadlines and deliverables will be noted down by the Documentation team in the action item list.
 
 Everyone on the team is expected to behave as reasonable adults. Therefore, it is acceptable if a team member is unable to meet a deadline or deliverable, provided they have a valid reason and have communicated this in advance.
 
@@ -110,7 +101,7 @@ regarding participation (or lack thereof), workloads, design, project features, 
 
 Decisions are made unanimously by the team. In the event of a conflict of opinion, a poll will be conducted to reach a decision. A decision needs at least 4 memebers to be present to be concidered valid.
 
-Jeremy will track all proposed decisions and deadlines, incase jeremy is unable to do so, another member of the team will take charge.
+Documentation team will track all proposed decisions and deadlines, incase Documentation team is unable to do so, another member of the team will take charge.
 
 In the case of lack of participation or excess participation the team will discuss the member's participation during a meeting and then come with a plan to deal with the same. (Eg: Too little participation would get more tasks assigned, excess participation will get their tasks distributed among the rest of the team)
 
