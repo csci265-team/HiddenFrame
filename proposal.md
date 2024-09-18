@@ -17,7 +17,7 @@ HiddenFrame will achieve its purpose by first providing an attractive social med
 
 ## Target audience and motivation
 
-HiddenFrame is intended to obstruficate hidden messages. The project has an application wherever it is important that the passage of data go unremarked. In particular, this project has applications in journalism and policing; both situations where communication from sources covertly is important. Additionally, the project has potential uses in PEN testing.
+HiddenFrame is intended to obfuscate hidden messages. The project has an application wherever it is important that the passage of data go unremarked. In particular, this project has applications in journalism and policing; both situations where communication from sources covertly is important. Additionally, the project has potential uses in PEN testing.
 
 Our team discussed a very diverse set of possible projects. We ultimately settled on this one because we felt that it had a great deal of variety. It will involve networking, web-design, image manipulation, and encryption (at a minimum). The hope is that this project will allow each member of the team to grow as a developer. 
 
