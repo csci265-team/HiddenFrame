@@ -1,4 +1,3 @@
-
 # CSCI 265 Team Charter
 
 ## Team name: the-name-of-your-team-goes-here
@@ -9,14 +8,14 @@
 
 ## Members and contact email
 
-*note which person has been designated the main contact person for questions from the instructor*
+_note which person has been designated the main contact person for questions from the instructor_
 
- - Artem Trefilov   artlov59@gmail.com *main contact*
- - Amitoj Singh     amitojsingh.chopra@my.viu.ca
- - Jeremy Shumuk    admin@payrollinsights.ca
- - Patrick Candy    candy.pat@gmail.com
- - William Thornley will.fet23@gmail.com
- - Yagna Patel      yagna111204@gmail.com
+- Artem Trefilov artlov59@gmail.com _main contact_
+- Amitoj Singh amitojsingh.chopra@my.viu.ca
+- Jeremy Shumuk admin@payrollinsights.ca
+- Patrick Candy candy.pat@gmail.com
+- William Thornley will.fet23@gmail.com
+- Yagna Patel yagna111204@gmail.com
 
 ## Project intro
 
@@ -31,17 +30,59 @@ Our team is committed to engaging with one another as active participants and re
 ## Team roles/responsibilities
 
 Include a description of
- - how your team plans to divide up the roles/responsibilities for the project,
- - how you plan on adjusting those if/when the need arises (team members join or leave during the semester, individual team members turn out to be over/underworked based on the original allocation),
- - how new roles/responsibilities will be allocated as the need arises.
+
+- how your team plans to divide up the roles/responsibilities for the project,
+- how you plan on adjusting those if/when the need arises (team members join or leave during the semester, individual team members turn out to be over/underworked based on the original allocation),
+- how new roles/responsibilities will be allocated as the need arises.
 
 Provide a list of your team members and their initially assigned roles:
- - Artem Trefilov will be our Main Contact with Professor Dave Wessels. Artem's resonsibility include bringing group questions about project deliverables to Prof. Wessels for the group.
- - Amitoj Singh will be the team primary git contact.
- - Jeremy Shumuk will record team decisions in the Action Item List.
- - Patrick Candy - developer.
- - William Thornley - developer.
- - Yagna Patel - developer.
+
+- Artem Trefilov will be our Main Contact with Professor Dave Wessels. Artem's resonsibility include bringing group questions about project deliverables to Prof. Wessels for the group.
+- Amitoj Singh will be the team primary git contact.
+- Jeremy Shumuk will record team decisions in the Action Item List and will work on documentation
+- Patrick Candy - developer.
+- William Thornley - developer.
+- Yagna Patel - developer.
+
+The lead roles assigned to the team members are as follows:
+
+- Patrick:
+  - Organizational lead
+  - Test lead
+- Amitoj:
+  - Git lead
+  - Development lead
+- Jeremy:
+  - Math lead
+  - Documentation lead
+- Artem:
+  - Presentations lead
+- Will:
+  - Code review lead
+
+The understudy roles assigned to the team members are as follows:
+
+- Amitoj:
+  - Documentation understudy
+  - Organizational understudy
+  - Test understudy
+- Patrick:
+  - Git understudy
+  - Presentations understudy
+  - Math understudy
+- Yagna:
+  - Presentations understudy
+  - Code review understudy
+  - Development understudy
+- Will:
+  - Development understudy
+- Jeremy:
+  - Development understudy
+  - Code review understudy
+- Artem:
+  - Development understudy
+  - Code review understudy
+  - Test understudy
 
 ## Planned team meeting time(s) and communication plans
 
@@ -56,12 +97,11 @@ In each meeting the team will discuss any deadlines or deliverables that need to
 
 ## Deadlines and deliverables
 
-Our meetings on Thursdays are when we decide on deliverables. We as a team will hold each other accountable. Deadlines and deliverables will be noted down by Jeremy in the action item list. 
+Our meetings on Thursdays are when we decide on deliverables. We as a team will hold each other accountable. Deadlines and deliverables will be noted down by Jeremy in the action item list.
 
-Everyone on the team is expected to behave as reasonable adults. Therefore, it is acceptable if a team member is unable to meet a deadline or deliverable, provided they have a valid reason and have communicated this in advance. 
+Everyone on the team is expected to behave as reasonable adults. Therefore, it is acceptable if a team member is unable to meet a deadline or deliverable, provided they have a valid reason and have communicated this in advance.
 
 If a team member repeatedly misses deadlines or deliverables without a valid reason, the issue will be escalated and discussed in meetings. If the team is unable to reach a resolution, we will consult the professor.
-
 
 ## Conflict resolution scheme
 
@@ -89,10 +129,8 @@ In the case of lack of participation or excess participation the team will discu
 - AI can be used to generate sample data
 - AI **can NOT** be used to directly write code/features
 
-
 ## Discussion of team strengths/weaknesses
 
 Replace this with a discussion of what, as a group, you perceive your team's core strengths
 and weaknesses will be for this term project, based on the skills
 and interests of the different team members.
-
