@@ -1,37 +1,70 @@
 
 # CSCI 265 Initial Project Proposal
 
-## Team name: YOUR TEAM NAME HERE
+## Team name: HiddenFrame Project
 
-## Project/product name: YOUR PRODUCT NAME HERE
+## Project/product name: HiddenFrame
 
 ## Contact person and email address
 
-Provide the full name and email address for the key contact person for this document (in case the reader has questions).
+Patrick Candy - candy.pat@gmail.com
 
 ## Project Overview
 
-Provide two or three paragraphs outlining the product in general. (What would you tell a potential user if you were trying to get them interested in the product?)
+Project HiddenFrame is, in brief, a picture board (like pintrest), that will use various technologies like DBMS, WebRTC, APIs and also acts as a secret message board by using stenography. HiddenFrame will be publicly accessible and encourage the general public to share photographic content; meanwhile select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. (Which only a select few will know about)
+
+HiddenFrame will achieve its purpose by first providing an attractive social media experience, in order to attract as many users as possible and thereby provide better obscurification for the secret messages. The secret messages, section of the site will access controlled and allow users to communicate covertly.
 
 ## Target audience and motivation
 
-Provide a paragraph or two describing the target audience for the product and why they will be interested in it, and a paragraph or two describing your own team's interest/motivation for making this particular product.
+HiddenFrame is intended to obfuscate hidden messages. The project has an application wherever it is important that the passage of data go unremarked. In particular, this project has applications in journalism and policing; both situations where communication from sources covertly is important. Additionally, the project has potential uses in PEN testing.
+
+Our team discussed a very diverse set of possible projects. We ultimately settled on this one because we felt that it had a great deal of variety. It will involve networking, web-design, image manipulation, and encryption (at a minimum). The hope is that this project will allow each member of the team to grow as a developer. 
 
 ## Key features and discussion
 
-Provide a list of the key features of the product and a deeper discussion of the product in relation to those.  By the time the reader finishes this section they should have a strong idea of what your proposed product is all about.
+### Social Site
+
+The project will rely upon a social media site in order to camouflage its true purpose. None-the-less, the social media aspect needs to be attractive and user-friendly in order elicit widespread use. Primary features we hope to provide are:
+- Image upload and download to servers
+- WebGUI with privileged section for secret sharing. 
+
+### Secret Messages
+
+The other purpose of the project will be to create a program that: 
+- accepts an image as it's input 
+- processes the image in such a way that the image is unremarkably different to a human, but now contains some data payload within the image.
+- process a carrier image to retrieve the original payload. 
 
 ## Preliminary interface sketches
 
-Provide a first rough draft of an interface (screens, menus, etc) to have a shared preliminary vision of the product look and feel.  Be sure to include some accompanying explanation to put the various sketches in perspective (never leave the reader wondering how the parts fit together).
+### Public View
+We aim to provide a a nice looking website similar to Pintrest or Imgur. Both of these websites employ a splash page of popular photos in a 'card' format. We plan to duplicate this.
+![Public View](./resources/images/HiddenFrame%20Public%20View.png)
+
+### Private View
+We also intend to have a private view that retrieves the payload from images. The images that do not contain a payload should be left as is. 
+
+![Private View](./resources/images/HiddenFrame%20Private%20View.png)
 
 ## Scaling plans
 
 Provide a short discussion of how the project can be scaled up/down in the future if it begins to look too large to complete on time or too small to provide a suitable challenge for the team.
 
+If the project needs to be scaled down we will either: 
+- focus on producing a progam that successfully completes the steganographic process, without the picture board site.
+- focus on producing a picture sharing site, without the steganographic features.
+
+Ideas for scaling up, include: 
+-  supporting additional input/output file types e.g.: seeding a picture with audio payload instead of text, or seeding an audio file with ta payload. 
+-  getting the project/AI to generate images instead of being provided with an image to seed.
+-  End-to-End encryption of the message. 
+-  Single read messages.
+-  Spread Payload across multiple carriers. 
+
+
 ## Risks and potential issues
 
-Provide a list of anticipated problems/risks associated with the product design and development and the team's plans for how to deal with them.  (Organizational/team risks will be covered in the team charter.)
+The team does not, overall, have a strong foundation in website creation. Since a 'social media site' is a large portion of the functionality of this project, this knowledge gap could be a potential problem. 
 
-
-
+As with many security/privacy tool, this project has the potential to be abused my malicious actors. 
