@@ -1,7 +1,7 @@
 
 # CSCI 265 Initial Project Proposal
 
-## Team name: HiddenFrame Project
+## Team name: Project HiddenFrame
 
 ## Project/product name: HiddenFrame
 
