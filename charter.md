@@ -1,6 +1,6 @@
 # CSCI 265 Team Charter
 
-## Team name: the-name-of-your-team-goes-here
+## Team name: Project HiddenFrame
 
 ## Project/product name: HiddenFrame
 
@@ -19,7 +19,7 @@ _note which person has been designated the main contact person for questions fro
 
 ## Project intro
 
-Project HiddenFrame is, in brief, a picture board, like Pintrest, that will use various technologies like DBMS, WebRTC, and APIs. It will also act as a secret message board by using stenography. HiddenFrame will be publicly accessible and encourage the general public to share photographic content. Meanwhile, select users will use HiddenFrame's true capabilities to exchange pictures encoded with hidden data.
+Project HiddenFrame is, in brief, a picture board, like Pintrest, that will use various technologies like DBMS, WebRTC, and APIs. It will also act as a secret message board by using steganography. HiddenFrame will be publicly accessible and encourage the general public to share photographic content. Meanwhile, select users will use HiddenFrame's true capabilities to exchange pictures encoded with hidden data.
 
 ## Team philosophy
 
