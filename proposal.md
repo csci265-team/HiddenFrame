@@ -56,7 +56,7 @@ If the project needs to be scaled down we will either:
 - focus on producing a picture sharing site, without the steganographic features.
 
 Ideas for scaling up, include: 
--  supporting additonal input/output file types e.g.: seeding a picture with audio payload instead of text, or seeding an audio file with ta payload. 
+-  supporting additional input/output file types e.g.: seeding a picture with audio payload instead of text, or seeding an audio file with ta payload. 
 -  getting the project/AI to generate images instead of being provided with an image to seed.
 -  End-to-End encryption of the message. 
 -  Single read messages.
@@ -67,4 +67,4 @@ Ideas for scaling up, include:
 
 The team does not, overall, have a strong foundation in website creation. Since a 'social media site' is a large portion of the functionality of this project, this knowledge gap could be a potential problem. 
 
-As with many security/privacy tool, this project has the potential tom be absued my malicous actors. 
+As with any security/privacy tool, this project has the potential to be abused my malicious actors. 
