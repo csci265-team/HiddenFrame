@@ -11,7 +11,7 @@ Patrick Candy - candy.pat@gmail.com
 
 ## Project Overview
 
-Project HiddenFrame is, in brief, a picture board (like pintrest), that will use various technologies like DBMS, WebRTC, APIs and also acts as a secret message board by using stenography. HiddenFrame will be publicly accessible and encourage the general public to share photographic content; meanwhile select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. (Which only a select few will know about)
+Project HiddenFrame is, in brief, a picture board (like pintrest), that will use various technologies like DBMS, WebRTC, APIs and also acts as a secret message board by using stenography. HiddenFrame will be publicly accessible and encourage the general public to share photographic content; meanwhile select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. 
 
 HiddenFrame will achieve its purpose by first providing an attractive social media experience, in order to attract as many users as possible and thereby provide better obscurification for the secret messages. The secret messages, section of the site will access controlled and allow users to communicate covertly.
 
