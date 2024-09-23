@@ -40,7 +40,7 @@ The lead roles assigned to the team members are as follows:
   - Test lead @csci265-team/testers 
 - Amitoj:
   - Git lead
-  - Development lead @csci265-team/developers 
+  - Development lead [@csci265-team/developers](https://github.com/orgs/csci265-team/teams/developers) 
 - Jeremy:
   - Math lead
   - Documentation lead @csci265-team/documentation
