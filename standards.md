@@ -28,8 +28,6 @@ Detail the coding standards and processes to be followed (can provide links to e
 
 ## Version control standards and processes
 
-Detail the version control standards and processes to be followed, how they will be enforced, and how they will be reviewed for updating if/as needed.
-
 The git lead will enforce these standards along with everyone else holding each other accountable:
 
 - No pushing directly to [`master`](https://github.com/csci265-team/project/tree/master). Create pull requests instead.
