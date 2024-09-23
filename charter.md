@@ -43,7 +43,7 @@ The lead roles assigned to the team members are as follows:
   - Development lead [@csci265-team/developers](https://github.com/orgs/csci265-team/teams/developers) 
 - Jeremy:
   - Math lead
-  - Documentation lead @csci265-team/documentation
+  - Documentation lead [@csci265-team/documentation](https://github.com/orgs/csci265-team/teams/documentation)
 - Artem:
   - Presentations lead @csci265-team/presentations 
 - Will:
