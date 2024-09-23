@@ -36,18 +36,18 @@ Our team is committed to engaging with one another as active participants and re
 The lead roles assigned to the team members are as follows:
 
 - Patrick:
-  - Organizational lead
-  - Test lead
+  - Organizational lead 
+  - Test lead @csci265-team/testers 
 - Amitoj:
   - Git lead
-  - Development lead
+  - Development lead @csci265-team/developers 
 - Jeremy:
   - Math lead
-  - Documentation lead
+  - Documentation lead @csci265-team/documentation
 - Artem:
-  - Presentations lead
+  - Presentations lead @csci265-team/presentations 
 - Will:
-  - Code review lead
+  - Code review lead @csci265-team/code-review
 
 The understudy roles assigned to the team members are as follows:
 
@@ -101,7 +101,7 @@ In the case of lack of participation or excess participation, the team will disc
 
 ## Team Git policies
 
-- No pushing directly to [`master`](https://github.com/csci265-team/project/tree/master).
+- No pushing directly to [`master`](https://github.com/csci265-team/project/tree/master). Create pull requests instead.
 - Pull requests need to be created against [`master`](https://github.com/csci265-team/project/tree/master) to get code merged in.
 - At least two team members need to approve changes in a PR before code can be merged into [`master`](https://github.com/csci265-team/project/tree/master).
 - The creator of the pull request can not merge their own pull request.
