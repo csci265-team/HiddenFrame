@@ -47,7 +47,7 @@ The lead roles assigned to the team members are as follows:
 - Artem:
   - Presentations lead @csci265-team/presentations 
 - Will:
-  - Code review lead @csci265-team/code-review
+  - Code review lead [@csci265-team/code-review](https://github.com/orgs/csci265-team/teams/code-review)
 
 The understudy roles assigned to the team members are as follows:
 
