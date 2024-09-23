@@ -1,9 +1,9 @@
 
 # CSCI 265 Requirements and specifications (Phase 2)
 
-## Team name: YOUR TEAM NAME HERE
+## Team name: Project HiddenFrame
 
-## Project/product name: YOUR PRODUCT NAME HERE
+## Project/product name: HiddenFrame
 
 ## Contact person and email
 
@@ -15,7 +15,23 @@ The following person has been designated the main contact person for questions f
 
 Provide the reader with an introduction to the product: its purpose, its core features, what audience it is aimed at and how they'll be using it, and what platform(s) it is targeting.
 
+Project HiddenFrame is, in brief, a picture board (like Pinterest) that will use various technologies like DBMS, WebRTC, and APIs. It also acts as a secret message board by using steganography. HiddenFrame will be publicly accessible and encourage the general public to share photographic content; meanwhile, select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. (Which only a select few will know about)
+
+It targets the Web platform with a focus on desktop devices first and mobile devices as a strech goal.
+
 If the product has limitations that the user wouldn't expect then those should be mentioned as well.  (For example, if we were building a calculator but it couldn't handle real number calculations then we should probably warn the reader about that.)
+
+## Known issues/omissions
+
+Currently HiddenFrame will allow uploading images with embedding hidden text messages in the same images.
+Our strech goals include:
+
+- Uploading images with secret embedded audio
+- Uploading images with secret embedded images
+- Uploading videos with secret embedded text
+- Uploading videos with secret embedded audio
+- Uploading vidoes with secret embedded images
+
 
 ## Product features and behaviour
 
@@ -32,6 +48,10 @@ This section should be intuitive to follow if the reader is simply reading throu
 
 ## User interface and navigation
 
+### Home page 
+
+![A depection of the public home page](<resources/images/HiddenFrame Detailed Home page.png>)
+The home page will have all the previously uploaded images by different users.
 Provide visual depictions of every screen, menu, drop-down, pop-up, etc.  This isn't intended to be a to-the-pixel exact representation, but it is expected to show all the visible elements and options, and their approximate positions and appearance.
 
 Accompany each visual depiction with a clear description of what it shows and what each visible option represents.
