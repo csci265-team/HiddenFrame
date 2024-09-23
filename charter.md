@@ -37,7 +37,7 @@ The lead roles assigned to the team members are as follows:
 
 - Patrick:
   - Organizational lead 
-  - Test lead @csci265-team/testers 
+  - Test lead [@csci265-team/testers](https://github.com/orgs/csci265-team/teams/testers)
 - Amitoj:
   - Git lead
   - Development lead [@csci265-team/developers](https://github.com/orgs/csci265-team/teams/developers) 
