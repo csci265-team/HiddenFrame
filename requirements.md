@@ -50,7 +50,7 @@ This section should be intuitive to follow if the reader is simply reading throu
 
 ### Home page 
 
-![A depection of the public home page](<resources/images/HiddenFrame Public View.png>)
+![A depection of the public home page](<resources/images/HiddenFrame Detailed Home page.png>)
 The home page will have all the previously uploaded images by different users.
 Provide visual depictions of every screen, menu, drop-down, pop-up, etc.  This isn't intended to be a to-the-pixel exact representation, but it is expected to show all the visible elements and options, and their approximate positions and appearance.
 
