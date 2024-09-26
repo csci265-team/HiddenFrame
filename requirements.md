@@ -46,6 +46,18 @@ Here the reader should should be able to find the answer for any question along 
 
 This section should be intuitive to follow if the reader is simply reading through the document to learn about the product, but it should also make it easy for the reader to quickly look up the answer to any specific question.
 
+### Uploading images
+
+As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourage the general public to share photographic content. 
+
+Our web based app will allow users to upload any images they want to our servers, which will then be displayed on our home page picture wall. 
+
+### Hiding messages in the pictures
+Select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data.
+
+The same web based app will also have a special upload section for private users which will include a text box that allows users to type in a message that will get encoded into their image using steganography. Once the image is encoded we will provide the user with a "key" that can be used to decrypt the message from the image later. 
+
+
 ## User interface and navigation
 
 ### Home page 
