@@ -10,7 +10,12 @@
 The following person has been designated the main contact person for questions from the reader:
 
  - NameA, their@emailaddy
+# Table of Contents
 
+# List of Figures
+
+## Known Issues/Omissions:
+- Steganographic Key storage
 ## Introduction and overview
 
 Provide the reader with an introduction to the product: its purpose, its core features, what audience it is aimed at and how they'll be using it, and what platform(s) it is targeting.
@@ -66,18 +71,28 @@ Provide scenarios that illustrate the use cases in a practical example.  (E.g. B
 
 ## Non-functional requirements
 
-Detail any requirements beyond the actual feature set previously required, e.g.
-- safety/security/privacy requirements
-- performance requirements (response times, throughput, memory footprint)
-- software quality requirements
-
+### Public  Aspect
+One of the central pillars of project HiddenFrame is it's social media. HiddenFrame shares many of the non-functional requirements as other social media platforms. Some of the primary concerns of the Public Aspect are:
+- User Privacy - HiddenFrame's public site is intended to attract a userbase posting publicly visible photographs. As such we will require a comprehensive disclaimer, permitting the public display of all photos posted to the site. Since, the public site will not (at this time) require account creation no (or minimal) user data will be stored.  
+- Data use and Retention - HiddenFrame will have to comply with federal and provincial data protection laws such as the federal [Personal Information Protection and Electronic Documents Act](https://laws-lois.justice.gc.ca/PDF/P-8.6.pdf) and the BC [Personal Information Protection Act](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03063_01).  
+- Moderation - With the anonymous nature of the posts on the public site, it is extremely important that HiddenFrame moderate content to ensure that the pictures on the site are appropriate. 
+- Hardware & Networking - Images have a relatively large storage requirement; managing server space in order to accommodate demand may be a challenge. The uploading and downloading of images can also take a significant amount of time; as such a fast internet connection for the server will be required. (The amount of storage space and network speed required will need to be quantified on a per user basis.)
+### Private Aspect
+HiddenFrame's other primary feature is the steganography manipulation of images for chosen users. In addition to all of the Public Aspect Non-functional Requirements this part of the project poses its own unique challenges:
+- User Privacy - Since this part of the site will require account creation HiddenFrame will have a responsibility to safeguard any user information provided. 
+- Steganography keys -  If the decryption keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
+- Misuse of HiddenFrame for Illegal activity - HiddenFrame will moderate the site for content and co-operate with law enforcement in whatever capacity is required. 
 ## Feature prioritization
 
 Much like the scaling section in the original proposal, here we must document which features are regarded as essential, which ones are secondary priorities, and which ones are 'nice to have' but low priority for this term.
 
 ## Glossary
 
-Define any product-specific terms and any terms that are unlikely to be known to the 'average' reader (e.g. a random second-year CS student).
+**Steganography** - The art or practice of concealing a message, image, or file within another message, image, or file.
+
+**Public Aspect** - The portion of HiddenFrame that is accessible to the general public.
+
+**Private Aspect**- The portion of HiddenFrame that is accessible to only select users.
 
 ## Appendices
 
