@@ -19,9 +19,10 @@ The following person has been designated the main contact person for questions f
 6. [Non-functional requirements](#section6)
 	- 6.1. [Public  Aspect](#section61)
 	- 6.2. [Private Aspect](#section62)
-7. [Feature prioritization](#section7)
-8. [Glossary](#section8)
-9. [Appendices](#section9)
+	- 6.3. [Mathematics](#section63)
+1. [Feature prioritization](#section7)
+2. [Glossary](#section8)
+3. [Appendices](#section9)
 # List of Figures
 
 ## 1. Introduction and overview <a name="section1"></a>
@@ -34,8 +35,9 @@ It targets the Web platform with a focus on desktop devices first and mobile dev
 If the product has limitations that the user wouldn't expect then those should be mentioned as well.  (For example, if we were building a calculator but it couldn't handle real number calculations then we should probably warn the reader about that.)
 
 ## 2. Known issues/omissions <a name="section2"></a>
-
-Project HiddenFrame has not yet conducted a thorough analysis of the required storage or network requirements to operate the project in a production environment. 
+- Project HiddenFrame has not yet conducted a thorough analysis of the required storage or network requirements to operate the project in a production environment. 
+- Project HiddenFrame has not yet determined if the key's used to encode payloads into carriers will be stored centrally or distributed to users.
+- Project HiddenFrame has not determined how long images will be retained on the site.
 
 Currently HiddenFrame will allow uploading images with embedding hidden text messages in the same images.
 Our stretch goals include:
@@ -63,7 +65,7 @@ This section should be intuitive to follow if the reader is simply reading throu
 
 ### Home page 
 
-![A depection of the public home page](<resources/images/HiddenFrame Detailed Home page.png>)
+![A depection of the public home page](<../resources/images/HiddenFrame Detailed Home page.png>)
 The home page will have all the previously uploaded images by different users.
 Provide visual depictions of every screen, menu, drop-down, pop-up, etc.  This isn't intended to be a to-the-pixel exact representation, but it is expected to show all the visible elements and options, and their approximate positions and appearance.
 
@@ -85,11 +87,14 @@ One of the central pillars of project HiddenFrame is it's social media. HiddenFr
 - Data use and Retention - HiddenFrame will have to comply with federal and provincial data protection laws such as the federal [Personal Information Protection and Electronic Documents Act](https://laws-lois.justice.gc.ca/PDF/P-8.6.pdf) and the BC [Personal Information Protection Act](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03063_01).  
 - Moderation - With the anonymous nature of the posts on the public site, it is extremely important that HiddenFrame moderate content to ensure that the pictures on the site are appropriate. 
 - Hardware & Networking - Images have a relatively large storage requirement; managing server space in order to accommodate demand may be a challenge. The uploading and downloading of images can also take a significant amount of time; as such a fast internet connection for the server will be required. (The amount of storage space and network speed required will need to be quantified on a per user basis.)
+- Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such ProjectHidden frame will only retain images for a set period of time before deletion (exact amount of time TBC).
 ### 6.2 Private Aspect <a name="section62"></a>
 HiddenFrame's other primary feature is the steganography manipulation of images for chosen users. In addition to all of the Public Aspect Non-functional Requirements this part of the project poses its own unique challenges:
 - User Privacy - Since this part of the site will require account creation HiddenFrame will have a responsibility to safeguard any user information provided. 
 - Steganography keys -  If the decryption keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
 - Misuse of HiddenFrame for Illegal activity - HiddenFrame will moderate the site for content and co-operate with law enforcement in whatever capacity is required. 
+### 6.3 Mathematics <a name="section63"></a>
+HiddenFrame's steganographic features require that we develop a method inserting the payload into the carrier, and successfully retrieve the payload back from the carrier. As such we will require The ability to produce 'keys' which will mathematically describe the pixels modified. In order to accomplish this we will utilize the mathematical concept of a "generating set". This concept will allow us to describe the pixels we will be using for steganography. 
 ## 7. Feature prioritization <a name="section7"></a>
 
 Much like the scaling section in the original proposal, here we must document which features are regarded as essential, which ones are secondary priorities, and which ones are 'nice to have' but low priority for this term.
