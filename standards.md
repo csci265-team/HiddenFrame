@@ -56,7 +56,10 @@ Each team memeber can make a branch with this naming scheme and the following ru
 
 #### Other branchews
 
-Team members may create any number of branches other than the ones mentioned above. However these branches will not be protected.
+Team members may create any number of branches other than the ones mentioned above.
+These branches should follow the same standards as the ["dev" branch standards](#adding-to-dev-branches) unless the creator explicitly communicates otherwise.
+Some naming reccomendations are given below:
+- `feat-*` For branches where any number of team members are working on a certain feature
 
 
 Teams have been made on GitHub for eaech of the roles in this project.
