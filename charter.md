@@ -36,16 +36,16 @@ Our team is committed to engaging with one another as active participants and re
 The lead roles assigned to the team members are as follows:
 
 - Patrick:
-  - Organizational lead 
+  - Organizational lead
   - Test lead [@csci265-team/testers](https://github.com/orgs/csci265-team/teams/testers)
 - Amitoj:
   - Git lead
-  - Development lead [@csci265-team/developers](https://github.com/orgs/csci265-team/teams/developers) 
+  - Development lead [@csci265-team/developers](https://github.com/orgs/csci265-team/teams/developers)
 - Jeremy:
   - Math lead
   - Documentation lead [@csci265-team/documentation](https://github.com/orgs/csci265-team/teams/documentation)
 - Artem:
-  - Presentations lead [@csci265-team/presentations](https://github.com/orgs/csci265-team/teams/presentations) 
+  - Presentations lead [@csci265-team/presentations](https://github.com/orgs/csci265-team/teams/presentations)
 - Will:
   - Code review lead [@csci265-team/code-review](https://github.com/orgs/csci265-team/teams/code-review)
 
@@ -101,7 +101,7 @@ In the case of lack of participation or excess participation, the team will disc
 
 ## Team Git policies
 
-Please refer to our [`standards.md`](./standards.md) document 
+Please refer to the "[Version control standards and processes](./standards.md#version-control-standards-and-processes)" section in our [`standards.md`](./standards.md) document
 
 ## Team AI policies
 
@@ -121,4 +121,3 @@ Our team has identified that we have varying backgrounds, skill sets, and experi
 - Some team members have taken some time away from coding to gain other experience, while others have been working on coding projects more recently.
 
 In one respect, this is a strength because we have a broad range of experience. In another respect, this will require team members with experience that will prove especially useful to a particular aspect of the project to explain their thinking to teammates with limited experience in that field. We are committed to meeting this challenge by engaging respectfully with one another and ultimately improving our communication skills.
-
