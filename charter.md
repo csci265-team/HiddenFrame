@@ -101,11 +101,7 @@ In the case of lack of participation or excess participation, the team will disc
 
 ## Team Git policies
 
-- No pushing directly to [`master`](https://github.com/csci265-team/project/tree/master). Create pull requests instead.
-- Pull requests need to be created against [`master`](https://github.com/csci265-team/project/tree/master) to get code merged in.
-- At least two team members need to approve changes in a PR before code can be merged into [`master`](https://github.com/csci265-team/project/tree/master).
-- The creator of the pull request can not merge their own pull request.
-- Force pushes should be avoided.
+Please refer to our [`standards.md`](./standards.md) document 
 
 ## Team AI policies
 
