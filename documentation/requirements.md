@@ -11,7 +11,21 @@ The following person has been designated the main contact person for questions f
 
  - NameA, their@emailaddy
 
-## Introduction and overview
+ # Table of Contents
+ 1. [Introduction and overview](#section1)
+ 2. [Known issues/omissions](#section2)
+ 3. [Product features and behavior](#section3)
+ 4. [User interface and navigation](#section4)
+ 5. [Use cases/scenarios](#section5)
+ 6. [Non-functional requirements](#section6)
+    - 6.1. [Public  Aspect](#section61)
+    - 6.2. [Private Aspect](#section62)
+    - 6.3. [Mathematics](#section63)
+ 1. [Feature prioritization](#section7)
+ 2. [Glossary](#section8)
+ 3. [Appendices](#section9)
+
+## 1.Introduction and overview <a name="section1"></a>
 
 Provide the reader with an introduction to the product: its purpose, its core features, what audience it is aimed at and how they'll be using it, and what platform(s) it is targeting.
 
@@ -21,7 +35,7 @@ It targets the Web platform with a focus on desktop devices first and mobile dev
 
 If the product has limitations that the user wouldn't expect then those should be mentioned as well.  (For example, if we were building a calculator but it couldn't handle real number calculations then we should probably warn the reader about that.)
 
-## Known issues/omissions
+## 2.Known issues/omissions <a name="section2"></a>
 
 Currently HiddenFrame will allow uploading images with embedding hidden text messages in the same images.
 Our strech goals include:
@@ -33,7 +47,7 @@ Our strech goals include:
 - Uploading vidoes with secret embedded images
 
 
-## Product features and behaviour
+## 3.Product features and behaviour <a name="section3"></a>
 
 This might be much like our original proposal but in far greater detail: we want to thoroughly explain/describe all aspects of the product's functionality: all the features and every aspect of its behaviour.
 
@@ -83,7 +97,7 @@ Once a registered user has created the allocated amount of invites they will not
 
 The registered users will be able to access this page after logging in from the aforementioned private login page.
 
-## User interface and navigation
+## 4.User interface and navigation <a name="section4"></a>
 
 ### Home page 
 
@@ -95,28 +109,37 @@ Accompany each visual depiction with a clear description of what it shows and wh
 
 Provide a navigation guide/map and description that show how all the screens/menus etc relate to one another: i.e. clearly showing/describing how the user navigates from screen-to-screen and which screens/choices lead to which others.
 
-## Use cases/scenarios
+## 5.Use cases/scenarios <a name="section5"></a>
 
 Provide use cases detailing the different ways someone might actually want to use the product (e.g. a "sign in" use case, a "check balance" use case, a "make a deposit" use case, etc).
 
 Provide scenarios that illustrate the use cases in a practical example.  (E.g. Bob has $30 to deposit and wants to deposit it, check the balance, and if there is enough then transfer $100 to his savings account, ... then walk through the Bob's actions from sign-in to sign-out.)
 
-## Non-functional requirements
+## 6.Non-functional requirements <a name="section6"></a>
+### 6.1. Public  Aspect <a name="section61"></a>
+One of the central pillars of project HiddenFrame is it's social media. HiddenFrame shares many of the non-functional requirements as other social media platforms. Some of the primary concerns of the Public Aspect are:
+- User Privacy - HiddenFrame's public site is intended to attract a userbase posting publicly visible photographs. As such we will require a comprehensive disclaimer, permitting the public display of all photos posted to the site. Since, the public site will not (at this time) require account creation no (or minimal) user data will be stored.  
+- Data use and Retention - HiddenFrame will have to comply with federal and provincial data protection laws such as the federal [Personal Information Protection and Electronic Documents Act](https://laws-lois.justice.gc.ca/PDF/P-8.6.pdf) and the BC [Personal Information Protection Act](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03063_01).  
+- Moderation - With the anonymous nature of the posts on the public site, it is extremely important that HiddenFrame moderate content to ensure that the pictures on the site are appropriate. 
+- Hardware & Networking - Images have a relatively large storage requirement; managing server space in order to accommodate demand may be a challenge. The uploading and downloading of images can also take a significant amount of time; as such a fast internet connection for the server will be required. (The amount of storage space and network speed required will need to be quantified on a per user basis.)
+- Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such ProjectHidden frame will only retain images for a set period of time before deletion (exact amount of time TBC).
+### 6.2. Private Aspect <a name="section62"></a>
+HiddenFrame's other primary feature is the steganography manipulation of images for chosen users. In addition to all of the Public Aspect Non-functional Requirements this part of the project poses its own unique challenges:
+- User Privacy - Since this part of the site will require account creation HiddenFrame will have a responsibility to safeguard any user information provided. 
+- Steganography keys -  If the decryption keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
+- Misuse of HiddenFrame for Illegal activity - HiddenFrame will moderate the site for content and co-operate with law enforcement in whatever capacity is required. 
+### 6.3. Mathematics <a name="section63"></a>
+HiddenFrame's steganographic features require that we develop a method inserting the payload into the carrier, and successfully retrieve the payload back from the carrier. As such we will require The ability to produce 'keys' which will mathematically describe the pixels modified. In order to accomplish this we will utilize the mathematical concept of a "generating set". This concept will allow us to describe the pixels we will be using for steganography.
 
-Detail any requirements beyond the actual feature set previously required, e.g.
-- safety/security/privacy requirements
-- performance requirements (response times, throughput, memory footprint)
-- software quality requirements
-
-## Feature prioritization
+## 7.Feature prioritization <a name="section7"></a>
 
 Much like the scaling section in the original proposal, here we must document which features are regarded as essential, which ones are secondary priorities, and which ones are 'nice to have' but low priority for this term.
 
-## Glossary
+## 8.Glossary <a name="section8"></a>
 
 Define any product-specific terms and any terms that are unlikely to be known to the 'average' reader (e.g. a random second-year CS student).
 
-## Appendices
+## 9.Appendices <a name="section9"></a>
 
 If additional supported documents are needed then append them here
 
