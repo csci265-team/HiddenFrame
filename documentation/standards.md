@@ -53,18 +53,22 @@ Each team memeber can make a branch with this naming scheme and the following ru
 - The creator of the pull request can not merge their own pull request.
 
 #### Rules for all branches/PRs
-These are geenral rules that should be applied to all branches and pull requests:
+These are general rules that should be applied to all branches and pull requests:
 
 - Force pushes should be avoided.
 - If a review requesting changes is created on a PR, then PR can not be merged until the reviewer approves the PR.
 
-#### Other branchews
+#### Other branches
 
 Team members may create any number of branches other than the ones mentioned above.
 These branches should follow the same standards as the ["dev" branch standards](#adding-to-dev-branches) unless the creator explicitly communicates otherwise.
-Some naming reccomendations are given below:
+Some naming recommendations are given below:
 - `feat-*` For branches where any number of team members are working on a certain feature
 
 
 Teams have been made on GitHub for eaech of the roles in this project.
 A project page on GitHub is created to keep track of tasks. This is to be used by everyone to keep each other accountable.
+
+## Glosarry
+
+- PR: Pull request

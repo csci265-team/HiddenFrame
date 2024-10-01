@@ -29,7 +29,7 @@ The following person has been designated the main contact person for questions f
 
 Provide the reader with an introduction to the product: its purpose, its core features, what audience it is aimed at and how they'll be using it, and what platform(s) it is targeting.
 
-Project HiddenFrame is, in brief, a picture board (like Pinterest) that will use various technologies like DBMS, WebRTC, and APIs. It also acts as a secret message board by using steganography. HiddenFrame will be publicly accessible and encourage the general public to share photographic content; meanwhile, select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. (Which only a select few will know about)
+Project HiddenFrame is, in brief, a picture board (like Pinterest) that will use various technologies like DBMS, WebRTC, and APIs. It also acts as a secret message board by using steganography. HiddenFrame will be publicly accessible and encourages the general public to share photographic content; meanwhile, select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. (Which only a select few will know about)
 
 It targets the Web platform with a focus on desktop devices first and mobile devices as a strech goal.
 
@@ -74,7 +74,7 @@ This feature will be accessible as a button on our home page right above the ima
 The public aspect users will have some sort of image upload size limit (tbd).
 
 ### Private login
-Select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data.
+Select users will be using HiddenFrame's true capabilities to exchange pictures embedded with hidden data.
 
 Our web app will have a private login page that will allow this capability. Users will be able to find this page at the `/login` endpoint (subject to change).
 
@@ -83,7 +83,7 @@ This web page will have a simple login form that will ask the user of some sort 
 
 ### Hiding messages in the pictures
 
-The same web based app will also have a special upload section for private users which will include a text box that allows users to type in a message that will get encoded into their image using steganography. Once the image is encoded we will provide the user with a "key" that can be used to decrypt the message from the image later. 
+The same web based app will also have a special upload section for private users which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded we will provide the user with a "key" that can be used to decrypt the message from the image later. 
 
 The text message will have some sort of size limit but we are expecting it to be a high number.
 
@@ -138,6 +138,8 @@ Much like the scaling section in the original proposal, here we must document wh
 ## 8.Glossary <a name="section8"></a>
 
 Define any product-specific terms and any terms that are unlikely to be known to the 'average' reader (e.g. a random second-year CS student).
+
+TBD: To be decided
 
 ## 9.Appendices <a name="section9"></a>
 
