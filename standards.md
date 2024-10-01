@@ -56,7 +56,7 @@ Each team memeber can make a branch with this naming scheme and the following ru
 These are geenral rules that should be applied to all branches and pull requests:
 
 - Force pushes should be avoided.
-- If a review requesting changes is created on a PR, the reviewer must then approve the PR before it is merged
+- If a review requesting changes is created on a PR, then PR can not be merged until the reviewer approves the PR.
 
 #### Other branchews
 
