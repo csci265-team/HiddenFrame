@@ -99,15 +99,81 @@ The registered users will be able to access this page after logging in from the 
 
 ## 4.User interface and navigation <a name="section4"></a>
 
-### Home page 
+The images shown for the interfaces, screens, and menus are not intended to be taken as exact literal images of the final version of the website, rather they reflect the required on-screen elements for each component, and the approximate visual appearance and location for each.
 
-![A depection of the public home page](<resources/images/HiddenFrame Detailed Home page.png>)
-The home page will have all the previously uploaded images by different users.
-Provide visual depictions of every screen, menu, drop-down, pop-up, etc.  This isn't intended to be a to-the-pixel exact representation, but it is expected to show all the visible elements and options, and their approximate positions and appearance.
+Navigation Guide/Map
 
-Accompany each visual depiction with a clear description of what it shows and what each visible option represents.
+1. Main Page (Feed and Upload):
+	- Users can upload new images via the “Upload” button or browse through the grid of previously uploaded images. Clicking on an image in the grid will open a larger view of the image.
+2. URL → Log in Page:
+    - Users can go to the log in page using their URL.
+3. Log in Page → Conversation Board:
+	- After successfully logging in, users can access the conversation board to send secret messages. They can select a user from the list on the left and exchange images with embedded data.
+4. Conversation Board (Secret Chat):
+	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
 
-Provide a navigation guide/map and description that show how all the screens/menus etc relate to one another: i.e. clearly showing/describing how the user navigates from screen-to-screen and which screens/choices lead to which others.
+1. Main Page (Upload and Feed View)
+
+![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
+
+This is the primary screen users see after opening our website. It serves as the hub for uploading and browsing images.
+
+Elements:
+
+- HiddenFrame logo.
+- Upload Button: A button at the center of the page, allowing users to add images.
+- Image Grid: A grid layout below the upload button where previously uploaded images appear. Each image in the grid has:
+	- Like Icon: Allows users to like the image.
+	- Share Icon: Enables users to share the image.
+	- Comment Icon: Allows users to comment on the image, likely opening a comment thread.
+
+Navigation Flow:
+
+- Click Upload: This takes the user to a file selection interface for image uploads.
+- Click on Image in Grid: Opens a larger view of the image.
+
+2. Login Page
+
+![HiddenFrame Login Page](../resources/images/HF_log_in.png)
+
+
+Before accessing the main interface, users must log in. The only way to get to the "log in" screen is through the URL. This screen presents a simple and user-friendly login process.
+
+Elements:
+
+- HiddenFrame logo.
+- Falling images: random, already uploaded by users, falling images.
+- Login Form: Contains two fields:
+	- Email Field with placeholder "Your email".
+	- Password Field with placeholder "Your password".
+- Login Button: A large button labeled “Log in” at the bottom, which submits the form.
+
+Navigation Flow:
+
+- Submit Login Details: Successful login takes the user to the Main Page.
+
+3. Conversation Board Page(Secret Chat)
+
+![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
+
+This is the communication hub for users to exchange images encoded with hidden messages using steganography.
+
+Elements:
+
+- HiddenFrame logo.
+- User List (Left Panel): Displays a list of users the current user has interacted with. Each list item includes:
+	- Profile Icon and Name: Displays the other user’s profile picture and name.
+	- Message Status: Text like “Sent you an image” or “Seen” reflects the message exchange status.
+	- Time Indicator: Shows how long ago each interaction occurred (e.g., “10 min ago”).
+- Message Area (Right Panel): Displays the conversation between the user and the selected contact. Elements include:
+	- Sent Images: Thumbnail images representing the conversation.
+	- Text Field: Below the message area, allowing users to send messages (which will be encoded into picture, once sent) or share images .
+	- Send Button: A button at the bottom of the text field to send images.
+
+Navigation Flow:
+
+- Select a User: Clicking a user from the list loads the conversation with that user.
+- Send Image/Text: Users can send images by selecting the image or typing into the text field.
 
 ## 5.Use cases/scenarios <a name="section5"></a>
 
