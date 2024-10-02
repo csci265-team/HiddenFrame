@@ -40,12 +40,12 @@ The other purpose of the project will be to create a program that:
 
 ### Public View
 We aim to provide a website with a streamlined aesthetic similar to Pinterest or Imgur. Both websites employ a splash page of popular photos in a 'card' format. We plan to develop a similar layout.
-![Public View](./resources/images/HiddenFrame%20Public%20View.png)
+![Public View](../resources/images/HiddenFrame%20Public%20View.png)
 
 ### Private View
 We also intend to have a private view that retrieves the payload from images. The images that do not contain a payload should remain unmodified. 
 
-![Private View](./resources/images/HiddenFrame%20Private%20View.png)
+![Private View](../resources/images/HiddenFrame%20Private%20View.png)
 
 ## Scaling plans
 
