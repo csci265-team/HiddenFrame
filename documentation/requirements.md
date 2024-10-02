@@ -79,7 +79,7 @@ Navigation Guide/Map
 
 ![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
 
-This is the primary screen users see after openning our website. It serves as the hub for uploading and browsing images.
+This is the primary screen users see after opening our website. It serves as the hub for uploading and browsing images.
 
 Elements:
 
