@@ -63,7 +63,7 @@ This section should be intuitive to follow if the reader is simply reading throu
 ### Image wall
 As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
 
-This photographic content will be visible on the home page of our web app on our "Image wall", which is basically a 3x3 (or make it responsive? stretch goal?) grid of images that "infinitely" scrolls.
+This photographic content will be visible on the home page of our web app on our "Image wall", which is basically a 3x3 grid of images that "infinitely" scrolls. Having it be responsive will be one of our stretch goals.
 
 ### Uploading images
 
