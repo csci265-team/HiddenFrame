@@ -64,6 +64,17 @@ This section should be intuitive to follow if the reader is simply reading throu
 
 The images shown for the interfaces, screens, and menus are not intended to be taken as exact literal images of the final version of the website, rather they reflect the required on-screen elements for each component, and the approximate visual appearance and location for each.
 
+Navigation Guide/Map
+
+1. Main Page (Feed and Upload):
+	- Users can upload new images via the “Upload” button or browse through the grid of previously uploaded images. Clicking on an image in the grid will open a larger view of the image.
+2. URL → Log in Page:
+    - Users can go to the log in page using their URL.
+3. Log in Page → Conversation Board:
+	- After successfully logging in, users can access the conversation board to send secret messages. They can select a user from the list on the left and exchange images with embedded data.
+4. Conversation Board (Secret Chat):
+	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
+
 1. Main Page (Upload and Feed View)
 
 ![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
@@ -106,7 +117,7 @@ Navigation Flow:
 
 3. Conversation Board Page(Secret Chat)
 
-![HiddenFrame Conversation Board Pahe](../resources/images/HF_conversation_board.png)
+![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
 
 This is the communication hub for users to exchange images encoded with hidden messages using steganography.
 
@@ -126,17 +137,6 @@ Navigation Flow:
 
 - Select a User: Clicking a user from the list loads the conversation with that user.
 - Send Image/Text: Users can send images by selecting the image or typing into the text field.
-
-Navigation Guide/Map
-
-1. Main Page (Feed and Upload):
-	- Users can upload new images via the “Upload” button or browse through the grid of previously uploaded images. Clicking on an image in the grid will open a larger view of the image.
-2. URL → Log in Page:
-    - Users can go to the log in page using their URL.
-3. Log in Page → Conversation Board:
-	- After successfully logging in, users can access the conversation board to send secret messages. They can select a user from the list on the left and exchange images with embedded data.
-4. Conversation Board (Secret Chat):
-	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
 
 ## 5.Use cases/scenarios <a name="section5"></a>
 
