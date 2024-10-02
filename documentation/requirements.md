@@ -136,17 +136,17 @@ HiddenFrame's steganographic features require that we develop a method inserting
 Much like the scaling section in the original proposal, here we must document which features are regarded as essential, which ones are secondary priorities, and which ones are 'nice to have' but low priority for this term.
 
 ## 8.Glossary <a name="section8"></a>
-Steganography:the art or practice of concealing a message, image, or file within another message, image, or file
+**Steganography**: the art or practice of concealing a message, image, or file within another message, image, or file
 
-Public Aspect: The portion of HiddenFrame that is accessible by the general public.
+**Public Aspect**: The portion of HiddenFrame that is accessible by the general public.
 
-Private Aspect: The portion of HiddenFrame that is accessible by invitation only. Allows the use of Steganography features.
+**Private Aspect**: The portion of HiddenFrame that is accessible by invitation only. Allows the use of Steganography features.
 
-Carrier: A file, image, of message used to hide another message, image or file in steganography.
+**Carrier**: A file, image, of message used to hide another message, image or file in steganography.
 
-Payload: A file, image, of message hidden inside another message, image or file in steganography.
+**Payload**: A file, image, of message hidden inside another message, image or file in steganography.
 
-TBD: To be decided
+**TBD**: To be decided
 
 ## 9.Appendices <a name="section9"></a>
 
