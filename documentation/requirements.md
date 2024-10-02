@@ -91,7 +91,7 @@ The registered users will be able to access this page after logging in from the 
 
 ### Creating invites
 
-The private web page will also have a button that allows them to create a set number of invites. These invites will allow the recivers to also create an account for the private aspect.
+The private web page will also have a button that allows them to create a set number of invites. These invites will allow the receivers to also create an account for the private aspect.
 
 Once a registered user has created the allocated amount of invites they will not be able to create any more invites.
 
