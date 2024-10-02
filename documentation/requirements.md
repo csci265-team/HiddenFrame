@@ -61,7 +61,7 @@ Here the reader should should be able to find the answer for any question along 
 This section should be intuitive to follow if the reader is simply reading through the document to learn about the product, but it should also make it easy for the reader to quickly look up the answer to any specific question.
 
 ### Image wall
-As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourage the general public to share photographic content. 
+As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
 
 This photographic content will be visible on the home page of our web app on our "Image wall", which is basically a 3x3 (or make it responsive? stretch goal?) grid of images that "infinitely" scrolls.
 
