@@ -65,7 +65,8 @@ This section should be intuitive to follow if the reader is simply reading throu
 The images shown for the interfaces, screens, and menus are not intended to be taken as exact literal images of the final version of the website, rather they reflect the required on-screen elements for each component, and the approximate visual appearance and location for each.
 
 1. Main Page (Upload and Feed View)
-![HiddenFrame Main Page](resources/images/HF_main_page-2.png)
+
+![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
 
 This is the primary screen users see after openning our website. It serves as the hub for uploading and browsing images.
 
@@ -84,7 +85,8 @@ Navigation Flow:
 - Click on Image in Grid: Opens a larger view of the image.
 
 2. Login Page
-![HiddenFrame Login Page](resources/images/HF_log_in.png)
+
+![HiddenFrame Login Page](../resources/images/HF_log_in.png)
 
 
 Before accessing the main interface, users must log in. The only way to get to the "log in" screen is through the URL. This screen presents a simple and user-friendly login process.
@@ -103,7 +105,8 @@ Navigation Flow:
 - Submit Login Details: Successful login takes the user to the Main Page.
 
 3. Conversation Board Page(Secret Chat)
-![HiddenFrame Conversation Board Pahe](resources/images/HF_conversation_board.png)
+
+![HiddenFrame Conversation Board Pahe](../resources/images/HF_conversation_board.png)
 
 This is the communication hub for users to exchange images encoded with hidden messages using steganography.
 
@@ -134,17 +137,6 @@ Navigation Guide/Map
 	- After successfully logging in, users can access the conversation board to send secret messages. They can select a user from the list on the left and exchange images with embedded data.
 4. Conversation Board (Secret Chat):
 	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
-
-
-### Home page 
-
-![A depection of the public home page](<resources/images/HiddenFrame Detailed Home page.png>)
-The home page will have all the previously uploaded images by different users.
-Provide visual depictions of every screen, menu, drop-down, pop-up, etc.  This isn't intended to be a to-the-pixel exact representation, but it is expected to show all the visible elements and options, and their approximate positions and appearance.
-
-Accompany each visual depiction with a clear description of what it shows and what each visible option represents.
-
-Provide a navigation guide/map and description that show how all the screens/menus etc relate to one another: i.e. clearly showing/describing how the user navigates from screen-to-screen and which screens/choices lead to which others.
 
 ## 5.Use cases/scenarios <a name="section5"></a>
 
