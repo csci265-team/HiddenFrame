@@ -5,3 +5,7 @@
 core
 *.core
 a.out
+
+.DS_Store
+**/*/.DS_Store
+**/.DS_Store
