@@ -29,7 +29,7 @@ The following person has been designated the main contact person for questions f
 
 Provide the reader with an introduction to the product: its purpose, its core features, what audience it is aimed at and how they'll be using it, and what platform(s) it is targeting.
 
-Project HiddenFrame is, in brief, a picture board (like Pinterest) that will use various technologies like DBMS, WebRTC, and APIs. It also acts as a secret message board by using steganography. HiddenFrame will be publicly accessible and encourage the general public to share photographic content; meanwhile, select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. (Which only a select few will know about)
+Project HiddenFrame is, in brief, a picture board (like Pinterest) that will use various technologies like DBMS, WebRTC, and APIs. It also acts as a secret message board by using steganography. HiddenFrame will be publicly accessible and encourages the general public to share photographic content; meanwhile, select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. (Which only a select few will know about)
 
 It targets the Web platform with a focus on desktop devices first and mobile devices as a strech goal.
 
@@ -59,6 +59,43 @@ Here the reader should should be able to find the answer for any question along 
 - What happens when I select W?"
 
 This section should be intuitive to follow if the reader is simply reading through the document to learn about the product, but it should also make it easy for the reader to quickly look up the answer to any specific question.
+
+### Image wall
+As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
+
+This photographic content will be visible on the home page of our web app on our "Image wall", which is basically a 3x3 grid of images that "infinitely" scrolls. Having it be responsive will be one of our stretch goals.
+
+### Uploading images
+
+Our web based app will allow users to upload any images they want to our servers, which will then be displayed on our home page image wall. 
+
+This feature will be accessible as a button on our home page right above the image wall.
+
+The public aspect users will have some sort of image upload size limit (tbd).
+
+### Private login
+Select users will be using HiddenFrame's true capabilities to exchange pictures embedded with hidden data.
+
+Our web app will have a private login page that will allow this capability. Users will be able to find this page at the `/login` endpoint (subject to change).
+
+This web page will have a simple login form that will ask the user of some sort of identifier (username/email, tbd) and a password (using passkeys is a stretch goal)
+
+
+### Hiding messages in the pictures
+
+The same web based app will also have a special upload section for private users which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded we will provide the user with a "key" that can be used to decrypt the message from the image later. 
+
+The text message will have some sort of size limit but we are expecting it to be a high number.
+
+The registered users will be able to access this page after logging in from the aforementioned private login page.
+
+### Creating invites
+
+The private web page will also have a button that allows them to create a set number of invites. These invites will allow the receivers to also create an account for the private aspect.
+
+Once a registered user has created the allocated amount of invites they will not be able to create any more invites.
+
+The registered users will be able to access this page after logging in from the aforementioned private login page.
 
 ## 4.User interface and navigation <a name="section4"></a>
 
@@ -129,6 +166,8 @@ Our team's stretch goals include that are not expected to make it into our proje
 ## 8.Glossary <a name="section8"></a>
 
 Define any product-specific terms and any terms that are unlikely to be known to the 'average' reader (e.g. a random second-year CS student).
+
+TBD: To be decided
 
 ## 9.Appendices <a name="section9"></a>
 
