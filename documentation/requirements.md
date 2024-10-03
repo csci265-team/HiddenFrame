@@ -216,10 +216,10 @@ Considering that HiddenFrame is both a public picture sharing website but also a
 
 ### 5.1.2. Privileged Users <a name="section5.1.2"></a>
 These users share the same use cases with general users. Although, they have a few extra use cases exclusive to them:
-- Sign up Use Case - The user must create an account to be able to upload and interact with different photos uploaded to the website by entering the designated sign up URL.
+- Sign up Use Case - The user must create an account to be able to access the Secret Message page.
 - Log in Use Case - The user must log in in order to upload photos as well as interact with photos that have been uploaded by entering their specific credentials using the designated log in URL.
 - Embed Hidden Message in Photo Use Case - Privileged users have the option to embed a hidden message in the photo to be uploaded in the upload photo page.
-- Upload Photo with Hidden Message Use Case - Privileged users have the option to upload the photo with an embedded message in the upload photo page. This will generate a key for the user to share with other privileged users. Whether keys are entered by the user or having the server know which keys the user has is something that is currently being discussed and ironed out by the team.
+- Sending a Photo to be embedded with a Hidden Message Use Case - Privileged users have the option to send the photo with an embedded message in the Secret Message page. This will generate a key for the user to share with other privileged users. Whether keys are entered by the user or having the server know which keys the user has is something that is currently being discussed and ironed out by the team.
 - Secret Message Use Case - Privileged users have the option to send secret messages through the Secret Message page available to them. They can send each other private messages as well as photos and embedded photos that can be decoded with the specific keys.
 - Decode Hidden Message from Image Use Case - Privileged users have the option to decode the hidden message by clicking on the "Decode Hidden Message" button on the page of the pgoto they are viewing. Whether they are prompted to enter a key or having the server recognize that this user has the key is currently being discussed and ironed out by the team.
 
@@ -232,8 +232,7 @@ In order to do this, these are the actions Jeremy must proceed with:
 - Jeremy enters HiddenFrame's url in his preferred browser.
 - Jeremy clicks the "Upload Photo" button.
 - Jeremy gets redirected to the upload photo page of the website and is prompted to upload a photo in a supported format.
-- Jeremy types in a title on the title's text field.
-- Once Jeremy has completed the requirements to upload a photo. He can click on the "Upload" button to upload his photo.
+- He can click on the "Upload" button to upload his photo.
 
 ### 5.2.2. Sending a Secret Message with an Embedded Image Scenario <a name="section5.2.2"></a>
 Artem, a privileged user with an account, would like to send a photo containing a hidden message to HiddenFrame's website to tell Patrick where there are available parking spaces at VIU.
@@ -241,11 +240,10 @@ Artem, a privileged user with an account, would like to send a photo containing 
 In order to do this, these are the actions Artem must proceed with:
 - Artem enters HiddenFrame's log in URL in his preferred browser.
 - Artem enters his specific credentials that he uses to access HiddenFrame's website with his extra privileges.
-- Once signed in, Artem gets redirected to HiddenFrame's main page.
-- Artem navigates to the Secret Message page.
+- Once signed in, Artem gets redirected to HiddenFrame's Secret Message page.
 - Artem looks for Patrick name on the Secret Message page's sidebar and clicks it.
 - Artem clicks the "Upload" button.
-- Artem attaches the photo he would like to use.
+- Artem attaches the photo he would like to use.If he chooses not to, A.I. will generate a random image.
 - Artem types the hidden message in a text field designated for the hidden message.
 - Artem clicks on the "Embed Image" button.
 - Once the image has been embeded a key is generated that he can share with Patrick.
