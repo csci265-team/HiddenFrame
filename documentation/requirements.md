@@ -72,6 +72,12 @@ Our strech goals include:
 - Uploading videos with secret embedded audio
 - Uploading vidoes with secret embedded images
 
+Other known omissions are:
+
+- amount of required storage and network capacity on a per user basis
+- length of time an image will be retained on the site.
+- storage location of steganographic 'keys'
+
 
 ## 3. Product features and behaviour <a name="section3"></a>
 
