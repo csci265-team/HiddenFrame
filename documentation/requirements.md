@@ -29,6 +29,13 @@ Alternate contact person:
 	 - 4.2. [Login Page](#section4.2)
 	 - 4.3.  [Conversation Board Page (Secret Chat)](#section4.3)
  5. [Use cases/scenarios](#section5)
+	 - 5.1. [Use Cases](#section5.1)
+	   - 5.1.1. [General Users](#section5.1.1)
+	   - 5.1.2. [Privileged Users](#section5.1.2)
+	 - 5.2. [Scenarios] (#section5.2)
+	   - 5.2.1. [Uploading a Photo Scenario](#section5.2.1)
+	   - 5.2.2. [Sending a Secret Message with an Embedded Image Scenario](#section5.2.2)
+	   - 5.2.3. [Viewing a Hidden Message Scenario](#section5.2.3)
  6. [Non-functional requirements](#section6)
     - 6.1. [Public  Aspect](#section6.1)
     - 6.2. [Private Aspect](#section6.2)
@@ -197,10 +204,10 @@ Navigation Flow:
 
 ## 5. Use cases/scenarios <a name="section5"></a>
 
-### 5.1 Use Cases <a name="section51"></a>
+### 5.1. Use Cases <a name="section5.1"></a>
 Considering that HiddenFrame is both a public picture sharing website but also a discrete way to share messages. The use cases may vary between the two distinct user groups: General Users & Privieleged Users.
 
-### 5.1.1 General Users <a name="section511"></a>
+### 5.1.1. General Users <a name="section5.1.1"></a>
 - Sign up Use Case - The user must create an account to be able to upload and interact with different photos uploaded to the website by entering the designated sign up URL.
 - Log in Use Case - The user must log in in order to upload photos as well as interact with photos that have been uploaded by entering their specific credentials using the designated log in URL.
 - Upload Photo Use Case - The user uploads a photo to the website prompting the user to leave a title for the photo being uploaded.
@@ -209,16 +216,16 @@ Considering that HiddenFrame is both a public picture sharing website but also a
 - Comment Use Case - The user can choose to comment on photos they are currently viewing by clicking the speech bubble icon.
 - Share Use Case - The user can share photos by clicking on the "Share" icon.
 
-### 5.1.2 Privileged Users <a name="section512"></a>
+### 5.1.2. Privileged Users <a name="section5.1.2"></a>
 These users share the same use cases with general users. Although, they have a few extra use cases exclusive to them:
 - Embed Hidden Message in Photo Use Case - Privileged users have the option to embed a hidden message in the photo to be uploaded in the upload photo page.
 - Upload Photo with Hidden Message Use Case - Privileged users have the option to upload the photo with an embedded message in the upload photo page. This will generate a key for the user to share with other privileged users. Whether keys are entered by the user or having the server know which keys the user has is something that is currently being discussed and ironed out by the team.
 - Secret Message Use Case - Privileged users have the option to send secret messages through the Secret Message page available to them. They can send each other private messages as well as photos and embedded photos that can be decoded with the specific keys.
 - Decode Hidden Message from Image Use Case - Privileged users have the option to decode the hidden message by clicking on the "Decode Hidden Message" button on the page of the pgoto they are viewing. Whether they are prompted to enter a key or having the server recognize that this user has the key is currently being discussed and ironed out by the team.
 
-### 5.2 Scenarios <a name="section52"></a>
+### 5.2. Scenarios <a name="section5.2"></a>
 
-### 5.2.1 Uploading a Photo Scenario <a name="section521"></a>
+### 5.2.1. Uploading a Photo Scenario <a name="section5.2.1"></a>
 Jeremy, a general user without an account, wants to upload a photo of his cute dog sleeping.
 
 In order to do this, these are the actions Jeremy must proceed with:
@@ -230,7 +237,7 @@ In order to do this, these are the actions Jeremy must proceed with:
 - Jeremy types in a title on the title's text field.
 - Once Jeremy has completed the requirements to upload a photo. He can click on the "Upload" button to upload his photo.
 
-### 5.2.2 Sending a Secret Message with an Embedded Image Scenario <a name="section522"></a>
+### 5.2.2. Sending a Secret Message with an Embedded Image Scenario <a name="section5.2.2"></a>
 Artem, a privileged user with an account, would like to send a photo containing a hidden message to HiddenFrame's website to tell Patrick where there are available parking spaces at VIU.
 
 In order to do this, these are the actions Artem must proceed with:
@@ -247,7 +254,7 @@ In order to do this, these are the actions Artem must proceed with:
 - Artem copies the key to send to Patrick.
 - Artem clicks send.
 
-### 5.2.3 Viewing a Hidden Message Scenario <a name="section533"></a>
+### 5.2.3. Viewing a Hidden Message Scenario <a name="section5.3.3"></a>
 Patrick, a privileged user with an account signed in to HiddenFrame, wants to view the embedded message that Artem uploaded to find the available parking space.
 
 In order to do this, these are the actions Patrick must proceed with:
