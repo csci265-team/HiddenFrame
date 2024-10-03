@@ -16,36 +16,36 @@ Alternate contact person:
  - Yagna Patel yagna111204@gmail.com
 
  # Table of Contents
- 1. [Introduction and overview](#section1)
- 2. [Known issues/omissions](#section2)
- 3. [Product features and behavior](#section3)
-	 - 3.1. [Image wall](#section3.1)
-	 - 3.2. [Uploading images](#section3.2)
-	 - 3.3. [Private login](#section3.3)
-	 - 3.4. [Hiding messages in the pictures](#section3.4)
-	 - 3.5. [Creating invites](#section3.5)
- 4. [User interface and navigation](#section4)
-	 - 4.1. [Main Page](#section4.1)
-	 - 4.2. [Login Page](#section4.2)
-	 - 4.3.  [Conversation Board Page (Secret Chat)](#section4.3)
- 5. [Use cases/scenarios](#section5)
- 6. [Non-functional requirements](#section6)
-    - 6.1. [Public  Aspect](#section6.1)
-    - 6.2. [Private Aspect](#section6.2)
-    - 6.3. [Mathematics](#section6.3)
- 7. [Feature prioritization](#section7)
-    - 7.1. [Primary Features](#section7.1)
-    - 7.2. [Secondary Features](#section7.2)
-    - 7.3.  [Stretch Goals](#section7.3)
- 8. [Glossary](#section8)
- 9. [Appendices](#section9)
+ 1. [Introduction and overview](#1-introduction-and-overview)
+ 2. [Known issues/omissions](#2-known-issuesomissions)
+ 3. [Product features and behavior](#3-product-features-and-behaviour)
+	 - 3.1. [Image wall](#31-image-wall)
+	 - 3.2. [Uploading images](#32-uploading-images)
+	 - 3.3. [Private login](#33-private-login)
+	 - 3.4. [Hiding messages in the pictures](#34-hiding-messages-in-the-pictures)
+	 - 3.5. [Creating invites](#35-creating-invites)
+ 4. [User interface and navigation](#4-user-interface-and-navigation)
+	 - 4.1. [Main Page](#41-main-page)
+	 - 4.2. [Login Page](#42-login-page)
+	 - 4.3.  [Conversation Board Page (Secret Chat)](#43-conversation-board-page-secret-chat)
+ 5. [Use cases/scenarios](#5-use-casesscenarios)
+ 6. [Non-functional requirements](#6-non-functional-requirements)
+    - 6.1. [Public  Aspect](#61-public--aspect)
+    - 6.2. [Private Aspect](#62-private-aspect)
+    - 6.3. [Mathematics](#63-mathematics)
+ 7. [Feature prioritization](#7-feature-prioritization)
+    - 7.1. [Primary Features](#71-primary-features)
+    - 7.2. [Secondary Features](#72-secondary-features)
+    - 7.3.  [Stretch Goals](#73-stretch-goals)
+ 8. [Glossary](#8-glossary)
+ 9. [Appendices](#9-appendices)
 
 # List of Figures
-- A. [Main Page](#main_page)
-- B. [Login Page](#login_page)
-- C. [Conversation Board Page](#convo_page)
+- A. [Main Page](#41-main-page)
+- B. [Login Page](#42-login-page)
+- C. [Conversation Board Page](#43-conversation-board-page-secret-chat)
 
-## 1. Introduction and overview <a name="section1"></a>
+## 1. Introduction and overview
 
 HiddenFrame is a unique platform that can be defined as a public picture-sharing board with hidden communication possibilities. The project is built around the idea of creating an otherwise innocent and visually appealing platform where people can share their pictures. From the user's perspective, HiddenFrame is no different from such websites as Pinterest. Users can browse pictures posted by other people and also share their own media. The public nature of the project intends to encourage as many people to participate and share their content. However, beneath this seemingly ordinary exterior lies a sophisticated system for secure, hidden communication. This system relies on a combination of various steganographic techniques to embed a message within shared images. This design makes HiddenFrame a dual-purpose system, where a relatively busy public platform serves as a cover for a covert communication medium.
 
@@ -61,7 +61,7 @@ The unique way that HiddenFrame obfuscates hidden messages opens up a wide range
 
 Project HiddenFrame will launch on desktop first, but is intended for the web platform, that provides best experience and features for users on large screens. This makes it possible to incorporate advanced features and a richer user experience, both of which can be difficult on mobile. The desktop-first approach focuses on building for the power and screen real estate, especially to help people share and engage around photographic products, so users get what looks/feels like a continuous and consistent experience.
 
-## 2. Known issues/omissions <a name="section2"></a>
+## 2. Known issues/omissions
 
 Currently HiddenFrame will allow uploading images with embedding hidden text messages in the same images.
 Our strech goals include:
@@ -78,14 +78,14 @@ Other known omissions are:
 - length of time an image will be retained on the site.
 - storage location of steganographic 'keys'
 
-## 3. Product features and behaviour <a name="section3"></a>
+## 3. Product features and behaviour
 
-### 3.1. Image wall <a name="section3.1"></a>
+### 3.1. Image wall
 As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
 
 This photographic content will be visible on the home page of our web app on our "Image wall", which is basically a 3x3 grid of images that "infinitely" scrolls. Having it be responsive will be one of our stretch goals.
 
-### 3.2. Uploading images <a name="section3.2"></a>
+### 3.2. Uploading images
 
 Our web based app will allow users to upload any images they want to our servers, which will then be displayed on our home page image wall. 
 
@@ -93,7 +93,7 @@ This feature will be accessible as a button on our home page right above the ima
 
 The public aspect users will have some sort of image upload size limit (tbd).
 
-### 3.3. Private login <a name="section3.3"></a>
+### 3.3. Private login
 Select users will be using HiddenFrame's true capabilities to exchange pictures embedded with hidden data.
 
 Our web app will have a private login page that will allow this capability. Users will be able to find this page at the `/login` endpoint (subject to change).
@@ -101,7 +101,7 @@ Our web app will have a private login page that will allow this capability. User
 This web page will have a simple login form that will ask the user of some sort of identifier (username/email, tbd) and a password (using passkeys is a stretch goal)
 
 
-### 3.4. Hiding messages in the pictures <a name="section3.4"></a>
+### 3.4. Hiding messages in the pictures
 
 The same web based app will also have a special upload section for private users which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded we will provide the user with a "key" that can be used to decrypt the message from the image later. 
 
@@ -109,7 +109,7 @@ The text message will have some sort of size limit but we are expecting it to be
 
 The registered users will be able to access this page after logging in from the aforementioned private login page.
 
-### 3.5. Creating invites <a name="section3.5"></a>
+### 3.5. Creating invites
 
 The private web page will also have a button that allows them to create a set number of invites. These invites will allow the receivers to also create an account for the private aspect.
 
@@ -117,7 +117,7 @@ Once a registered user has created the allocated amount of invites they will not
 
 The registered users will be able to access this page after logging in from the aforementioned private login page.
 
-## 4. User interface and navigation <a name="section4"></a>
+## 4. User interface and navigation
 
 The images shown for the interfaces, screens, and menus are not intended to be taken as exact literal images of the final version of the website, rather they reflect the required on-screen elements for each component, and the approximate visual appearance and location for each.
 
@@ -132,9 +132,8 @@ Navigation Guide/Map
 4. Conversation Board (Secret Chat):
 	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
 
-### 4.1 Main Page <a name="section4.1"></a>
-
-![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)<a name="main_page"></a>
+### 4.1 Main Page
+![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
 
 This is the primary screen users see after opening our website. It serves as the hub for uploading and browsing images.
 
@@ -152,9 +151,8 @@ Navigation Flow:
 - Click Upload: This takes the user to a file selection interface for image uploads.
 - Click on Image in Grid: Opens a larger view of the image.
 
-### 4.2 Login Page <a name="section4.2"></a>
-
-![HiddenFrame Login Page](../resources/images/HF_log_in.png)<a name="login_page"></a>
+### 4.2 Login Page
+![HiddenFrame Login Page](../resources/images/HF_log_in.png)
 
 
 Before accessing the main interface, users must log in. The only way to get to the "log in" screen is through the URL. This screen presents a simple and user-friendly login process.
@@ -172,9 +170,8 @@ Navigation Flow:
 
 - Submit Login Details: Successful login takes the user to the Main Page.
 
-### 4.3 Conversation Board Page (Secret Chat) <a name="section4.3"></a>
-
-![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)<a name="convo_page"></a>
+### 4.3 Conversation Board Page (Secret Chat)
+![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
 
 This is the communication hub for users to exchange images encoded with hidden messages using steganography.
 
@@ -195,33 +192,33 @@ Navigation Flow:
 - Select a User: Clicking a user from the list loads the conversation with that user.
 - Send Image/Text: Users can send images by selecting the image or typing into the text field.
 
-## 5. Use cases/scenarios <a name="section5"></a>
+## 5. Use cases/scenarios
 
 Provide use cases detailing the different ways someone might actually want to use the product (e.g. a "sign in" use case, a "check balance" use case, a "make a deposit" use case, etc).
 
 Provide scenarios that illustrate the use cases in a practical example.  (E.g. Bob has $30 to deposit and wants to deposit it, check the balance, and if there is enough then transfer $100 to his savings account, ... then walk through the Bob's actions from sign-in to sign-out.)
 
-## 6. Non-functional requirements <a name="section6"></a>
-### 6.1. Public  Aspect <a name="section6.1"></a>
+## 6. Non-functional requirements
+### 6.1. Public  Aspect
 One of the central pillars of project HiddenFrame is it's social media. HiddenFrame shares many of the non-functional requirements as other social media platforms. Some of the primary concerns of the Public Aspect are:
 - User Privacy - HiddenFrame's public site is intended to attract a userbase posting publicly visible photographs. As such we will require a comprehensive disclaimer, permitting the public display of all photos posted to the site. Since, the public site will not (at this time) require account creation no (or minimal) user data will be stored.  
 - Data use and Retention - HiddenFrame will have to comply with federal and provincial data protection laws such as the federal [Personal Information Protection and Electronic Documents Act](https://laws-lois.justice.gc.ca/PDF/P-8.6.pdf) and the BC [Personal Information Protection Act](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03063_01).  
 - Moderation - With the anonymous nature of the posts on the public site, it is extremely important that HiddenFrame moderate content to ensure that the pictures on the site are appropriate. 
 - Hardware & Networking - Images have a relatively large storage requirement; managing server space in order to accommodate demand may be a challenge. The uploading and downloading of images can also take a significant amount of time; as such a fast internet connection for the server will be required. (The amount of storage space and network speed required will need to be quantified on a per user basis.)
 - Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such ProjectHidden frame will only retain images for a set period of time before deletion (exact amount of time TBC).
-### 6.2. Private Aspect <a name="section6.2"></a>
+### 6.2. Private Aspect
 HiddenFrame's other primary feature is the steganography manipulation of images for chosen users. In addition to all of the Public Aspect Non-functional Requirements this part of the project poses its own unique challenges:
 - User Privacy - Since this part of the site will require account creation HiddenFrame will have a responsibility to safeguard any user information provided. 
 - Steganography keys -  If the decryption keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
 - Misuse of HiddenFrame for Illegal activity - HiddenFrame will moderate the site for content and co-operate with law enforcement in whatever capacity is required. 
-### 6.3. Mathematics <a name="section6.3"></a>
+### 6.3. Mathematics
 HiddenFrame's steganographic features require that we develop a method inserting the payload into the carrier, and successfully retrieve the payload back from the carrier. As such we will require The ability to produce 'keys' which will mathematically describe the pixels modified. In order to accomplish this we will utilize the mathematical concept of a "generating set". This concept will allow us to describe the pixels we will be using for steganography.
 
-## 7. Feature prioritization <a name="section7"></a>
+## 7. Feature prioritization
 
 For some of our team members, this is our first attempt at building a website. For all of our team members, this is our first attempt to create a piece of technology using steganography techniques. The following lists include primary features, secondary features, and stretch goals for the scope of our project.
 
-### 7.1. Primary Features <a name="section7.1"></a>
+### 7.1. Primary Features
 
 The features our team considers mandatory for our project are:
 - A webpage for creating a username for select users with access to the secret chat feature;
@@ -234,7 +231,7 @@ The features our team considers mandatory for our project are:
 - An encoding algorithm that fits not less than 2,000 characters into an image containing at least 30,000 pixels; and
 - An invite webpage where select users with access to the secret chat feature may invite others to create a username and utilize the hidden feature(s).
 
-### 7.2. Secondary Features <a name="section7.2"></a>
+### 7.2. Secondary Features
 
 Our secondary goals that our team hopes to implement depending on the remaining time available for the creation of this project include:
 - A username recovery mechanism;
@@ -242,14 +239,14 @@ Our secondary goals that our team hopes to implement depending on the remaining 
 - The ability to like and comment on pictures on the wall; and
 - A separate payload type of chiptune music tones that may be encoded into images with not less than 150,000 pixels.
 
-### 7.3. Stretch Goals <a name="section7.3"></a>
+### 7.3. Stretch Goals
 
 Our team's stretch goals include that are not expected to make it into our project submission but would be nice to include if all previous items are completed ahead of schedule:
 - Using a separate carrier format for both secret text messages and music files;
 - Adding support for embedding images as payloads; and
 - Utilizing a common encryption standard into the process so that secret messages are encrypted into and decrypted from their payloads and embedded.
 
-## 8. Glossary <a name="section8"></a>
+## 8. Glossary 
 **Steganography**: the art or practice of concealing a message, image, or file within another message, image, or file
 
 **Public Aspect**: The portion of HiddenFrame that is accessible by the general public.
@@ -262,6 +259,6 @@ Our team's stretch goals include that are not expected to make it into our proje
 
 **TBD**: To be decided
 
-## 9. Appendices <a name="section9"></a>
+## 9. Appendices
 
 
