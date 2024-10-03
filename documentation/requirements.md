@@ -172,7 +172,7 @@ Navigation Flow:
 
 - Submit Login Details: Successful login takes the user to the Main Page.
 
-### 4.3 Conversation Board Page (Secret Chat) <a name="section4.3"></a>
+### 4.3 Conversation Board Page (Secret Chat)
 <a name="convo_page"></a>
 ![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
 
