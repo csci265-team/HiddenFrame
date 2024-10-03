@@ -19,9 +19,9 @@ Alternate contact person:
  1. [Introduction and overview](#section1)
  2. [Known issues/omissions](#section2)
  3. [Product features and behavior](#section3)
-	 - 3.1. [Image wall](#section31)
-	 - 3.2. [Uploading images](#section32)
-	 - 3.3. [Private login](#section33)
+	 - 3.1. [Image wall](#section3.1)
+	 - 3.2. [Uploading images](#section3_2)
+	 - 3.3. [Private login](#section3-3)
 	 - 3.4. [Hiding messages in the pictures](#section34)
 	 - 3.5. [Creating invites](#section35)
  4. [User interface and navigation](#section4)
@@ -80,12 +80,12 @@ Other known omissions are:
 
 ## 3. Product features and behaviour <a name="section3"></a>
 
-### 3.1. Image wall <a name="section31"></a>
+### 3.1. Image wall <a name="section3.1"></a>
 As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
 
 This photographic content will be visible on the home page of our web app on our "Image wall", which is basically a 3x3 grid of images that "infinitely" scrolls. Having it be responsive will be one of our stretch goals.
 
-### 3.2. Uploading images <a name="section32"></a>
+### 3.2. Uploading images <a name="section3_2"></a>
 
 Our web based app will allow users to upload any images they want to our servers, which will then be displayed on our home page image wall. 
 
@@ -93,7 +93,7 @@ This feature will be accessible as a button on our home page right above the ima
 
 The public aspect users will have some sort of image upload size limit (tbd).
 
-### 3.3. Private login <a name="section33"></a>
+### 3.3. Private login <a name="section3-3"></a>
 Select users will be using HiddenFrame's true capabilities to exchange pictures embedded with hidden data.
 
 Our web app will have a private login page that will allow this capability. Users will be able to find this page at the `/login` endpoint (subject to change).
