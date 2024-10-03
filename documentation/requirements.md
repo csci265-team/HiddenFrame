@@ -133,8 +133,8 @@ Navigation Guide/Map
 	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
 
 ### 4.1 Main Page <a name="section4.1"></a>
-
-![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)<a name="main_page"></a>
+<a name="main_page"></a>
+![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
 
 This is the primary screen users see after opening our website. It serves as the hub for uploading and browsing images.
 
@@ -153,8 +153,8 @@ Navigation Flow:
 - Click on Image in Grid: Opens a larger view of the image.
 
 ### 4.2 Login Page <a name="section4.2"></a>
-
-![HiddenFrame Login Page](../resources/images/HF_log_in.png)<a name="login_page"></a>
+<a name="login_page"></a>
+![HiddenFrame Login Page](../resources/images/HF_log_in.png)
 
 
 Before accessing the main interface, users must log in. The only way to get to the "log in" screen is through the URL. This screen presents a simple and user-friendly login process.
@@ -173,8 +173,8 @@ Navigation Flow:
 - Submit Login Details: Successful login takes the user to the Main Page.
 
 ### 4.3 Conversation Board Page (Secret Chat) <a name="section4.3"></a>
-
-![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)<a name="convo_page"></a>
+<a name="convo_page"></a>
+![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
 
 This is the communication hub for users to exchange images encoded with hidden messages using steganography.
 
