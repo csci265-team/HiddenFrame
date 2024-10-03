@@ -47,7 +47,7 @@ Alternate contact person:
 
 ## 1. Introduction and overview
 
-HiddenFrame is a unique platform that can be defined as a public picture-sharing board with hidden communication possibilities. The project is built around the idea of creating an otherwise innocent and visually appealing platform where people can share their pictures. From the user's perspective, HiddenFrame is no different from such websites as Pinterest. Users can browse pictures posted by other people and also share their own media. The public nature of the project intends to encourage as many people to participate and share their content. However, beneath this seemingly ordinary exterior lies a sophisticated system for secure, hidden communication. This system relies on a combination of various steganographic techniques to embed a message within shared images. This design makes HiddenFrame a dual-purpose system, where a relatively busy public platform serves as a cover for a covert communication medium.
+HiddenFrame is a unique platform that can be defined as a public picture-sharing board with hidden communication possibilities. The project is built around the idea of creating an otherwise innocent and visually appealing platform where people can share their pictures. From the user's perspective, HiddenFrame is no different from such websites as Pinterest. Users can browse pictures posted by other people and also share their own media. The public nature of the project intends to encourage as many people to participate and share their content. However, beneath this seemingly ordinary exterior lies a sophisticated system for obfuscated communication. This system relies on steganographic techniques to embed a message within shared images. This design makes HiddenFrame a dual-purpose system, where a relatively busy public platform serves as a cover for a covert communication medium.
 
 Technical Implementation:
 - Robust Database Management System (DBMS) for efficient data storage and retrieval
@@ -68,9 +68,6 @@ Our strech goals include:
 
 - Uploading images with secret embedded audio
 - Uploading images with secret embedded images
-- Uploading videos with secret embedded text
-- Uploading videos with secret embedded audio
-- Uploading vidoes with secret embedded images
 
 Other known omissions are:
 
@@ -98,14 +95,14 @@ Select users will be using HiddenFrame's true capabilities to exchange pictures 
 
 Our web app will have a private login page that will allow this capability. Users will be able to find this page at the `/login` endpoint (subject to change).
 
-This web page will have a simple login form that will ask the user of some sort of identifier (username/email, tbd) and a password (using passkeys is a stretch goal)
+This web page will have a simple login form that will ask the user of some sort of identifier (username/email, tbd) and a password (using passkeys is a stretch goal).
 
 
 ### 3.4. Hiding messages in the pictures
 
 The same web based app will also have a special upload section for private users which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded we will provide the user with a "key" that can be used to decrypt the message from the image later. 
 
-The text message will have some sort of size limit but we are expecting it to be a high number.
+The text message will be limited to 1024 UTF-8 characters into an image of not less than 40,000 pixels.
 
 The registered users will be able to access this page after logging in from the aforementioned private login page.
 
@@ -205,14 +202,14 @@ One of the central pillars of project HiddenFrame is it's social media. HiddenFr
 - Data use and Retention - HiddenFrame will have to comply with federal and provincial data protection laws such as the federal [Personal Information Protection and Electronic Documents Act](https://laws-lois.justice.gc.ca/PDF/P-8.6.pdf) and the BC [Personal Information Protection Act](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03063_01).  
 - Moderation - With the anonymous nature of the posts on the public site, it is extremely important that HiddenFrame moderate content to ensure that the pictures on the site are appropriate. 
 - Hardware & Networking - Images have a relatively large storage requirement; managing server space in order to accommodate demand may be a challenge. The uploading and downloading of images can also take a significant amount of time; as such a fast internet connection for the server will be required. (The amount of storage space and network speed required will need to be quantified on a per user basis.)
-- Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such ProjectHidden frame will only retain images for a set period of time before deletion (exact amount of time TBC).
+- Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such ProjectHidden frame will only retain images for a set period of time before deletion (exact amount of time TBD).
 ### 6.2. Private Aspect
 HiddenFrame's other primary feature is the steganography manipulation of images for chosen users. In addition to all of the Public Aspect Non-functional Requirements this part of the project poses its own unique challenges:
 - User Privacy - Since this part of the site will require account creation HiddenFrame will have a responsibility to safeguard any user information provided. 
 - Steganography keys -  If the decryption keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
 - Misuse of HiddenFrame for Illegal activity - HiddenFrame will moderate the site for content and co-operate with law enforcement in whatever capacity is required. 
 ### 6.3. Mathematics
-HiddenFrame's steganographic features require that we develop a method inserting the payload into the carrier, and successfully retrieve the payload back from the carrier. As such we will require The ability to produce 'keys' which will mathematically describe the pixels modified. In order to accomplish this we will utilize the mathematical concept of a "generating set". This concept will allow us to describe the pixels we will be using for steganography.
+HiddenFrame's steganographic features require that we develop a method inserting the payload into the carrier, and successfully retrieve the payload back from the carrier. As such we will require The ability to produce 'keys' which will mathematically describe the pixels modified. In order to accomplish this we will utilize the algebraic concept of group generators undera binary operation mod N. This concept will allow us to describe the pixels we will be using for steganography.
 
 ## 7. Feature prioritization
 
@@ -228,7 +225,7 @@ The features our team considers mandatory for our project are:
 - A wall/picture-board sharing webpage to view pictures the user and other users have posted;
 - A program running on the server that can be called by the webpage that encodes payloads into carriers and decodes them for the recipient. Initially, this program should be able to encode text into an image using a key system where the key is embedded into the file's data;
 - A key generation algorithm that fits a key into a filename of not more than 50 characters; 
-- An encoding algorithm that fits not less than 2,000 characters into an image containing at least 30,000 pixels; and
+- An encoding algorithm that fits not less than 1024 UTF-8 characters into an image containing at least 40,000 pixels; and
 - An invite webpage where select users with access to the secret chat feature may invite others to create a username and utilize the hidden feature(s).
 
 ### 7.2. Secondary Features
@@ -244,7 +241,7 @@ Our secondary goals that our team hopes to implement depending on the remaining 
 Our team's stretch goals include that are not expected to make it into our project submission but would be nice to include if all previous items are completed ahead of schedule:
 - Using a separate carrier format for both secret text messages and music files;
 - Adding support for embedding images as payloads; and
-- Utilizing a common encryption standard into the process so that secret messages are encrypted into and decrypted from their payloads and embedded.
+- Utilizing a common encryption standard into the process so that secret messages are encrypted into and decrypted from their payloads in a addition to being embedded into the file.
 
 ## 8. Glossary 
 **Steganography**: the art or practice of concealing a message, image, or file within another message, image, or file
