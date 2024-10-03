@@ -16,6 +16,9 @@ The following person has been designated the main contact person for questions f
  2. [Known issues/omissions](#section2)
  3. [Product features and behavior](#section3)
  4. [User interface and navigation](#section4)
+	- 4.1. [Main Page](#section41)
+	- 4.2. [Login Page](#section42)
+	- 4.3  [Conversation Board Page (Secret Chat)](#section43)
  5. [Use cases/scenarios](#section5)
  6. [Non-functional requirements](#section6)
     - 6.1. [Public  Aspect](#section61)
@@ -66,17 +69,120 @@ Here the reader should should be able to find the answer for any question along 
 
 This section should be intuitive to follow if the reader is simply reading through the document to learn about the product, but it should also make it easy for the reader to quickly look up the answer to any specific question.
 
+### Image wall
+As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
+
+This photographic content will be visible on the home page of our web app on our "Image wall", which is basically a 3x3 grid of images that "infinitely" scrolls. Having it be responsive will be one of our stretch goals.
+
+### Uploading images
+
+Our web based app will allow users to upload any images they want to our servers, which will then be displayed on our home page image wall. 
+
+This feature will be accessible as a button on our home page right above the image wall.
+
+The public aspect users will have some sort of image upload size limit (tbd).
+
+### Private login
+Select users will be using HiddenFrame's true capabilities to exchange pictures embedded with hidden data.
+
+Our web app will have a private login page that will allow this capability. Users will be able to find this page at the `/login` endpoint (subject to change).
+
+This web page will have a simple login form that will ask the user of some sort of identifier (username/email, tbd) and a password (using passkeys is a stretch goal)
+
+
+### Hiding messages in the pictures
+
+The same web based app will also have a special upload section for private users which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded we will provide the user with a "key" that can be used to decrypt the message from the image later. 
+
+The text message will have some sort of size limit but we are expecting it to be a high number.
+
+The registered users will be able to access this page after logging in from the aforementioned private login page.
+
+### Creating invites
+
+The private web page will also have a button that allows them to create a set number of invites. These invites will allow the receivers to also create an account for the private aspect.
+
+Once a registered user has created the allocated amount of invites they will not be able to create any more invites.
+
+The registered users will be able to access this page after logging in from the aforementioned private login page.
+
 ## 4.User interface and navigation <a name="section4"></a>
 
-### Home page 
+The images shown for the interfaces, screens, and menus are not intended to be taken as exact literal images of the final version of the website, rather they reflect the required on-screen elements for each component, and the approximate visual appearance and location for each.
 
-![A depection of the public home page](<resources/images/HiddenFrame Detailed Home page.png>)
-The home page will have all the previously uploaded images by different users.
-Provide visual depictions of every screen, menu, drop-down, pop-up, etc.  This isn't intended to be a to-the-pixel exact representation, but it is expected to show all the visible elements and options, and their approximate positions and appearance.
+Navigation Guide/Map
 
-Accompany each visual depiction with a clear description of what it shows and what each visible option represents.
+1. Main Page (Feed and Upload):
+	- Users can upload new images via the “Upload” button or browse through the grid of previously uploaded images. Clicking on an image in the grid will open a larger view of the image.
+2. URL → Log in Page:
+    - Users can go to the log in page using their URL.
+3. Log in Page → Conversation Board:
+	- After successfully logging in, users can access the conversation board to send secret messages. They can select a user from the list on the left and exchange images with embedded data.
+4. Conversation Board (Secret Chat):
+	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
 
-Provide a navigation guide/map and description that show how all the screens/menus etc relate to one another: i.e. clearly showing/describing how the user navigates from screen-to-screen and which screens/choices lead to which others.
+### 4.1 Main Page <a name="section41"></a>
+
+![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
+
+This is the primary screen users see after opening our website. It serves as the hub for uploading and browsing images.
+
+Elements:
+
+- HiddenFrame logo.
+- Upload Button: A button at the center of the page, allowing users to add images.
+- Image Grid: A grid layout below the upload button where previously uploaded images appear. Each image in the grid has:
+	- Like Icon: Allows users to like the image.
+	- Share Icon: Enables users to share the image.
+	- Comment Icon: Allows users to comment on the image, likely opening a comment thread.
+
+Navigation Flow:
+
+- Click Upload: This takes the user to a file selection interface for image uploads.
+- Click on Image in Grid: Opens a larger view of the image.
+
+### 4.2 Login Page <a name="section42"></a>
+
+![HiddenFrame Login Page](../resources/images/HF_log_in.png)
+
+
+Before accessing the main interface, users must log in. The only way to get to the "log in" screen is through the URL. This screen presents a simple and user-friendly login process.
+
+Elements:
+
+- HiddenFrame logo.
+- Falling images: random, already uploaded by users, falling images.
+- Login Form: Contains two fields:
+	- Email Field with placeholder "Your email".
+	- Password Field with placeholder "Your password".
+- Login Button: A large button labeled “Log in” at the bottom, which submits the form.
+
+Navigation Flow:
+
+- Submit Login Details: Successful login takes the user to the Main Page.
+
+### 4.3 Conversation Board Page (Secret Chat) <a name="section43"></a>
+
+![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
+
+This is the communication hub for users to exchange images encoded with hidden messages using steganography.
+
+Elements:
+
+- HiddenFrame logo.
+- User List (Left Panel): Displays a list of users the current user has interacted with. Each list item includes:
+	- Profile Icon and Name: Displays the other user’s profile picture and name.
+	- Message Status: Text like “Sent you an image” or “Seen” reflects the message exchange status.
+	- Time Indicator: Shows how long ago each interaction occurred (e.g., “10 min ago”).
+- Message Area (Right Panel): Displays the conversation between the user and the selected contact. Elements include:
+	- Sent Images: Thumbnail images representing the conversation.
+	- Text Field: Below the message area, allowing users to send messages (which will be encoded into picture, once sent) or share images .
+	- Send Button: A button at the bottom of the text field to send images.
+
+Navigation Flow:
+
+- Select a User: Clicking a user from the list loads the conversation with that user.
+- Send Image/Text: Users can send images by selecting the image or typing into the text field.
 
 ## 5.Use cases/scenarios <a name="section5"></a>
 
@@ -107,6 +213,8 @@ Much like the scaling section in the original proposal, here we must document wh
 ## 8.Glossary <a name="section8"></a>
 
 Define any product-specific terms and any terms that are unlikely to be known to the 'average' reader (e.g. a random second-year CS student).
+
+TBD: To be decided
 
 ## 9.Appendices <a name="section9"></a>
 
