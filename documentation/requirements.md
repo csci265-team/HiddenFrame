@@ -16,6 +16,9 @@ The following person has been designated the main contact person for questions f
  2. [Known issues/omissions](#section2)
  3. [Product features and behavior](#section3)
  4. [User interface and navigation](#section4)
+	- 4.1. [Main Page](#section41)
+	- 4.2. [Login Page](#section42)
+	- 4.3  [Conversation Board Page (Secret Chat)](#section43)
  5. [Use cases/scenarios](#section5)
  6. [Non-functional requirements](#section6)
     - 6.1. [Public  Aspect](#section61)
@@ -27,13 +30,19 @@ The following person has been designated the main contact person for questions f
 
 ## 1.Introduction and overview <a name="section1"></a>
 
-Provide the reader with an introduction to the product: its purpose, its core features, what audience it is aimed at and how they'll be using it, and what platform(s) it is targeting.
+HiddenFrame is a unique platform that can be defined as a public picture-sharing board with hidden communication possibilities. The project is built around the idea of creating an otherwise innocent and visually appealing platform where people can share their pictures. From the user's perspective, HiddenFrame is no different from such websites as Pinterest. Users can browse pictures posted by other people and also share their own media. The public nature of the project intends to encourage as many people to participate and share their content. However, beneath this seemingly ordinary exterior lies a sophisticated system for secure, hidden communication. This system relies on a combination of various steganographic techniques to embed a message within shared images. This design makes HiddenFrame a dual-purpose system, where a relatively busy public platform serves as a cover for a covert communication medium.
 
-Project HiddenFrame is, in brief, a picture board (like Pinterest) that will use various technologies like DBMS, WebRTC, and APIs. It also acts as a secret message board by using steganography. HiddenFrame will be publicly accessible and encourages the general public to share photographic content; meanwhile, select users will be using HiddenFrame's true capabilities to exchange pictures encoded with hidden data. (Which only a select few will know about)
+Technical Implementation:
+- Robust Database Management System (DBMS) for efficient data storage and retrieval
+- WebRTC integration for real-time communication and potential peer-to-peer functionality
+- API integrations to enhance platform features and connectivity
 
-It targets the Web platform with a focus on desktop devices first and mobile devices as a strech goal.
+The unique way that HiddenFrame obfuscates hidden messages opens up a wide range of possible applications:
+- Journalism: HiddenFrame provides a secure channel for communicating with those providing vital sources and information to the world’s newspapers, making sure that both the whistleblower and their mission stay protected and secretive.
+- Law enforcement: HiddenFrame also provides a channel for the communication with undercover agents and secret informants, ensuring their safety and security while still being able to deliver vital information.
+- Penetration testing: One can also use HiddenFrame to simulate the use of a steganographic hidden channel between a theoretical enemy and a real law enforcement agency. This way, the ability to detect the misuse of a image-based steganographic channel in a real life scenario can be tested and evaluated.
 
-If the product has limitations that the user wouldn't expect then those should be mentioned as well.  (For example, if we were building a calculator but it couldn't handle real number calculations then we should probably warn the reader about that.)
+Project HiddenFrame will launch on desktop first, but is intended for the web platform, that provides best experience and features for users on large screens. This makes it possible to incorporate advanced features and a richer user experience, both of which can be difficult on mobile. The desktop-first approach focuses on building for the power and screen real estate, especially to help people share and engage around photographic products, so users get what looks/feels like a continuous and consistent experience.
 
 ## 2.Known issues/omissions <a name="section2"></a>
 
@@ -99,15 +108,81 @@ The registered users will be able to access this page after logging in from the 
 
 ## 4.User interface and navigation <a name="section4"></a>
 
-### Home page 
+The images shown for the interfaces, screens, and menus are not intended to be taken as exact literal images of the final version of the website, rather they reflect the required on-screen elements for each component, and the approximate visual appearance and location for each.
 
-![A depection of the public home page](<resources/images/HiddenFrame Detailed Home page.png>)
-The home page will have all the previously uploaded images by different users.
-Provide visual depictions of every screen, menu, drop-down, pop-up, etc.  This isn't intended to be a to-the-pixel exact representation, but it is expected to show all the visible elements and options, and their approximate positions and appearance.
+Navigation Guide/Map
 
-Accompany each visual depiction with a clear description of what it shows and what each visible option represents.
+1. Main Page (Feed and Upload):
+	- Users can upload new images via the “Upload” button or browse through the grid of previously uploaded images. Clicking on an image in the grid will open a larger view of the image.
+2. URL → Log in Page:
+    - Users can go to the log in page using their URL.
+3. Log in Page → Conversation Board:
+	- After successfully logging in, users can access the conversation board to send secret messages. They can select a user from the list on the left and exchange images with embedded data.
+4. Conversation Board (Secret Chat):
+	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
 
-Provide a navigation guide/map and description that show how all the screens/menus etc relate to one another: i.e. clearly showing/describing how the user navigates from screen-to-screen and which screens/choices lead to which others.
+### 4.1 Main Page <a name="section41"></a>
+
+![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
+
+This is the primary screen users see after opening our website. It serves as the hub for uploading and browsing images.
+
+Elements:
+
+- HiddenFrame logo.
+- Upload Button: A button at the center of the page, allowing users to add images.
+- Image Grid: A grid layout below the upload button where previously uploaded images appear. Each image in the grid has:
+	- Like Icon: Allows users to like the image.
+	- Share Icon: Enables users to share the image.
+	- Comment Icon: Allows users to comment on the image, likely opening a comment thread.
+
+Navigation Flow:
+
+- Click Upload: This takes the user to a file selection interface for image uploads.
+- Click on Image in Grid: Opens a larger view of the image.
+
+### 4.2 Login Page <a name="section42"></a>
+
+![HiddenFrame Login Page](../resources/images/HF_log_in.png)
+
+
+Before accessing the main interface, users must log in. The only way to get to the "log in" screen is through the URL. This screen presents a simple and user-friendly login process.
+
+Elements:
+
+- HiddenFrame logo.
+- Falling images: random, already uploaded by users, falling images.
+- Login Form: Contains two fields:
+	- Email Field with placeholder "Your email".
+	- Password Field with placeholder "Your password".
+- Login Button: A large button labeled “Log in” at the bottom, which submits the form.
+
+Navigation Flow:
+
+- Submit Login Details: Successful login takes the user to the Main Page.
+
+### 4.3 Conversation Board Page (Secret Chat) <a name="section43"></a>
+
+![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
+
+This is the communication hub for users to exchange images encoded with hidden messages using steganography.
+
+Elements:
+
+- HiddenFrame logo.
+- User List (Left Panel): Displays a list of users the current user has interacted with. Each list item includes:
+	- Profile Icon and Name: Displays the other user’s profile picture and name.
+	- Message Status: Text like “Sent you an image” or “Seen” reflects the message exchange status.
+	- Time Indicator: Shows how long ago each interaction occurred (e.g., “10 min ago”).
+- Message Area (Right Panel): Displays the conversation between the user and the selected contact. Elements include:
+	- Sent Images: Thumbnail images representing the conversation.
+	- Text Field: Below the message area, allowing users to send messages (which will be encoded into picture, once sent) or share images .
+	- Send Button: A button at the bottom of the text field to send images.
+
+Navigation Flow:
+
+- Select a User: Clicking a user from the list loads the conversation with that user.
+- Send Image/Text: Users can send images by selecting the image or typing into the text field.
 
 ## 5.Use cases/scenarios <a name="section5"></a>
 
@@ -133,7 +208,35 @@ HiddenFrame's steganographic features require that we develop a method inserting
 
 ## 7.Feature prioritization <a name="section7"></a>
 
-Much like the scaling section in the original proposal, here we must document which features are regarded as essential, which ones are secondary priorities, and which ones are 'nice to have' but low priority for this term.
+For some of our team members, this is our first attempt at building a website. For all of our team members, this is our first attempt to create a piece of technology using steganography techniques. The following lists include primary features, secondary features, and stretch goals for the scope of our project.
+
+### Primary Features
+
+The features our team considers mandatory for our project are:
+- A webpage for creating a username for select users with access to the secret chat feature;
+- A webpage for logging into a username for select users with access to the secret chat feature;
+- A webpage for uploading and posting pictures to a public picture-board sharing site;
+- A secret webpage for uploading an image (carrier) with a hidden message (payload) that includes a hidden message embedded within the image to send to another user. Initially, the payload will be limited to text. This webpage should also indicate if a user has received any unread secret messages, allow them to read them, and display the image they were embedded within;
+- A wall/picture-board sharing webpage to view pictures the user and other users have posted;
+- A program running on the server that can be called by the webpage that encodes payloads into carriers and decodes them for the recipient. Initially, this program should be able to encode text into an image using a key system where the key is embedded into the file's data;
+- A key generation algorithm that fits a key into a filename of not more than 50 characters; 
+- An encoding algorithm that fits not less than 2,000 characters into an image containing at least 30,000 pixels; and
+- An invite webpage where select users with access to the secret chat feature may invite others to create a username and utilize the hidden feature(s).
+
+### Secondary Features
+
+Our secondary goals that our team hopes to implement depending on the remaining time available for the creation of this project include:
+- A username recovery mechanism;
+- One-time read/receive secret messages by removing the decode key from the file's contents;
+- The ability to like and comment on pictures on the wall; and
+- A separate payload type of chiptune music tones that may be encoded into images with not less than 150,000 pixels.
+
+### Stretch Goals
+
+Our team's stretch goals include that are not expected to make it into our project submission but would be nice to include if all previous items are completed ahead of schedule:
+- Using a separate carrier format for both secret text messages and music files;
+- Adding support for embedding images as payloads; and
+- Utilizing a common encryption standard into the process so that secret messages are encrypted into and decrypted from their payloads and embedded.
 
 ## 8.Glossary <a name="section8"></a>
 **Steganography**: the art or practice of concealing a message, image, or file within another message, image, or file
