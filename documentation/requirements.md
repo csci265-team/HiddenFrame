@@ -15,18 +15,26 @@ The following person has been designated the main contact person for questions f
  1. [Introduction and overview](#section1)
  2. [Known issues/omissions](#section2)
  3. [Product features and behavior](#section3)
+   - 3.1. [Image wall](#section31)
+   - 3.2. [Uploading images](#section32)
+   - 3.3. [Private login](#section33)
+   - 3.4. [Hiding messages in the pictures](#section34)
+   - 3.5. [Creating invites](#section35)
  4. [User interface and navigation](#section4)
 	- 4.1. [Main Page](#section41)
 	- 4.2. [Login Page](#section42)
-	- 4.3  [Conversation Board Page (Secret Chat)](#section43)
+	- 4.3. [Conversation Board Page (Secret Chat)](#section43)
  5. [Use cases/scenarios](#section5)
  6. [Non-functional requirements](#section6)
     - 6.1. [Public  Aspect](#section61)
     - 6.2. [Private Aspect](#section62)
     - 6.3. [Mathematics](#section63)
- 1. [Feature prioritization](#section7)
- 2. [Glossary](#section8)
- 3. [Appendices](#section9)
+ 7. [Feature prioritization](#section7)
+   - 7.1. [Primary Features](#section71)
+   - 7.2. [Secondary Features](#section72)
+   - 7.3. [Stretch Goals](#section73)
+ 8. [Glossary](#section8)
+ 9. [Appendices](#section9)
 
 ## 1.Introduction and overview <a name="section1"></a>
 
@@ -56,7 +64,7 @@ Our strech goals include:
 - Uploading vidoes with secret embedded images
 
 
-## 3.Product features and behaviour <a name="section3"></a>
+## 3. Product features and behaviour <a name="section3"></a>
 
 This might be much like our original proposal but in far greater detail: we want to thoroughly explain/describe all aspects of the product's functionality: all the features and every aspect of its behaviour.
 
@@ -69,12 +77,12 @@ Here the reader should should be able to find the answer for any question along 
 
 This section should be intuitive to follow if the reader is simply reading through the document to learn about the product, but it should also make it easy for the reader to quickly look up the answer to any specific question.
 
-### Image wall
+### 3.1. Image wall <a name="section31"></a>
 As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
 
 This photographic content will be visible on the home page of our web app on our "Image wall", which is basically a 3x3 grid of images that "infinitely" scrolls. Having it be responsive will be one of our stretch goals.
 
-### Uploading images
+### 3.2. Uploading images <a name="section32"></a>
 
 Our web based app will allow users to upload any images they want to our servers, which will then be displayed on our home page image wall. 
 
@@ -82,7 +90,7 @@ This feature will be accessible as a button on our home page right above the ima
 
 The public aspect users will have some sort of image upload size limit (tbd).
 
-### Private login
+### 3.3. Private login <a name="section33"></a>
 Select users will be using HiddenFrame's true capabilities to exchange pictures embedded with hidden data.
 
 Our web app will have a private login page that will allow this capability. Users will be able to find this page at the `/login` endpoint (subject to change).
@@ -90,7 +98,7 @@ Our web app will have a private login page that will allow this capability. User
 This web page will have a simple login form that will ask the user of some sort of identifier (username/email, tbd) and a password (using passkeys is a stretch goal)
 
 
-### Hiding messages in the pictures
+### 3.4. Hiding messages in the pictures <a name="section34"></a>
 
 The same web based app will also have a special upload section for private users which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded we will provide the user with a "key" that can be used to decrypt the message from the image later. 
 
@@ -98,7 +106,7 @@ The text message will have some sort of size limit but we are expecting it to be
 
 The registered users will be able to access this page after logging in from the aforementioned private login page.
 
-### Creating invites
+### 3.5. Creating invites <a name="section35"></a>
 
 The private web page will also have a button that allows them to create a set number of invites. These invites will allow the receivers to also create an account for the private aspect.
 
@@ -206,11 +214,11 @@ HiddenFrame's other primary feature is the steganography manipulation of images 
 ### 6.3. Mathematics <a name="section63"></a>
 HiddenFrame's steganographic features require that we develop a method inserting the payload into the carrier, and successfully retrieve the payload back from the carrier. As such we will require The ability to produce 'keys' which will mathematically describe the pixels modified. In order to accomplish this we will utilize the mathematical concept of a "generating set". This concept will allow us to describe the pixels we will be using for steganography.
 
-## 7.Feature prioritization <a name="section7"></a>
+## 7. Feature prioritization <a name="section7"></a>
 
 For some of our team members, this is our first attempt at building a website. For all of our team members, this is our first attempt to create a piece of technology using steganography techniques. The following lists include primary features, secondary features, and stretch goals for the scope of our project.
 
-### Primary Features
+### 7.1. Primary Features <a name="section71"></a>
 
 The features our team considers mandatory for our project are:
 - A webpage for creating a username for select users with access to the secret chat feature;
@@ -223,7 +231,7 @@ The features our team considers mandatory for our project are:
 - An encoding algorithm that fits not less than 2,000 characters into an image containing at least 30,000 pixels; and
 - An invite webpage where select users with access to the secret chat feature may invite others to create a username and utilize the hidden feature(s).
 
-### Secondary Features
+### 7.2. Secondary Features <a name="section72"></a>
 
 Our secondary goals that our team hopes to implement depending on the remaining time available for the creation of this project include:
 - A username recovery mechanism;
@@ -231,7 +239,7 @@ Our secondary goals that our team hopes to implement depending on the remaining 
 - The ability to like and comment on pictures on the wall; and
 - A separate payload type of chiptune music tones that may be encoded into images with not less than 150,000 pixels.
 
-### Stretch Goals
+### 7.3. Stretch Goals <a name="section73"></a>
 
 Our team's stretch goals include that are not expected to make it into our project submission but would be nice to include if all previous items are completed ahead of schedule:
 - Using a separate carrier format for both secret text messages and music files;
