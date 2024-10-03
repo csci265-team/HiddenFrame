@@ -36,7 +36,12 @@ The following person has been designated the main contact person for questions f
  8. [Glossary](#section8)
  9. [Appendices](#section9)
 
-## 1.Introduction and overview <a name="section1"></a>
+# List of Figures
+- A. [Main Page](#main_page)
+- B. [Login Page](#login_page)
+- C. [Conversation Board Page](#convo_page)
+
+## 1. Introduction and overview <a name="section1"></a>
 
 HiddenFrame is a unique platform that can be defined as a public picture-sharing board with hidden communication possibilities. The project is built around the idea of creating an otherwise innocent and visually appealing platform where people can share their pictures. From the user's perspective, HiddenFrame is no different from such websites as Pinterest. Users can browse pictures posted by other people and also share their own media. The public nature of the project intends to encourage as many people to participate and share their content. However, beneath this seemingly ordinary exterior lies a sophisticated system for secure, hidden communication. This system relies on a combination of various steganographic techniques to embed a message within shared images. This design makes HiddenFrame a dual-purpose system, where a relatively busy public platform serves as a cover for a covert communication medium.
 
@@ -52,7 +57,7 @@ The unique way that HiddenFrame obfuscates hidden messages opens up a wide range
 
 Project HiddenFrame will launch on desktop first, but is intended for the web platform, that provides best experience and features for users on large screens. This makes it possible to incorporate advanced features and a richer user experience, both of which can be difficult on mobile. The desktop-first approach focuses on building for the power and screen real estate, especially to help people share and engage around photographic products, so users get what looks/feels like a continuous and consistent experience.
 
-## 2.Known issues/omissions <a name="section2"></a>
+## 2. Known issues/omissions <a name="section2"></a>
 
 Currently HiddenFrame will allow uploading images with embedding hidden text messages in the same images.
 Our strech goals include:
@@ -103,7 +108,7 @@ Once a registered user has created the allocated amount of invites they will not
 
 The registered users will be able to access this page after logging in from the aforementioned private login page.
 
-## 4.User interface and navigation <a name="section4"></a>
+## 4. User interface and navigation <a name="section4"></a>
 
 The images shown for the interfaces, screens, and menus are not intended to be taken as exact literal images of the final version of the website, rather they reflect the required on-screen elements for each component, and the approximate visual appearance and location for each.
 
@@ -120,7 +125,7 @@ Navigation Guide/Map
 
 ### 4.1 Main Page <a name="section41"></a>
 
-![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
+![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)<a name="main_page"></a>
 
 This is the primary screen users see after opening our website. It serves as the hub for uploading and browsing images.
 
@@ -140,7 +145,7 @@ Navigation Flow:
 
 ### 4.2 Login Page <a name="section42"></a>
 
-![HiddenFrame Login Page](../resources/images/HF_log_in.png)
+![HiddenFrame Login Page](../resources/images/HF_log_in.png)<a name="login_page"></a>
 
 
 Before accessing the main interface, users must log in. The only way to get to the "log in" screen is through the URL. This screen presents a simple and user-friendly login process.
@@ -160,7 +165,7 @@ Navigation Flow:
 
 ### 4.3 Conversation Board Page (Secret Chat) <a name="section43"></a>
 
-![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
+![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)<a name="convo_page"></a>
 
 This is the communication hub for users to exchange images encoded with hidden messages using steganography.
 
@@ -181,13 +186,13 @@ Navigation Flow:
 - Select a User: Clicking a user from the list loads the conversation with that user.
 - Send Image/Text: Users can send images by selecting the image or typing into the text field.
 
-## 5.Use cases/scenarios <a name="section5"></a>
+## 5. Use cases/scenarios <a name="section5"></a>
 
 Provide use cases detailing the different ways someone might actually want to use the product (e.g. a "sign in" use case, a "check balance" use case, a "make a deposit" use case, etc).
 
 Provide scenarios that illustrate the use cases in a practical example.  (E.g. Bob has $30 to deposit and wants to deposit it, check the balance, and if there is enough then transfer $100 to his savings account, ... then walk through the Bob's actions from sign-in to sign-out.)
 
-## 6.Non-functional requirements <a name="section6"></a>
+## 6. Non-functional requirements <a name="section6"></a>
 ### 6.1. Public  Aspect <a name="section61"></a>
 One of the central pillars of project HiddenFrame is it's social media. HiddenFrame shares many of the non-functional requirements as other social media platforms. Some of the primary concerns of the Public Aspect are:
 - User Privacy - HiddenFrame's public site is intended to attract a userbase posting publicly visible photographs. As such we will require a comprehensive disclaimer, permitting the public display of all photos posted to the site. Since, the public site will not (at this time) require account creation no (or minimal) user data will be stored.  
@@ -235,7 +240,7 @@ Our team's stretch goals include that are not expected to make it into our proje
 - Adding support for embedding images as payloads; and
 - Utilizing a common encryption standard into the process so that secret messages are encrypted into and decrypted from their payloads and embedded.
 
-## 8.Glossary <a name="section8"></a>
+## 8. Glossary <a name="section8"></a>
 **Steganography**: the art or practice of concealing a message, image, or file within another message, image, or file
 
 **Public Aspect**: The portion of HiddenFrame that is accessible by the general public.
@@ -248,6 +253,6 @@ Our team's stretch goals include that are not expected to make it into our proje
 
 **TBD**: To be decided
 
-## 9.Appendices <a name="section9"></a>
+## 9. Appendices <a name="section9"></a>
 
 
