@@ -208,8 +208,6 @@ Navigation Flow:
 Considering that HiddenFrame is both a public picture sharing website but also a discrete way to share messages. The use cases may vary between the two distinct user groups: General Users & Privieleged Users.
 
 ### 5.1.1. General Users <a name="section5.1.1"></a>
-- Sign up Use Case - The user must create an account to be able to upload and interact with different photos uploaded to the website by entering the designated sign up URL.
-- Log in Use Case - The user must log in in order to upload photos as well as interact with photos that have been uploaded by entering their specific credentials using the designated log in URL.
 - Upload Photo Use Case - The user uploads a photo to the website prompting the user to leave a title for the photo being uploaded.
 - View Image Use Case - The user can enlarge an image by clicking on it.
 - Like Use Case - The user can choose to like photos they are currently viewing by clicking on the thumbs up icon.
@@ -218,6 +216,8 @@ Considering that HiddenFrame is both a public picture sharing website but also a
 
 ### 5.1.2. Privileged Users <a name="section5.1.2"></a>
 These users share the same use cases with general users. Although, they have a few extra use cases exclusive to them:
+- Sign up Use Case - The user must create an account to be able to upload and interact with different photos uploaded to the website by entering the designated sign up URL.
+- Log in Use Case - The user must log in in order to upload photos as well as interact with photos that have been uploaded by entering their specific credentials using the designated log in URL.
 - Embed Hidden Message in Photo Use Case - Privileged users have the option to embed a hidden message in the photo to be uploaded in the upload photo page.
 - Upload Photo with Hidden Message Use Case - Privileged users have the option to upload the photo with an embedded message in the upload photo page. This will generate a key for the user to share with other privileged users. Whether keys are entered by the user or having the server know which keys the user has is something that is currently being discussed and ironed out by the team.
 - Secret Message Use Case - Privileged users have the option to send secret messages through the Secret Message page available to them. They can send each other private messages as well as photos and embedded photos that can be decoded with the specific keys.
@@ -229,9 +229,7 @@ These users share the same use cases with general users. Although, they have a f
 Jeremy, a general user without an account, wants to upload a photo of his cute dog sleeping.
 
 In order to do this, these are the actions Jeremy must proceed with:
-- Jeremy enters HiddenFrame's sign up url in his preferred browser.
-- Jeremy enters his email address and enters a password that he wants to use for HiddenFrame's website.
-- Once signed in, Jeremy gets redirected to HiddenFrame's main page.
+- Jeremy enters HiddenFrame's url in his preferred browser.
 - Jeremy clicks the "Upload Photo" button.
 - Jeremy gets redirected to the upload photo page of the website and is prompted to upload a photo in a supported format.
 - Jeremy types in a title on the title's text field.
