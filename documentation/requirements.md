@@ -16,7 +16,7 @@ Alternate contact person:
  - Yagna Patel yagna111204@gmail.com
 
  # Table of Contents
- 1. [Introduction and overview](#section1)
+ 1. [Introduction and overview](#1-introduction-and-overview)
  2. [Known issues/omissions](#section2)
  3. [Product features and behavior](#section3)
 	 - 3.1. [Image wall](#section3.1)
@@ -27,7 +27,7 @@ Alternate contact person:
  4. [User interface and navigation](#section4)
 	 - 4.1. [Main Page](#section4.1)
 	 - 4.2. [Login Page](#section4.2)
-	 - 4.3.  [Conversation Board Page (Secret Chat)](#section4.3)
+	 - 4.3.  [Conversation Board Page (Secret Chat)](#43-conversation-board-page-secret-chat)
  5. [Use cases/scenarios](#section5)
  6. [Non-functional requirements](#section6)
     - 6.1. [Public  Aspect](#section6.1)
