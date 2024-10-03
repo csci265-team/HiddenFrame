@@ -20,7 +20,7 @@ Each section includes discussion of how those standards/processes will be enforc
 
 ## Documentation standards and processes
 
-Within the top level of the team project repository, Jeremy will maintain a [`/documentation`](../documentation) sub-directory with the following list of files that will contain contributions and work-product from all members of the team. The git lead, Amitoj, will add the skeleton documents to the 'Documentation' folder at the start of each project phase. Each file may be updated as the project progresses to record changes, clarifications, and decisions made at team meetings. When an update not included in the original submission is made, a note should be included with the update that shows the date the update occurred and the reason for the update (e.g. 2024-10-01: Updated to reflect decision at Team Meeting on Sep 25, 2024). We will use GitHub's history to track edits to documents. Therefore, changes that include removing text may be performed by the document's team members assigned below. For this reason, commit messages should be descriptive enough for the other team members and instructor to know why edits were made. All team members will be responsible for creating documents for their original submissions. The listed primary and secondary maintainers have been assigned based on their lead and understudy roles. Maintenance roles currently listed as "TBD" will be assigned before their document's submission to at least one team member, and this document will be updated.
+Within the top level of the team project repository, Jeremy will maintain a [`/documentation`](../documentation) sub-directory with the following list of files that will contain contributions and work-product from all members of the team. Jeremy will add the skeleton documents to the 'Documentation' folder at the start of each project phase. Each file may be updated as the project progresses to record changes, clarifications, and decisions made at team meetings. When an update not included in the original submission is made, a note should be included with the update that shows the date the update occurred and the reason for the update (e.g. 2024-10-01: Updated to reflect decision at Team Meeting on Sep 25, 2024). We will use GitHub's history to track edits to documents. Therefore, changes that include removing text may be performed by the document's team members assigned below. For this reason, commit messages should be descriptive enough for the other team members and instructor to know why edits were made. All team members will be responsible for creating documents for their original submissions. The listed primary and secondary maintainers have been assigned based on their lead and understudy roles. Maintenance roles currently listed as "TBD" will be assigned before their document's submission to at least one team member, and this document will be updated.
 
 - proposal.md (Patrick): The preliminary proposal deliverable (phase 1)
 - charter.md (Jeremy): The team charter deliverable (phase 1)
@@ -41,7 +41,9 @@ Each contributing team member should thoroughly check both spelling (Canadian En
 
 ## Coding standards and processes
 
-Detail the coding standards and processes to be followed (can provide links to existing industry standards), how they will be enforced, and how they will be reviewed for updating if/as needed.
+The coding standards we intend to follow are the CSCI 265 project standards supplied by our professor: Dave Wessels. 
+They will be enforced and reviewed by the code review team. Pull requests will not be merged unless these standards are followed.
+More details on the coding standards can be found at: http://csci.viu.ca/~wesselsd/courses/csci265/standards.html
 
 ## Version control standards and processes
 
@@ -73,7 +75,7 @@ Each team memeber can make a branch with this naming scheme and the following ru
 These are general rules that should be applied to all branches and pull requests:
 
 - Force pushes should be avoided.
-- If a review requesting changes is created on a PR, then PR can not be merged until the reviewer approves the PR.
+- If a review requesting changes is created on a PR, then PR cannot be merged until the reviewer approves the PR.
 
 #### Other branches
 

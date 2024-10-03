@@ -27,8 +27,20 @@ Alternate contact person:
  4. [User interface and navigation](#4-user-interface-and-navigation)
 	 - 4.1. [Main Page](#41-main-page)
 	 - 4.2. [Login Page](#42-login-page)
+<<<<<<< HEAD
 	 - 4.3. [Conversation Board Page](#43-conversation-board-page)
  5. [Use cases/scenarios](#5-use-casesscenarios)
+=======
+	 - 4.3.  [Conversation Board Page (Secret Chat)](#43-conversation-board-page-secret-chat)
+5. [Use cases/scenarios](#5-use-casesscenarios)
+	 - 5.1. [Use Cases](#51-use-cases)
+	   - 5.1.1. [General Users](#511-general-users)
+	   - 5.1.2. [Privileged Users](#512-privileged-users)
+	 - 5.2. [Scenarios](#52-scenarios)
+	   - 5.2.1. [Uploading a Photo Scenario](#521-uploading-a-photo-scenario)
+	   - 5.2.2. [Sending a Secret Message with an Embedded Image Scenario](#522-sending-a-secret-message-with-an-embedded-image-scenario)
+	   - 5.2.3. [Viewing a Hidden Message Scenario](#523-viewing-a-hidden-message-scenario)
+>>>>>>> 30fbcb6b162b828c22306ffe1a3a7e4bf8945d1d
  6. [Non-functional requirements](#6-non-functional-requirements)
     - 6.1. [Public  Aspect](#61-public--aspect)
     - 6.2. [Private Aspect](#62-private-aspect)
@@ -47,7 +59,7 @@ Alternate contact person:
 
 ## 1. Introduction and overview
 
-HiddenFrame is a unique platform that can be defined as a public picture-sharing board with hidden communication possibilities. The project is built around the idea of creating an otherwise innocent and visually appealing platform where people can share their pictures. From the user's perspective, HiddenFrame is no different from such websites as Pinterest. Users can browse pictures posted by other people and also share their own media. The public nature of the project intends to encourage as many people to participate and share their content. However, beneath this seemingly ordinary exterior lies a sophisticated system for secure, hidden communication. This system relies on a combination of various steganographic techniques to embed a message within shared images. This design makes HiddenFrame a dual-purpose system, where a relatively busy public platform serves as a cover for a covert communication medium.
+HiddenFrame is a unique platform that can be defined as a public picture-sharing board with hidden communication possibilities. The project is built around the idea of creating an otherwise innocent and visually appealing platform where people can share their pictures. From the user's perspective, HiddenFrame is no different from such websites as Pinterest. Users can browse pictures posted by other people and also share their own media. The public nature of the project intends to encourage as many people to participate and share their content. However, beneath this seemingly ordinary exterior lies a sophisticated system for obfuscated communication. This system relies on steganographic techniques to embed a message within shared images. This design makes HiddenFrame a dual-purpose system, where a relatively busy public platform serves as a cover for a covert communication medium.
 
 Technical Implementation:
 - Robust Database Management System (DBMS) for efficient data storage and retrieval
@@ -68,9 +80,6 @@ Our strech goals include:
 
 - Uploading images with secret embedded audio
 - Uploading images with secret embedded images
-- Uploading videos with secret embedded text
-- Uploading videos with secret embedded audio
-- Uploading vidoes with secret embedded images
 
 Other known omissions are:
 
@@ -98,14 +107,14 @@ Select users will be using HiddenFrame's true capabilities to exchange pictures 
 
 Our web app will have a private login page that will allow this capability. Users will be able to find this page at the `/login` endpoint (subject to change).
 
-This web page will have a simple login form that will ask the user of some sort of identifier (username/email, tbd) and a password (using passkeys is a stretch goal)
+This web page will have a simple login form that will ask the user of some sort of identifier (username/email, tbd) and a password (using passkeys is a stretch goal).
 
 
 ### 3.4. Hiding messages in the pictures
 
 The same web based app will also have a special upload section for private users which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded we will provide the user with a "key" that can be used to decrypt the message from the image later. 
 
-The text message will have some sort of size limit but we are expecting it to be a high number.
+The text message will be limited to 1024 UTF-8 characters into an image of not less than 40,000 pixels.
 
 The registered users will be able to access this page after logging in from the aforementioned private login page.
 
@@ -132,7 +141,7 @@ Navigation Guide/Map
 4. Conversation Board (Secret Chat):
 	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
 
-### 4.1 Main Page
+### 4.1. Main Page
 ![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
 
 This is the primary screen users see after opening our website. It serves as the hub for uploading and browsing images.
@@ -151,7 +160,7 @@ Navigation Flow:
 - Click Upload: This takes the user to a file selection interface for image uploads.
 - Click on Image in Grid: Opens a larger view of the image.
 
-### 4.2 Login Page
+### 4.2. Login Page
 ![HiddenFrame Login Page](../resources/images/HF_log_in.png)
 
 
@@ -195,9 +204,63 @@ Navigation Flow:
 
 ## 5. Use cases/scenarios
 
-Provide use cases detailing the different ways someone might actually want to use the product (e.g. a "sign in" use case, a "check balance" use case, a "make a deposit" use case, etc).
+### 5.1. Use Cases 
+Considering that HiddenFrame is both a public picture sharing website but also a discrete way to share messages. The use cases may vary between the two distinct user groups: General Users & Privieleged Users.
 
-Provide scenarios that illustrate the use cases in a practical example.  (E.g. Bob has $30 to deposit and wants to deposit it, check the balance, and if there is enough then transfer $100 to his savings account, ... then walk through the Bob's actions from sign-in to sign-out.)
+### 5.1.1. General Users 
+- Upload Photo Use Case - The user uploads a photo to the website prompting the user to leave a title for the photo being uploaded.
+- View Image Use Case - The user can enlarge an image by clicking on it.
+- Like Use Case - The user can choose to like photos they are currently viewing by clicking on the thumbs up icon.
+- Comment Use Case - The user can choose to comment on photos they are currently viewing by clicking the speech bubble icon.
+- Share Use Case - The user can share photos by clicking on the "Share" icon.
+
+### 5.1.2. Privileged Users 
+These users share the same use cases with general users. Although, they have a few extra use cases exclusive to them:
+- Sign up Use Case - The user must create an account to be able to access the Secret Message page.
+- Log in Use Case - The user must log in in order to upload photos as well as interact with photos that have been uploaded by entering their specific credentials using the designated log in URL.
+- Embed Hidden Message in Photo Use Case - Privileged users have the option to embed a hidden message in the photo to be uploaded in the upload photo page.
+- Sending a Photo to be embedded with a Hidden Message Use Case - Privileged users have the option to send the photo with an embedded message in the Secret Message page. This will generate a key for the user to share with other privileged users. Whether keys are entered by the user or having the server know which keys the user has is something that is currently being discussed and ironed out by the team.
+- Secret Message Use Case - Privileged users have the option to send secret messages through the Secret Message page available to them. They can send each other private messages as well as photos and embedded photos that can be decoded with the specific keys.
+- Decode Hidden Message from Image Use Case - Privileged users have the option to decode the hidden message by clicking on the "Decode Hidden Message" button on the page of the pgoto they are viewing. Whether they are prompted to enter a key or having the server recognize that this user has the key is currently being discussed and ironed out by the team.
+
+### 5.2. Scenarios 
+
+### 5.2.1. Uploading a Photo Scenario 
+Jeremy, a general user without an account, wants to upload a photo of his cute dog sleeping.
+
+In order to do this, these are the actions Jeremy must proceed with:
+- Jeremy enters HiddenFrame's url in his preferred browser.
+- Jeremy clicks the "Upload Photo" button.
+- Jeremy gets redirected to the upload photo page of the website and is prompted to upload a photo in a supported format.
+- He can click on the "Upload" button to upload his photo.
+
+### 5.2.2. Sending a Secret Message with an Embedded Image Scenario
+Artem, a privileged user with an account, would like to send a photo containing a hidden message to HiddenFrame's website to tell Patrick where there are available parking spaces at VIU.
+
+In order to do this, these are the actions Artem must proceed with:
+- Artem enters HiddenFrame's log in URL in his preferred browser.
+- Artem enters his specific credentials that he uses to access HiddenFrame's website with his extra privileges.
+- Once signed in, Artem gets redirected to HiddenFrame's Secret Message page.
+- Artem looks for Patrick name on the Secret Message page's sidebar and clicks it.
+- Artem clicks the "Upload" button.
+- Artem attaches the photo he would like to use.If he chooses not to, A.I. will generate a random image.
+- Artem types the hidden message in a text field designated for the hidden message.
+- Artem clicks on the "Embed Image" button.
+- Once the image has been embeded a key is generated that he can share with Patrick.
+- Artem copies the key to send to Patrick.
+- Artem clicks send.
+
+### 5.2.3. Viewing a Hidden Message Scenario 
+Patrick, a privileged user with an account signed in to HiddenFrame, wants to view the embedded message that Artem uploaded to find the available parking space.
+
+In order to do this, these are the actions Patrick must proceed with:
+- Patrick enters HiddenFrame's url in his preferred browser.
+- Patrick navigates to the Secret Message page.
+- Patrick clicks Artem's name on the sidebar to view their chat.
+- Patrick sees the image and clicks it.
+- Patrick enters the key Artem sent him in a text field and clicks the "View Hidden Message" button.
+- Patrick receives a pop up on his browser containg the hidden message of the parking space's location.
+
 
 ## 6. Non-functional requirements
 ### 6.1. Public  Aspect
@@ -206,14 +269,14 @@ One of the central pillars of project HiddenFrame is it's social media. HiddenFr
 - Data use and Retention - HiddenFrame will have to comply with federal and provincial data protection laws such as the federal [Personal Information Protection and Electronic Documents Act](https://laws-lois.justice.gc.ca/PDF/P-8.6.pdf) and the BC [Personal Information Protection Act](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03063_01).  
 - Moderation - With the anonymous nature of the posts on the public site, it is extremely important that HiddenFrame moderate content to ensure that the pictures on the site are appropriate. 
 - Hardware & Networking - Images have a relatively large storage requirement; managing server space in order to accommodate demand may be a challenge. The uploading and downloading of images can also take a significant amount of time; as such a fast internet connection for the server will be required. (The amount of storage space and network speed required will need to be quantified on a per user basis.)
-- Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such ProjectHidden frame will only retain images for a set period of time before deletion (exact amount of time TBC).
+- Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such ProjectHidden frame will only retain images for a set period of time before deletion (exact amount of time TBD).
 ### 6.2. Private Aspect
 HiddenFrame's other primary feature is the steganography manipulation of images for chosen users. In addition to all of the Public Aspect Non-functional Requirements this part of the project poses its own unique challenges:
 - User Privacy - Since this part of the site will require account creation HiddenFrame will have a responsibility to safeguard any user information provided. 
 - Steganography keys -  If the decryption keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
 - Misuse of HiddenFrame for Illegal activity - HiddenFrame will moderate the site for content and co-operate with law enforcement in whatever capacity is required. 
 ### 6.3. Mathematics
-HiddenFrame's steganographic features require that we develop a method inserting the payload into the carrier, and successfully retrieve the payload back from the carrier. As such we will require The ability to produce 'keys' which will mathematically describe the pixels modified. In order to accomplish this we will utilize the mathematical concept of a "generating set". This concept will allow us to describe the pixels we will be using for steganography.
+HiddenFrame's steganographic features require that we develop a method inserting the payload into the carrier, and successfully retrieve the payload back from the carrier. As such we will require The ability to produce 'keys' which will mathematically describe the pixels modified. In order to accomplish this we will utilize the algebraic concept of group generators undera binary operation mod N. This concept will allow us to describe the pixels we will be using for steganography.
 
 ## 7. Feature prioritization
 
@@ -229,7 +292,7 @@ The features our team considers mandatory for our project are:
 - A wall/picture-board sharing webpage to view pictures the user and other users have posted;
 - A program running on the server that can be called by the webpage that encodes payloads into carriers and decodes them for the recipient. Initially, this program should be able to encode text into an image using a key system where the key is embedded into the file's data;
 - A key generation algorithm that fits a key into a filename of not more than 50 characters; 
-- An encoding algorithm that fits not less than 2,000 characters into an image containing at least 30,000 pixels; and
+- An encoding algorithm that fits not less than 1024 UTF-8 characters into an image containing at least 40,000 pixels; and
 - An invite webpage where select users with access to the secret chat feature may invite others to create a username and utilize the hidden feature(s).
 
 ### 7.2. Secondary Features
@@ -245,7 +308,7 @@ Our secondary goals that our team hopes to implement depending on the remaining 
 Our team's stretch goals include that are not expected to make it into our project submission but would be nice to include if all previous items are completed ahead of schedule:
 - Using a separate carrier format for both secret text messages and music files;
 - Adding support for embedding images as payloads; and
-- Utilizing a common encryption standard into the process so that secret messages are encrypted into and decrypted from their payloads and embedded.
+- Utilizing a common encryption standard into the process so that secret messages are encrypted into and decrypted from their payloads in a addition to being embedded into the file.
 
 ## 8. Glossary 
 **Steganography**: the art or practice of concealing a message, image, or file within another message, image, or file
