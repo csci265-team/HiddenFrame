@@ -170,7 +170,7 @@ Elements:
 
 Navigation Flow:
 
-- Submit Login Details: Successful login takes the user to the Main Page.
+- Submit Login Details: Successful login takes the user to the secret chat .
 
 ### 4.3 Conversation Board Page (Secret Chat) <a name="section4.3"></a>
 
