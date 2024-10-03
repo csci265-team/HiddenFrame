@@ -9,7 +9,7 @@
 
 The following person has been designated the main contact person for questions from the reader:
 
- - NameA, their@emailaddy
+ - Artem Trefilov artlov59@gmail.com
 
  # Table of Contents
  1. [Introduction and overview](#section1)
