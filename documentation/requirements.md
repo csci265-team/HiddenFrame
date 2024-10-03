@@ -66,17 +66,6 @@ Our strech goals include:
 
 ## 3. Product features and behaviour <a name="section3"></a>
 
-This might be much like our original proposal but in far greater detail: we want to thoroughly explain/describe all aspects of the product's functionality: all the features and every aspect of its behaviour.
-
-Here the reader should should be able to find the answer for any question along the lines of
-- How do I use feature X?
-- How do I enter data value Y?
-- What are the limits (if any) on what I enter for Z?
-- What does the product do if I enter an incorrect value?
-- What happens when I select W?"
-
-This section should be intuitive to follow if the reader is simply reading through the document to learn about the product, but it should also make it easy for the reader to quickly look up the answer to any specific question.
-
 ### 3.1. Image wall <a name="section31"></a>
 As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
 
@@ -261,5 +250,4 @@ Our team's stretch goals include that are not expected to make it into our proje
 
 ## 9.Appendices <a name="section9"></a>
 
-If additional supported documents are needed then append them here
 
