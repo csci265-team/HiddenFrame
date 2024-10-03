@@ -78,10 +78,9 @@ Other known omissions are:
 - length of time an image will be retained on the site.
 - storage location of steganographic 'keys'
 
-
 ## 3. Product features and behaviour <a name="section3"></a>
 
-### 3.1. Image wall <a name="section31"></a>
+### 3.1. Image wall <a name="section3.1"></a>
 As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
 
 This photographic content will be visible on the home page of our web app on our "Image wall", which is basically a 3x3 grid of images that "infinitely" scrolls. Having it be responsive will be one of our stretch goals.
