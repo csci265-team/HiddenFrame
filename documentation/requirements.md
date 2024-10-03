@@ -202,7 +202,35 @@ HiddenFrame's steganographic features require that we develop a method inserting
 
 ## 7.Feature prioritization <a name="section7"></a>
 
-Much like the scaling section in the original proposal, here we must document which features are regarded as essential, which ones are secondary priorities, and which ones are 'nice to have' but low priority for this term.
+For some of our team members, this is our first attempt at building a website. For all of our team members, this is our first attempt to create a piece of technology using steganography techniques. The following lists include primary features, secondary features, and stretch goals for the scope of our project.
+
+### Primary Features
+
+The features our team considers mandatory for our project are:
+- A webpage for creating a username for select users with access to the secret chat feature;
+- A webpage for logging into a username for select users with access to the secret chat feature;
+- A webpage for uploading and posting pictures to a public picture-board sharing site;
+- A secret webpage for uploading an image (carrier) with a hidden message (payload) that includes a hidden message embedded within the image to send to another user. Initially, the payload will be limited to text. This webpage should also indicate if a user has received any unread secret messages, allow them to read them, and display the image they were embedded within;
+- A wall/picture-board sharing webpage to view pictures the user and other users have posted;
+- A program running on the server that can be called by the webpage that encodes payloads into carriers and decodes them for the recipient. Initially, this program should be able to encode text into an image using a key system where the key is embedded into the file's data;
+- A key generation algorithm that fits a key into a filename of not more than 50 characters; 
+- An encoding algorithm that fits not less than 2,000 characters into an image containing at least 30,000 pixels; and
+- An invite webpage where select users with access to the secret chat feature may invite others to create a username and utilize the hidden feature(s).
+
+### Secondary Features
+
+Our secondary goals that our team hopes to implement depending on the remaining time available for the creation of this project include:
+- A username recovery mechanism;
+- One-time read/receive secret messages by removing the decode key from the file's contents;
+- The ability to like and comment on pictures on the wall; and
+- A separate payload type of chiptune music tones that may be encoded into images with not less than 150,000 pixels.
+
+### Stretch Goals
+
+Our team's stretch goals include that are not expected to make it into our project submission but would be nice to include if all previous items are completed ahead of schedule:
+- Using a separate carrier format for both secret text messages and music files;
+- Adding support for embedding images as payloads; and
+- Utilizing a common encryption standard into the process so that secret messages are encrypted into and decrypted from their payloads and embedded.
 
 ## 8.Glossary <a name="section8"></a>
 
