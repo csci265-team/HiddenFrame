@@ -16,6 +16,9 @@ The following person has been designated the main contact person for questions f
  2. [Known issues/omissions](#section2)
  3. [Product features and behavior](#section3)
  4. [User interface and navigation](#section4)
+	- 4.1. [Main Page](#section41)
+	- 4.2. [Login Page](#section42)
+	- 4.3  [Conversation Board Page (Secret Chat)](#section43)
  5. [Use cases/scenarios](#section5)
  6. [Non-functional requirements](#section6)
     - 6.1. [Public  Aspect](#section61)
@@ -112,7 +115,7 @@ Navigation Guide/Map
 4. Conversation Board (Secret Chat):
 	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
 
-1. Main Page (Upload and Feed View)
+### 4.1 Main Page <a name="section41"></a>
 
 ![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
 
@@ -132,7 +135,7 @@ Navigation Flow:
 - Click Upload: This takes the user to a file selection interface for image uploads.
 - Click on Image in Grid: Opens a larger view of the image.
 
-2. Login Page
+### 4.2 Login Page <a name="section42"></a>
 
 ![HiddenFrame Login Page](../resources/images/HF_log_in.png)
 
@@ -152,7 +155,7 @@ Navigation Flow:
 
 - Submit Login Details: Successful login takes the user to the Main Page.
 
-3. Conversation Board Page(Secret Chat)
+### 4.3 Conversation Board Page (Secret Chat) <a name="section43"></a>
 
 ![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
 
