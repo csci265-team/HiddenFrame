@@ -51,7 +51,7 @@ Alternate contact person:
 
 - A. [Main Page](#41-main-page)
 - B. [Login Page](#42-login-page)
-- C. [Conversation Board Page](#43-conversation-board-page-secret-chat)
+- C. [Conversation Board Page](#43-conversation-board-page)
 
 ## 1. Introduction and overview
 
