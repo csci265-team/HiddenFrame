@@ -28,8 +28,6 @@ Alternate contact person:
 	 - 4.1. [Main Page](#41-main-page)
 	 - 4.2. [Login Page](#42-login-page)
 	 - 4.3. [Conversation Board Page](#43-conversation-board-page)
- 5. [Use cases/scenarios](#5-use-casesscenarios)
-	 - 4.3.  [Conversation Board Page (Secret Chat)](#43-conversation-board-page-secret-chat)
 5. [Use cases/scenarios](#5-use-casesscenarios)
 	 - 5.1. [Use Cases](#51-use-cases)
 	   - 5.1.1. [General Users](#511-general-users)
