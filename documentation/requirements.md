@@ -83,8 +83,9 @@ Other known omissions are:
 - the amount of required storage and network capacity on a per-user basis;
 - the length of time an image will be retained on the site;
 - the file size limit and/or max resolution of images that may be uploaded;
-- storage location of steganographic 'keys'; and
-- how many invites a user can send to others to join the secret user's list.
+- storage location of steganographic 'keys'; 
+- how many invites a user can send to others to join the secret user's list; and
+- whether we will use a private user's username or email address as identifying information.
 
 ## 3. Product features and behaviour
 
@@ -162,7 +163,6 @@ Navigation Flow:
 - Click on Image in Grid: Opens a larger view of the image.
 
 ### 4.2. Login Page
-![HiddenFrame Login Page](../resources/images/HF_log_in.png)
 
 ![HiddenFrame Login Page](../resources/images/HF_log_in.png)
 
