@@ -27,6 +27,10 @@ Alternate contact person:
  4. [User interface and navigation](#4-user-interface-and-navigation)
 	 - 4.1. [Main Page](#41-main-page)
 	 - 4.2. [Login Page](#42-login-page)
+<<<<<<< HEAD
+	 - 4.3. [Conversation Board Page](#43-conversation-board-page)
+ 5. [Use cases/scenarios](#5-use-casesscenarios)
+=======
 	 - 4.3.  [Conversation Board Page (Secret Chat)](#43-conversation-board-page-secret-chat)
 5. [Use cases/scenarios](#5-use-casesscenarios)
 	 - 5.1. [Use Cases](#51-use-cases)
@@ -36,6 +40,7 @@ Alternate contact person:
 	   - 5.2.1. [Uploading a Photo Scenario](#521-uploading-a-photo-scenario)
 	   - 5.2.2. [Sending a Secret Message with an Embedded Image Scenario](#522-sending-a-secret-message-with-an-embedded-image-scenario)
 	   - 5.2.3. [Viewing a Hidden Message Scenario](#523-viewing-a-hidden-message-scenario)
+>>>>>>> 30fbcb6b162b828c22306ffe1a3a7e4bf8945d1d
  6. [Non-functional requirements](#6-non-functional-requirements)
     - 6.1. [Public  Aspect](#61-public--aspect)
     - 6.2. [Private Aspect](#62-private-aspect)
@@ -172,29 +177,30 @@ Elements:
 
 Navigation Flow:
 
-- Submit Login Details: Successful login takes the user to the secret chat .
+- Submit Login Details: Successful login takes the user to the Main Page.
 
-### 4.3. Conversation Board Page (Secret Chat)
-![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
+### 4.3 Conversation Board Page 
+![HiddenFrame Conversation Board Page](../resources/images/HF_loggedin_main-page.png)
 
 This is the communication hub for users to exchange images encoded with hidden messages using steganography.
 
 Elements:
 
 - HiddenFrame logo.
-- User List (Left Panel): Displays a list of users the current user has interacted with. Each list item includes:
-	- Profile Icon and Name: Displays the other user’s profile picture and name.
-	- Message Status: Text like “Sent you an image” or “Seen” reflects the message exchange status.
-	- Time Indicator: Shows how long ago each interaction occurred (e.g., “10 min ago”).
-- Message Area (Right Panel): Displays the conversation between the user and the selected contact. Elements include:
-	- Sent Images: Thumbnail images representing the conversation.
-	- Text Field: Below the message area, allowing users to send messages (which will be encoded into picture, once sent) or share images .
-	- Send Button: A button at the bottom of the text field to send images.
+- Log out Button: Logs user out.
+- Profile Button: Allows you to change the password.
+- Upload Button: A button at the center of the page, allowing users to add images.
+- Image Grid: A grid layout below the upload button where previously uploaded images appear. Each image in the grid has:
+	- Like Icon: Allows users to like the image.
+	- Share Icon: Enables users to share the image.
+	- Comment Icon: Allows users to comment on the image, likely opening a comment thread.
 
 Navigation Flow:
 
-- Select a User: Clicking a user from the list loads the conversation with that user.
-- Send Image/Text: Users can send images by selecting the image or typing into the text field.
+- Click Upload: This takes the user to a file selection interface for image uploads.
+- Click on Image in Grid: Opens a larger view of the image with the hidden message.
+- Click Log out: Logs out of an account.
+- Click Profile: Opens a page, where a user can thange their password.
 
 ## 5. Use cases/scenarios
 
