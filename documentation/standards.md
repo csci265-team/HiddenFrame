@@ -58,7 +58,6 @@ Below are some of the explicit rules protecting this branch:
 - No pushing directly to [`master`](https://github.com/csci265-team/project/tree/master). Create pull requests instead.
 - Pull requests need to be created against [`master`](https://github.com/csci265-team/project/tree/master) to get code merged in.
 - At least two team members need to approve changes in a PR before code can be merged into [`master`](https://github.com/csci265-team/project/tree/master).
-- The creator of the pull request can not merge their own pull request.
 
 #### Adding to dev branches
 
@@ -68,14 +67,13 @@ Each team member can make a branch with this naming scheme, and the following ru
 - Only the owner of a branch can push directly to it.
 - If someone other than the owner wants to make changes to this type of branch, they must make a pull request against it. (`nameOfMemeber-dev` <--- `xyz-branch`)
 - The pull request may only be merged after approval from the owner of said branch
-- Pull requests need to be created against [`master`](https://github.com/csci265-team/project/tree/master) to get code merged in.
-- The creator of the pull request can not merge their own pull request.
 
 #### Rules for all branches/PRs
 
 These are general rules that should be applied to all branches and pull requests:
 
 - Force pushes should be avoided.
+- The creator of the pull request can not merge their own pull request.
 - If a review requesting changes is created on a PR, then the PR cannot be merged until the reviewer approves the PR.
 
 #### Other branches
