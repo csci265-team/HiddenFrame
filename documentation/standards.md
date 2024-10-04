@@ -41,7 +41,7 @@ Each contributing team member should thoroughly check both spelling (Canadian En
 
 ## Coding standards and processes
 
-The coding standards we intend to follow are the CSCI 265 project standards supplied by our professor: Dave Wessels. 
+The coding standards we intend to follow are the CSCI 265 project standards supplied by our professor, Dave Wessels. 
 They will be enforced and reviewed by the code review team. Pull requests will not be merged unless these standards are followed.
 More details on the coding standards can be found at: http://csci.viu.ca/~wesselsd/courses/csci265/standards.html
 

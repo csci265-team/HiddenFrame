@@ -142,12 +142,7 @@ Navigation Guide/Map
 4. Conversation Board (Secret Chat):
 	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
 
-<<<<<<< HEAD
-### 4.1 Main Page
-
-=======
 ### 4.1. Main Page
->>>>>>> e6595d3ac0229863d2b619dfbd9c7e4d4d9df601
 ![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
 
 This is the primary screen users see after opening our website. It serves as the hub for uploading and browsing images.
@@ -166,12 +161,8 @@ Navigation Flow:
 - Click Upload: This takes the user to a file selection interface for image uploads.
 - Click on Image in Grid: Opens a larger view of the image.
 
-<<<<<<< HEAD
-### 4.2 Login Page
-=======
 ### 4.2. Login Page
 ![HiddenFrame Login Page](../resources/images/HF_log_in.png)
->>>>>>> e6595d3ac0229863d2b619dfbd9c7e4d4d9df601
 
 ![HiddenFrame Login Page](../resources/images/HF_log_in.png)
 
@@ -188,34 +179,16 @@ Elements:
 
 Navigation Flow:
 
-<<<<<<< HEAD
-- Submit Login Details: Successful login takes the user to the secret chat.
-
-### 4.3 Conversation Board Page (Secret Chat)
-
-![HiddenFrame Conversation Board Page](../resources/images/HF_conversation_board.png)
-=======
 - Submit Login Details: Successful login takes the user to the Main Page.
 
 ### 4.3 Conversation Board Page 
 ![HiddenFrame Conversation Board Page](../resources/images/HF_loggedin_main-page.png)
->>>>>>> e6595d3ac0229863d2b619dfbd9c7e4d4d9df601
 
 This is the communication hub for users to exchange images encoded with hidden messages using steganography.
 
 Elements:
 
 - HiddenFrame logo.
-<<<<<<< HEAD
-- User List (Left Panel): Displays a list of users the current user has interacted with. Each list item includes:
-    - Profile Icon and Name: Displays the other user’s profile picture and name.
-    - Message Status: Text like “Sent you an image” or “Seen” reflects the message exchange status.
-    - Time Indicator: Shows how long ago each interaction occurred (e.g., “10 min ago”).
-- Message Area (Right Panel): Displays the conversation between the user and the selected contact. Elements include:
-    - Sent Images: Thumbnail images representing the conversation.
-    - Text Field: Below the message area, users can send messages (which will be encoded into a picture once sent) or share images.
-    - Send Button: A button at the bottom of the text field to send images.
-=======
 - Log out Button: Logs user out.
 - Profile Button: Allows you to change the password.
 - Upload Button: A button at the center of the page, allowing users to add images.
@@ -223,7 +196,6 @@ Elements:
 	- Like Icon: Allows users to like the image.
 	- Share Icon: Enables users to share the image.
 	- Comment Icon: Allows users to comment on the image, likely opening a comment thread.
->>>>>>> e6595d3ac0229863d2b619dfbd9c7e4d4d9df601
 
 Navigation Flow:
 
@@ -260,7 +232,7 @@ These users share the same use cases with general users. Although, they have a f
 Jeremy, a general user without an account, wants to upload a photo of his cute dog sleeping.
 
 In order to do this, these are the actions Jeremy must proceed with:
-- Jeremy enters HiddenFrame's url in his preferred browser.
+- Jeremy enters HiddenFrame's URL in his preferred browser.
 - Jeremy clicks the "Upload Photo" button.
 - Jeremy gets redirected to the upload photo page of the website and is prompted to upload a photo in a supported format.
 - He can click on the "Upload" button to upload his photo.
@@ -269,15 +241,15 @@ In order to do this, these are the actions Jeremy must proceed with:
 Artem, a privileged user with an account, would like to send a photo containing a hidden message to HiddenFrame's website to tell Patrick where there are available parking spaces at VIU.
 
 In order to do this, these are the actions Artem must proceed with:
-- Artem enters HiddenFrame's log in URL in his preferred browser.
-- Artem enters his specific credentials that he uses to access HiddenFrame's website with his extra privileges.
+- Artem enters HiddenFrame's login URL in his preferred browser.
+- Artem enters the specific credentials that he uses to access HiddenFrame's website with his extra privileges.
 - Once signed in, Artem gets redirected to HiddenFrame's Secret Message page.
-- Artem looks for Patrick name on the Secret Message page's sidebar and clicks it.
+- Artem looks for Patrick's name on the Secret Message page's sidebar and clicks it.
 - Artem clicks the "Upload" button.
-- Artem attaches the photo he would like to use.If he chooses not to, A.I. will generate a random image.
+- Artem attaches the photo he would like to use. If he chooses not to, A.I. will generate a random image.
 - Artem types the hidden message in a text field designated for the hidden message.
 - Artem clicks on the "Embed Image" button.
-- Once the image has been embeded a key is generated that he can share with Patrick.
+- Once the image has been embedded a key is generated that he can share with Patrick.
 - Artem copies the key to send to Patrick.
 - Artem clicks send.
 
@@ -285,12 +257,12 @@ In order to do this, these are the actions Artem must proceed with:
 Patrick, a privileged user with an account signed in to HiddenFrame, wants to view the embedded message that Artem uploaded to find the available parking space.
 
 In order to do this, these are the actions Patrick must proceed with:
-- Patrick enters HiddenFrame's url in his preferred browser.
+- Patrick enters HiddenFrame's URL in his preferred browser.
 - Patrick navigates to the Secret Message page.
 - Patrick clicks Artem's name on the sidebar to view their chat.
 - Patrick sees the image and clicks it.
 - Patrick enters the key Artem sent him in a text field and clicks the "View Hidden Message" button.
-- Patrick receives a pop up on his browser containg the hidden message of the parking space's location.
+- Patrick receives a pop-up on his browser containing a hidden message about the parking space's location.
 
 
 ## 6. Non-functional requirements
