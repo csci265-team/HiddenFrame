@@ -27,11 +27,7 @@ Alternate contact person:
  4. [User interface and navigation](#4-user-interface-and-navigation)
 	 - 4.1. [Main Page](#41-main-page)
 	 - 4.2. [Login Page](#42-login-page)
-<<<<<<< HEAD
 	 - 4.3. [Conversation Board Page](#43-conversation-board-page)
- 5. [Use cases/scenarios](#5-use-casesscenarios)
-=======
-	 - 4.3.  [Conversation Board Page (Secret Chat)](#43-conversation-board-page-secret-chat)
 5. [Use cases/scenarios](#5-use-casesscenarios)
 	 - 5.1. [Use Cases](#51-use-cases)
 	   - 5.1.1. [General Users](#511-general-users)
@@ -40,7 +36,6 @@ Alternate contact person:
 	   - 5.2.1. [Uploading a Photo Scenario](#521-uploading-a-photo-scenario)
 	   - 5.2.2. [Sending a Secret Message with an Embedded Image Scenario](#522-sending-a-secret-message-with-an-embedded-image-scenario)
 	   - 5.2.3. [Viewing a Hidden Message Scenario](#523-viewing-a-hidden-message-scenario)
->>>>>>> 30fbcb6b162b828c22306ffe1a3a7e4bf8945d1d
  6. [Non-functional requirements](#6-non-functional-requirements)
     - 6.1. [Public  Aspect](#61-public--aspect)
     - 6.2. [Private Aspect](#62-private-aspect)
