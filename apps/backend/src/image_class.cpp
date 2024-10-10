@@ -15,6 +15,12 @@ image::image(string filepath):width(0),height(0),channels(0),original_image(null
     load_image(filepath);
 };
 
+//move consturctor
+
+//copy constructor
+
+//overloaded [] operator
+
 //destructor
 image::~image(){
     stbi_image_free(this);
@@ -32,10 +38,50 @@ unsigned char* image::load_image(string filepath) {
     this->channels=ioChannels;
     return image_ptr;
 }
+//create and fill an array of pixel structs from an image:
+pixel* image::pixel_array(){
+    if (this==nullptr){
+        throw std::invalid_argument("No Image loaded");
+    }
+    pixel* pixel_arr=new pixel[height*width];
+    for (int i=0; i < height; i++){
+        for (int j=0; j < width; j++){
+            int index=i*width+j;
+            if (channels==1){
+                pixel_arr[index].red=static_cast<unsigned int>(this->original_image[i]);
+            }
+            if (channels==2){
+                pixel_arr[index].red=static_cast<unsigned int>(this->original_image[i]);
+                pixel_arr[index].alpha=static_cast<unsigned int>(this->original_image[i+1]);
+            }
+            if (channels==3){
+                pixel_arr[index].red=static_cast<unsigned int>(this->original_image[i]);
+                pixel_arr[index].green=static_cast<unsigned int>(this->original_image[i+1]);
+                pixel_arr[index].blue=static_cast<unsigned int>(this->original_image[i+2]);
+            }
+            if (channels==4){
+                pixel_arr[index].red=static_cast<unsigned int>(this->original_image[i]);
+                pixel_arr[index].green=static_cast<unsigned int>(this->original_image[i+1]);
+                pixel_arr[index].blue=static_cast<unsigned int>(this->original_image[i+2]);
+                pixel_arr[index].alpha=static_cast<unsigned int>(this->original_image[i+3]); 
+            }
+        }
+    }
+    return pixel_arr;
+}
+
 
 //prints out the image properties
 void image::displayImageProperties(){
     cout << "The loaded image has width: " << width << endl;
     cout << "The loaded image has height: " << height << endl;
     cout << "The loaded image has no channels: " << channels << endl;
+    cout << "The total number of pixels in the image is: "<< width * height <<endl;
+}
+
+bool pixel::operator==(const pixel& rhs) const{
+    if (rhs.red==this->red && rhs.green==this->green && rhs.blue==this->blue && rhs.alpha==this->alpha){
+        return true;
+    }
+    return false;
 }

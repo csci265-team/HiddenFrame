@@ -4,11 +4,20 @@
 
 using namespace std;
 
+struct pixel{
+    int red=-1;
+    int green=-1;
+    int blue=-1;
+    int alpha=-1;
+    bool operator == (const pixel& rhs) const;
+};
+
 class image{
     public:
     image();
     image(string filepath);
     ~image();
+    pixel* pixel_array();
     int width;
     int height;
     int channels;
@@ -16,12 +25,6 @@ class image{
     private:
     unsigned char* load_image(string filepath);
     unsigned char* original_image;
-};
-
-//not sure if we will need this
-class pixel{
-    public:
-    private:
 };
 
 #endif
