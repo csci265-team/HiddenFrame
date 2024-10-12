@@ -8,8 +8,10 @@ using namespace std;
 
 int main(){
     try{
-        image* test=new image("../../resources/images/test/input/test_image_3.png");
+        image* test=new image("../../resources/images/test/input/test_image_4.png");
         test->displayImageProperties();
+        test->pixel_array();
+        test->image_analysis(test->pArr);
     }
     catch (const std::invalid_argument& e1){
         cerr << "Encountered an exception: " << e1.what() << endl;

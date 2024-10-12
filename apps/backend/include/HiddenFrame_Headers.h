@@ -1,14 +1,16 @@
 #include <string>
+#include <unordered_map>
 #ifndef HiddenFrame_Headers 
 #define HiddenFrame_Headers
 
 using namespace std;
 
 struct pixel{
-    int red=-1;
-    int green=-1;
-    int blue=-1;
-    int alpha=-1;
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
+    unsigned char alpha;
+    unsigned long int count=0;
     bool operator == (const pixel& rhs) const;
 };
 
@@ -17,14 +19,16 @@ class image{
     image();
     image(string filepath);
     ~image();
-    pixel* pixel_array();
     int width;
     int height;
     int channels;
     void displayImageProperties();
-    private:
-    unsigned char* load_image(string filepath);
+    void pixel_array();
+    void image_analysis(pixel*);
+    void load_image(string filepath);
+    size_t combined_hash(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha);
     unsigned char* original_image;
+    pixel* pArr;
 };
 
 #endif
