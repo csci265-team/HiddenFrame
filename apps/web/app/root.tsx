@@ -22,7 +22,14 @@ export const links: LinksFunction = () => [
   },
 ];
 
+
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const changeTheme = () => {
+    document.documentElement.classList.toggle("dark");
+    const isDark = document.documentElement.classList.contains("dark")
+    localStorage.setItem('@app/theme', isDark ? 'dark' : 'light')
+  }
   return (
     <html lang="en">
       <head>
@@ -30,8 +37,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+
+        <script src="/color.js" />
+
       </head>
       <body>
+        <button onClick={changeTheme}>Change theme</button>
         {children}
         <ScrollRestoration />
         <Scripts />
