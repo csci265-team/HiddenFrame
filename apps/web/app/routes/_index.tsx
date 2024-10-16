@@ -14,7 +14,8 @@ export async function loader() {
     headers: { Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}` },
   });
 
-  return { photos: await resp.json() };
+  if (resp.ok) return { photos: await resp.json() };
+  else return { photos: [] };
 }
 
 export default function Index() {
