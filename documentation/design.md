@@ -84,10 +84,11 @@ Alternate contact person:
     - 3.1. [Public Aspect](#31-public-aspect)
     - 3.2. [Private Aspect](#32-private-aspect)
  4. [Back-End Design](#4-back-end-design)
-    - 4.1. [Image Analysis](#41-image-analysis)
-    - 4.2. [Key Generation](#42-key-generation)
-    - 4.3. [Payload Embedding](#43-payload-embedding)
-    - 4.4. [Payload Retrieval](#44-payload-retrieval)
+    - 4.1. [Image I/O](#41-image-i/o)
+    - 4.2. [Image Analysis](#42-image-analysis)
+    - 4.3. [Key Generation](#43-key-generation)
+    - 4.4. [Payload Embedding](#44-payload-embedding)
+    - 4.5. [Payload Retrieval](#45-payload-retrieval)
  5. [Network Design](#5-network-design)
  6. [Data Design](#6-data-design)
  7. [Other Design Elements](#7-other-design-elements)
@@ -106,10 +107,63 @@ Alternate contact person:
  ### 3.2. Private Aspect
 
  ## 4. Back-End Design
- ### 4.1. Image Analysis
- ### 4.2. Key Generation
- ### 4.3. Payload Embedding
- ### 4.4. Payload Retrieval 
+ The back end of HiddenFrame will have to deal with 4 general requests from the front end system. 
+ 1. Public/Private Aspect user Requests Image Storage (no steganography req)
+ 2. Private Aspect user requests Image Storage (Steganography req)
+ 3. Public/Private Aspect user requests an stored image that has no payload or has a key that does not match.
+ 4. Private Aspect user requests an stored image with a payload and has the key
+ Overview of back end design modules and data flow is as follows
+```mermaid
+---
+Title: Back-End Overview
+---
+ graph TD
+   a(Front End Requests) <--> b(Image Subsystem)
+   b <--> d(Image I/O)
+   d <--"Read from file/write to file"--> e[(Stored Image Files)]
+   d --"Provide Image"--> f(Image Analysis)
+   f --"Determine The Number of Pixel of Each Colour"--> g(Key Generation)
+   g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
+   g--"Provide Key to User"-->a
+   h --"Return Image With payload embedded"--> d
+   d --"Provide Image and Key"--> i(Image Manipulation - retrieval)
+   i --"Return Payload"-->d
+```
+
+ ### 4.1. Image I/O
+The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file.
+
+Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation we will create two types of objects; images and pixels.
+**Image** objects will be a class, The Image class will contain methods for all other components of the Image subsystem. After using the stb library to load the target image from the file system as a unsigned char array, HiddenFrame will generate an array of Pixel objects from this image for manipulation. 
+~~~mermaid
+classDiagram
+class image{
+    public:
+    image();
+    image(string filepath);
+    ~image();
+    int width;
+    int height;
+    int channels;
+    void displayImageProperties();
+    void image_analysis(pixel*);
+    private:
+    void pixel_array();
+    void load_image(string filepath);
+    size_t combined_hash(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha);
+    unsigned char* original_image;
+    pixel* pArr;
+}
+~~~
+**Pixels** will be structs. The main purpose of the pixel structs will be to simply operations such as image analysis and manipulation. The equivalence operator for a pixel will be overloaded thus simplifying comparisons. 
+	
+ ### 4.2. Image Analysis
+Image Analysis by HiddenFrame will be performed inserting all of the Pixels present in the array of Pixels into an unordered map. When a collision occurs, this indicates that the Pixel Objects had the same component values, and thus increases the count of that Pixels color by 1. 
+
+ ### 4.3. Key Generation
+ 
+ ### 4.4. Payload Embedding
+ ### 4.5. Payload Retrieval 
 
  ## 5. Network Design
 
