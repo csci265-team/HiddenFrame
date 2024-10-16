@@ -31,7 +31,9 @@ export default function Index() {
         <h2 className="text-2xl font-[Outfit] font-black ">Photos from Unsplash</h2>
         <div className="grid grid-cols-3 gap-4 p-4">
           {photos.map((photo: any) => (
-            <img className="w-64 h-64 rounded-lg object-cover" key={photo.id} src={photo.urls.full} alt={photo.alt_description} />
+            <a href={photo.urls.full} target="_blank" key={photo.id} rel="noreferrer">
+              <img className="w-64 h-64 rounded-lg object-cover" src={photo.urls.small} alt={photo.alt_description} />
+            </a>
           ))}
         </div>
       </div>
