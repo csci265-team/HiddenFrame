@@ -33,7 +33,7 @@ However the document is actually structured/ordered, the following information (
         each of the services it provides for other elements of the same DFD level (what will it implement that is used by other portions of the system?)
         - this should show the information exchanged during that process
         the interactions between it and the user(s) and any other external systems
-        any persistent data it will need to store, giving each data component a name and identifying the type and restrictions on the data (e.g. "vehicle weight will be stored as a non-negative real number of kilos, rounded to the nearest kilo) 
+        any persistent data it will need to store, giving each data component a name and identifying the type and restrictions on the data (e.g. "vehicle weight will be stored as a non-negative real number of kilos, rounded to the nearest kilo)
 
     As discussed in lectures, we are seeking a division into elements that are cohesive yet loosely coupled, and we want to ensure that all aspects of the overall product functionality are captured somewhere within our design.
 
@@ -50,13 +50,13 @@ However the document is actually structured/ordered, the following information (
         - publicly accessible/shared data types and fixed/constant values
         - publicly callable routines, what they return, what they'll expect as parameters
         - classes/objects to be used, their key public fields and methods
-        This gets close to the level of code skeletons, but does not yet need to be expressed as actual code in the target language(s). 
+        This gets close to the level of code skeletons, but does not yet need to be expressed as actual code in the target language(s).
 
     A glossary: This is optional but often nice to have: if a term is specific to the product or is unlikely to be known by the average reader (e.g. a random second year CS student) then include an entry for it.
 
-    Any appendices (if/as needed) 
+    Any appendices (if/as needed)
 
-Note that all elements of all figures/diagrams should be clearly described/referenced in the associated text. 
+Note that all elements of all figures/diagrams should be clearly described/referenced in the associated text.
 [SAMPLE DOCUMENT LINK](http://csci.viu.ca/~wesselsd/courses/csci265/project/sample_docs/logicaldesign.pdf)
 
 ==================================================================
@@ -69,55 +69,77 @@ DELETE ALL ABOVE HERE
 ## Project/product name: HiddenFrame
 
 ## Contact person and email
+
 The following person has been designated the main contact person for questions from the reader:
 
- - Patrick Candy candy.pat@gmail.com
+- Patrick Candy candy.pat@gmail.com
 
 Alternate contact person:
 
- - Jeremy Shumuk admin@payrollinsights.ca
+- Jeremy Shumuk admin@payrollinsights.ca
 
- # Table of Contents
- 1. [Known Omissions](#1-known-omissions)
- 2. [Design Overview](#2-design-overview)
- 3. [Front-End Design](#3-front-end-design)
+# Table of Contents
+
+1.  [Known Omissions](#1-known-omissions)
+2.  [Design Overview](#2-design-overview)
+3.  [Front-End Design](#3-front-end-design)
     - 3.1. [Public Aspect](#31-public-aspect)
     - 3.2. [Private Aspect](#32-private-aspect)
- 4. [Back-End Design](#4-back-end-design)
+4.  [Back-End Design](#4-back-end-design)
     - 4.1. [Image Analysis](#41-image-analysis)
     - 4.2. [Key Generation](#42-key-generation)
     - 4.3. [Payload Embedding](#43-payload-embedding)
     - 4.4. [Payload Retrieval](#44-payload-retrieval)
- 5. [Network Design](#5-network-design)
- 6. [Data Design](#6-data-design)
- 7. [Other Design Elements](#7-other-design-elements)
-    - 7.1. [Project Directory Structure](#71-project-directory-structure) 
- 8. [Glossary](#8-glossary)
- 9. [Appendixes](#9-appendixes)
+5.  [Network Design](#5-network-design)
+6.  [Data Design](#6-data-design)
+7.  [Other Design Elements](#7-other-design-elements)
+    - 7.1. [Project Directory Structure](#71-project-directory-structure)
+8.  [Glossary](#8-glossary)
+9.  [Appendixes](#9-appendixes)
 
- # List of Figures
+# List of Figures
 
- ## 1. Known Omissions
+## 1. Known Omissions
 
- ## 2. Design Overview
+## 2. Design Overview
 
- ## 3. Front-End Design
- ### 3.1. Public Aspect
- ### 3.2. Private Aspect
+## 3. Front-End Design
 
- ## 4. Back-End Design
- ### 4.1. Image Analysis
- ### 4.2. Key Generation
- ### 4.3. Payload Embedding
- ### 4.4. Payload Retrieval 
+The front end system will be a web graphical user interface 
 
- ## 5. Network Design
+### 3.1. Public Aspect
 
- ## 6. Data Design
+This will be visible to everyone. The public aspect will allow the users to make two kinds of requests:
 
- ## 7. Other Design Elements
- ### 7.1 Project Directory Structure
+1. Request the publically available images without decoding the messages
+2. Upload an image that will be publically available
 
- ## 8. Glossary
+### 3.2. Private Aspect
 
- ## 9. Appendixes
+This will be visible ot select individuals. The private aspect will allow users to make three kinds of requests along with the Public aspect requests:
+
+1. Request the images while also decoding the messages if any
+2. Upload an image while hiding the messages in it
+3. Create invites for friends
+
+## 4. Back-End Design
+
+### 4.1. Image Analysis
+
+### 4.2. Key Generation
+
+### 4.3. Payload Embedding
+
+### 4.4. Payload Retrieval
+
+## 5. Network Design
+
+## 6. Data Design
+
+## 7. Other Design Elements
+
+### 7.1 Project Directory Structure
+
+## 8. Glossary
+
+## 9. Appendixes
