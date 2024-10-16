@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { MetaFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -7,13 +9,30 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader() {
+  const resp = await fetch("https://api.unsplash.com/photos?per_page=100", {
+    headers: { Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}` },
+  });
+
+  return { photos: await resp.json() };
+}
+
 export default function Index() {
+  const { photos } = useLoaderData<typeof loader>();
+
   return (
-    <div className="flex h-screen items-center justify-center  bg-colors-hf-beige dark:bg-colors-hf-brown">
-      <div className="flex flex-col items-center gap-16">
+    <div className="flex items-center justify-center h-full">
+      <div className="flex flex-col items-center gap-16 h-full">
         <header className="flex flex-col items-center gap-9">
-          <h1 className="text-4xl font-[Outfit] font-black text-colors-hf-brown dark:text-colors-hf-beige">HiddenFrame</h1>
+          <h1 className="text-4xl font-[Outfit] font-black">HiddenFrame</h1>
         </header>
+
+        <h2 className="text-2xl font-[Outfit] font-black ">Photos from Unsplash</h2>
+        <div className="grid grid-cols-3 gap-4 p-4">
+          {photos.map((photo: any) => (
+            <img className="w-64 h-64 rounded-lg object-cover" key={photo.id} src={photo.urls.full} alt={photo.alt_description} />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -4,7 +4,10 @@
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  height: 100%;
+  width: 100%;
+  @apply bg-colors-hf-beige dark:bg-colors-hf-brown;
+  @apply text-colors-hf-brown dark:text-colors-hf-beige;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
