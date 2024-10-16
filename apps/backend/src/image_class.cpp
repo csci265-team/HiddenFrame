@@ -96,7 +96,7 @@ void image::image_analysis(pixel* pArr)
         << static_cast<int>(key_value.second.green) << "/" 
         << static_cast<int>(key_value.second.blue) << "/" 
         << static_cast<int>(key_value.second.alpha) 
-        << " Occurs " << key_value.second.count << " times" << endl;
+        << " Occurs " << key_value.second.count+1 << " times" << endl;
     }
 }
 

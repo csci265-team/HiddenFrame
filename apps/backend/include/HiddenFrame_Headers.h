@@ -23,8 +23,9 @@ class image{
     int height;
     int channels;
     void displayImageProperties();
-    void pixel_array();
     void image_analysis(pixel*);
+    private:
+    void pixel_array();
     void load_image(string filepath);
     size_t combined_hash(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha);
     unsigned char* original_image;
