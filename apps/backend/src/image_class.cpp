@@ -74,32 +74,149 @@ void image::pixel_array(){
     this->pArr=pixel_arr;
 }
 
-void image::modify_image()
+void image::modify_image(int n, int arr[], int arrSize)
 {
     if (original_image==nullptr){
         throw "Original Image we are trying to modify is null";
     }
     modified_image=new unsigned char[channels*width*height];
     memcpy(modified_image,original_image, channels*width*height);
+    int k=0;
     for (int i=0; i < height; i++){
-        for (int j=0; j < width; j++){
+        for (int j=0; j < width; j+=n,k+=2){
             int index=(i*width+j)*channels;
-            //test code here to change the colors of modified image if they match The colour
-            if(modified_image[index]==255 && modified_image[index+1]==255 && modified_image[index+2]==255){
-                modified_image[index]=0;
-                modified_image[index+1]=0;
-                modified_image[index+2]=255;
-                if (channels==4){
-                    modified_image[index+3]=255;
+            //we will land on only the pixel's we need to change
+            //here we clean the pixel and change the LSB of the channel
+            //case that we have a sequence of 1's
+            if(arr[k+1]==1){
+                //need to modify channel 1
+                if (arr[k]==1)
+                {
+                    modified_image[index] |= 1;
+                    modified_image[index+1]&= ~1;
+                    modified_image[index+2]&= ~1;
+                    if (channels==4){
+                        modified_image[index+3]&= ~1;
+                    }
                 }
+                //need to modify channel 2
+                else if (arr[k]==2)
+                {
+                    modified_image[index]&= ~1;
+                    modified_image[index+1]|= 1;
+                    modified_image[index+2]&= ~1;
+                    if (channels==4){
+                        modified_image[index+3]&= ~1;
+                    }
+                }
+                //need to modify channel 3
+                else if (arr[k]==3)
+                {
+                    modified_image[index]&= ~1;
+                    modified_image[index+1]&= ~1;
+                    modified_image[index+2]|= 1;
+                    if (channels==4){
+                        modified_image[index+3]&= ~1;
+                    }
+                }
+                //need to modify channel 4
+                else{
+                modified_image[index]&= ~1;
+                modified_image[index+1]&= ~1;
+                modified_image[index+2]&= ~1;
+                modified_image[index+3]|= 1;
+                }
+            }
+            //we have a sequence of 0's
+            else{
+                if(arr[k]==1){
+                    modified_image[index] &= ~1;
+                    modified_image[index+1]|= 1;
+                    modified_image[index+2]|= 1;
+                    if (channels==4){
+                        modified_image[index+3]|= 1;
+                    }
+                }
+                //need to modify channel 2
+                else if(arr[k]==2)
+                {
+                    modified_image[index]|= 1;
+                    modified_image[index+1]&= ~1;
+                    modified_image[index+2]|= 1;
+                    if (channels==4){
+                        modified_image[index+3]|= 1;
+                    }
+                }
+                //need to modify channel 3
+                else if (arr[k]==3)
+                {
+                    modified_image[index]|= 1;
+                    modified_image[index+1]|= 1;
+                    modified_image[index+2]&= ~1;
+                    if (channels==4){
+                        modified_image[index+3]|= 1;
+                    }
+                }
+                //need to modify channel 4
+                else{
+                modified_image[index]|= 1;
+                modified_image[index+1]|= 1;
+                modified_image[index+2]|= 1;
+                modified_image[index+3]&= ~1;
+                }
+            }
+            if (k >= (arrSize-2)){
+                return;
             }
         }
     }
+}
 
+string image::retrieve_payload(int n)
+{
+    if (original_image==nullptr){
+        throw "cannot retrive image is null";
+    }
+    string result;
+    int k=0;
+    for (int i=0; i < height; i++){
+        for (int j=0; j < width; j+=n,k+=2){
+            int index=(i*width+j)*channels;
+            //check channel 1 and 1's
+            if((original_image[index] & 1) && !(original_image[index+1] & 1) && !(original_image[index+2] & 1)){
+                result=result+"1";
+            }
+              //check channel 1 and 0's
+            else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && (original_image[index+2] & 1)){
+                result=result+"0";
+            }
+            //check channel 2 and 1's
+            else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1)){
+                result=result+"11";
+            }
+            //check channel 2 and 0's
+            else if((original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1)){
+                result=result+"00";
+            }
+            //check channel 3 and 1's
+            else if(!(original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1)){
+                result=result+"111";
+            }
+            //check channel 3 and 0's
+            else if((original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1)){
+                result=result+"000";
+            }
+            //if we got here then we are no longer reading the hidden message
+            else{
+                return result;
+            }
+        }
+    }
+    return result;
 }
 
 //image analysis
-vector<pixel> image::image_analysis(pixel* pArr)
+/*vector<pixel> image::image_analysis(pixel* pArr)
 {
     unordered_map<size_t, pixel> pMap;
     for (int i=0; i < (width*height); i++){
@@ -131,7 +248,7 @@ vector<pixel> image::image_analysis(pixel* pArr)
         <<  endl;
     }
     return uniquePixels;
-}
+}*/
 
 //prints out the image properties
 void image::displayImageProperties(){

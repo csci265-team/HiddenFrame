@@ -26,8 +26,9 @@ class image{
     pixel* pArr;
     string filetype;
     void displayImageProperties();
-    vector<pixel> image_analysis(pixel*);
-    void modify_image();
+    //vector<pixel> image_analysis(pixel*);
+    void modify_image(int n, int arr[], int arrSize);
+    string retrieve_payload(int n);
     void write_image(string filename);
     private:
     void pixel_array();

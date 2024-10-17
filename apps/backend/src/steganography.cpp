@@ -8,11 +8,17 @@ using namespace std;
 
 int main(){
     try{
-        image* test=new image("../../resources/images/test/input/test_image_4.png");
+        image* test=new image("../../resources/images/test/input/test_image_1.jpg");
         test->displayImageProperties();
-        test->image_analysis(test->pArr);
-        test->modify_image();
-        test->write_image("../../resources/images/test/output/test_image_4.png");
+        //test->image_analysis(test->pArr);
+        int n=2;//pixel spacing
+        int arrSize=4;
+        int arr[4]={2,1,3,0};//should give 11000
+        test->modify_image(n,arr,arrSize);
+        test->write_image("../../resources/images/test/output/test_image_1.jpg");
+        image* payloadTest=new image("../../resources/images/test/output/test_image_1.jpg");
+        string payload=payloadTest->retrieve_payload(n);
+        cout << payload;
         //test->image_analysis(test->pArr);
     }
     catch (const std::invalid_argument& e1){
