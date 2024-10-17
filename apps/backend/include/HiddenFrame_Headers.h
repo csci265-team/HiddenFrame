@@ -10,7 +10,7 @@ struct pixel{
     unsigned char green;
     unsigned char blue;
     unsigned char alpha;
-    unsigned long int count=0;
+    unsigned long int count=1;
     bool operator == (const pixel& rhs) const;
 };
 
@@ -22,14 +22,17 @@ class image{
     int width;
     int height;
     int channels;
+    pixel* pArr;
+    string filetype;
     void displayImageProperties();
     void image_analysis(pixel*);
+    void modify_image();
+    void write_image(string filename);
     private:
     void pixel_array();
     void load_image(string filepath);
     size_t combined_hash(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha);
     unsigned char* original_image;
-    pixel* pArr;
+    unsigned char* modified_image;
 };
-
 #endif

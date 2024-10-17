@@ -14,9 +14,9 @@ The actual format of the document is left largely to the team's discretion, but 
 
 However the document is actually structured/ordered, the following information (at a minimum) needs to be present:
 
-    The team and project name, contact info (the contact info is just a single point of contact in case a reader has questions or feedback)
+The team and project name, contact info (the contact info is just a single point of contact in case a reader has questions or feedback)
 
-    A table of contents (optional but nice to have)
+A table of contents (optional but nice to have)
 
     A design overview
     This provides an intuitive overview of the high level logical design, preferably with a context diagram (the top level DFD), and also of the key transformations/decisions that will be needed when going from the logical design to an implementation.
@@ -46,15 +46,15 @@ However the document is actually structured/ordered, the following information (
         identifying the programming language(s) and any supporting tools to be used
         identifying the directory and file naming structure to be used within the code repository: identifying the files/directories/subdirectories we use to store the different actual code elements
         identifying the implementation method for each shared data store (database, file, etc), including format, fields, layout
-        identifying the interface for all public services provided by the element:
-        - publicly accessible/shared data types and fixed/constant values
-        - publicly callable routines, what they return, what they'll expect as parameters
-        - classes/objects to be used, their key public fields and methods
-        This gets close to the level of code skeletons, but does not yet need to be expressed as actual code in the target language(s). 
+identifying the interface for all public services provided by the element:
+- publicly accessible/shared data types and fixed/constant values
+- publicly callable routines, what they return, what they'll expect as parameters
+- classes/objects to be used, their key public fields and methods
+This gets close to the level of code skeletons, but does not yet need to be expressed as actual code in the target language(s). 
 
-    A glossary: This is optional but often nice to have: if a term is specific to the product or is unlikely to be known by the average reader (e.g. a random second year CS student) then include an entry for it.
+A glossary: This is optional but often nice to have: if a term is specific to the product or is unlikely to be known by the average reader (e.g. a random second year CS student) then include an entry for it.
 
-    Any appendices (if/as needed) 
+Any appendices (if/as needed) 
 
 Note that all elements of all figures/diagrams should be clearly described/referenced in the associated text. 
 [SAMPLE DOCUMENT LINK](http://csci.viu.ca/~wesselsd/courses/csci265/project/sample_docs/logicaldesign.pdf)
@@ -77,7 +77,7 @@ Alternate contact person:
 
  - Jeremy Shumuk admin@payrollinsights.ca
 
- # Table of Contents
+# Table of Contents
  1. [Known Omissions](#1-known-omissions)
  2. [Design Overview](#2-design-overview)
  3. [Front-End Design](#3-front-end-design)
@@ -96,17 +96,17 @@ Alternate contact person:
  8. [Glossary](#8-glossary)
  9. [Appendixes](#9-appendixes)
 
- # List of Figures
+# List of Figures
 
- ## 1. Known Omissions
+## 1. Known Omissions
 
- ## 2. Design Overview
+## 2. Design Overview
 
- ## 3. Front-End Design
- ### 3.1. Public Aspect
- ### 3.2. Private Aspect
+## 3. Front-End Design
+### 3.1. Public Aspect
+### 3.2. Private Aspect
 
- ## 4. Back-End Design
+## 4. Back-End Design
  The back end of HiddenFrame will have to deal with 4 general requests from the front end system. 
  1. Public/Private Aspect user Requests Image Storage (no steganography req)
  2. Private Aspect user requests Image Storage (Steganography req)
@@ -118,8 +118,8 @@ Alternate contact person:
 Title: Back-End Overview
 ---
  graph TD
-   a(Front End Requests) <--> b(Image Subsystem)
-   b <--> d(Image I/O)
+   a(Front End Requests)
+   a <--> d(Image I/O)
    d <--"Read from file/write to file"--> e[(Stored Image Files)]
    d --"Provide Image"--> f(Image Analysis)
    f --"Determine The Number of Pixel of Each Colour"--> g(Key Generation)
@@ -130,48 +130,68 @@ Title: Back-End Overview
    i --"Return Payload"-->d
 ```
 
- ### 4.1. Image I/O
+### 4.1. Image I/O
 The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file.
 
 Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation we will create two types of objects; images and pixels.
+
+**Pixels** will be structs. The main purpose of the pixel structs will be to simply operations such as image analysis and manipulation. The equivalence operator for a pixel will be overloaded thus simplifying comparisons. 
+
+~~~mermaid
+classDiagram
+class pixel{
+    unsigned char red;
+
+    unsigned char green;
+
+    unsigned char blue;
+
+    unsigned char alpha;
+
+    unsigned long int count=1;
+
+    bool operator == (const pixel& rhs) const;
+
+}
+~~~
+
 **Image** objects will be a class, The Image class will contain methods for all other components of the Image subsystem. After using the stb library to load the target image from the file system as a unsigned char array, HiddenFrame will generate an array of Pixel objects from this image for manipulation. 
 ~~~mermaid
 classDiagram
 class image{
-    public:
-    image();
-    image(string filepath);
-    ~image();
-    int width;
-    int height;
-    int channels;
-    void displayImageProperties();
-    void image_analysis(pixel*);
-    private:
-    void pixel_array();
-    void load_image(string filepath);
-    size_t combined_hash(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha);
-    unsigned char* original_image;
-    pixel* pArr;
+    +image();
+    +image(string filepath);
+    +~image();
+    +int width;
+    +int height;
+    +int channels;
+    +pixel* pArr;
+    +string filetype;
+    +displayImageProperties() void;
+    +image_analysis(pixel*) void;
+    -pixel_array() void;
+    -load_image(string filepath) void;
+    -combined_hash(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha) size_t;
+    -unsigned char* original_image;
 }
 ~~~
-**Pixels** will be structs. The main purpose of the pixel structs will be to simply operations such as image analysis and manipulation. The equivalence operator for a pixel will be overloaded thus simplifying comparisons. 
-	
- ### 4.2. Image Analysis
-Image Analysis by HiddenFrame will be performed inserting all of the Pixels present in the array of Pixels into an unordered map. When a collision occurs, this indicates that the Pixel Objects had the same component values, and thus increases the count of that Pixels color by 1. 
+### 4.2. Image Analysis
+Image Analysis by HiddenFrame will leverage the Image class of the Image I/O system.  be performed inserting all of the Pixels present in the array of Pixels into an unordered map. In order to do so the Image class has access to a a function that can produce a hash value based on the four possible channels of a input image. 
 
- ### 4.3. Key Generation
+When a collision occurs, this indicates that the Pixel Objects had the same component values, and thus increases the count of that Pixels color by 1. The result will be a unordered map that contains one pixel object per color in the original image, with the pixels count field displaying the number of times the pixel appears in the image.
+### 4.3. Key Generation
  
- ### 4.4. Payload Embedding
- ### 4.5. Payload Retrieval 
+### 4.4. Payload Embedding
+### 4.5. Payload Retrieval 
 
- ## 5. Network Design
+## 5. Network Design
 
- ## 6. Data Design
+## 6. Data Design
 
- ## 7. Other Design Elements
- ### 7.1 Project Directory Structure
+## 7. Other Design Elements
+### 7.1 Project Directory Structure
+A few guidelines for Project HiddenFrame's Directory structure are laid out in the standards document. 
 
- ## 8. Glossary
+## 8. Glossary
 
- ## 9. Appendixes
+## 9. Appendixes
