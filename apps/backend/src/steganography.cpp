@@ -10,16 +10,14 @@ int main(){
     try{
         image* test=new image("../../resources/images/test/input/test_image_1.jpg");
         test->displayImageProperties();
-        //test->image_analysis(test->pArr);
         int n=2;//pixel spacing
-        int arrSize=4;
-        int arr[4]={2,1,3,0};//should give 11000
+        int arrSize=12;
+        int arr[12]={3,1,3,0,2,1,2,0,1,1,1,0};
         test->modify_image(n,arr,arrSize);
-        test->write_image("../../resources/images/test/output/test_image_1.jpg");
-        image* payloadTest=new image("../../resources/images/test/output/test_image_1.jpg");
+        test->write_image("../../resources/images/test/output/test_image_1.png");
+        image* payloadTest=new image("../../resources/images/test/output/test_image_1.png");
         string payload=payloadTest->retrieve_payload(n);
         cout << payload;
-        //test->image_analysis(test->pArr);
     }
     catch (const std::invalid_argument& e1){
         cerr << "Encountered an exception: " << e1.what() << endl;

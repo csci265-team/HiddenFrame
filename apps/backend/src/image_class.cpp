@@ -1,9 +1,6 @@
 #include <stdint.h>
 #include <iostream>
 #include <string>
-#include <functional>
-#include <unordered_map>
-#include <vector>
 #include <HiddenFrame_Headers.h>
 
 
@@ -15,12 +12,12 @@
 
 using namespace std;
 //default consturctor
-image::image():width(0),height(0),channels(0),pArr(nullptr),filetype(),original_image(nullptr),modified_image(nullptr){};
+image::image():width(0),height(0),channels(0),filetype(),original_image(nullptr),modified_image(nullptr){};
 
 //regular constructor
-image::image(string filepath):width(0),height(0),channels(0),pArr(nullptr),filetype(),original_image(nullptr), modified_image(nullptr){
+image::image(string filepath):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
     load_image(filepath);
-    pixel_array();
+    //pixel_array();
 };
 
 //destructor
@@ -41,37 +38,6 @@ void image::load_image(string filepath) {
     channels=ioChannels;
     original_image=image_ptr;
     return;
-}
-//create and fill an array of pixel structs from an image:
-void image::pixel_array(){
-    if (this->original_image==nullptr){
-        throw std::invalid_argument("No Image loaded");
-    }
-    pixel* pixel_arr=new pixel[height*width];
-    for (int i=0; i < height; i++){
-        for (int j=0; j < width; j++){
-            int index=(i*width+j);
-            if (channels==1){
-                pixel_arr[index].red=this->original_image[index*channels];
-            }
-            if (channels==2){
-                pixel_arr[index].red=this->original_image[index*channels];
-                pixel_arr[index].alpha=this->original_image[index*channels+1];
-            }
-            if (channels==3){
-                pixel_arr[index].red=this->original_image[index*channels];
-                pixel_arr[index].green=this->original_image[index*channels+1];
-                pixel_arr[index].blue=this->original_image[index*channels+2];
-            }
-            if (channels==4){
-                pixel_arr[index].red=this->original_image[index*channels];
-                pixel_arr[index].green=this->original_image[index*channels+1];
-                pixel_arr[index].blue=this->original_image[index*channels+2];
-                pixel_arr[index].alpha=this->original_image[index*channels+3]; 
-            }
-        }
-    }
-    this->pArr=pixel_arr;
 }
 
 void image::modify_image(int n, int arr[], int arrSize)
@@ -177,6 +143,10 @@ string image::retrieve_payload(int n)
     if (original_image==nullptr){
         throw "cannot retrive image is null";
     }
+    for (int q=0; q < 14; q++){
+        cout << static_cast<int>(original_image[q]);
+    }
+    cout << endl;
     string result;
     int k=0;
     for (int i=0; i < height; i++){
@@ -215,41 +185,6 @@ string image::retrieve_payload(int n)
     return result;
 }
 
-//image analysis
-/*vector<pixel> image::image_analysis(pixel* pArr)
-{
-    unordered_map<size_t, pixel> pMap;
-    for (int i=0; i < (width*height); i++){
-        size_t key=combined_hash(pArr[i].red,pArr[i].green, pArr[i].blue, pArr[i].alpha); // do some hashing here to get a unique key for each pixel 
-        //key was not in the map
-        if (pMap.find(key)== pMap.end()){
-            pMap[key]=pArr[i];
-        }
-        //found pixel, iterate the count
-        else{
-            pMap.at(key).count++;
-        }
-    }
-    //print the number of each pixel there is:
-    vector<pixel> uniquePixels;
-    for(const auto& key_value: pMap) {
-        uniquePixels.push_back(key_value.second);
-    }
-    sort(uniquePixels.begin(),uniquePixels.end(), [](const pixel &a, const pixel&b){
-        return a.count > b.count;
-    });
-    // Print the sorted vector
-    for (const auto& obj : uniquePixels) {
-        cout << "Colour " 
-        << static_cast<int>(obj.red)<< "/ " 
-        << static_cast<int>(obj.green)<< "/" 
-        << static_cast<int>(obj.blue)<< " Occurs "
-        << obj.count << " times" 
-        <<  endl;
-    }
-    return uniquePixels;
-}*/
-
 //prints out the image properties
 void image::displayImageProperties(){
     cout << "The loaded image has width: " << width << endl;
@@ -259,43 +194,22 @@ void image::displayImageProperties(){
     cout << "The loaded image has file type: " << filetype << endl;
 }
 
-size_t image::combined_hash(unsigned char r, unsigned char g, unsigned char b, unsigned char alpha)
-{
-    hash<unsigned char> hash_fn;
-    size_t hash= 17;
-    hash=hash*31+hash_fn(r);
-    hash=hash*31+hash_fn(g);
-    hash=hash*31+hash_fn(b);
-    hash=hash*31+hash_fn(alpha);
-    return hash;
-}
-
 void image::write_image(string filename)
 {
     int length=filename.length();
     char convertedFilename[length+1];
     strcpy(convertedFilename, filename.c_str());
-    if (filetype=="png"){
+    //if (filetype=="png"){
         stbi_write_png(convertedFilename, width, height, channels, modified_image,width*channels);
-    }
+    /*}
     else if (filetype=="bmp"){
         stbi_write_bmp(convertedFilename, width, height, channels, modified_image);
     }
     else if (filetype=="tga"){
         stbi_write_tga(convertedFilename, width, height, channels, modified_image);
     }
-    else if (filetype=="jpg"){
-        stbi_write_jpg(convertedFilename, width, height, channels, modified_image, 100);
-    }
     else{
         throw std::invalid_argument("Invalid file type");        
-    }
+    }*/
 }
 
-
-bool pixel::operator==(const pixel& rhs) const{
-    if (rhs.red==this->red && rhs.green==this->green && rhs.blue==this->blue && rhs.alpha==this->alpha){
-        return true;
-    }
-    return false;
-}
