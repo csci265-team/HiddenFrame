@@ -118,7 +118,7 @@ Alternate contact person:
     - Image Upload: A button at the top allows users to upload images to the platform. These images will appear on the public wall after uploading.
     - User Interactions(stretch goal): Users can like, comment on, and share images.
  - Front-End Configuration:
-    - Remix: We are using Remix as our frontend framework this helps us focus on the user interface and work back through web standards to put something here.
+    - Remix: We are using Remix as our frontend framework this helps us focus on the user interface and work back through web standards to **put something here**.
     - TailwindCSS: TailwindCSS is being in our project to build responsive layouts for the image grid and other UI elements. We have customized the config file to add our brand colors.
     - ESLint: We are using ESLint to enforce clean coding practices to maintain a consistent and error-free codebase for the public-facing UI.
  - User Experience:
