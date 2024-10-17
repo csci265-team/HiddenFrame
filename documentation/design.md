@@ -118,9 +118,9 @@ Alternate contact person:
     - Image Upload: A button at the top allows users to upload images to the platform. These images will appear on the public wall after uploading.
     - User Interactions(stretch goal): Users can like, comment on, and share images.
  - Front-End Configuration:
+    - Remix: We are using Remix as our frontend framework this helps us focus on the user interface and work back through web standards to put something here.
     - TailwindCSS: TailwindCSS is being in our project to build responsive layouts for the image grid and other UI elements. We have customized the config file to add our brand colors.
-    - postcss.config.js: PostCSS processes and optimizes the CSS for the public aspect, ensuring compatibility across browsers and reducing CSS size.
-    - .eslintrc.cjs: ESLint enforces clean coding practices to maintain a consistent and error-free codebase for the public-facing UI.
+    - ESLint: We are using ESLint to enforce clean coding practices to maintain a consistent and error-free codebase for the public-facing UI.
  - User Experience:
     - The image wall is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users.
     - Responsive Design: The public aspect will be optimized for desktop, with some mobile functionality being a stretch goal.
