@@ -118,7 +118,7 @@ Alternate contact person:
     - Image Upload: A button at the top allows users to upload images to the platform. These images will appear on the public wall after uploading.
     - User Interactions(stretch goal): Users can like, comment on, and share images.
  - Front-End Configuration:
-    - tailwind.config.ts: TailwindCSS is used to build responsive layouts for the image grid and other UI elements. The configuration file customizes the design system for consistency across the public interface.
+    - TailwindCSS: TailwindCSS is being in our project to build responsive layouts for the image grid and other UI elements. We have customized the config file to add our brand colors.
     - postcss.config.js: PostCSS processes and optimizes the CSS for the public aspect, ensuring compatibility across browsers and reducing CSS size.
     - .eslintrc.cjs: ESLint enforces clean coding practices to maintain a consistent and error-free codebase for the public-facing UI.
  - User Experience:
