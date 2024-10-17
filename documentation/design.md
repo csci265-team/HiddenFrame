@@ -160,6 +160,11 @@ Image Wall is a grid of publicly shared images that scrolls infinitely.
 - Each image is a 16 REM by 16 REM square with 0.5 REM rounded corners.
 - Each image is encapsulated in the anchor tag with an href to the image's URL, which, once clicked, opens the image in a new tab.
 
+#### 3.3.2. Image Upload
+
+- The image upload is a HTML input element with the type "file" so it opens up the file selection UI
+- Once a file is selected it sends the file to the backend using the Web Fetch API
+
 
 ## 4. Back-End Design
 

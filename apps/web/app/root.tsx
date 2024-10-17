@@ -8,6 +8,7 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 
 import "./tailwind.css";
+import ThemeSwitcher from "./themeswitcher.client";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -25,11 +26,6 @@ export const links: LinksFunction = () => [
 
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const changeTheme = () => {
-    document.documentElement.classList.toggle("dark");
-    const isDark = document.documentElement.classList.contains("dark")
-    localStorage.setItem('@app/theme', isDark ? 'dark' : 'light')
-  }
   return (
     <html lang="en">
       <head>
@@ -42,7 +38,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
       </head>
       <body>
-        <button onClick={changeTheme}>Change theme</button>
+        <ThemeSwitcher />
         {children}
         <ScrollRestoration />
         <Scripts />
