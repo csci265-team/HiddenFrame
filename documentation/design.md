@@ -100,10 +100,44 @@ Alternate contact person:
  ## 1. Known Omissions
 
  ## 2. Design Overview
+ Target Platform: The initial focus will be on desktop browsers for optimal viewing and functionality, with potential for mobile responsiveness as a stretch goal.
+ - Primary Technology: The front-end will be developed using HTML5, CSS3, and JavaScript. For dynamic elements, React (or   another JavaScript framework, if preferred) will be used.
+ - Frameworks/Libraries: We will use Bootstrap or TailwindCSS for responsive design, ensuring consistent and scalable layouts.
+ - UI Design Principles:
+    - Clean and minimalistic design, with a focus on easy navigation.
+    - Clear visual hierarchy to distinguish between public and private features.
+    - Intuitive interactions with visual feedback for all user actions (e.g., buttons, image uploads, and secret message decoding).
 
  ## 3. Front-End Design
+ The front-end of HiddenFrame will be responsible for providing a user-friendly interface for both public and private users.
  ### 3.1. Public Aspect
+ The public-facing part of the website serves as a picture-sharing platform, allowing users to upload and browse images. This aspect is crucial to attracting a broad user base and providing the platform's visual appeal.
+
+ - Main Features:
+    - Image Wall: A grid of publicly shared images that scrolls infinitely.
+    - Image Upload: A button at the top allows users to upload images to the platform. These images will appear on the public wall after uploading.
+    - User Interactions(stretch goal): Users can like, comment on, and share images.
+ - Front-End Configuration:
+    - tailwind.config.ts: TailwindCSS is used to build responsive layouts for the image grid and other UI elements. The configuration file customizes the design system for consistency across the public interface.
+    - postcss.config.js: PostCSS processes and optimizes the CSS for the public aspect, ensuring compatibility across browsers and reducing CSS size.
+    - .eslintrc.cjs: ESLint enforces clean coding practices to maintain a consistent and error-free codebase for the public-facing UI.
+ - User Experience:
+    - The image wall is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users.
+    - Responsive Design: The public aspect will be optimized for desktop, with some mobile functionality being a stretch goal.
+ 
  ### 3.2. Private Aspect
+ The private side of HiddenFrame is accessible only to privileged users who have login credentials. This aspect enables secure communication through hidden messages embedded in images using steganography.
+
+ - Main Features:
+    - Private Login Page: A dedicated login page for users with access to the hidden messaging system.
+    - Secret Message Board: After logging in, users can upload images with hidden messages and decode messages from received images.
+    - Invite System: Privileged users can invite others to access the private aspect, creating a controlled environment for hidden communication.
+- Front-End Configuration:
+    - tsconfig.json: TypeScript is used to ensure strict type-checking and cleaner code, especially when handling sensitive functionality like steganographic embedding and decryption.
+    - vite.co: Vite is the chosen build tool for the private aspect, providing fast development server capabilities and optimized builds, which are important for maintaining the security of the private communication features.
+    - package.json & package-lock.json: These files manage the dependencies and ensure consistent behavior across environments, particularly for handling encryption libraries and file uploads.
+- Security and Privacy:
+    - Login Protection: The private login page will be built with security in mind, using HTTPS and appropriate authentication measures.
 
  ## 4. Back-End Design
  ### 4.1. Image Analysis
