@@ -3,6 +3,7 @@
 #include <string>
 #include <functional>
 #include <unordered_map>
+#include <vector>
 #include <HiddenFrame_Headers.h>
 
 
@@ -83,7 +84,7 @@ void image::modify_image()
     for (int i=0; i < height; i++){
         for (int j=0; j < width; j++){
             int index=(i*width+j)*channels;
-            //test code here to change the colors of modified image if they match The colour 70/62/83/0
+            //test code here to change the colors of modified image if they match The colour
             if(modified_image[index]==255 && modified_image[index+1]==255 && modified_image[index+2]==255){
                 modified_image[index]=0;
                 modified_image[index+1]=0;
@@ -98,7 +99,7 @@ void image::modify_image()
 }
 
 //image analysis
-void image::image_analysis(pixel* pArr)
+vector<pixel> image::image_analysis(pixel* pArr)
 {
     unordered_map<size_t, pixel> pMap;
     for (int i=0; i < (width*height); i++){
@@ -113,16 +114,24 @@ void image::image_analysis(pixel* pArr)
         }
     }
     //print the number of each pixel there is:
+    vector<pixel> uniquePixels;
     for(const auto& key_value: pMap) {
-        cout << "The colour " << static_cast<int>(key_value.second.red) << "/" 
-        << static_cast<int>(key_value.second.green) << "/" 
-        << static_cast<int>(key_value.second.blue) << "/" 
-        << static_cast<int>(key_value.second.alpha) 
-        << " Occurs " << key_value.second.count << " times" << endl;
+        uniquePixels.push_back(key_value.second);
     }
+    sort(uniquePixels.begin(),uniquePixels.end(), [](const pixel &a, const pixel&b){
+        return a.count > b.count;
+    });
+    // Print the sorted vector
+    for (const auto& obj : uniquePixels) {
+        cout << "Colour " 
+        << static_cast<int>(obj.red)<< "/ " 
+        << static_cast<int>(obj.green)<< "/" 
+        << static_cast<int>(obj.blue)<< " Occurs "
+        << obj.count << " times" 
+        <<  endl;
+    }
+    return uniquePixels;
 }
-
-
 
 //prints out the image properties
 void image::displayImageProperties(){

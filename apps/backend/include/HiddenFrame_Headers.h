@@ -1,5 +1,6 @@
 #include <string>
 #include <unordered_map>
+#include <vector>
 #ifndef HiddenFrame_Headers 
 #define HiddenFrame_Headers
 
@@ -25,7 +26,7 @@ class image{
     pixel* pArr;
     string filetype;
     void displayImageProperties();
-    void image_analysis(pixel*);
+    vector<pixel> image_analysis(pixel*);
     void modify_image();
     void write_image(string filename);
     private:
