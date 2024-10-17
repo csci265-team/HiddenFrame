@@ -150,6 +150,10 @@ The private side of HiddenFrame is accessible only to privileged users who have 
 - Security and Privacy:
   - Login Protection: The private login page will be built with security in mind, using HTTPS and appropriate authentication measures.
 
+#### 3.3.1. Image Wall
+
+Image Wall is a grid of publicly shared images that scrolls infinitely. It is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users. The image wall uses CSS grid classes to ensure responsivness. Tha data for it is fetched from the back-end API server on page load. Each image is a 16 REM by 16 REM square with 0.5 REM rounded corners. Each image is encapsulated in the anchor tag, which, onve clicked, opens the image in a new tab. The images are shown in order of ascending based on time of creation. 
+
 ## 4. Back-End Design
 
 ### 4.1. Image Analysis
