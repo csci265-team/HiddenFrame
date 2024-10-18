@@ -69,8 +69,8 @@ Title: Design Overview
       'primaryColor': '#4A90E2',
       'primaryTextColor': '#FFFFFF',
       'primaryBorderColor': '#A6C1E0',
-      'actorLineColor': '#F2C94C',
-      'signalColor': '#FF4500',
+      'signalColor' : '#FF4500',
+      'actorlineColor': '#F2C94C',
       'secondaryColor': '#7ED321',
       'tertiaryColor': '#F5F7FA'
     }
