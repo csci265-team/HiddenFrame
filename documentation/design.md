@@ -1,62 +1,3 @@
-The design document
-
-As with phase 2, there is a substantial amount of work associated with this phase and the choices made will have significant implications for the rest of the project - start early, work carefully, and be sure the whole team is in agreement with the decisions made.
-
-As a general rule, all documents should adhere to high standards of writing quality, including spell checking, grammatical correctness, consistent layouts/formats, appropriate use of footnotes, appendices, glossaries, tables/figures/diagrams, citations, etc.
-
-Before work starts on the implementation (coding), we want to ensure a clean design has been agreed upon by all team members, and that we have documented our design in a single shared resource (the design.md file).
-
-This will be the largest and most fundamental document for this phase of the project, and involves documenting in detail both the logical and physical design of the product.
-
-The document is the one your team (and the instructor and other readers) will be using as a reference point when they need to decide how/what the final product code elements are supposed to be doing/implementing, so needs to be well organized, consistent, and as complete, up to date, and error free as possible. (Your team will be responsible for keeping the document up to date as the project progresses and you refine your ideas on the product design.)
-
-The actual format of the document is left largely to the team's discretion, but discussion of the expected content is provided below, and the lecture material covers a variety of ideas and approaches to design modeling.
-
-However the document is actually structured/ordered, the following information (at a minimum) needs to be present:
-
-
-A design overview
-    This provides an intuitive overview of the high level logical design, preferably with a context diagram (the top level DFD), and also of the key transformations/decisions that will be needed when going from the logical design to an implementation.
-
-
-A medium-sized project might involve dividing the overall system into several interacting subsystems, dividing each subsystem into several interacting modules, dividing each module into a number of interacting components, etc.
-
-Since different subsystems/modules/components will likely be developed by different people, it is important that as a team we clearly establish the responsibilities of each element and how they will interact with others. Thus for each level of decomposition I generally recommend the inclusion of a data flow diagram (DFD), with clear supporting explanation.
-
-Each element of the system (i.e. each subsystem, module, component, etc) should contain clear, easily referenced descriptions of:
-        its overall purpose
-        each of the services it provides for other elements of the same DFD level (what will it implement that is used by other portions of the system?)
-        - this should show the information exchanged during that process
-        the interactions between it and the user(s) and any other external systems
-        any persistent data it will need to store, giving each data component a name and identifying the type and restrictions on the data (e.g. "vehicle weight will be stored as a non-negative real number of kilos, rounded to the nearest kilo) 
-
-As discussed in lectures, we are seeking a division into elements that are cohesive yet loosely coupled, and we want to ensure that all aspects of the overall product functionality are captured somewhere within our design.
-
-The transition from the logical design to an implementation
-    Eventually we'll need to map the elements of our logical design to actual codable entities.
-
-This section isn't expected to be rigorously completed for phase 3, but the goal is to have an organized start/outline (something we can build off of in phase 4 to get implementation underway).
-
-Key elements to consider include:
-        identifying the programming language(s) and any supporting tools to be used
-        identifying the directory and file naming structure to be used within the code repository: identifying the files/directories/subdirectories we use to store the different actual code elements
-        identifying the implementation method for each shared data store (database, file, etc), including format, fields, layout
-identifying the interface for all public services provided by the element:
-- publicly accessible/shared data types and fixed/constant values
-- publicly callable routines, what they return, what they'll expect as parameters
-- classes/objects to be used, their key public fields and methods
-This gets close to the level of code skeletons, but does not yet need to be expressed as actual code in the target language(s). 
-
-A glossary: This is optional but often nice to have: if a term is specific to the product or is unlikely to be known by the average reader (e.g. a random second year CS student) then include an entry for it.
-
-Any appendices (if/as needed) 
-
-Note that all elements of all figures/diagrams should be clearly described/referenced in the associated text. 
-[SAMPLE DOCUMENT LINK](http://csci.viu.ca/~wesselsd/courses/csci265/project/sample_docs/logicaldesign.pdf)
-
-==================================================================
-DELETE ALL ABOVE HERE
-
 # CSCI 265 Logical Design (Phase 3)
 
 ## Team name: Project HiddenFrame
@@ -92,6 +33,7 @@ Alternate contact person:
 # List of Figures
 
 ## 1. Known Omissions
+
 - Network module is not in logical design diagram
 
 ## 2. Design Overview
@@ -221,7 +163,9 @@ There are two methods in "image" which are used in image I/O and they will lean 
 ### 5.3. Payload Embedding/Retrieval
 #### Embedding:
 After a suitable key is generated for the target image, we then need to encode the payload. To employ this we will utilize the "image" class's modify_image method to perform the embedding procedure. Beforehand we convert the payload to a binary string, and then into a specialized array; the odd entries of this array represent the number of contiguous symbols in the subsequent array entry (which will be a 1 or 0). The maximum number that the odd entries can contain is the number of channels in the image eg: for a 3 channel image {3,1,2,0,3,1,1,0} would represent the binary string 111001110. We then perform bitwise operations on the LSB of each pixel's character. To encode a series of 3 ones we set the LSB of the 3rd channel (blue) to a 1 and the other two channels LSB's to a 0. Conversely if we wish to encode 3 0's we would set the 3rd channel's LSB to a 0, and the other two channels LSB's to a 1. The following example would encode a binary 11:
+
 ![HiddenFrame Encoding Scheme](../resources/images/Encoding_Scheme.png)
+
 We utilize the generated key to provide separation between the pixels we encode and since we only modify the shade of the pixel very slightly it does not appear out of place when the image is viewed. 
 
 It is important to note here that we cannot store images as the .JPG file type, as this type of image file is lossy; the use of compression eradicates the subtle changes made to the image and render the payload irretrievable. 
@@ -245,28 +189,28 @@ graph LR
     root --> 2[documentation]
     root --> 3[resources]
     root --> 4[apps]
-    subgraph 4g[All project applications.]
+    subgraph 4g[All project applications]
       4 --> 41[backend]
       4 --> 42[web]
     end
-    subgraph 41g[All project backend-programs.]
+    subgraph 41g[backend-programs]
       41 --> 411[include]
       41 --> 412[src]
     end
-    subgraph 42g[All project frontend-programs.]
+    subgraph 42g[frontend-programs]
       42 --> 421[src]
     end
-    subgraph 3g[All project resources.]
+    subgraph 3g[project resources]
 	  3 --> 31[images]	 
     end
-    subgraph 31g[All project Images.]
+    subgraph 31g[All project Images]
 	  31 --> 311[test]				  	 
     end
     subgraph 312g[All project Test Images]
 	  311 --> 3111[input]
 	  311 --> 3112[output]	 
     end
-    subgraph 2g[All project documents.]
+    subgraph 2g[All project documents]
       2 --> 21[charter.md]
       2 --> 22[design.md]
       2 --> 23[proposal.md]
@@ -274,7 +218,7 @@ graph LR
       2 --> 25[standards.md]
       2 --> 26[update.md]
     end
-    subgraph 1g[The project overview.]
+    subgraph 1g[The project overview]
       1
     end
 ~~~
