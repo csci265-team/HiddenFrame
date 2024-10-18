@@ -172,7 +172,7 @@ Title: Back-End Overview
    d <--"Read from file/write to file"--> e[(Stored Image Files)]
    d --"Provide Image"--> g(Key Generation)
    g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
-   g--"Provide Key to User"-->a
+   g--"Provide Key to User"-->b
    h --"Return Image With payload embedded"--> d
    d --"Provide Image and Key"--> i(Image Manipulation - retrieval)
    i --"Return Payload"-->d
