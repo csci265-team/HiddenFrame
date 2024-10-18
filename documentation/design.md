@@ -112,32 +112,50 @@ Alternate contact person:
  ### 4.4. Payload Retrieval 
 
  ## 5. Network Design
-Since our system is written in C++ in its back-end and uses Javascript in its front-end, our front-end to back-end communication will be utiziling "Crow" which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for it's built-in JSON support and to make back-end to front-end communication seamless. 
+Since our system is written in C++ in its back-end and uses a Javascript framework in its front-end, our front-end to back-end communication will be utilizing an API server made using ["Crow"](https://crowcpp.org/) which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for its built-in JSON support and to make back-end to front-end communication seamless. 
 
 We will be implementing Crow in the back-end and defining routes to handle HTTP GET and POST requests for sending and receiveing data to and from the front-end.
 
-GET requests for:
-- User inputted infromation for the sign up page(email and password).
-- User inputted credentials for the login page(email and password).
-- User uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
-- User inputted hidden message to be embedded in the image.
-- User inputted private messages being sent through the Secret Chat page.
-- User liking an image(stretch goal).
-- User uploaded images to be embeded as an image(stretch goal).
+GET requests to:
+
+- Retrieve private message from the Secret Chat Page
+  - Response: A JSON object containing the private messages.
+- Retreive number of remining allowed invites for current privileged user.
+  - Response: A JSON object containing the remaining invite count.
+- Retrieve error messages for situations like: invalid credentials, invalid image format, exceeding allowable length(1024 UTF-8 characters) for a hidden message, etc. 
+  - Response: A JSON object containing the error message.
+- Retrieve system generated keys that decode the embedded images.
+  - Response: A JSON object containing the keys for the embedded images.
+- Retrieve embedded images with a hidden message.
+  - Response: An image file or url.  
+- Retrieve decoded image embedded image after key has been recognized(stretch goal).
+  - Response: An image file or url.
+- Retrieve decoded embedded image after key has been recognized.
+  - Response: An image file or url.
+- Retreive the amount of likes on a specific image(stretch goal).
+  - Response: A JSON object containing the like count of the specific image.
+- Retrieve image embedded image(stretch goal).
+  - Response: An image file or url.
 
 POST requests for:
-- Displaying system generated keys to decode the embedded images.
-- Displaying embedded images with a hidden message.
-- Displaying decoded embedded image after key has been recognized.
-- Displaying private messages being received through the Secret Chat page.
-- Displaying amount of allowed invites remaining for current privileged users.
-- Displaying error messages for situations like: invalid credentials, invalid image format, exceeding allowabale length(1024 UTF-8 characters) for a hidden message.
-- Displaying amount of likes on a specific image(stretch goal).
-- Displaying image embedded image(stretch goal).
-- Displaying decoded image embedded image after key has been recognized(stretch goal).
+
+- Receiveing user inputted infromation for the sign up page(email and password).
+  - Response: A JSON object confirming success or failure.
+- Receiveing user inputted credentials for the login page(email and password).
+  - Response: A JSON object confirming success or failure.
+- Receiveing user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
+  - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
+- Receiveing user inputted hidden message to be embedded in the image.
+  - Response: A JSON object confirming that the hidden message was successfully embedded in the image or returning an error if the process failed.
+- Receiveing user inputted private messages being sent through the Secret Chat page.
+  - Response: A JSON object confirming the private message has been sent or if the process had failed.
+- Receiveing the action of the user liking an image(stretch goal).
+  - Response: A JSON object confirming the "like" has been received or if an error occured.
+- Receiveing user uploaded images to be embeded as an image(stretch goal).
+  - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
 
 
-Our front-end utilizes the "Remix" framework where we will leverage the "fetch" API to handle fetching data from both the client side and the server side.  
+Our front-end utilizes the "Remix" framework where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side.  
 
  ## 6. Data Design
 
