@@ -67,7 +67,7 @@ Title: Design Overview
     'theme': 'base',
     'themeVariables': {
       'primaryColor': '#4A90E2',
-      'primaryTextColor': '#FFFFFF',
+      'primaryTextColor': '#ddd',
       'primaryBorderColor': '#A6C1E0',
       'signalColor' : '#FF4500',
       'actorlineColor': '#FFA500',
@@ -170,7 +170,7 @@ The private side of HiddenFrame is accessible only to privileged users who have 
 
 #### 4.3.1. Image Wall
 
-Image Wall is a grid of publicly shared images that scrolls infinitely. It is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users. The image wall uses CSS grid classes to ensure responsivness. Tha data for it is fetched from the back-end API server on page load. Each image is a 16 REM by 16 REM square with 0.5 REM rounded corners. Each image is encapsulated in the anchor tag, which, onve clicked, opens the image in a new tab. The images are shown in order of ascending based on time of creation. 
+Image Wall is a grid of publicly shared images that scrolls infinitely. It is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users. The image wall uses CSS grid classes to ensure responsiveness. The data for it is fetched from the back-end API server on page load. Each image is a 16 REM by 16 REM square with 0.5 REM rounded corners. Each image is encapsulated in the anchor tag, which, once clicked, opens the image in a new tab. The images are shown in order of ascending based on time of creation. 
 
 ## 5. Back-End Design
  The back end of HiddenFrame will have to deal with 4 general requests from the front end system. 
@@ -196,7 +196,7 @@ Title: Back-End Overview
 ```
 
 ### 5.1. Image I/O
-The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file.
+The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file. 
 
 Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation we will create a class called "image." The Image class will contain methods for all other components of the Image subsystem. The following is a class definition for HiddenFrame's Image class.
 ~~~mermaid
