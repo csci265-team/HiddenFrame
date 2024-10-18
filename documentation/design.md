@@ -154,7 +154,7 @@ The front-end of HiddenFrame will be responsible for providing a user-friendly i
 
 - Node and NPM: For developement we are using node.js and node package manager, since our framework Remix is built on the Web fetch API we will not need to use node.js in production.
 - Typescript: TypeScript is used to ensure strict type-checking and cleaner code, especially when handling sensitive functionality like steganographic embedding and decryption.
-- Remix: We are using Remix as our frontend framework. Remix is a brand new framework that optimizes performance, simplifies full-stack React development, and efficiently manages data with built-in support for modern web standards and tools. It helps us to focus on the user interface and work back through web standards to create a fast and stable user experience. 
+- Remix: We are using Remix as our frontend framework. Remix is a brand new framework that optimizes performance, simplifies full-stack React development, and efficiently manages data with built-in support for modern web standards and tools. It helps us to focus on the user interface and work back through web standards to create a fast and stable user experience.
 - Vite: Vite is the default build tool for Remix, providing fast development server capabilities and optimized builds, which are important for maintaining the security of the private communication features.
 - TailwindCSS: TailwindCSS is being in our project to build responsive layouts for the image grid and other UI elements. We have customized the config file to add our brand colors.
 - ESLint: We are using ESLint to enforce clean coding practices to maintain a consistent and error-free codebase for the public-facing UI.
@@ -163,9 +163,7 @@ The front-end of HiddenFrame will be responsible for providing a user-friendly i
 
 Since we are using [Remix](https://remix.run/) we are using server side rendering by default. This means on page load our users are sent pre rendered HTML which makes the whole experience blaing fast. All data fetching is done on the frontend server instead of the client
 
-We will use the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to fetch data from the backend.
-
-To fetch data from the backend the frontend will make requests to our API server made with crow (see section [5. Network Design](#5-network-design))
+We will use the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to fetch data from the backend. To fetch data from the backend the frontend will make requests to our API server made with crow (see section [5. Network Design](#5-network-design))
 We won't be doing any specific caching, only the caching inbuilt in Remix (which is very minimal)
 
 Below is a minimal diagram describing the page load cycle:
@@ -182,8 +180,23 @@ Title: Front-end page load overview
    c <--> d(Backend Server)
 ```
 
+### 3.3 Data input lifecycle
 
-### 3.2. Public Aspect
+Whenever data needs to be fetched based on any user input (forms, image upload, etc) the user request is first formatted in JSON and then a request is made to the API server. The API server then checks for authentication if required and once all data is validated it retrieves/publishes the requested data to the backend. Once that is done any data the backend returns is forwarded through the API server to the frontend server which then hydrates the HTML with new data and sends it off to the client.
+
+```mermaid
+---
+Title: Front-end data input lifecycle
+---
+ graph TD
+   a(Form/Input on Frontend) --"User entered data sent as JSON"--> c
+   c(API Server)--"Data retrieved from backend based on user request"-->b(Frontend server)
+   b--"New HTML hydrated with requested data"-->a
+   c<--"Data requested from backend based on user request"-->d(Backend Server)
+
+```
+
+### 3.4. Public Aspect
 
 The public-facing part of the website serves as a picture-sharing platform, allowing users to upload and browse images. This aspect is crucial to attracting a broad user base and providing the platform's visual appeal.
 
@@ -195,7 +208,7 @@ The public-facing part of the website serves as a picture-sharing platform, allo
   - The image wall is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users.
   - Responsive Design: The public aspect will be optimized for desktop, with some mobile functionality being a stretch goal.
 
-### 3.3. Private Aspect
+### 3.5. Private Aspect
 
 The private side of HiddenFrame is accessible only to privileged users who have login credentials. This aspect enables secure communication through hidden messages embedded in images using steganography.
 
@@ -222,7 +235,6 @@ Image Wall is a grid of publicly shared images that scrolls infinitely.
 
 - The image upload is a HTML input element with the type "file" so it opens up the file selection UI
 - Once a file is selected it sends the file to the backend using the Web Fetch API
-
 
 ## 4. Back-End Design
 
