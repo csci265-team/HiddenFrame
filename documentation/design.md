@@ -35,9 +35,7 @@ Alternate contact person:
 # List of Figures
 
 ## 1. Known Omissions
-
-- Network module is not in logical design diagram
-
+No sections currently discuss User account creation process
 ## 2. Design Overview
 The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame
 ```mermaid
@@ -78,7 +76,6 @@ end
 5(Public User)<--"Request & Recieve Resources"-->4a
 6(Private User)<--"Request & Recieve Resources"-->4b
 ```
-In order to Implement this design we will need to 
 ## 3. Logical Design 
 HiddenFrame will require several components to function correctly. The main overall components are:
 1. User Environment module
@@ -87,7 +84,7 @@ HiddenFrame will require several components to function correctly. The main over
 4. Imaging module
 Notably the User Environment module and Imaging module will be required to handle different input steams for different types of users. A further decomposition of each of these modules is provided in their own sections.
 
-Below is a sequence diagram describing the anticipated flow of data for HiddenFrame (note: Network Module is excluded as it primarily acts as a relay/facilitator of all of these transactions). 
+Below is a sequence diagram describing the anticipated flow of data for HiddenFrame  
 ~~~mermaid
 ---
 Title: Design Overview
@@ -308,7 +305,9 @@ Here we utilize the "Image" class's retrieve_payload method. This portion works 
 ## 6. Network Design
 
 ## 7. User Account Design
+We will utilize a database to store user account information and hashed passwords. This will be a very simple subsystem it is only required to respond to a few types of system requests. When a user attempts to login, username and passwords will be passed through the frontend via our API server to the database. The database will then query it's entries and check if the provided password matches then username. The database will then return the result to the API Server. 
 
+The API server will be responsible for ensuring that users requesting access to resources are only able to access resources for which they have permissions. This will likely be implemented by a token exchange. 
 ## 8. Other Design Elements
 ### 8.1 Project Directory Structure
 A few guidelines for Project HiddenFrame's Directory structure are laid out in the standards document. Beyond what is listed there we will utilize the following structure (note documentation is included in the FS but no other files are):
@@ -375,6 +374,7 @@ graph LR
 ## 9. Glossary
 
 **LSB** - Least significant bit
+**DFD** - Data Flow Diagram
 
 ## 10. Appendixes
 
