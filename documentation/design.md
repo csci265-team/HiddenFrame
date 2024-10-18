@@ -39,15 +39,46 @@ Alternate contact person:
 - Network module is not in logical design diagram
 
 ## 2. Design Overview
-Target Platform: The initial focus will be on desktop browsers for optimal viewing and functionality, with potential for mobile responsiveness as a stretch goal.
-
-- Primary Technology: The front-end will be developed using HTML5, CSS3, and JavaScript. For dynamic elements, React (or another JavaScript framework, if preferred) will be used.
-- Frameworks/Libraries: We will use Bootstrap or TailwindCSS for responsive design, ensuring consistent and scalable layouts.
-- UI Design Principles:
-  - Clean and minimalistic design, with a focus on easy navigation.
-  - Clear visual hierarchy to distinguish between public and private features.
-  - Intuitive interactions with visual feedback for all user actions (e.g., buttons, image uploads, and secret message decoding).
-
+The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame
+```mermaid
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
+ graph TD
+ subgraph "Image Subsystem"
+   1d(Image I/O)
+   1d <--"Read from file/write to file"--> 1e[(Stored Image Files)]
+   1d --"Provide Image"--> 1g(Key Generation)
+   1g --"Provide Key for embedding Proceedure"--> 1h(Image Manipulation - embedding)
+   1h --"Return Image With payload embedded"--> 1d
+   1d --"Provide Image and Key"--> 1i(Image Manipulation - retrieval)
+   1i --"Return Payload"-->1d
+end
+subgraph "Network Subsystem"
+    2a(API Server)<--"Service Request from Users"-->1d
+    1g--"Provide Key to User"-->2a
+end
+subgraph "User Account Module"
+    3a[(User Account Database)]<--"Request and Retrieve credentials"-->2a
+end
+subgraph "User Environment Module"
+    4a(Public WebUI)<--"Process Request/return"-->2a
+    4b(Private WebUI)<--"Process Request/return"-->2a
+end
+5(Public User)<--"Request & Recieve Resources"-->4a
+6(Private User)<--"Request & Recieve Resources"-->4b
+```
+In order to Implement this design we will need to 
 ## 3. Logical Design 
 HiddenFrame will require several components to function correctly. The main overall components are:
 1. User Environment module
@@ -70,9 +101,10 @@ Title: Design Overview
       'primaryTextColor': '#ddd',
       'primaryBorderColor': '#A6C1E0',
       'signalColor' : '#FF4500',
-      'actorlineColor': '#FFA500',
+      'actorLineColor': '#FFA500',
       'secondaryColor': '#7ED321',
       'tertiaryColor': '#F5F7FA'
+      
     }
   }
 }%%
@@ -132,7 +164,6 @@ sequenceDiagram
             main-->>private: payload
         end
     end
-
 ~~~
 ### 4.1 Front-End Configuration
 
@@ -183,16 +214,29 @@ Image Wall is a grid of publicly shared images that scrolls infinitely. It is de
 ---
 Title: Back-End Overview
 ---
- graph TD
-   a((Front End)) --> b(API Server)
-   b <-->d(Image I/O)
-   d <--"Read from file/write to file"--> e[(Stored Image Files)]
-   d --"Provide Image"--> g(Key Generation)
-   g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
-   g--"Provide Key to User"-->b
-   h --"Return Image With payload embedded"--> d
-   d --"Provide Image and Key"--> i(Image Manipulation - retrieval)
-   i --"Return Payload"-->d
+ graph TD
+
+ subgraph Image Subsystem
+
+   a((Front End)) --> b(API Server)
+
+   b <-->d(Image I/O)
+
+   d <--"Read from file/write to file"--> e[(Stored Image Files)]
+
+   d --"Provide Image"--> g(Key Generation)
+
+   g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
+
+   g--"Provide Key to User"-->b
+
+   h --"Return Image With payload embedded"--> d
+
+   d --"Provide Image and Key"--> i(Image Manipulation - retrieval)
+
+   i --"Return Payload"-->d
+
+end
 ```
 
 ### 5.1. Image I/O
