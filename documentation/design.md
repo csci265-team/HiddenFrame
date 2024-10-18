@@ -116,6 +116,7 @@ sequenceDiagram
             main-->>private: payload
         end
     end
+    %%{init:{'themeCSS':'.messageLine0:nth-of-type(2) { stroke: red; } ;#arrowhead path {stroke: blue; fill:red;};'}}%%
 ~~~
 ### 4.1 Front-End Configuration
 
@@ -167,8 +168,8 @@ Image Wall is a grid of publicly shared images that scrolls infinitely. It is de
 Title: Back-End Overview
 ---
  graph TD
-   a((Front End))
-   a <-->d(Image I/O)
+   a((Front End)) --> b(API Server)
+   b <-->d(Image I/O)
    d <--"Read from file/write to file"--> e[(Stored Image Files)]
    d --"Provide Image"--> g(Key Generation)
    g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
@@ -242,7 +243,11 @@ graph LR
       41 --> 412[src]
     end
     subgraph 42g[frontend-programs]
-      42 --> 421[src]
+      42 --> 421[app]
+      42 --> 422[public]
+    end
+    subgraph 421g[frontend-programs]
+      421 --> 4211[routes]
     end
     subgraph 3g[project resources]
 	  3 --> 31[images]	 
