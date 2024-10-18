@@ -70,7 +70,7 @@ Title: Design Overview
       'primaryTextColor': '#FFFFFF',
       'primaryBorderColor': '#A6C1E0',
       'signalColor' : '#FF4500',
-      'actorlineColor': '#F2C94C',
+      'actorlineColor': '#FFA500',
       'secondaryColor': '#7ED321',
       'tertiaryColor': '#F5F7FA'
     }
