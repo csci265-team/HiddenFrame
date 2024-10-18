@@ -103,14 +103,48 @@ Alternate contact person:
 
 ## 2. Design Overview
 
-Target Platform: The initial focus will be on desktop browsers for optimal viewing and functionality, with potential for mobile responsiveness as a stretch goal.
+The front-end and back-end of HiddenFrame have been carefully designed to provide a seamless and secure experience for both public and private users. The project’s primary focus is on desktop browsers, with potential for mobile responsiveness as a stretch goal. This section outlines the high-level design of the platform and the key decisions made during the transition from logical design to implementation.
 
-- Primary Technology: The front-end will be developed using HTML5, CSS3, and JavaScript. For dynamic elements, React (or another JavaScript framework, if preferred) will be used.
-- Frameworks/Libraries: We will use Bootstrap or TailwindCSS for responsive design, ensuring consistent and scalable layouts.
-- UI Design Principles:
-  - Clean and minimalistic design, with a focus on easy navigation.
-  - Clear visual hierarchy to distinguish between public and private features.
-  - Intuitive interactions with visual feedback for all user actions (e.g., buttons, image uploads, and secret message decoding).
+### 2.1. Target Platform
+
+The initial focus for HiddenFrame is on desktop browsers to offer an optimal viewing and interaction experience, especially for users managing large images and hidden messages. Mobile responsiveness is a stretch goal that will be considered once primary features are stable.
+
+### 2.2 Primary Technologies
+
+- HTML5, CSS3, JavaScript: The front-end is built using standard web technologies to ensure cross-browser compatibility.
+- TypeScript: TypeScript ensures strict type-checking, which is crucial for the sensitive functions related to embedding and decoding hidden messages.
+- Remix: Remix is used as the main front-end framework, optimizing performance and simplifying full-stack React development with built-in support for web standards and tools.
+- Vite: Vite, the default build tool for Remix, allows fast development and optimized production builds, ensuring smooth performance.
+
+### 2.3 Frameworks and Libraries
+
+- TailwindCSS: TailwindCSS is used for building responsive layouts for the image wall and other UI components, ensuring scalability and easy maintenance.
+- ESLint: To maintain code quality and ensure a consistent coding style across the project, ESLint is used for linting JavaScript and TypeScript files.
+
+### 2.4 User Interface (UI) Design Principles
+
+- Clean and Minimalistic Design: The platform is designed with simplicity and ease of use in mind, minimizing distractions and focusing on core functionality.
+- Clear Visual Hierarchy: Key features, such as image uploads and the secret messaging system, are easily distinguishable to guide the user through the platform’s public and private features.
+- Intuitive Interactions: Visual feedback is provided for all user actions, such as image uploads, button clicks, and hidden message decoding, ensuring users understand the system’s response to their input.
+
+### 2.5 Front-End Configuration
+
+- Node and NPM: Node.js is used for development purposes, while Remix is based on the Web Fetch API, so Node.js will not be required in production.
+- TypeScript: Utilized to ensure strict type-checking, especially when handling sensitive operations like steganography, to avoid runtime errors.
+- Remix: As our front-end framework, Remix optimizes the platform’s performance and simplifies data management, ensuring a fast and stable user experience.
+- Vite: Vite provides a fast development environment and optimized builds, essential for secure private communication and image handling.
+- TailwindCSS: Used to build responsive layouts for image grids and other UI elements. The configuration is customized to reflect our project’s branding.
+- ESLint: Ensures that clean coding practices are enforced, preventing errors and maintaining code consistency.
+
+### 2.6 Key Transformations/Decisions from Logical Design to Implementation
+
+As we transitioned from the logical design to implementation, several key decisions shaped the final product:
+
+- Public Aspect (Image Sharing): The design incorporates a scalable and user-friendly public interface that allows for easy image uploads, browsing, and interaction (e.g., liking, commenting, sharing).
+- Private Aspect (Steganography): The private aspect of the platform allows users to embed and decode secret messages within images. This functionality is protected by secure login and encryption protocols.
+- Data Handling and Security: The platform is designed with privacy and security in mind, ensuring sensitive data (such as hidden messages) is handled securely through HTTPS and careful management of steganographic keys.
+- UI/UX Consistency: Both public and private aspects share a consistent UI/UX, making it easy for users to switch between browsing public images and managing private, secure communications.
+- Performance Optimizations: Vite and Remix were chosen to optimize build performance, ensuring fast load times and responsive user interactions, particularly crucial when dealing with large images and data payloads.
 
 ## 3. Front-End Design
 
