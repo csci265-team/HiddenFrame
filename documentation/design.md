@@ -114,7 +114,7 @@ Alternate contact person:
  ## 5. Network Design
 Since our system is written in C++ in its back-end and uses a Javascript framework in its front-end, our front-end to back-end communication will be utilizing an API server made using ["Crow"](https://crowcpp.org/) which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for its built-in JSON support and to make back-end to front-end communication seamless. 
 
-We will be implementing Crow in the back-end and defining routes to handle HTTP GET and POST requests for sending and receiveing data to and from the front-end.
+We will be implementing Crow in the back-end and defining routes to handle HTTP GET and POST requests for sending and receiving data to and from the front-end.
 
 GET requests to:
 
@@ -139,19 +139,19 @@ GET requests to:
 
 POST requests for:
 
-- Receiveing user inputted infromation for the sign up page(email and password).
+- Receiving user inputted infromation for the sign up page(email and password).
   - Response: A JSON object confirming success or failure.
-- Receiveing user inputted credentials for the login page(email and password).
+- Receiving user inputted credentials for the login page(email and password).
   - Response: A JSON object confirming success or failure.
-- Receiveing user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
+- Receiving user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
   - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
-- Receiveing user inputted hidden message to be embedded in the image.
+- Receiving user inputted hidden message to be embedded in the image.
   - Response: A JSON object confirming that the hidden message was successfully embedded in the image or returning an error if the process failed.
-- Receiveing user inputted private messages being sent through the Secret Chat page.
+- Receiving user inputted private messages being sent through the Secret Chat page.
   - Response: A JSON object confirming the private message has been sent or if the process had failed.
-- Receiveing the action of the user liking an image(stretch goal).
+- Receiving the action of the user liking an image(stretch goal).
   - Response: A JSON object confirming the "like" has been received or if an error occured.
-- Receiveing user uploaded images to be embeded as an image(stretch goal).
+- Receiving user uploaded images to be embeded as an image(stretch goal).
   - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
 
 
