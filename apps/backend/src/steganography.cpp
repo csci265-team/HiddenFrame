@@ -1,8 +1,5 @@
 #include <HiddenFrame_Headers.h>
-#include <stdint.h>
 #include <iostream>
-#include <stb_image_write.h>
-#include <stb_image.h>
 
 using namespace std;
 
@@ -17,7 +14,7 @@ int main(){
         test->write_image("../../resources/images/test/output/test_image_1.png");
         image* payloadTest=new image("../../resources/images/test/output/test_image_1.png");
         string payload=payloadTest->retrieve_payload(n);
-        cout << payload;
+        cout <<"Hidden Message is " <<payload << endl;
     }
     catch (const std::invalid_argument& e1){
         cerr << "Encountered an exception: " << e1.what() << endl;

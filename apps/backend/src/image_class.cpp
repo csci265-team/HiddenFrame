@@ -22,7 +22,12 @@ image::image(string filepath):width(0),height(0),channels(0),filetype(),original
 
 //destructor
 image::~image(){
-    stbi_image_free(this->original_image);
+    if (original_image != nullptr){
+        stbi_image_free(original_image);
+    }
+    if (modified_image != nullptr){
+        stbi_image_free(modified_image);
+    }
 }
 
 //load an image from a specified location
@@ -143,10 +148,6 @@ string image::retrieve_payload(int n)
     if (original_image==nullptr){
         throw "cannot retrive image is null";
     }
-    for (int q=0; q < 14; q++){
-        cout << static_cast<int>(original_image[q]);
-    }
-    cout << endl;
     string result;
     int k=0;
     for (int i=0; i < height; i++){
@@ -196,12 +197,18 @@ void image::displayImageProperties(){
 
 void image::write_image(string filename)
 {
+    if (original_image==nullptr){
+        throw "cannot retrive image is null";
+    }
+    if (modified_image==nullptr){
+        modified_image=original_image;
+    }
     int length=filename.length();
     char convertedFilename[length+1];
     strcpy(convertedFilename, filename.c_str());
-    //if (filetype=="png"){
+    if (filetype=="png" || filetype=="jpg"){
         stbi_write_png(convertedFilename, width, height, channels, modified_image,width*channels);
-    /*}
+    }
     else if (filetype=="bmp"){
         stbi_write_bmp(convertedFilename, width, height, channels, modified_image);
     }
@@ -210,6 +217,6 @@ void image::write_image(string filename)
     }
     else{
         throw std::invalid_argument("Invalid file type");        
-    }*/
+    }
 }
 
