@@ -317,6 +317,19 @@ A few guidelines for Project HiddenFrame's Directory structure are laid out in t
 Title: Project Directory Structure
 ---
 graph LR
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
 
     root[.] --> 1[README.md]
     root --> 2[documentation]
