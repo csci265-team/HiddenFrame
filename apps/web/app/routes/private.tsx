@@ -10,7 +10,7 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  const resp = await fetch("https://api.unsplash.com/photos?per_page=100", {
+  const resp = await fetch("https://api.unsplash.com/photos?per_page=1000", {
     headers: { Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}` },
   });
 

@@ -125,6 +125,30 @@ The front-end of HiddenFrame will be responsible for providing a user-friendly i
 - TailwindCSS: TailwindCSS is being in our project to build responsive layouts for the image grid and other UI elements. We have customized the config file to add our brand colors.
 - ESLint: We are using ESLint to enforce clean coding practices to maintain a consistent and error-free codebase for the public-facing UI.
 
+### 3.2 Page load and Data fetching
+
+Since we are using [Remix](https://remix.run/) we are using server side rendering by default. This means on page load our users are sent pre rendered HTML which makes the whole experience blaing fast. All data fetching is done on the frontend server instead of the client
+
+We will use the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to fetch data from the backend.
+
+To fetch data from the backend the frontend will make requests to our API server made with crow (see section [5. Network Design](#5-network-design))
+We won't be doing any specific caching, only the caching inbuilt in Remix (which is very minimal)
+
+Below is a minimal diagram describing the page load cycle:
+
+```mermaid
+---
+Title: Front-end page load overview
+---
+ graph TD
+   a((Page Load)) --"User requests page (Params are sent with page load request if any)"--> b(Frontend server)
+   b--"Data being fetched from backend"-->c(API Server)
+   c--"Data retrieved from backend"-->b
+   b--"Server servers pre rendered HTML hydrated with fetched data"-->a
+   c <--> d(Backend Server)
+```
+
+
 ### 3.2. Public Aspect
 
 The public-facing part of the website serves as a picture-sharing platform, allowing users to upload and browse images. This aspect is crucial to attracting a broad user base and providing the platform's visual appeal.
