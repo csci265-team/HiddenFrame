@@ -137,7 +137,7 @@ Title: Back-End Overview
 ### 5.1. Image I/O
 The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file.
 
-Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation we will create two an class called "image." The Image class will contain methods for all other components of the Image subsystem. The following is a class definition for HiddenFrame's Image class.
+Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation we will create a class called "image." The Image class will contain methods for all other components of the Image subsystem. The following is a class definition for HiddenFrame's Image class.
 ~~~mermaid
 classDiagram
 class image{
