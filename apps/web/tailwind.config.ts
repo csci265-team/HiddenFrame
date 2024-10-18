@@ -11,6 +11,8 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        "hf-accent": "#F3E3BF",
+        "hf-bg": "#553829"
       },
     },
   },

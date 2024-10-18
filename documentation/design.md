@@ -17,8 +17,10 @@ Alternate contact person:
  2. [Design Overview](#2-design-overview)
  3. [Logical Design](#3-logical-design)
  4. [Front-End Design](#4-front-end-design)
-    - 4.1. [Public Aspect](#31-public-aspect)
-    - 4.2. [Private Aspect](#32-private-aspect)
+    - 4.1. [Front-End Configuration](#42-font-end-configuration)
+    - 4.2. [Public Aspect](#41-public-aspect)
+    - 4.3. [Private Aspect](#42-private-aspect)
+     - 4.3.1. [Image Wall](#431-image-wall)
  5. [Back-End Design](#5-back-end-design)
     - 5.1. [Image I/O](#51-image-i/o)
     - 5.2. [Key Generation](#52-key-generation)
@@ -37,6 +39,14 @@ Alternate contact person:
 - Network module is not in logical design diagram
 
 ## 2. Design Overview
+Target Platform: The initial focus will be on desktop browsers for optimal viewing and functionality, with potential for mobile responsiveness as a stretch goal.
+
+- Primary Technology: The front-end will be developed using HTML5, CSS3, and JavaScript. For dynamic elements, React (or another JavaScript framework, if preferred) will be used.
+- Frameworks/Libraries: We will use Bootstrap or TailwindCSS for responsive design, ensuring consistent and scalable layouts.
+- UI Design Principles:
+  - Clean and minimalistic design, with a focus on easy navigation.
+  - Clear visual hierarchy to distinguish between public and private features.
+  - Intuitive interactions with visual feedback for all user actions (e.g., buttons, image uploads, and secret message decoding).
 
 ## 3. Logical Design 
 HiddenFrame will require several components to function correctly. The main overall components are:
@@ -107,9 +117,43 @@ sequenceDiagram
         end
     end
 ~~~
-## 4. Front-End Design
-### 4.1. Public Aspect
-### 4.2. Private Aspect
+### 4.1 Front-End Configuration
+
+- Node and NPM: For developement we are using node.js and node package manager, since our framework Remix is built on the Web fetch API we will not need to use node.js in production.
+- Typescript: TypeScript is used to ensure strict type-checking and cleaner code, especially when handling sensitive functionality like steganographic embedding and decryption.
+- Remix: We are using Remix as our frontend framework. Remix is a brand new framework that optimizes performance, simplifies full-stack React development, and efficiently manages data with built-in support for modern web standards and tools. It helps us to focus on the user interface and work back through web standards to create a fast and stable user experience. 
+- Vite: Vite is the default build tool for Remix, providing fast development server capabilities and optimized builds, which are important for maintaining the security of the private communication features.
+- TailwindCSS: TailwindCSS is being in our project to build responsive layouts for the image grid and other UI elements. We have customized the config file to add our brand colors.
+- ESLint: We are using ESLint to enforce clean coding practices to maintain a consistent and error-free codebase for the public-facing UI.
+
+### 4.2. Public Aspect
+
+The public-facing part of the website serves as a picture-sharing platform, allowing users to upload and browse images. This aspect is crucial to attracting a broad user base and providing the platform's visual appeal.
+
+- Main Features:
+  - Image Wall: A grid of publicly shared images that scrolls infinitely.
+  - Image Upload: A button at the top allows users to upload images to the platform. These images will appear on the public wall after uploading.
+  - User Interactions(stretch goal): Users can like, comment on, and share images.
+- User Experience:
+  - The image wall is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users.
+  - Responsive Design: The public aspect will be optimized for desktop, with some mobile functionality being a stretch goal.
+
+### 4.3. Private Aspect
+
+The private side of HiddenFrame is accessible only to privileged users who have login credentials. This aspect enables secure communication through hidden messages embedded in images using steganography.
+
+- Main Features:
+
+  - Private Login Page: A dedicated login page for users with access to the hidden messaging system.
+  - Secret Message Board: After logging in, users can upload images with hidden messages and decode messages from received images.
+  - Invite System: Privileged users can invite others to access the private aspect, creating a controlled environment for hidden communication.
+
+- Security and Privacy:
+  - Login Protection: The private login page will be built with security in mind, using HTTPS and appropriate authentication measures.
+
+#### 4.3.1. Image Wall
+
+Image Wall is a grid of publicly shared images that scrolls infinitely. It is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users. The image wall uses CSS grid classes to ensure responsivness. Tha data for it is fetched from the back-end API server on page load. Each image is a 16 REM by 16 REM square with 0.5 REM rounded corners. Each image is encapsulated in the anchor tag, which, onve clicked, opens the image in a new tab. The images are shown in order of ascending based on time of creation. 
 
 ## 5. Back-End Design
  The back end of HiddenFrame will have to deal with 4 general requests from the front end system. 
@@ -227,3 +271,4 @@ graph LR
 **LSB** - Least significant bit
 
 ## 10. Appendixes
+
