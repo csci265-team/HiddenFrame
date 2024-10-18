@@ -116,7 +116,6 @@ sequenceDiagram
             main-->>private: payload
         end
     end
-    %%{init:{'themeCSS':'.messageLine0:nth-of-type(2) { stroke: red; } ;#arrowhead path {stroke: blue; fill:red;};'}}%%
 ~~~
 ### 4.1 Front-End Configuration
 
@@ -246,7 +245,7 @@ graph LR
       42 --> 421[app]
       42 --> 422[public]
     end
-    subgraph 421g[frontend-programs]
+    subgraph 421g[publicly accessible routes]
       421 --> 4211[routes]
     end
     subgraph 3g[project resources]
