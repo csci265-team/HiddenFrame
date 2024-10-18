@@ -113,56 +113,71 @@ sequenceDiagram
     participant public as Public User
     participant private as Private User
     participant main as User Environment Module
+    participant api as Network Module
     participant account as User Account Module
     participant image as Imaging Module
     participant db as Filesystem
 
-    Note over private,db: The user must be logged in to use steganography
-    private->>+account: Logs in using credentials
+    Note over private,db: Authentication Process
+    private->>main: attempts to login
+    main->>api: request User Authentication
+    api->>account: Check for credentials
     account->>db: Query stored accounts
     db->>account: Respond with query result
-
     alt Credentials not found
-        account->>private: Invalid credentials
+        account->>api: Invalid credentials
+        api->>main: Authentication Failure
+        main->>private: Loggin Unsucessful
     else Credentials found
-        account->>-private: Successfully logged in
-        Note over private,db: When the user is authenticated, they can now use steganography
-        public->>main: View picture
-        main->>image: Retrieve image
-        image->>db: Read image data
-        db->>image: Image data
-        image->>main: Image
-        main->>public: Image
+        account->>api: Valid credentials
+        api->>main: Authentication Successful
+        main->>private: Loggin Successful
+        Note over private,db: Steganography Processes (Requires Authentication)
         private->>main: View pictures
         main->>image: Retrieve image
         image->>db: Read image data
         db->>image: Image data
-        image->>main: Image
-        main->>private: Image
-        public->>main: Upload picture
-        main->>image: Store image
-        image->>db: Write image to filesystem
-        image->>main: Store successful
-        main->>public: Upload successful
-        par Payload Embedding
-            private--)main: upload picture & payload
-            private--)main: Embed Image with payload
-            main--)image: Encode Image with payload
-            image--)db: Store modified image
-        and Response
-            image-->>main: Image Embedded and stored
-            main-->>private: Successfully embedded
-        end
         par Payload Retrieval
-            private--)main: View picture with payload
-            private--)main: Upload key
-            private--)image: Retrieve modified image
-            image--)db: Read modified image
-        and Response
-            db-->>image: Image data
-            image-->>main: Image read and decoded
-            main-->>private: payload
+            private->>main: Provide key
+            main->>api: send key
+            api->>image: Retrieve modified image
+            image->>db: Read modified image
+            db->>image: Image data
+            image->>image: Attempt to Decode Image
+            alt Image Decoded
+                image->>api: payload
+                api->>main: payload
+                main->>private: payload
+            else No Payload found
+                image->>api: failure message
+                api->>main: failure message
+                main->>private: failure message
+            end
+        par Payload Embedding
+            private->>main: Upload picture & payload
+            main->>api: Send Image and Payload  
+            api->>image: Send Image and Payload
+            image->>image: Embed Payload
+            image->>api: return encoding Key
+            image->>db: Store modified image
+            api->>main: return encoding Key
+            main->>private: return encoding Key
         end
+        end
+        
+        Note over public,db: Publicly Available Processes
+        public->>main: View image Request
+        main->>api: Request Resource
+        api->>image: Retrieve Resource
+        image->>db: Read from file
+        db->>image: Image Data
+        image->>api: Image Data
+        api->>main: Image Data
+        main->>public: Image
+        public->>main: Upload Picture Request
+        main->>api: Image Data
+        api->>image: Image Data
+        image->>db: Write Image to File
     end
 ~~~
 ### 4.1 Front-End Configuration
@@ -214,6 +229,19 @@ Image Wall is a grid of publicly shared images that scrolls infinitely. It is de
 ---
 Title: Back-End Overview
 ---
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
  graph TD
 
  subgraph Image Subsystem
