@@ -64,7 +64,7 @@ Title: Design Overview
 
 %%{
   init: {
-    'theme': 'dark',
+    'theme': 'base',
     'themeVariables': {
       'primaryColor': '#4A90E2',
       'primaryTextColor': '#FFFFFF',
