@@ -74,20 +74,20 @@ Alternate contact person:
 # Table of Contents
  1. [Known Omissions](#1-known-omissions)
  2. [Design Overview](#2-design-overview)
- 3. [Logical Design]
- 4. [Front-End Design](#3-front-end-design)
-    - 3.1. [Public Aspect](#31-public-aspect)
-    - 3.2. [Private Aspect](#32-private-aspect)
- 5. [Back-End Design](#4-back-end-design)
-    - 4.1. [Image I/O](#41-image-i/o)
-    - 4.2. [Key Generation](#42-key-generation)
-    - 4.3. [Payload Embedding/Retrieval](#43-payload-embedding/retrieval)
- 6. [Network Design](#5-network-design)
- 7. [Data Design](#6-data-design)
- 8. [Other Design Elements](#7-other-design-elements)
-    - 7.1. [Project Directory Structure](#71-project-directory-structure) 
- 9. [Glossary](#8-glossary)
- 10. [Appendixes](#9-appendixes)
+ 3. [Logical Design](#3-logical-design)
+ 4. [Front-End Design](#4-front-end-design)
+    - 4.1. [Public Aspect](#31-public-aspect)
+    - 4.2. [Private Aspect](#32-private-aspect)
+ 5. [Back-End Design](#5-back-end-design)
+    - 5.1. [Image I/O](#51-image-i/o)
+    - 5.2. [Key Generation](#52-key-generation)
+    - 5.3. [Payload Embedding/Retrieval](#53-payload-embedding/retrieval)
+ 6. [Network Design](#6-network-design)
+ 7. [User Account Design](#7-user-account-design)
+ 8. [Other Design Elements](#8-other-design-elements)
+    - 8.1. [Project Directory Structure](#81-project-directory-structure) 
+ 9. [Glossary](#9-glossary)
+ 10. [Appendixes](#10-appendixes)
 
 # List of Figures
 
@@ -230,7 +230,7 @@ Here we utilize the "Image" class's retrieve_payload method. This portion works 
 
 ## 6. Network Design
 
-## 7. Data Design
+## 7. User Account Design
 
 ## 8. Other Design Elements
 ### 8.1 Project Directory Structure
