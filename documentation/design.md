@@ -59,8 +59,23 @@ Notably the User Environment module and Imaging module will be required to handl
 Below is a sequence diagram describing the anticipated flow of data for HiddenFrame (note: Network Module is excluded as it primarily acts as a relay/facilitator of all of these transactions). 
 ~~~mermaid
 ---
-Title:Design Overview
+Title: Design Overview
 ---
+
+%%{
+  init: {
+    'theme': 'dark',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#FFFFFF',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor': '#F2C94C',
+      'secondaryColor': '#7ED321',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
+
 sequenceDiagram
     participant public as Public User
     participant private as Private User
@@ -102,34 +117,20 @@ sequenceDiagram
             main--)image: Encode Image with payload
             image--)db: Store modified image
         and Response
-	        image-->>main: Image Embeded and stored
+            image-->>main: Image Embedded and stored
             main-->>private: Successfully embedded
         end
         par Payload Retrieval
             private--)main: View picture with payload
             private--)main: Upload key
-            main--)image: Retrieve modified image
+            private--)image: Retrieve modified image
             image--)db: Read modified image
         and Response
-	        db-->>image: Image data
-	        image-->>main: Image read and decoded
+            db-->>image: Image data
+            image-->>main: Image read and decoded
             main-->>private: payload
         end
     end
-
-%%{
-  init: {
-    'theme': 'base',
-    'themeVariables': {
-      'primaryColor': '#4A90E2',
-      'primaryTextColor': '#FFFFFF',
-      'primaryBorderColor': '#A6C1E0',
-      'lineColor': '#F2C94C',
-      'secondaryColor': '#7ED321',
-      'tertiaryColor': '#F5F7FA'
-    }
-  }
- }%%
 
 ~~~
 ### 4.1 Front-End Configuration
