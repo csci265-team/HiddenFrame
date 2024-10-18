@@ -112,6 +112,32 @@ Alternate contact person:
  ### 4.4. Payload Retrieval 
 
  ## 5. Network Design
+Since our system is written in C++ in its back-end and uses Javascript in its front-end, our front-end to back-end communication will be utiziling "Crow" which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for it's built-in JSON support and to make back-end to front-end communication seamless. 
+
+We will be implementing Crow in the back-end and defining routes to handle HTTP GET and POST requests for sending and receiveing data to and from the front-end.
+
+GET requests for:
+- User inputted infromation for the sign up page(email and password).
+- User inputted credentials for the login page(email and password).
+- User uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
+- User inputted hidden message to be embedded in the image.
+- User inputted private messages being sent through the Secret Chat page.
+- User liking an image(stretch goal).
+- User uploaded images to be embeded as an image(stretch goal).
+
+POST requests for:
+- Displaying system generated keys to decode the embedded images.
+- Displaying embedded images with a hidden message.
+- Displaying decoded embedded image after key has been recognized.
+- Displaying private messages being received through the Secret Chat page.
+- Displaying amount of allowed invites remaining for current privileged users.
+- Displaying error messages for situations like: invalid credentials, invalid image format, exceeding allowabale length(1024 UTF-8 characters) for a hidden message.
+- Displaying amount of likes on a specific image(stretch goal).
+- Displaying image embedded image(stretch goal).
+- Displaying decoded image embedded image after key has been recognized(stretch goal).
+
+
+Our front-end utilizes the "Remix" framework where we will leverage the "fetch" API to handle fetching data from both the client side and the server side.  
 
  ## 6. Data Design
 
