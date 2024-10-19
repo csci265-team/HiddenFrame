@@ -482,6 +482,28 @@ POST requests for:
 | `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`                                                                                       | If invalid invite was provided |
 
 </details>
+
+#### User login using username and password
+
+<details>
+ <summary><code>POST</code> <code><b>/user/login</b></code> <code>Login existing user</code></summary>
+
+##### Request Body
+
+| name     | type     | data type | description               |
+| -------- | -------- | --------- | ------------------------- |
+| username | required | string    | User's requested username |
+| password | required | string    | Hashed password           |
+
+##### Responses
+
+| http code | content-type       | response                                                                                                                           | description                          |
+| --------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| `200`     | `application/json` | `{"success": true, "user": { "username": string, "token": { "id": string, "exp": number: "createdAt": number, "token": string } }` | If username and password match       |
+| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`                                                                                       | If username and passwords dont match |
+
+</details>
+
 - Receiving user inputted credentials for the login page(email and password).
   - Response: A JSON object confirming success or failure.
 - Receiving user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
