@@ -176,7 +176,7 @@ sequenceDiagram
         main->>api: Image Data
         api->>image: Image Data
         image->>db: Write Image to File
-    end
+   
 ~~~
 ### 4.1 Front-End Configuration
 
