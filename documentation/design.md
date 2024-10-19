@@ -35,19 +35,47 @@ Alternate contact person:
 # List of Figures
 
 ## 1. Known Omissions
-
-- Network module is not in logical design diagram
-
+No sections currently discuss user account creation process
 ## 2. Design Overview
-Target Platform: The initial focus will be on desktop browsers for optimal viewing and functionality, with potential for mobile responsiveness as a stretch goal.
-
-- Primary Technology: The front-end will be developed using HTML5, CSS3, and JavaScript. For dynamic elements, React (or another JavaScript framework, if preferred) will be used.
-- Frameworks/Libraries: We will use Bootstrap or TailwindCSS for responsive design, ensuring consistent and scalable layouts.
-- UI Design Principles:
-  - Clean and minimalistic design, with a focus on easy navigation.
-  - Clear visual hierarchy to distinguish between public and private features.
-  - Intuitive interactions with visual feedback for all user actions (e.g., buttons, image uploads, and secret message decoding).
-
+The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame
+```mermaid
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
+ graph TD
+ subgraph "Image Subsystem"
+   1d(Image I/O)
+   1d <--"Read from file/write to file"--> 1e[(Stored Image Files)]
+   1d --"Provide Image"--> 1g(Key Generation)
+   1g --"Provide Key for embedding Proceedure"--> 1h(Image Manipulation - embedding)
+   1h --"Return Image With payload embedded"--> 1d
+   1d --"Provide Image and Key"--> 1i(Image Manipulation - retrieval)
+   1i --"Return Payload"-->1d
+end
+subgraph "Network Subsystem"
+    2a(API Server)<--"Service Request from Users"-->1d
+    1g--"Provide Key to User"-->2a
+end
+subgraph "User Account Module"
+    3a[(User Account Database)]<--"Request and Retrieve credentials"-->2a
+end
+subgraph "User Environment Module"
+    4a(Public WebUI)<--"Process Request/return"-->2a
+    4b(Private WebUI)<--"Process Request/return"-->2a
+end
+5(Public User)<--"Request & Recieve Resources"-->4a
+6(Private User)<--"Request & Recieve Resources"-->4b
+```
 ## 3. Logical Design 
 HiddenFrame will require several components to function correctly. The main overall components are:
 1. User Environment module
@@ -56,7 +84,7 @@ HiddenFrame will require several components to function correctly. The main over
 4. Imaging module
 Notably the User Environment module and Imaging module will be required to handle different input steams for different types of users. A further decomposition of each of these modules is provided in their own sections.
 
-Below is a sequence diagram describing the anticipated flow of data for HiddenFrame (note: Network Module is excluded as it primarily acts as a relay/facilitator of all of these transactions). 
+Below is a sequence diagram describing the anticipated flow of data for HiddenFrame  
 ~~~mermaid
 ---
 Title: Design Overview
@@ -67,12 +95,13 @@ Title: Design Overview
     'theme': 'base',
     'themeVariables': {
       'primaryColor': '#4A90E2',
-      'primaryTextColor': '#FFFFFF',
+      'primaryTextColor': '#ddd',
       'primaryBorderColor': '#A6C1E0',
       'signalColor' : '#FF4500',
-      'actorlineColor': '#FFA500',
+      'actorLineColor': '#FFA500',
       'secondaryColor': '#7ED321',
       'tertiaryColor': '#F5F7FA'
+      
     }
   }
 }%%
@@ -81,58 +110,73 @@ sequenceDiagram
     participant public as Public User
     participant private as Private User
     participant main as User Environment Module
+    participant api as Network Module
     participant account as User Account Module
     participant image as Imaging Module
     participant db as Filesystem
 
-    Note over private,db: The user must be logged in to use steganography
-    private->>+account: Logs in using credentials
+    Note over private,db: Authentication Process
+    private->>main: attempts to login
+    main->>api: request User Authentication
+    api->>account: Check for credentials
     account->>db: Query stored accounts
     db->>account: Respond with query result
-
     alt Credentials not found
-        account->>private: Invalid credentials
+        account->>api: Invalid credentials
+        api->>main: Authentication Failure
+        main->>private: Loggin Unsucessful
     else Credentials found
-        account->>-private: Successfully logged in
-        Note over private,db: When the user is authenticated, they can now use steganography
-        public->>main: View picture
-        main->>image: Retrieve image
-        image->>db: Read image data
-        db->>image: Image data
-        image->>main: Image
-        main->>public: Image
+        account->>api: Valid credentials
+        api->>main: Authentication Successful
+        main->>private: Loggin Successful
+    end
+        Note over private,db: Steganography Processes (Requires Authentication)
         private->>main: View pictures
         main->>image: Retrieve image
         image->>db: Read image data
         db->>image: Image data
-        image->>main: Image
-        main->>private: Image
-        public->>main: Upload picture
-        main->>image: Store image
-        image->>db: Write image to filesystem
-        image->>main: Store successful
-        main->>public: Upload successful
-        par Payload Embedding
-            private--)main: upload picture & payload
-            private--)main: Embed Image with payload
-            main--)image: Encode Image with payload
-            image--)db: Store modified image
-        and Response
-            image-->>main: Image Embedded and stored
-            main-->>private: Successfully embedded
-        end
         par Payload Retrieval
-            private--)main: View picture with payload
-            private--)main: Upload key
-            private--)image: Retrieve modified image
-            image--)db: Read modified image
-        and Response
-            db-->>image: Image data
-            image-->>main: Image read and decoded
-            main-->>private: payload
+            private->>main: Provide key
+            main->>api: send key
+            api->>image: Retrieve modified image
+            image->>db: Read modified image
+            db->>image: Image data
+            image->>image: Attempt to Decode Image
+            alt Image Decoded
+                image->>api: payload
+                api->>main: payload
+                main->>private: payload
+            else No Payload found
+                image->>api: failure message
+                api->>main: failure message
+                main->>private: failure message
+            end
+        par Payload Embedding
+            private->>main: Upload picture & payload
+            main->>api: Send Image and Payload  
+            api->>image: Send Image and Payload
+            image->>image: Embed Payload
+            image->>api: return encoding Key
+            image->>db: Store modified image
+            api->>main: return encoding Key
+            main->>private: return encoding Key
         end
-    end
-
+        end
+        
+        Note over public,db: Publicly Available Processes
+        public->>main: View image Request
+        main->>api: Request Resource
+        api->>image: Retrieve Resource
+        image->>db: Read from file
+        db->>image: Image Data
+        image->>api: Image Data
+        api->>main: Image Data
+        main->>public: Image
+        public->>main: Upload Picture Request
+        main->>api: Image Data
+        api->>image: Image Data
+        image->>db: Write Image to File
+   
 ~~~
 ### 4.1 Front-End Configuration
 
@@ -170,7 +214,7 @@ The private side of HiddenFrame is accessible only to privileged users who have 
 
 #### 4.3.1. Image Wall
 
-Image Wall is a grid of publicly shared images that scrolls infinitely. It is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users. The image wall uses CSS grid classes to ensure responsivness. Tha data for it is fetched from the back-end API server on page load. Each image is a 16 REM by 16 REM square with 0.5 REM rounded corners. Each image is encapsulated in the anchor tag, which, onve clicked, opens the image in a new tab. The images are shown in order of ascending based on time of creation. 
+Image Wall is a grid of publicly shared images that scrolls infinitely. It is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users. The image wall uses CSS grid classes to ensure responsiveness. The data for it is fetched from the back-end API server on page load. Each image is a 16 REM by 16 REM square with 0.5 REM rounded corners. Each image is encapsulated in the anchor tag, which, once clicked, opens the image in a new tab. The images are shown in order of ascending based on time of creation. 
 
 ## 5. Back-End Design
  The back end of HiddenFrame will have to deal with 4 general requests from the front end system. 
@@ -183,20 +227,46 @@ Image Wall is a grid of publicly shared images that scrolls infinitely. It is de
 ---
 Title: Back-End Overview
 ---
- graph TD
-   a((Front End)) --> b(API Server)
-   b <-->d(Image I/O)
-   d <--"Read from file/write to file"--> e[(Stored Image Files)]
-   d --"Provide Image"--> g(Key Generation)
-   g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
-   g--"Provide Key to User"-->b
-   h --"Return Image With payload embedded"--> d
-   d --"Provide Image and Key"--> i(Image Manipulation - retrieval)
-   i --"Return Payload"-->d
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
+ graph TD
+
+ subgraph Image Subsystem
+
+   a((Front End)) --> b(API Server)
+
+   b <-->d(Image I/O)
+
+   d <--"Read from file/write to file"--> e[(Stored Image Files)]
+
+   d --"Provide Image"--> g(Key Generation)
+
+   g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
+
+   g--"Provide Key to User"-->b
+
+   h --"Return Image With payload embedded"--> d
+
+   d --"Provide Image and Key"--> i(Image Manipulation - retrieval)
+
+   i --"Return Payload"-->d
+
+end
 ```
 
 ### 5.1. Image I/O
-The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file.
+The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file. 
 
 Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation we will create a class called "image." The Image class will contain methods for all other components of the Image subsystem. The following is a class definition for HiddenFrame's Image class.
 ~~~mermaid
@@ -236,7 +306,9 @@ Here we utilize the "Image" class's retrieve_payload method. This portion works 
 ## 6. Network Design
 
 ## 7. User Account Design
+We will utilize a database to store user account information and hashed passwords. This will be a very simple subsystem it is only required to respond to a few types of system requests. When a user attempts to login, username and passwords will be passed through the frontend via our API server to the database. The database will then query it's entries and check if the provided password matches then username. The database will then return the result to the API Server. 
 
+The API server will be responsible for ensuring that users requesting access to resources are only able to access resources for which they have permissions. This will likely be implemented by a token exchange. 
 ## 8. Other Design Elements
 ### 8.1 Project Directory Structure
 A few guidelines for Project HiddenFrame's Directory structure are laid out in the standards document. Beyond what is listed there we will utilize the following structure (note documentation is included in the FS but no other files are):
@@ -245,6 +317,19 @@ A few guidelines for Project HiddenFrame's Directory structure are laid out in t
 Title: Project Directory Structure
 ---
 graph LR
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
 
     root[.] --> 1[README.md]
     root --> 2[documentation]
@@ -290,6 +375,7 @@ graph LR
 ## 9. Glossary
 
 **LSB** - Least significant bit
+**DFD** - Data Flow Diagram
 
 ## 10. Appendixes
 

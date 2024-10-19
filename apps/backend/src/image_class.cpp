@@ -11,13 +11,18 @@
 #include "stb_image_write.h"
 
 using namespace std;
+
 //default consturctor
 image::image():width(0),height(0),channels(0),filetype(),original_image(nullptr),modified_image(nullptr){};
 
-//regular constructor
+//regular constructor - image is already in the file system
 image::image(string filepath):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
     load_image(filepath);
-    //pixel_array();
+};
+//regular constructor - data bassed by API server
+image::image(const unsigned char* Data):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
+    int length;
+    original_image=stbi_load_from_memory(Data,length,&width,&height,&channels,0);
 };
 
 //destructor
@@ -178,6 +183,7 @@ string image::retrieve_payload(int n)
                 result=result+"000";
             }
             //if we got here then we are no longer reading the hidden message
+            //WenMay wish to add an escape sequence
             else{
                 return result;
             }
