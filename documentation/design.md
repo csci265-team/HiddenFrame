@@ -35,7 +35,7 @@ Alternate contact person:
 # List of Figures
 
 ## 1. Known Omissions
-No sections currently discuss User account creation process
+No sections currently discuss user account creation process
 ## 2. Design Overview
 The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame
 ```mermaid
@@ -129,6 +129,7 @@ sequenceDiagram
         account->>api: Valid credentials
         api->>main: Authentication Successful
         main->>private: Loggin Successful
+    end
         Note over private,db: Steganography Processes (Requires Authentication)
         private->>main: View pictures
         main->>image: Retrieve image
