@@ -232,7 +232,6 @@ Image Wall is a grid of publicly shared images that scrolls infinitely.
 - The image upload is a HTML input element with the type "file" so it opens up the file selection UI
 - Once a file is selected it sends the file to the backend using the Web Fetch API
 
-
 ## 5. Back-End Design
 
 The back end of HiddenFrame will have to deal with 4 general requests from the front end system.
@@ -313,10 +312,84 @@ We will be implementing Crow in the back-end and defining routes to handle HTTP 
 
 GET requests to:
 
-- Retrieve private message from the Secret Chat Page
-  - Response: A JSON object containing the private messages.
-- Retreive number of remining allowed invites for current privileged user.
-  - Response: A JSON object containing the remaining invite count.
+#### Retrieve private messages on the Secret Chat Page
+
+<details>
+ <summary><code>GET</code> <code><b>/messages</b></code> <code>Get all messages sent to user</code></summary>
+
+##### Headers
+
+> | name          | type     | data type                 | description |
+> | ------------- | -------- | ------------------------- | ----------- |
+> | Authorization | required | string (containing token) | N/A         |
+
+##### Responses
+
+> | http code | content-type       | response                                              |
+> | --------- | ------------------ | ----------------------------------------------------- |
+> | `200`     | `application/json` | `{"success": true, "messages": [TBD MESSAGE OBJECT]}` |
+> | `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`          |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/message/:id</b></code> <code>Retrieve a specific message sent to user</code></summary>
+
+##### Headers
+
+> | name          | type     | data type                 | description |
+> | ------------- | -------- | ------------------------- | ----------- |
+> | Authorization | required | string (containing token) | N/A         |
+
+##### Responses
+
+> | http code | content-type       | response                                           |
+> | --------- | ------------------ | -------------------------------------------------- |
+> | `200`     | `application/json` | `{"success": true, "message": TBD MESSAGE OBJECT}` |
+> | `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`       |
+
+</details>
+
+#### Retreive number of remining allowed invites for current privileged user
+
+<details>
+ <summary><code>GET</code> <code><b>/user/invites</b></code></summary>
+
+##### Headers
+
+> | name          | type     | data type                 | description |
+> | ------------- | -------- | ------------------------- | ----------- |
+> | Authorization | required | string (containing token) | N/A         |
+
+##### Responses
+
+> | http code | content-type       | response                                     |
+> | --------- | ------------------ | -------------------------------------------- |
+> | `200`     | `application/json` | `{"success": true, "invites": number}`       |
+> | `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}` |
+
+</details>
+
+#### Retreive image wall images
+
+<details>
+ <summary><code>GET</code> <code><b>/images</b></code> <code>Get first 100 images</code></summary>
+
+##### Headers
+
+> | name          | type     | data type                 | description                                           |
+> | ------------- | -------- | ------------------------- | ----------------------------------------------------- |
+> | Authorization | optional | string (containing token) | If token provided and valid, keys will be in response |
+
+##### Responses
+
+> | http code | content-type       | response                                                                  |
+> | --------- | ------------------ | ------------------------------------------------------------------------- |
+> | `200`     | `application/json` | `{"success": true, "images": string[] \| {"url": string, "key": string}}` |
+> | `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`                              |
+
+</details>
+
 - Retrieve error messages for situations like: invalid credentials, invalid image format, exceeding allowable length(1024 UTF-8 characters) for a hidden message, etc.
   - Response: A JSON object containing the error message.
 - Retrieve system generated keys that decode the embedded images.
@@ -334,8 +407,27 @@ GET requests to:
 
 POST requests for:
 
-- Receiving user inputted infromation for the sign up page(email and password).
-  - Response: A JSON object confirming success or failure.
+#### Receiving user inputted infromation for the sign up page (email and password).
+
+<details>
+ <summary><code>POST</code> <code><b>/user/register</b></code> <code>Resister a new user</code></summary>
+
+##### Request Body
+
+> | name     | type     | data type | description                                                          |
+> | -------- | -------- | --------- | -------------------------------------------------------------------- |
+> | inviteId | required | string    | A valid invite Id generated by an existing user needs to be provided |
+> | username | required | string    | User's requested username                                            |
+> | password | required | string    | Hashed password                                                      |
+
+##### Responses
+
+> | http code | content-type       | response                                                                                                                           | description                    |
+> | --------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
+> | `200`     | `application/json` | `{"success": true, "user": { "username": string, "token": { "id": string, "exp": number: "createdAt": number, "token": string } }` | If valid invite was provided   |
+> | `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`                                                                                       | If invalid invite was provided |
+
+</details>
 - Receiving user inputted credentials for the login page(email and password).
   - Response: A JSON object confirming success or failure.
 - Receiving user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
