@@ -411,16 +411,16 @@ GET requests to:
 
 ##### Headers
 
-> | name          | type     | data type                 | description |
-> | ------------- | -------- | ------------------------- | ----------- |
-> | Authorization | required | string (containing token) | N/A         |
+| name          | type     | data type                 | description |
+| ------------- | -------- | ------------------------- | ----------- |
+| Authorization | required | string (containing token) | N/A         |
 
 ##### Responses
 
-> | http code | content-type       | response                                     |
-> | --------- | ------------------ | -------------------------------------------- |
-> | `200`     | `application/json` | `{"success": true, "invites": number}`       |
-> | `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}` |
+| http code | content-type       | response                                     |
+| --------- | ------------------ | -------------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "invites": number}`       |
+| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}` |
 
 </details>
 
