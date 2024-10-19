@@ -217,17 +217,17 @@ The private side of HiddenFrame is accessible only to privileged users who have 
 - Security and Privacy:
   - Login Protection: The private login page will be built with security in mind, using HTTPS and appropriate authentication measures.
 
-#### 4.smtg Image Wall
+#### 4.6 Image Wall
 
 Image Wall is a grid of publicly shared images that scrolls infinitely.
 
-- The images are shown in ascending order based on time of creation. This ensures everyone sees the same images at one time.
+- The images are shown in descending order based on time of creation. This ensures everyone sees the same images at one time.
 - The image wall uses CSS grid classes to ensure responsivness.
 - The image data is fetched from the back-end API server on page load using the Web Fetch API.
 - Each image is a 16 REM by 16 REM square with 0.5 REM rounded corners.
 - Each image is encapsulated in the anchor tag with an href to the image's URL, which, once clicked, opens the image in a new tab.
 
-#### 4.smtg Image Upload
+#### 4.7 Image Upload
 
 - The image upload is a HTML input element with the type "file" so it opens up the file selection UI
 - Once a file is selected it sends the file to the backend using the Web Fetch API
@@ -309,6 +309,57 @@ Here we utilize the "Image" class's retrieve_payload method. This portion works 
 Since our system is written in C++ in its back-end and uses a Javascript framework in its front-end, our front-end to back-end communication will be utilizing an API server made using ["Crow"](https://crowcpp.org/) which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for its built-in JSON support and to make back-end to front-end communication seamless.
 
 We will be implementing Crow in the back-end and defining routes to handle HTTP GET and POST requests for sending and receiving data to and from the front-end.
+
+### 6.1 Authentication
+
+Our API server will also run authentication on privilaged routes. We will be using JWT Token authentication for the same.
+
+Represented below is basic authentication flow assuming the user is already registred:
+
+```mermaid
+---
+Title: Authentication Token generation flow
+---
+sequenceDiagram
+    participant User
+    participant API Server
+    participant Authentication module
+
+    User->>API Server: Attempts login with username and password
+    API Server->>Authentication module: Identity needs to be validated
+    Authentication module->>API Server: Validation Succeeds, token is returned
+    API Server->>User: Token is returned
+
+    Authentication module-->>API Server: Validation Fails, Error is returned
+    API Server-->>User: Error is returned
+```
+
+Represented below is the basic flow for accessing API routes both privilaged and non privilaged:
+
+```mermaid
+---
+Title: Route authentication flow
+---
+sequenceDiagram
+    participant User
+    participant API Server
+    participant Authentication module
+    participant Backend
+
+    User->>API Server: Requests private data
+    API Server->>Authentication module: Identity needs to be validated
+    Authentication module->>Backend: Validation Succeeds, data is fetched based on request (valid auth token found in header)
+    Authentication module-->>User: Validation Fails, Error is returned (no token or inavlid token)
+    Backend->>API Server: Data is returned
+    API Server->>User: Data is returned
+
+    User-->>API Server: Requests public data
+    API Server-->>Backend: Data is fetched based on request
+    Backend-->>API Server: Data is returned
+    API Server-->>User: Data is returned
+```
+
+### 6.2 Routes
 
 GET requests to:
 
