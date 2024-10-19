@@ -349,9 +349,12 @@ sequenceDiagram
     User->>API Server: Requests private data
     API Server->>Authentication module: Identity needs to be validated
     Authentication module->>Backend: Validation Succeeds, data is fetched based on request (valid auth token found in header)
-    Authentication module-->>User: Validation Fails, Error is returned (no token or inavlid token)
     Backend->>API Server: Data is returned
     API Server->>User: Data is returned
+
+    Authentication module-->>API Server: Validation Fails, Error is returned (no token or inavlid token)
+    API Server-->>User: Error is returned
+
 
     User-->>API Server: Requests public data
     API Server-->>Backend: Data is fetched based on request
