@@ -192,8 +192,8 @@ Title: Front-end data input lifecycle
    a(Form/Input on Frontend) --"User entered data sent as JSON"--> c
    c(API Server)--"Data retrieved from backend based on user request"-->b(Frontend server)
    b--"New HTML hydrated with requested data"-->a
-   c<--"Data requested from backend based on user request"-->d(Backend Server)
-
+   c--"Data requested/published to the backend"-->d(Backend Server)
+   d--"Retrieved/Returned data"-->c
 ```
 
 ### 3.4. Public Aspect
