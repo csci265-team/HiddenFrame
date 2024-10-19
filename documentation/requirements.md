@@ -37,7 +37,7 @@ Alternate contact person:
 	   - 5.2.2. [Sending a Secret Message with an Embedded Image Scenario](#522-sending-a-secret-message-with-an-embedded-image-scenario)
 	   - 5.2.3. [Viewing a Hidden Message Scenario](#523-viewing-a-hidden-message-scenario)
  6. [Non-functional requirements](#6-non-functional-requirements)
-    - 6.1. [Public  Aspect](#61-public--aspect)
+    - 6.1. [Public Aspect](#61-public--aspect)
     - 6.2. [Private Aspect](#62-private-aspect)
     - 6.3. [Mathematics](#63-mathematics)
  7. [Feature prioritization](#7-feature-prioritization)
