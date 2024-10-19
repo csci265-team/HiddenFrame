@@ -356,10 +356,10 @@ sequenceDiagram
     API Server-->>User: Error is returned
 
 
-    User-->>API Server: Requests public data
-    API Server-->>Backend: Data is fetched based on request
-    Backend-->>API Server: Data is returned
-    API Server-->>User: Data is returned
+    User->>API Server: Requests public data
+    API Server->>Backend: Data is fetched based on request
+    Backend->>API Server: Data is returned
+    API Server->>User: Data is returned
 ```
 
 ### 6.2 Routes
