@@ -109,43 +109,6 @@ The front-end and back-end of HiddenFrame have been carefully designed to provid
 
 The initial focus for HiddenFrame is on desktop browsers to offer an optimal viewing and interaction experience, especially for users managing large images and hidden messages. Mobile responsiveness is a stretch goal that will be considered once primary features are stable.
 
-### 2.2 Primary Technologies
-
-- HTML5, CSS3, JavaScript: The front-end is built using standard web technologies to ensure cross-browser compatibility.
-- TypeScript: TypeScript ensures strict type-checking, which is crucial for the sensitive functions related to embedding and decoding hidden messages.
-- Remix: Remix is used as the main front-end framework, optimizing performance and simplifying full-stack React development with built-in support for web standards and tools.
-- Vite: Vite, the default build tool for Remix, allows fast development and optimized production builds, ensuring smooth performance.
-
-### 2.3 Frameworks and Libraries
-
-- TailwindCSS: TailwindCSS is used for building responsive layouts for the image wall and other UI components, ensuring scalability and easy maintenance.
-- ESLint: To maintain code quality and ensure a consistent coding style across the project, ESLint is used for linting JavaScript and TypeScript files.
-
-### 2.4 User Interface (UI) Design Principles
-
-- Clean and Minimalistic Design: The platform is designed with simplicity and ease of use in mind, minimizing distractions and focusing on core functionality.
-- Clear Visual Hierarchy: Key features, such as image uploads and the secret messaging system, are easily distinguishable to guide the user through the platform’s public and private features.
-- Intuitive Interactions: Visual feedback is provided for all user actions, such as image uploads, button clicks, and hidden message decoding, ensuring users understand the system’s response to their input.
-
-### 2.5 Front-End Configuration
-
-- Node and NPM: Node.js is used for development purposes, while Remix is based on the Web Fetch API, so Node.js will not be required in production.
-- TypeScript: Utilized to ensure strict type-checking, especially when handling sensitive operations like steganography, to avoid runtime errors.
-- Remix: As our front-end framework, Remix optimizes the platform’s performance and simplifies data management, ensuring a fast and stable user experience.
-- Vite: Vite provides a fast development environment and optimized builds, essential for secure private communication and image handling.
-- TailwindCSS: Used to build responsive layouts for image grids and other UI elements. The configuration is customized to reflect our project’s branding.
-- ESLint: Ensures that clean coding practices are enforced, preventing errors and maintaining code consistency.
-
-### 2.6 Key Transformations/Decisions from Logical Design to Implementation
-
-As we transitioned from the logical design to implementation, several key decisions shaped the final product:
-
-- Public Aspect (Image Sharing): The design incorporates a scalable and user-friendly public interface that allows for easy image uploads, browsing, and interaction (e.g., liking, commenting, sharing).
-- Private Aspect (Steganography): The private aspect of the platform allows users to embed and decode secret messages within images. This functionality is protected by secure login and encryption protocols.
-- Data Handling and Security: The platform is designed with privacy and security in mind, ensuring sensitive data (such as hidden messages) is handled securely through HTTPS and careful management of steganographic keys.
-- UI/UX Consistency: Both public and private aspects share a consistent UI/UX, making it easy for users to switch between browsing public images and managing private, secure communications.
-- Performance Optimizations: Vite and Remix were chosen to optimize build performance, ensuring fast load times and responsive user interactions, particularly crucial when dealing with large images and data payloads.
-
 ## 3. Front-End Design
 
 The front-end of HiddenFrame will be responsible for providing a user-friendly interface for both public and private users.
@@ -247,6 +210,87 @@ Image Wall is a grid of publicly shared images that scrolls infinitely.
 ### 4.4. Payload Retrieval
 
 ## 5. Network Design
+
+Since our system is written in C++ in its back-end and uses a Javascript framework in its front-end, our front-end to back-end communication will be utilizing an API server made using ["Crow"](https://crowcpp.org/) which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for its built-in JSON support and to make back-end to front-end communication seamless.
+
+We will be implementing Crow in the back-end and defining routes to handle HTTP GET and POST requests for sending and receiving data to and from the front-end.
+
+GET requests to:
+
+- Retrieve private message from the Secret Chat Page
+  - Response: A JSON object containing the private messages.
+- Retreive number of remining allowed invites for current privileged user.
+  - Response: A JSON object containing the remaining invite count.
+- Retrieve error messages for situations like: invalid credentials, invalid image format, exceeding allowable length(1024 UTF-8 characters) for a hidden message, etc.
+  - Response: A JSON object containing the error message.
+- Retrieve system generated keys that decode the embedded images.
+  - Response: A JSON object containing the keys for the embedded images.
+- Retrieve embedded images with a hidden message.
+  - Response: An image file or url.
+- Retrieve decoded image embedded image after key has been recognized(stretch goal).
+  - Response: An image file or url.
+- Retrieve decoded embedded image after key has been recognized.
+  - Response: An image file or url.
+- Retreive the amount of likes on a specific image(stretch goal).
+  - Response: A JSON object containing the like count of the specific image.
+- Retrieve image embedded image(stretch goal).
+  - Response: An image file or url.
+
+POST requests for:
+
+- Receiving user inputted infromation for the sign up page(email and password).
+  - Response: A JSON object confirming success or failure.
+- Receiving user inputted credentials for the login page(email and password).
+  - Response: A JSON object confirming success or failure.
+- Receiving user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
+  - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
+- Receiving user inputted hidden message to be embedded in the image.
+  - Response: A JSON object confirming that the hidden message was successfully embedded in the image or returning an error if the process failed.
+- Receiving user inputted private messages being sent through the Secret Chat page.
+  - Response: A JSON object confirming the private message has been sent or if the process had failed.
+- Receiving the action of the user liking an image(stretch goal).
+  - Response: A JSON object confirming the "like" has been received or if an error occured.
+- Receiving user uploaded images to be embeded as an image(stretch goal).
+  - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
+
+Our front-end utilizes the "Remix" framework where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side.
+
+### 2.2 Primary Technologies
+
+- HTML5, CSS3, JavaScript: The front-end is built using standard web technologies to ensure cross-browser compatibility.
+- TypeScript: TypeScript ensures strict type-checking, which is crucial for the sensitive functions related to embedding and decoding hidden messages.
+- Remix: Remix is used as the main front-end framework, optimizing performance and simplifying full-stack React development with built-in support for web standards and tools.
+- Vite: Vite, the default build tool for Remix, allows fast development and optimized production builds, ensuring smooth performance.
+
+### 2.3 Frameworks and Libraries
+
+- TailwindCSS: TailwindCSS is used for building responsive layouts for the image wall and other UI components, ensuring scalability and easy maintenance.
+- ESLint: To maintain code quality and ensure a consistent coding style across the project, ESLint is used for linting JavaScript and TypeScript files.
+
+### 2.4 User Interface (UI) Design Principles
+
+- Clean and Minimalistic Design: The platform is designed with simplicity and ease of use in mind, minimizing distractions and focusing on core functionality.
+- Clear Visual Hierarchy: Key features, such as image uploads and the secret messaging system, are easily distinguishable to guide the user through the platform’s public and private features.
+- Intuitive Interactions: Visual feedback is provided for all user actions, such as image uploads, button clicks, and hidden message decoding, ensuring users understand the system’s response to their input.
+
+### 2.5 Front-End Configuration
+
+- Node and NPM: Node.js is used for development purposes, while Remix is based on the Web Fetch API, so Node.js will not be required in production.
+- TypeScript: Utilized to ensure strict type-checking, especially when handling sensitive operations like steganography, to avoid runtime errors.
+- Remix: As our front-end framework, Remix optimizes the platform’s performance and simplifies data management, ensuring a fast and stable user experience.
+- Vite: Vite provides a fast development environment and optimized builds, essential for secure private communication and image handling.
+- TailwindCSS: Used to build responsive layouts for image grids and other UI elements. The configuration is customized to reflect our project’s branding.
+- ESLint: Ensures that clean coding practices are enforced, preventing errors and maintaining code consistency.
+
+### 2.6 Key Transformations/Decisions from Logical Design to Implementation
+
+As we transitioned from the logical design to implementation, several key decisions shaped the final product:
+
+- Public Aspect (Image Sharing): The design incorporates a scalable and user-friendly public interface that allows for easy image uploads, browsing, and interaction (e.g., liking, commenting, sharing).
+- Private Aspect (Steganography): The private aspect of the platform allows users to embed and decode secret messages within images. This functionality is protected by secure login and encryption protocols.
+- Data Handling and Security: The platform is designed with privacy and security in mind, ensuring sensitive data (such as hidden messages) is handled securely through HTTPS and careful management of steganographic keys.
+- UI/UX Consistency: Both public and private aspects share a consistent UI/UX, making it easy for users to switch between browsing public images and managing private, secure communications.
+- Performance Optimizations: Vite and Remix were chosen to optimize build performance, ensuring fast load times and responsive user interactions, particularly crucial when dealing with large images and data payloads.
 
 ## 6. Data Design
 
