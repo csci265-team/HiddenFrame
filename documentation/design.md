@@ -239,14 +239,14 @@ There are two methods in "image" which are used in image I/O and they will lean 
 The purpose of a key is to tell the encoding algorithm where to write the hidden message the sender has provided into an image and to say to the receiver where in the image to look for a hidden message. To generate a key, the following details about the image must be passed to the algorithm as functional input:
 
 1. The number of channels in the image representing which RGBA channels are being used;
-2. The (x,y) dimensions of pixels in the image; and
+2. The $(x,y)$ dimensions of pixels in the image; and
 3. The binary string to be encoded into the image.
 
 The message will be broken down into packets of bits that will be passed through the LSBs (Least Significant Bits) of a pixel's channels. For an image using one or two channels, one bit of information will be passed per channel per pixel that has been instructed to be encoded or decoded by the key. For three and four-channel images, the channel will tell the encoder and decoder additional information further described in Payload Embedding and Payload Retrieval. Modifying the LSBs in the channel will ensure that minimal visual changes to the images are made. The purpose of the key will be to tell the encoder and decoder how many pixels need to be skipped within the image when looking for the next significant pixel containing information.  To perform this task, we will use generators of a group of integers mod n.
 
 Suppose an image has n pixels. We want to know, which integers under addition $mod \, n$ generate the set $\\{0,1,2,3,...,n-1\\}$.
 
-Definition: Let $\\{0,1,2,3,...,n-1\\}$ be a group under the binary option of addition $mod \, n$. We say that $a \in G$ generates $G$ if $G=\\{ a^n|n \in \mathbb{Z}\\}$. Note in this context $a^n$ does not mean a$ to the power of $n$, but rather $a$ added to itself n-times, since the binary operation was addition.
+Definition: Let $\\{0,1,2,3,...,n-1\\}$ be a group under the binary option of addition $mod \, n$. We say that $a \in G$ generates $G$ if $G=\\{ a^n:n \in \mathbb{Z}\\}$. Note in this context $a^n$ does not mean $a$ to the power of $n$, but rather $a$ added to itself $n$-times, since the binary operation was addition.
 
 To calculate the generators of $n$, we will iteratively use the Euclidean Algorithm to determine which numbers in the set $\\{0,1, 2, 3, ... , n-1\\}$ are relatively prime to $n$ up to a fixed value $k < n$ if $n$ becomes large. The purpose of going up to only a fixed value $k$, is so that our jumps between pixels do not become so large that we need to pass over the almost the entire image with each pixel selection. To find numbers that are relatively prime to n, we must find integers, $i$, whose $gcd(n,i)=1$.
 
