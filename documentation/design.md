@@ -246,7 +246,7 @@ The message will be broken down into packets of bits that will be passed through
 
 Suppose an image has n pixels. We want to know, which integers under addition $\(mod \, n\)$ generate the set $\(\{0,1,2,3,...,n-1\}\)$.
 
-Definition: Let $\(G=\{0,1,2,3,...,n-1\}\)$ be a group under the binary option of addition $\(mod n\)$. We say that $\(a \in G\)$ generates $\(G\)$ if $\(G=\\{ a^n|n \in Z \}\)$. Note in this context $\(a^n\)$ does not mean \(a\)$ to the power of $\(n\)$, but rather $\(a\)$ added to itself n-times, since the binary operation was addition.
+Definition: Let ${0,1,2,3,...,n-1}$ be a group under the binary option of addition $mod n$. We say that $\(a \in G\)$ generates $\(G\)$ if $\(G=\{ a^n|n \in Z \}\)$. Note in this context $\(a^n\)$ does not mean \(a\)$ to the power of $\(n\)$, but rather $\(a\)$ added to itself n-times, since the binary operation was addition.
 
 To calculate the generators of $\(n\)$, we will iteratively use the Euclidean Algorithm to determine which numbers in the set $\(\{0,1, 2, 3, ... , n-1\}\)$ are relatively prime to $\(n\)$ up to a fixed value $\(k < n\)$ if $\(n\)$ becomes large. The purpose of going up to only a fixed value $\(k\)$, is so that our jumps between pixels do not become so large that we need to pass over the almost the entire image with each pixel selection. To find numbers that are relatively prime to n, we must find integers, $\(i\)$, whose $\(gcd(n,i)=1\)$.
 
