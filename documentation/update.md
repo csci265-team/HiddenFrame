@@ -31,7 +31,7 @@
  
  ### 2.1. Requirements
 
- Per Prof. Wessel's observation, the mathematics section of the original requirements document contained little detail of the methods intending to be used in the backend of encoding or decoding messages.  This has been updated to include a definitions of a group, a cyclic group, a generator and a description of the Eucliean Algorithm. A description has been included to show how these concepts will prove helpful for the encoding and decoding of bitstrings for this particular project.
+ Per Prof. Wessels' observation, the mathematics section of the original requirements document contained little detail of the methods intended to be used in the backend of encoding or decoding messages.  This has been updated to include definitions of a group, a cyclic group, a generator and a description of the Euclidean Algorithm. A description has been included to show how these concepts will prove helpful for the encoding and decoding of bitstrings for this particular project.
 
  ### 2.2. Standards
  N/A
