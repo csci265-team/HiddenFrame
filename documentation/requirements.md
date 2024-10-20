@@ -289,11 +289,11 @@ HiddenFrame's steganographic features require that we develop a method for inser
 
 Definition: Let $A$ be the set together with a binary operation (we will be using addition) that assigns to each ordered pair $(a,b)$ of elements of $A$ and element of $A$ denoted $ab$. We say that $A$ is a group under this operation if the following three axioms are satisfied.
 
-1. Associativity. The operation is associative; that is, $(ab)c = a(bc)$ for all $a,b,c \in A$.
-2. Identity. There is an element $e$ (called the identity) in $G$ such that $ae=ea=a \forall a \in A$.
-3. Inverses exist. For each element $a \in A$, there is a unique element $b \in A$ (called the inverse of $a$ and denoted $a^{-1}$) such that $ab=ba=e$.
+1. Associativity. The operation is associative; that is, $(ab)c = a(bc)$ for all $a,b,c \in A.$
+2. Identity. There is an element $e$ (called the identity) in $G$ such that $ae=ea=a \\; \forall \\; a \in A.$
+3. Inverses exist. For each element $a \in A$, there is a unique element $b \in A$ (called the inverse of $a$ and denoted $a^{-1}$) such that $ab=ba=e.$
 
-Since any set of integers $\\{0,1,2,...,n-1\\} modulo \\; n$ denoted $\mathbb{Z}_n$ satisfies the definition of a group, we may use this fact to our advantage where $n$ would be the total number of pixels in an image being manipulated for encoding a message. This means that leveraging concepts from group theory and modular arithmatic will work for selecting pixels for modification in an image, regardless of the dimensions of an image provided by the user, however, practical computing constraints to image size and message size will need to be considered. To generate the group when performing pixel selection, we may use any generator of the $\\{0,1,2,...,n-1\\}$.
+Any set of integers $\\{0,1,2,...,n-1\\} \\; modulo \\; n$ denoted $\mathbb{Z}_n$ satisfies the definition of a group. This means that leveraging concepts from group theory and modular arithmatic will work for selecting pixels for modification in an image, regardless of the dimensions of an image provided by the user, however, practical computing constraints to image size and message size will need to be considered. To generate the group when performing pixel selection, we may use any generator of the $\\{0,1,2,...,n-1\\}$.
 
 To find generaators of $n$ we may us the Euclidean Algorithm, that is given $n,x \in \mathbb{Z}$ where $x<n$:
 
