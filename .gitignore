@@ -13,3 +13,7 @@ a.out
 *.swp
 **/*/*.swp
 **/*.swp
+
+*.exe
+**/*/*.exe
+**/*.exe
