@@ -239,39 +239,39 @@ There are two methods in "image" which are used in image I/O and they will lean 
 The purpose of a key is to tell the encoding algorithm where to write the hidden message the sender has provided into an image and to say to the receiver where in the image to look for a hidden message. To generate a key, the following details about the image must be passed to the algorithm as functional input:
 
 1. The number of channels in the image representing which RGBA channels are being used;
-2. The $(x,y)$ dimensions of pixels in the image; and
+2. The $(x,y)$ dimensions of pixels of the image; and
 3. The binary string to be encoded into the image.
 
-The message will be broken down into packets of bits that will be passed through the LSBs (Least Significant Bits) of a pixel's channel(s). For an image using one or two channels, one bit of information will be passed per channel per pixel that has been instructed to be encoded or decoded by the key. For three and four-channel images, the channel will tell the encoder and decoder additional information further described in Payload Embedding and Payload Retrieval. Modifying the LSBs in the channel will ensure that minimal visual changes to the images are made. The purpose of the key will be to tell the encoder and decoder how many pixels need to be skipped within the image when looking for the next significant pixel containing information.  To perform this task, we will use generators of a group of integers mod n.
+The message will be broken down into packets of bits that will be passed through the LSBs (Least Significant Bits) of a pixel's channel(s). For an image using one or two channels, one bit of information will be passed per channel per pixel that has been instructed to be encoded or decoded by the key. For three and four-channel images, the channel being utilized will tell the encoder and decoder additional information further described in Payload Embedding and Payload Retrieval. Modifying the LSBs in the pixel channels will ensure that minimal visual changes to the images are made. The key instruct the encoder and decoder how many pixels need to be skipped within the image when looking for the next significant pixel containing information.  To perform this task, we will use generators of a group of integers $mod \\, n$.
 
 Suppose an image has $n$ pixels. We want to know, which integers under addition $mod \\; n$ generate the set $\\{0,1,2,3,...,n-1\\}$.
 
 Definition: Let $\\{0,1,2,3,...,n-1\\}$ be a group under the binary option of addition $mod \\; n$. We say that $a \in G$ generates $G$ if $G=\\{ a^n:n \in \mathbb{Z}\\}$. Note in this context $a^n$ does not mean $a$ to the power of $n$, but rather $a$ added to itself $n$-times, since the binary operation was addition.
 
-To calculate the generators of $n$, we will iteratively use the Euclidean Algorithm to determine which numbers in the set $\\{0,1, 2, 3, ... , n-1\\}$ are relatively prime to $n$ up to a fixed value $k < n$ if $n$ becomes large. The purpose of going up to only a fixed value $k$, is so that our jumps between pixels do not become so large that we need to pass over the almost the entire image with each pixel selection. To find numbers that are relatively prime to $n$, we must find integers, $i$, whose $gcd(n,i)=1$.
+To calculate the generators of $n$, we will iteratively use the Euclidean Algorithm to determine which numbers in the set $\\{0,1, 2, 3, ... , n-1\\}$ are relatively prime to $n$ up to a fixed value $k < n$ if $n$ becomes large. The purpose of going up to only a fixed value $k$, is so that our jumps between pixels do not become so large that we need to pass over unnecessarily large portions of the image with each pixel selection. To find numbers that are relatively prime to $n$, we must find integers, $i$, whose $gcd(n,i)=1$.
 
 Next, we will look for a skip size in pixels that accomplishes two competing goals:
 
 1. Allows us to use every pixel in the image if needed should the message become too large; and
 2. Maximize the space between pixels containing information to avoid clustering of modified pixels when this can be avoided.
 
-Using any generator as the size of skips between pixels already accomplishes our first goal.  Even if we pass over the image multiple times, we will only land on every pixel exactly once until we land on our hit our first modified pixel. Once we have come back to this position, no further modifications to the image can be made. Utilizing generators will prevent us from colliding with previously modified pixels should we need to pass over the image more than once and will prevent us from wasting any space in the image to modify.
+Using any generator as the size of skips between pixels already accomplishes our first goal.  Even if we pass over the image multiple times, we will only land on every pixel exactly once until we return to the starting position of pixel 0, the first pixel in the image. Once we have come back to this position, no further modifications to the image can be made. Utilizing generators will prevent us from colliding with previously modified pixels should we need to pass over the image more than once and will prevent us from wasting any space in the image that could include data.
 
 To maximize the space between pixels, we need to know how many pixels must be modified in the image to maximize the space between them. This involves knowing what the bit string contents of our message will be after the characters have been converted to binary. As will be discussed in further detail in Payload Embedding and Payload Retrieval, the channels will be used to encode the bit strings into the images. The binary will be shortened into a format resembling $[2,1,3,0,1,1,...]$ that is to be read as two 1's, three 0's, one 1, ... and looks like 110001... in binary. The size of this array divided by 2 will tell us how many pixels must be modified. Using this information, we must look through our list of generators such that the total number of pixels in our image, n, divided by the number of pixels we need to modify should be roughly equal to the generator we choose from our computed list. This will ensure as even of a distribution as possible.  When this is not possible, generators $1$, and $n-1$ should NOT be chosen as they are guaranteed to cause clustering. By this method, suppose we call the generator we've selected $g$.
 
 Now, we need to pass the following information in the key to the encoder and decoder:
 
-1. The size of the skips which was the generator chosen;
+1. The size of the skips which was the generator $g$ chosen;
 2. The number of hex characters used to describe the generator in the key since we would want to obscure this number; and
 3. The number of channels used in the image.
 
-We can further obscure the generator $g$ we chose by randomly selecting another generator from our list since any of these numbers can be used to produce any number in $\\{0,1,2,3,...,n-1\\}$, let's call this other generator $a$. Next, we find its multiplicative inverse $a^\{-1\}$ such that $aa^\{-1\} \\; mod \\; n=1$, and finding a number $b$ such that $ab \\; mod \\; n = g$.  We can achieve this by using $a^\{-1\}$ since we can rearrange our equation $\(b=a^\{-1\}g \\; mod \\; n\)$. We can repeat this step and find multiple ways of representing $g$.  The purpose of this would be to put several of them into a key and provide us with a way to represent the same skip size in many different ways, increasing the number of unique keys that can be stored to represent images that require the same number of skips within them.  Finally, our keys will have a format:
+We can further obscure the generator $g$ we chose by randomly selecting another generator from our list since any of these numbers can be used to produce any number in $\\{0,1,2,3,...,n-1\\}$, let's call this other generator $a$. Next, we find its multiplicative inverse $a^\{-1\}$ such that $aa^\{-1\} \\; mod \\; n=1$, and finding a number $b$ such that $ab \\; mod \\; n = g$.  We can achieve this by using $a^\{-1\}$ since we can rearrange our equation $b=a^\{-1\}g \\; mod \\; n$. We can repeat this step and find multiple ways of representing $g$.  The purpose of this would be to put several $ab$ pairs into a key and provide us with a way to represent unique keys where the same generator $g$ has been chosen.  Finally, our keys will have a format:
 
 $$\\{a_1,b_1,a_2,b_2,...G,e,f\\}$$ 
 
 where,
 
-1. Each ab pairs are hex values that when multiplied together mod n give back the size of the skips;
+1. Each ab pairs are hex values that when multiplied together $mod \\; n$ give back the size of the skips between pixels containing encoded information;
 2. $G$ a terminating character to tell the reader the description of the skips have ceased;
 3. $e$ a hex character that describes how many hex digits each $a_i$ or $b_i$ is; and
 4. $f$ the number of channels used in the image.
