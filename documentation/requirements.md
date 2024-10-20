@@ -301,7 +301,7 @@ To find generators of $n$ we may us the Euclidean Algorithm, that is given $n,x 
 
 $$n=qx + r \\; : \\; q,r \in mathbb{Z}, 0 \leq r < x$$.
 
-If $r=0$, then $gcd(n,x)=x$ otherwise, $gcd(n,x)=gcd(x,r)$. We perform these steps iteratively until $r=0$. If in our final iteration of testing the $gcd$ for two integers, the lesser integer being tested was equal to $1$, then $x$ was a generator of $n$. If $gcd(n,x)>1$, then $x$ is NOT a generator of $n$.
+If $r=0$, then $gcd(n,x)=x$ otherwise, $gcd(n,x)=gcd(x,r)$. We perform these steps iteratively until $r=0$. If in our final iteration of testing the $gcd$ for two integers, the lesser integer being tested was equal to $1$, then $x$ was a generator of $n$. If $gcd(n,x)>1$, then $x$ is NOT a generator of $n$ and should not be used as jump size between pixels when selecting pixels for modification for messaging encoding and decoding.
 
 ## 7. Feature prioritization
 
