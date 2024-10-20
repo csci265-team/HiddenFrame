@@ -25,8 +25,11 @@
  ### 1.2. Proposal
  N/A
  ## 2. Phase 2 Summary of Changes
+ 
  ### 2.1. Requirements
- N/A
+
+ Per Prof. Wessel's observation, the mathematics section of the original requirements document contained little detail of the methods intending to be used in the backend of encoding or decoding messages.  This has been updated to include a definitions of a group, a cyclic group, a generator and a description of the Eucliean Algorithm. A description has been included to show how these concepts will prove helpful for the encoding and decoding of bitstrings for this particular project.
+ 
  ### 2.2. Standards
  N/A
  ## Phase 3 Summary of Changes
