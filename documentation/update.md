@@ -30,11 +30,12 @@
  ### 2.2. Standards
  N/A
  ## Phase 3 Summary of Changes
- N/A
+
+- Git standards: A new staging branch was added and a bunch of git standards were updated based on feedback.
+
  ## Phase 4 Summary of Changes
  N/A
  ## Phase 5 Summary of Changes
  N/A
  ## Phase 6 Summary of Changes
  N/A
-
