@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import PageHeader from "../components/PageHeader";
 
 export const meta: MetaFunction = () => {
   return [
@@ -24,9 +25,7 @@ export default function Index() {
   return (
     <div className="flex items-center justify-center h-full">
       <div className="flex flex-col items-center gap-16 h-full">
-        <header className="flex flex-col items-center gap-9">
-          <h1 className="text-4xl font-[Outfit] font-black">HiddenFrame</h1>
-        </header>
+        <PageHeader />
 
         <h2 className="text-2xl font-[Outfit] font-black ">Photos from Unsplash</h2>
         <div className="grid grid-cols-3 gap-4 p-4">
