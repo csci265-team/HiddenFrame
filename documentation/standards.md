@@ -49,14 +49,35 @@ More details on the coding standards can be found at: http://csci.viu.ca/~wessel
 
 The git lead will enforce these standards along with everyone else, holding each other accountable:
 
+#### Rules for all branches/PRs
+
+These are general rules that should be applied to all branches and pull requests:
+
+- Force pushes should be avoided.
+- The creator of the pull request can not merge their own pull request.
+- If a review requesting changes is created on a PR, then the PR cannot be merged until the reviewer approves the PR.
+- Once all the requirements are met anyone on the team can merge PRs except the creator of said PR.
+
+#### Adding to staging
+
+Our project has a [`staging`](https://github.com/csci265-team/project/tree/staging) branch. This branch will have latest working code
+This is the branch that everyone pulls from and then gets merged into master at the end of each phase thus, our goal is to keep this branch stable and protected.
+Below are some of the explicit rules protecting this branch:
+
+- No pushing directly to [`staging`](https://github.com/csci265-team/project/tree/staging). Create pull requests instead.
+- Pull requests need to be created against [`staging`](https://github.com/csci265-team/project/tree/staging) to get code merged in.
+- At least two team members need to approve changes in a PR before code can be merged into [`staging`](https://github.com/csci265-team/project/tree/staging).
+
+
 #### Adding to master
 
-Our project has a [`master`](https://github.com/csci265-team/project/tree/master) branch. 
+Our project has a [`master`](https://github.com/csci265-team/project/tree/master) branch. This branch will be the one submitted to the professor.
 This is the branch that gets submitted at the end of each phase, and thus, our goal is to keep this branch stable and protected.
 Below are some of the explicit rules protecting this branch:
 
-- No pushing directly to [`master`](https://github.com/csci265-team/project/tree/master). Create pull requests instead.
+- No pushing directly to [`master`](https://github.com/csci265-team/project/tree/master). Create pull requests from staging instead.
 - Pull requests need to be created against [`master`](https://github.com/csci265-team/project/tree/master) to get code merged in.
+- Git Lead will create the pull request against master from staging at the end of each phase.
 - At least two team members need to approve changes in a PR before code can be merged into [`master`](https://github.com/csci265-team/project/tree/master).
 
 #### Adding to dev branches
@@ -67,14 +88,6 @@ Each team member can make a branch with this naming scheme, and the following ru
 - Only the owner of a branch can push directly to it.
 - If someone other than the owner wants to make changes to this type of branch, they must make a pull request against it. (`nameOfMemeber-dev` <--- `xyz-branch`)
 - The pull request may only be merged after approval from the owner of said branch
-
-#### Rules for all branches/PRs
-
-These are general rules that should be applied to all branches and pull requests:
-
-- Force pushes should be avoided.
-- The creator of the pull request can not merge their own pull request.
-- If a review requesting changes is created on a PR, then the PR cannot be merged until the reviewer approves the PR.
 
 #### Other branches
 
