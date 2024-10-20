@@ -36,7 +36,7 @@ Alternate contact person:
 10. [Appendixes](#10-appendixes)
 
 # List of Figures:
-- [Top Level Data Flow Diagram](#top-level-flow-diagram)
+- [Top Level Data Flow Diagram](#top-level-data-flow-diagram)
 - [Module Interaction Diagram](#module-interaction-diagram)
 - [Page Load Cycle](#page-load-cycle)
 - [Data Input Lifecycle](#data-Input-lifecycle)
