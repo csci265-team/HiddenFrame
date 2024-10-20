@@ -118,40 +118,53 @@ We will be implementing Crow in the back-end and defining routes to handle HTTP 
 
 GET requests to:
 
-- Retrieve private message from the Secret Chat Page
-  - Response: A JSON object containing the private messages.
-- Retreive number of remining allowed invites for current privileged user.
+- Retrieve number of remaining allowed invites for current privileged user.
+  e.g, GET /users/invites/remaining
   - Response: A JSON object containing the remaining invite count.
-- Retrieve error messages for situations like: invalid credentials, invalid image format, exceeding allowable length(1024 UTF-8 characters) for a hidden message, etc. 
-  - Response: A JSON object containing the error message.
 - Retrieve system generated keys that decode the embedded images.
-  - Response: A JSON object containing the keys for the embedded images.
+  e.g, GET /images/keys
+  - Response: A JSON object containing the keys for the embedded images. 
+- Retrieve decoded embedded message after key has been recognized.
+  e.g, GET /images/embedded/message/:id/decoded
+  - Response: A JSON object containing the embedded message.
 - Retrieve embedded images with a hidden message.
-  - Response: An image file or url.  
-- Retrieve decoded image embedded image after key has been recognized(stretch goal).
-  - Response: An image file or url.
-- Retrieve decoded embedded image after key has been recognized.
-  - Response: An image file or url.
+  e.g, GET /images/embedded/message
+  - Response: An image file or url. 
 - Retreive the amount of likes on a specific image(stretch goal).
+  e.g, GET /images/:id/likes
   - Response: A JSON object containing the like count of the specific image.
+- Retrieve private message from the Secret Chat Page (stretch goal)
+  e.g, GET /chat/messages
+  - Response: A JSON object containing the private messages.
 - Retrieve image embedded image(stretch goal).
+  e.g, GET images/embedded/image
+  - Response: An image file or url.
+- Retrieve decoded image embedded image after key has been recognized(stretch goal).
+  e.g, GET /images/embedded/image/:id/decoded
   - Response: An image file or url.
 
 POST requests for:
 
-- Receiving user inputted infromation for the sign up page(email and password).
+- Receiving user inputted information for the sign up page(email and password).
+  e.g, POST /users/signup
   - Response: A JSON object confirming success or failure.
 - Receiving user inputted credentials for the login page(email and password).
+  e.g, POST /users/login
   - Response: A JSON object confirming success or failure.
 - Receiving user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
+  e.g, POST /images/upload
   - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
 - Receiving user inputted hidden message to be embedded in the image.
+  e.g, POST /images/message/:id/embed
   - Response: A JSON object confirming that the hidden message was successfully embedded in the image or returning an error if the process failed.
-- Receiving user inputted private messages being sent through the Secret Chat page.
+- Receiving user inputted private messages being sent through the Secret Chat page.(stretch goal)
+  e.g, POST /chat/messages
   - Response: A JSON object confirming the private message has been sent or if the process had failed.
 - Receiving the action of the user liking an image(stretch goal).
+  e.g, POST /images/:id/like
   - Response: A JSON object confirming the "like" has been received or if an error occured.
 - Receiving user uploaded images to be embeded as an image(stretch goal).
+  e.g, POST /images/image/:id/embed
   - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
 
 
