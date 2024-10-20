@@ -265,7 +265,11 @@ Now, we need to pass the following information in the key to the encoder and dec
 2. The number of hex characters used to describe the generator in the key since we would want to obscure this number; and
 3. The number of channels used in the image.
 
-We can further obscure the generator $g$ we chose by randomly selecting another generator from our list since any of these numbers can be used to produce any number in $\\{0,1,2,3,...,n-1\\}$, let's call this other generator $a$. Next, we find its multiplicative inverse $a^\{-1\}$ such that $aa^\{-1\} \, mod \, n=1$, and finding a number $b$ such that $ab \, mod \, n = g$.  We can achieve this by using $a^\{-1\}$ since we can rearrange our equation $\(b=a^\{-1\}g \, mod \, n\)$. We can repeat this step and find multiple ways of representing $g$.  The purpose of this would be to put several of them into a key and provide us with a way to represent the same skip size in many different ways, increasing the number of unique keys that can be stored to represent images that require the same number of skips within them.  Finally, our keys will have a format $$a_1,b_1,a_2,b_2,...G,e,f$$ where:
+We can further obscure the generator $g$ we chose by randomly selecting another generator from our list since any of these numbers can be used to produce any number in $\\{0,1,2,3,...,n-1\\}$, let's call this other generator $a$. Next, we find its multiplicative inverse $a^\{-1\}$ such that $aa^\{-1\} \, mod \, n=1$, and finding a number $b$ such that $ab \, mod \, n = g$.  We can achieve this by using $a^\{-1\}$ since we can rearrange our equation $\(b=a^\{-1\}g \, mod \, n\)$. We can repeat this step and find multiple ways of representing $g$.  The purpose of this would be to put several of them into a key and provide us with a way to represent the same skip size in many different ways, increasing the number of unique keys that can be stored to represent images that require the same number of skips within them.  Finally, our keys will have a format 
+
+$$\\{a_1,b_1,a_2,b_2,...G,e,f\\}$$ 
+
+where:
 
 1. Each ab pairs are hex values that when multiplied together mod n give back the size of the skips;
 2. $G$ a terminating character to tell the reader the description of the skips have ceased;
