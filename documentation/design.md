@@ -244,7 +244,7 @@ The purpose of a key is to tell the encoding algorithm where to write the hidden
 
 The message will be broken down into packets of bits that will be passed through the LSBs (Least Significant Bits) of a pixel's channels. For an image using one or two channels, one bit of information will be passed per channel per pixel that has been instructed to be encoded or decoded by the key. For three and four-channel images, the channel will tell the encoder and decoder additional information further described in Payload Embedding and Payload Retrieval. Modifying the LSBs in the channel will ensure that minimal visual changes to the images are made. The purpose of the key will be to tell the encoder and decoder how many pixels need to be skipped within the image when looking for the next significant pixel containing information.  To perform this task, we will use generators of a group of integers mod n.
 
-Suppose an image has n pixels. We want to know, which integers under addition $mod \\, n$ generate the set $\\{0,1,2,3,...,n-1\\}$.
+Suppose an image has n pixels. We want to know, which integers under addition $mod \\; n$ generate the set $\\{0,1,2,3,...,n-1\\}$.
 
 Definition: Let $\\{0,1,2,3,...,n-1\\}$ be a group under the binary option of addition $mod \\, n$. We say that $a \in G$ generates $G$ if $G=\\{ a^n:n \in \mathbb{Z}\\}$. Note in this context $a^n$ does not mean $a$ to the power of $n$, but rather $a$ added to itself $n$-times, since the binary operation was addition.
 
