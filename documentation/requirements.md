@@ -114,7 +114,7 @@ This web page will have a simple login form that will ask the user for some sort
 
 ### 3.4. Hiding messages in the pictures
 
-The same web-based app will also have a special upload section for private users, which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded, we will provide the user with a "key" that can be used to decrypt the message from the image later. 
+The same web-based app will also have a special upload section for private users, which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded, we will provide the user with a "key" that can be used to decode the message from the image later. 
 
 The text message will be limited to 1024 UTF-8 characters in an image of not less than 40,000 pixels.
 
@@ -280,7 +280,7 @@ One of the central pillars of Project HiddenFrame is its social media. HiddenFra
 
 HiddenFrame's other primary feature is the steganography manipulation of images for chosen users. In addition to all of the Public Aspect Non-functional Requirements, this part of the project poses its own unique challenges:
 - User Privacy - Since this part of the site will require account creation HiddenFrame will have a responsibility to safeguard any user information provided. 
-- Steganography keys -  If the decryption keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
+- Steganography keys -  If the keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
 - Misuse of HiddenFrame for Illegal activity - HiddenFrame will moderate the site for content and cooperate with law enforcement in whatever capacity is required. 
 
 ### 6.3. Mathematics
@@ -293,11 +293,11 @@ Definition of a group: Let $A$ be a set together with a binary operation (we wil
 2. Identity. There is an element $e$ (called the identity) in $G$ such that $ae=ea=a \\; \forall \\; a \in A.$
 3. Inverses exist. For each element $a \in A$, there is a unique element $b \in A$ (called the inverse of $a$ and denoted $a^{-1}$) such that $ab=ba=e.$
 
-1 in [Citations](../documentation/citations.md)
+1 in [Citations](../documentation/citations.md).
 
 Definition of a cyclic group and a generator: Let $A$ be a group. We say that $A$ is cyclic if there exists an element $a \in A$ such that $A=\\{a^n:n\in\mathbb{Z}\\}$ and that $a$ is a generator of $A$. Note, that in this case, $a^n$ does not mean $a$ to the power of $n$, but rather $a$ composed with itself $n$ times under the binary operation of the group $A$.
 
-1 in [Citations](../documentation/citations.md)
+1 in [Citations](../documentation/citations.md).
 
 Any set of integers under addtion $\\{0,1,2,...,n-1\\} \\; modulo \\; n$ denoted $\mathbb{Z}_n$ satisfies the definition of a cyclic group. This means that leveraging concepts from group theory and modular arithmetic will work for selecting pixels for modification in an image, regardless of the dimensions of an image provided by the user, where $n$ is the total number of pixels in an image. However, practical computing constraints to image size and message size will need to be considered. To generate the group when performing pixel selection, we may use any generator of the set $\\{0,1,2,...,n-1\\}$.
 
