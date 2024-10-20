@@ -35,12 +35,22 @@ Alternate contact person:
 9.  [Glossary](#9-glossary)
 10. [Appendixes](#10-appendixes)
 
-# List of Figures
-
+# List of Figures:
+[Top Level Data Flow Diagram](#top-level-flow-diagram)
+[Module Interaction Diagram](#module-interaction-diagram)
+[Page Load Cycle](#page-load-cycle)
+[Data Input Lifecycle](#data-Input-lifecycle)
+[Image Subsystem Data Flow Diagram](#image-subsystem-data-flow-diagram)
+[Image Class](#image-class)
+[Pixel Embedding](#pixel-embedding)
+[Authentication Requests](#authentication-requests)
+[API Access](#api-access)
+[Directory Structure](#directory-structure)
 ## 1. Known Omissions
 No sections currently discuss user account creation process
 ## 2. Design Overview
-The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame
+The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame 
+###### Top Level Data Flow Diagram
 ```mermaid
  %%{
   init: {
@@ -88,13 +98,12 @@ HiddenFrame will require several components to function correctly. The main over
 4. Imaging module
 Notably the User Environment module and Imaging module will be required to handle different input steams for different types of users. A further decomposition of each of these modules is provided in their own sections.
 Below is a sequence diagram describing the anticipated flow of data for HiddenFrame (note: Network Module is excluded as it primarily acts as a relay/facilitator of all of these transactions).
+###### Module Interaction Diagram
 
 ```mermaid
-
 ---
 Title: Design Overview
 ---
-
 %%{
   init: {
     'theme': 'base',
@@ -189,6 +198,7 @@ We will use the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fet
 We won't be doing any specific caching, only the caching inbuilt in Remix (which is very minimal)
 
 Below is a minimal diagram describing the page load cycle:
+###### Page Load Cycle
 
 ```mermaid
 ---
@@ -205,6 +215,7 @@ Title: Front-end page load overview
 ### 4.3 Data input lifecycle
 
 Whenever data needs to be fetched based on any user input (forms, image upload, etc) the user request is first formatted in JSON and then a request is made to the API server. The API server then checks for authentication if required and once all data is validated it retrieves/publishes the requested data to the backend. Once that is done any data the backend returns is forwarded through the API server to the frontend server which then hydrates the HTML with new data and sends it off to the client.
+###### Data Input Lifecycle
 
 ```mermaid
 ---
@@ -267,7 +278,7 @@ The back end of HiddenFrame will have to deal with 4 general requests from the f
 3.  Public/Private Aspect user requests an stored image that has no payload or has a key that does not match.
 4.  Private Aspect user requests an stored image with a payload and has the key
     Overview of back end design modules and data flow is as follows
-
+###### Image Subsystem Data Flow Diagram
 ```mermaid
 ---
 Title: Back-End Overview
@@ -313,7 +324,7 @@ end
 ### 5.1. Image I/O
 The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file. 
 Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation we will create a class called "image." The Image class will contain methods for all other components of the Image subsystem. The following is a class definition for HiddenFrame's Image class.
-
+###### Image Class
 ```mermaid
 classDiagram
 class image{
@@ -383,6 +394,7 @@ where,
 #### Embedding:
 
 After a suitable key is generated for the target image, we then need to encode the payload. To employ this we will utilize the "image" class's modify_image method to perform the embedding procedure. Beforehand we convert the payload to a binary string, and then into a specialized array; the odd entries of this array represent the number of contiguous symbols in the subsequent array entry (which will be a 1 or 0). The maximum number that the odd entries can contain is the number of channels in the image eg: for a 3 channel image {3,1,2,0,3,1,1,0} would represent the binary string 111001110. We then perform bitwise operations on the LSB of each pixel's character. To encode a series of 3 ones we set the LSB of the 3rd channel (blue) to a 1 and the other two channels LSB's to a 0. Conversely if we wish to encode 3 0's we would set the 3rd channel's LSB to a 0, and the other two channels LSB's to a 1. The following example would encode a binary 11:
+###### Pixel Embedding
 
 ![HiddenFrame Encoding Scheme](../resources/images/Encoding_Scheme.png)
 
@@ -449,6 +461,7 @@ We will be implementing Crow in the back-end and defining routes to handle HTTP 
 Our API server will also run authentication on privilaged routes. We will be using JWT Token authentication for the same.
 
 Represented below is basic authentication flow assuming the user is already registred:
+###### Authentication Requests
 
 ```mermaid
 ---
@@ -468,7 +481,8 @@ sequenceDiagram
     API Server-->>User: Error is returned
 ```
 
-Represented below is the basic flow for accessing API routes both privilaged and non privilaged:
+Represented below is the basic flow for accessing API routes both privileged and non privileged:
+###### API Access
 
 ```mermaid
 ---
@@ -661,7 +675,8 @@ The API server will be responsible for ensuring that users requesting access to 
 
 ### 8.1 Project Directory Structure
 
-A few guidelines for Project HiddenFrame's Directory structure are laid out in the standards document. Beyond what is listed there we will utilize the following structure (note documentation is included in the FS but no other files are):
+A few guidelines for Project HiddenFrame's Directory structure are laid out in the standards document. Beyond what is listed there we will utilize the following structure (note documentation is included in the FS but no other files are)
+###### Directory Structure
 
 ```mermaid
 ---
