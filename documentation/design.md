@@ -36,16 +36,16 @@ Alternate contact person:
 10. [Appendixes](#10-appendixes)
 
 # List of Figures:
-[Top Level Data Flow Diagram](#top-level-flow-diagram)
-[Module Interaction Diagram](#module-interaction-diagram)
-[Page Load Cycle](#page-load-cycle)
-[Data Input Lifecycle](#data-Input-lifecycle)
-[Image Subsystem Data Flow Diagram](#image-subsystem-data-flow-diagram)
-[Image Class](#image-class)
-[Pixel Embedding](#pixel-embedding)
-[Authentication Requests](#authentication-requests)
-[API Access](#api-access)
-[Directory Structure](#directory-structure)
+- [Top Level Data Flow Diagram](#top-level-flow-diagram)
+- [Module Interaction Diagram](#module-interaction-diagram)
+- [Page Load Cycle](#page-load-cycle)
+- [Data Input Lifecycle](#data-Input-lifecycle)
+- [Image Subsystem Data Flow Diagram](#image-subsystem-data-flow-diagram)
+- [Image Class](#image-class)
+- [Pixel Embedding](#pixel-embedding)
+- [Authentication Requests](#authentication-requests)
+- [API Access](#api-access)
+- [Directory Structure](#directory-structure)
 ## 1. Known Omissions
 No sections currently discuss user account creation process
 ## 2. Design Overview
