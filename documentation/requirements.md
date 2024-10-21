@@ -234,36 +234,37 @@ Jeremy, a general user without an account, wants to upload a photo of his cute d
 In order to do this, these are the actions Jeremy must proceed with:
 - Jeremy enters HiddenFrame's URL in his preferred browser.
 - Jeremy clicks the "Upload Photo" button.
-- Jeremy gets redirected to the upload photo page of the website and is prompted to upload a photo in a supported format.
-- He can click on the "Upload" button to upload his photo.
+- Jeremy is prompted to upload a photo in a supported format.
+- Jeremy chooses the image file to upload.
+- Jeremy clicks on the "Upload" button to upload his photo.
 
 ### 5.2.2. Uploading a Secret Message through an Embedded Image Scenario
-Artem, a privileged user with an account, would like to upload a photo containing a hidden message to HiddenFrame's website. The message will provide hints to other privileged users about available parking spaces at VIU.
+Artem, a privileged user with an account, would like to upload a photo containing a hidden message to HiddenFrame's website to tell Patrick where there are available parking spaces at VIU.
 
 In order to do this, these are the actions Artem must proceed with:
 - Artem enters HiddenFrame's login URL in his preferred browser.
 - Artem enters the specific credentials that he uses to access HiddenFrame's website with his extra privileges.
-- Once signed in, Artem gets redirected to HiddenFrame's Secret Message page.
-- Artem looks for Patrick's name on the Secret Message page's sidebar and clicks it.
+- Artem clicks "Sign in".
+- Artem gets redirected to HiddenFrame's Conversation Board page.
 - Artem clicks the "Upload" button.
+- Artem is prompted to upload a photo in a supported format along with entering a hidden message to be embedded.
 - Artem attaches the photo he would like to use. If he chooses not to, A.I. will generate a random image.
 - Artem types the hidden message in a text field designated for the hidden message.
 - Artem clicks on the "Embed Image" button.
-- Once the image has been embedded a key is generated that he can share with Patrick.
-- Artem copies the key to send to Patrick.
-- Artem clicks send.
+- Once the image has been embedded a key is generated that he can share with other privileged users.
+- Artem copies the key and sends it through a text message to Patrick with a description of the photo that Patrick should look for.
 
 ### 5.2.3. Viewing a Hidden Message Scenario 
 Patrick, a privileged user with an account signed in to HiddenFrame, wants to view the embedded message that Artem uploaded to find the available parking space.
 
 In order to do this, these are the actions Patrick must proceed with:
 - Patrick enters HiddenFrame's URL in his preferred browser.
-- Patrick navigates to the Secret Message page.
-- Patrick clicks Artem's name on the sidebar to view their chat.
-- Patrick sees the image and clicks it.
+- Patrick gets redirected to HiddenFrame's Conversation Board page.
+- Patrick scrolls through the images, looking for the image Artem described.
+- Patrick sees the image having a slightly different design/animation (TBD) and clicks it.
+- Patrick is prompted to enter a key.
 - Patrick enters the key Artem sent him in a text field and clicks the "View Hidden Message" button.
 - Patrick receives a pop-up on his browser containing a hidden message about the parking space's location.
-
 
 ## 6. Non-functional requirements
 
