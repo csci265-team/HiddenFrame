@@ -295,7 +295,7 @@ Definition of a group: Let $A$ be a set together with a binary operation (we wil
 
 1 in [Citations](../documentation/citations.md).
 
-Definition of a cyclic group and a generator: Let $A$ be a group. We say that $A$ is cyclic if there exists an element $a \in A$ such that $A=\\{a^n:n\in\mathbb{Z}\\}$ and that $a$ is a generator of $A$. Note, that in this case, $a^n$ does not mean $a$ to the power of $n$, but rather $a$ composed with itself $n$ times under the binary operation of the group $A$.
+Definition of a cyclic group and a generator: Let $A$ be a group. We say that $A$ is cyclic if there exists an element $a \in A$ such that $A=\\{a^{1},a^{2},a^{3},...,a^{n}\\}$ and that $a$ is a generator of $A$. Note, that in this case, $a^i$ does not mean $a$ to the power of $i$, but rather $a$ composed with itself $i$-times under the binary operation of the group $A$.
 
 1 in [Citations](../documentation/citations.md).
 
