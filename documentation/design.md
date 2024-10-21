@@ -406,7 +406,7 @@ sequenceDiagram
 
 ### 6.2 Routes
 
-#### GET requests to: 
+GET requests to: 
 
 #### Process user invites
 
@@ -590,7 +590,7 @@ sequenceDiagram
 
 </details>
 
-#### POST requests for:
+POST requests for:
 
 #### Receiving user inputted infromation for the sign up page (email and password).
 
