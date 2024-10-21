@@ -56,7 +56,7 @@ Alternate contact person:
 
 ## 1. Known Omissions
 
-No known omissions (idk what to write here)
+1. We know that keys will have the format $a_1,b_1,a_2,b_2,...Gef$ where each $ab$ pair $mod \\; n$, where $n$ is the number of pixels in an image which is associated with a key, $G$ is a terminating character, $e$ is the decimal number of hex characters in each $a_i$ or $b_i$, and $f$ is the number of channels in the image in decimal. We still have yet to determine the length of the keys. For example, for larger values of $n$, the possible number of hex characters used to describe each $a_i$ and $b_i$ grows based on the randomly selected $a$ and its unique corresponding $b$ value. Therefore, depending on the value of $e$, some keys may have more $ab$ pairs than others. Thus, we will either need to find a way to standardize the length of a key or pick a range into which the lengths of a key may fall.
 
 ## 2. Design Overview
 
