@@ -29,7 +29,7 @@ Alternate contact person:
     - 5.2. [Key Generation](#52-key-generation)
     - 5.3. [Payload Embedding/Retrieval](#53-payload-embedding/retrieval)
 6.  [Network Design](#6-network-design)
-    - 6.1. [Authentication](#61-network-design)
+    - 6.1. [Authentication](#61-authentication)
     - 6.2. [Routes](#62-routes)
 7.  [User Account Design](#7-user-account-design)
 8.  [Other Design Elements](#8-other-design-elements)
