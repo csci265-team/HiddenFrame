@@ -37,7 +37,7 @@ Alternate contact person:
 	   - 5.2.2. [Sending a Secret Message with an Embedded Image Scenario](#522-sending-a-secret-message-with-an-embedded-image-scenario)
 	   - 5.2.3. [Viewing a Hidden Message Scenario](#523-viewing-a-hidden-message-scenario)
  6. [Non-functional requirements](#6-non-functional-requirements)
-    - 6.1. [Public  Aspect](#61-public--aspect)
+    - 6.1. [Public Aspect](#61-public--aspect)
     - 6.2. [Private Aspect](#62-private-aspect)
     - 6.3. [Mathematics](#63-mathematics)
  7. [Feature prioritization](#7-feature-prioritization)
@@ -114,7 +114,7 @@ This web page will have a simple login form that will ask the user for some sort
 
 ### 3.4. Hiding messages in the pictures
 
-The same web-based app will also have a special upload section for private users, which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded, we will provide the user with a "key" that can be used to decrypt the message from the image later. 
+The same web-based app will also have a special upload section for private users, which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded, we will provide the user with a "key" that can be used to decode the message from the image later. 
 
 The text message will be limited to 1024 UTF-8 characters in an image of not less than 40,000 pixels.
 
@@ -280,12 +280,32 @@ One of the central pillars of Project HiddenFrame is its social media. HiddenFra
 
 HiddenFrame's other primary feature is the steganography manipulation of images for chosen users. In addition to all of the Public Aspect Non-functional Requirements, this part of the project poses its own unique challenges:
 - User Privacy - Since this part of the site will require account creation HiddenFrame will have a responsibility to safeguard any user information provided. 
-- Steganography keys -  If the decryption keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
+- Steganography keys -  If the keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
 - Misuse of HiddenFrame for Illegal activity - HiddenFrame will moderate the site for content and cooperate with law enforcement in whatever capacity is required. 
 
 ### 6.3. Mathematics
 
-HiddenFrame's steganographic features require that we develop a method for inserting the payload into the carrier and successfully retrieving the payload back from the carrier. As such, we will require the ability to produce 'keys' that will mathematically describe the pixels modified. In order to accomplish this, we will utilize the algebraic concept of group generators under a binary operation mod N. This concept will allow us to describe the pixels we will be using for steganography.
+HiddenFrame's steganographic features require that we develop a method for inserting the payload into the carrier and successfully retrieving the payload back from the carrier. As such, we will require the ability to produce 'keys' that will mathematically describe the pixels modified. To accomplish this, we will utilize the algebraic concept of group generators under a binary operation mod N.
+
+Definition of a group: Let $A$ be a set together with a binary operation (we will be using addition) that assigns to each ordered pair $(a,b)$ of elements of $A$ and element of $A$ denoted $ab$. We say that $A$ is a group under this operation if the following three axioms are satisfied.
+
+1. Associativity. The operation is associative; that is, $(ab)c = a(bc)$ for all $a,b,c \in A.$
+2. Identity. There is an element $e$ (called the identity) in $G$ such that $ae=ea=a \\; \forall \\; a \in A.$
+3. Inverses exist. For each element $a \in A$, there is a unique element $b \in A$ (called the inverse of $a$ and denoted $a^{-1}$) such that $ab=ba=e.$
+
+1 in [Citations](../documentation/citations.md).
+
+Definition of a cyclic group and a generator: Let $A$ be a group. We say that $A$ is cyclic if there exists an element $a \in A$ such that $A=\\{a^n:n\in\mathbb{Z}\\}$ and that $a$ is a generator of $A$. Note, that in this case, $a^n$ does not mean $a$ to the power of $n$, but rather $a$ composed with itself $n$ times under the binary operation of the group $A$.
+
+1 in [Citations](../documentation/citations.md).
+
+Any set of integers under addtion $\\{0,1,2,...,n-1\\} \\; modulo \\; n$ denoted $\mathbb{Z}_n$ satisfies the definition of a cyclic group. This means that leveraging concepts from group theory and modular arithmetic will work for selecting pixels for modification in an image, regardless of the dimensions of an image provided by the user, where $n$ is the total number of pixels in an image. However, practical computing constraints to image size and message size will need to be considered. To generate the group when performing pixel selection, we may use any generator of the set $\\{0,1,2,...,n-1\\}$.
+
+To find generators of $n$ we may us the Euclidean Algorithm, that is given $n,x \in \mathbb{Z}$ where $x<n$:
+
+$$n=qx + r \\; : \\; q,r \in \mathbb{Z}, 0 \leq r < x$$.
+
+If $r=0$, then $gcd(n,x)=x$ otherwise, $gcd(n,x)=gcd(x,r)$. We perform these steps iteratively until $r=0$. If in our final iteration of testing the $gcd$ for two integers, the lesser integer being tested was equal to $1$, then $x$ was a generator of $n$. If $gcd(n,x)>1$, then $x$ is NOT a generator of $n$ and should not be used as a jump size between pixels when selecting pixels for modification for messaging encoding and decoding.
 
 ## 7. Feature prioritization
 
@@ -333,5 +353,3 @@ Our team's stretch goals include that are not expected to make it into our proje
 **TBD**: To be decided
 
 ## 9. Appendices
-
-
