@@ -35,51 +35,87 @@ Alternate contact person:
 9.  [Glossary](#9-glossary)
 10. [Appendixes](#10-appendixes)
 
-# List of Figures
-
+# List of Figures:
+- [Top Level Data Flow Diagram](#top-level-data-flow-diagram)
+- [Module Interaction Diagram](#module-interaction-diagram)
+- [Page Load Cycle](#page-load-cycle)
+- [Data Input Lifecycle](#data-Input-lifecycle)
+- [Image Subsystem Data Flow Diagram](#image-subsystem-data-flow-diagram)
+- [Image Class](#image-class)
+- [Pixel Embedding](#pixel-embedding)
+- [Authentication Requests](#authentication-requests)
+- [API Access](#api-access)
+- [Directory Structure](#directory-structure)
 ## 1. Known Omissions
-
-- Network module is not in logical design diagram
-
+No sections currently discuss user account creation process
 ## 2. Design Overview
-
-Target Platform: The initial focus will be on desktop browsers for optimal viewing and functionality, with potential for mobile responsiveness as a stretch goal.
-
-- Primary Technology: The front-end will be developed using HTML5, CSS3, and JavaScript. For dynamic elements, React (or another JavaScript framework, if preferred) will be used.
-- Frameworks/Libraries: We will use Bootstrap or TailwindCSS for responsive design, ensuring consistent and scalable layouts.
-- UI Design Principles:
-  - Clean and minimalistic design, with a focus on easy navigation.
-  - Clear visual hierarchy to distinguish between public and private features.
-  - Intuitive interactions with visual feedback for all user actions (e.g., buttons, image uploads, and secret message decoding).
-
-## 3. Logical Design
-
+The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame 
+###### Top Level Data Flow Diagram
+```mermaid
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
+ graph TD
+ subgraph "Image Subsystem"
+   1d(Image I/O)
+   1d <--"Read from file/write to file"--> 1e[(Stored Image Files)]
+   1d --"Provide Image"--> 1g(Key Generation)
+   1g --"Provide Key for embedding Proceedure"--> 1h(Image Manipulation - embedding)
+   1h --"Return Image With payload embedded"--> 1d
+   1d --"Provide Image and Key"--> 1i(Image Manipulation - retrieval)
+   1i --"Return Payload"-->1d
+end
+subgraph "Network Subsystem"
+    2a(API Server)<--"Service Request from Users"-->1d
+    1g--"Provide Key to User"-->2a
+end
+subgraph "User Account Module"
+    3a[(User Account Database)]<--"Request and Retrieve credentials"-->2a
+end
+subgraph "User Environment Module"
+    4a(Public WebUI)<--"Process Request/return"-->2a
+    4b(Private WebUI)<--"Process Request/return"-->2a
+end
+5(Public User)<--"Request & Recieve Resources"-->4a
+6(Private User)<--"Request & Recieve Resources"-->4b
+```
+## 3. Logical Design 
 HiddenFrame will require several components to function correctly. The main overall components are:
 
 1. User Environment module
 2. User Account module
 3. Network module
 4. Imaging module
-   Notably the User Environment module and Imaging module will be required to handle different input steams for different types of users. A further decomposition of each of these modules is provided in their own sections.
-
+Notably the User Environment module and Imaging module will be required to handle different input steams for different types of users. A further decomposition of each of these modules is provided in their own sections.
 Below is a sequence diagram describing the anticipated flow of data for HiddenFrame (note: Network Module is excluded as it primarily acts as a relay/facilitator of all of these transactions).
+###### Module Interaction Diagram
 
 ```mermaid
 ---
 Title: Design Overview
 ---
-
 %%{
   init: {
     'theme': 'base',
     'themeVariables': {
       'primaryColor': '#4A90E2',
-      'primaryTextColor': '#FFFFFF',
+      'primaryTextColor': '#ddd',
       'primaryBorderColor': '#A6C1E0',
       'signalColor' : '#FF4500',
-      'actorlineColor': '#FFA500',
+      'actorLineColor': '#FFA500',
       'secondaryColor': '#7ED321',
       'tertiaryColor': '#F5F7FA'
+      
     }
   }
 }%%
@@ -88,64 +124,63 @@ sequenceDiagram
     participant public as Public User
     participant private as Private User
     participant main as User Environment Module
+    participant api as Network Module
     participant account as User Account Module
     participant image as Imaging Module
     participant db as Filesystem
 
-    Note over private,db: The user must be logged in to use steganography
-    private->>+account: Logs in using credentials
+    Note over private,db: Authentication Process
+    private->>main: attempts to login
+    main->>api: request User Authentication
+    api->>account: Check for credentials
     account->>db: Query stored accounts
     db->>account: Respond with query result
-
     alt Credentials not found
-        account->>private: Invalid credentials
+        account->>api: Invalid credentials
+        api->>main: Authentication Failure
+        main->>private: Loggin Unsucessful
     else Credentials found
-        account->>-private: Successfully logged in
-        Note over private,db: When the user is authenticated, they can now use steganography
-        public->>main: View picture
-        main->>image: Retrieve image
-        image->>db: Read image data
-        db->>image: Image data
-        image->>main: Image
-        main->>public: Image
+        account->>api: Valid credentials
+        api->>main: Authentication Successful
+        main->>private: Loggin Successful
+    end
+        Note over private,db: Steganography Processes (Requires Authentication)
         private->>main: View pictures
         main->>image: Retrieve image
         image->>db: Read image data
         db->>image: Image data
-        image->>main: Image
-        main->>private: Image
-        public->>main: Upload picture
-        main->>image: Store image
-        image->>db: Write image to filesystem
-        image->>main: Store successful
-        main->>public: Upload successful
-        par Payload Embedding
-            private--)main: upload picture & payload
-            private--)main: Embed Image with payload
-            main--)image: Encode Image with payload
-            image--)db: Store modified image
-        and Response
-            image-->>main: Image Embedded and stored
-            main-->>private: Successfully embedded
-        end
         par Payload Retrieval
-            private--)main: View picture with payload
-            private--)main: Upload key
-            private--)image: Retrieve modified image
-            image--)db: Read modified image
-        and Response
-            db-->>image: Image data
-            image-->>main: Image read and decoded
-            main-->>private: payload
+            private->>main: Provide key
+            main->>api: send key
+            api->>image: Retrieve modified image
+            image->>db: Read modified image
+            db->>image: Image data
+            image->>image: Attempt to Decode Image
+            alt Image Decoded
+                image->>api: payload
+                api->>main: payload
+                main->>private: payload
+            else No Payload found
+                image->>api: failure message
+                api->>main: failure message
+                main->>private: failure message
+            end
+        par Payload Embedding
+            private->>main: Upload picture & payload
+            main->>api: Send Image and Payload  
+            api->>image: Send Image and Payload
+            image->>image: Embed Payload
+            image->>api: return encoding Key
+            image->>db: Store modified image
+            api->>main: return encoding Key
+            main->>private: return encoding Key
         end
-    end
+        end
 
 ```
-
 ## 4. Front-End Design
 
 The front-end of HiddenFrame will be responsible for providing a user-friendly interface for both public and private users.
-
 ### 4.1 Front-End Configuration
 
 - Node and NPM: For developement we are using node.js and node package manager, since our framework Remix is built on the Web fetch API we will not need to use node.js in production.
@@ -163,6 +198,7 @@ We will use the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fet
 We won't be doing any specific caching, only the caching inbuilt in Remix (which is very minimal)
 
 Below is a minimal diagram describing the page load cycle:
+###### Page Load Cycle
 
 ```mermaid
 ---
@@ -179,6 +215,7 @@ Title: Front-end page load overview
 ### 4.3 Data input lifecycle
 
 Whenever data needs to be fetched based on any user input (forms, image upload, etc) the user request is first formatted in JSON and then a request is made to the API server. The API server then checks for authentication if required and once all data is validated it retrieves/publishes the requested data to the backend. Once that is done any data the backend returns is forwarded through the API server to the frontend server which then hydrates the HTML with new data and sends it off to the client.
+###### Data Input Lifecycle
 
 ```mermaid
 ---
@@ -241,29 +278,53 @@ The back end of HiddenFrame will have to deal with 4 general requests from the f
 3.  Public/Private Aspect user requests an stored image that has no payload or has a key that does not match.
 4.  Private Aspect user requests an stored image with a payload and has the key
     Overview of back end design modules and data flow is as follows
-
+###### Image Subsystem Data Flow Diagram
 ```mermaid
 ---
 Title: Back-End Overview
 ---
- graph TD
-   a((Front End)) --> b(API Server)
-   b <-->d(Image I/O)
-   d <--"Read from file/write to file"--> e[(Stored Image Files)]
-   d --"Provide Image"--> g(Key Generation)
-   g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
-   g--"Provide Key to User"-->b
-   h --"Return Image With payload embedded"--> d
-   d --"Provide Image and Key"--> i(Image Manipulation - retrieval)
-   i --"Return Payload"-->d
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
+ graph TD
+
+ subgraph Image Subsystem
+
+   a((Front End)) --> b(API Server)
+
+   b <-->d(Image I/O)
+
+   d <--"Read from file/write to file"--> e[(Stored Image Files)]
+
+   d --"Provide Image"--> g(Key Generation)
+
+   g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
+
+   g--"Provide Key to User"-->b
+
+   h --"Return Image With payload embedded"--> d
+
+   d --"Provide Image and Key"--> i(Image Manipulation - retrieval)
+
+   i --"Return Payload"-->d
+
+end
 ```
 
 ### 5.1. Image I/O
-
-The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file.
-
+The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file. 
 Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation we will create a class called "image." The Image class will contain methods for all other components of the Image subsystem. The following is a class definition for HiddenFrame's Image class.
-
+###### Image Class
 ```mermaid
 classDiagram
 class image{
@@ -335,6 +396,7 @@ where,
 #### Embedding:
 
 After a suitable key is generated for the target image, we then need to encode the payload. To employ this we will utilize the "image" class's modify_image method to perform the embedding procedure. Beforehand we convert the payload to a binary string, and then into a specialized array; the odd entries of this array represent the number of contiguous symbols in the subsequent array entry (which will be a 1 or 0). The maximum number that the odd entries can contain is the number of channels in the image eg: for a 3 channel image {3,1,2,0,3,1,1,0} would represent the binary string 111001110. We then perform bitwise operations on the LSB of each pixel's character. To encode a series of 3 ones we set the LSB of the 3rd channel (blue) to a 1 and the other two channels LSB's to a 0. Conversely if we wish to encode 3 0's we would set the 3rd channel's LSB to a 0, and the other two channels LSB's to a 1. The following example would encode a binary 11:
+###### Pixel Embedding
 
 ![HiddenFrame Encoding Scheme](../resources/images/Encoding_Scheme.png)
 
@@ -347,16 +409,17 @@ It is important to note here that we cannot store images as the .JPG file type, 
 Here we utilize the "Image" class's retrieve_payload method. This portion works very similar to the embedding process in reverse; we utilize the provided key to visit pixels that are encoded, retrieve the binary values concatenating a string that we return as the binary of the original payload.
 
 ## 6. Network Design
-
-Since our system is written in C++ in its back-end and uses a Javascript framework in its front-end, our front-end to back-end communication will be utilizing an API server made using ["Crow"](https://crowcpp.org/) which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for its built-in JSON support and to make back-end to front-end communication seamless.
+Since our system is written in C++ in its back-end and uses a Javascript framework in its front-end, our front-end to back-end communication will be utilizing an API server made using ["Crow"](https://crowcpp.org/) which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for its built-in JSON support and to make back-end to front-end communication seamless. 
 
 We will be implementing Crow in the back-end and defining routes to handle HTTP GET and POST requests for sending and receiving data to and from the front-end.
+ 
 
 ### 6.1 Authentication
 
 Our API server will also run authentication on privilaged routes. We will be using JWT Token authentication for the same.
 
 Represented below is basic authentication flow assuming the user is already registred:
+###### Authentication Requests
 
 ```mermaid
 ---
@@ -376,7 +439,8 @@ sequenceDiagram
     API Server-->>User: Error is returned
 ```
 
-Represented below is the basic flow for accessing API routes both privilaged and non privilaged:
+Represented below is the basic flow for accessing API routes both privileged and non privileged:
+###### API Access
 
 ```mermaid
 ---
@@ -562,18 +626,34 @@ POST requests for:
 Our front-end utilizes the "Remix" framework where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side.
 
 ## 7. User Account Design
+We will utilize a database to store user account information and hashed passwords. This will be a very simple subsystem it is only required to respond to a few types of system requests. When a user attempts to login, username and passwords will be passed through the frontend via our API server to the database. The database will then query it's entries and check if the provided password matches then username. The database will then return the result to the API Server. 
 
+The API server will be responsible for ensuring that users requesting access to resources are only able to access resources for which they have permissions. This will likely be implemented by a token exchange. 
 ## 8. Other Design Elements
 
 ### 8.1 Project Directory Structure
 
-A few guidelines for Project HiddenFrame's Directory structure are laid out in the standards document. Beyond what is listed there we will utilize the following structure (note documentation is included in the FS but no other files are):
+A few guidelines for Project HiddenFrame's Directory structure are laid out in the standards document. Beyond what is listed there we will utilize the following structure (note documentation is included in the FS but no other files are)
+###### Directory Structure
 
 ```mermaid
 ---
 Title: Project Directory Structure
 ---
 graph LR
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
 
     root[.] --> 1[README.md]
     root --> 2[documentation]
@@ -620,5 +700,6 @@ graph LR
 ## 9. Glossary
 
 **LSB** - Least significant bit
+**DFD** - Data Flow Diagram
 
 ## 10. Appendixes
