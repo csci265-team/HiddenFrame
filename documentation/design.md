@@ -850,6 +850,7 @@ graph LR
       2 --> 24[requirements.md]
       2 --> 25[standards.md]
       2 --> 26[update.md]
+      2 --> 27[citations.md]
     end
     subgraph 1g[The project overview]
       1
