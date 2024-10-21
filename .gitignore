@@ -13,3 +13,8 @@ a.out
 *.swp
 **/*/*.swp
 **/*.swp
+
+.vscode
+*.exe
+**/*/*.exe
+**/*.exe
