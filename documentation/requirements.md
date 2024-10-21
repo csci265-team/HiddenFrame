@@ -28,6 +28,7 @@ Alternate contact person:
 	 - 4.1. [Main Page](#41-main-page)
 	 - 4.2. [Login Page](#42-login-page)
 	 - 4.3. [Conversation Board Page](#43-conversation-board-page)
+	 - 4.4. [Profile Page](#44-profile-page)
 5. [Use cases/scenarios](#5-use-casesscenarios)
 	 - 5.1. [Use Cases](#51-use-cases)
 	   - 5.1.1. [General Users](#511-general-users)
@@ -52,6 +53,7 @@ Alternate contact person:
 - A. [Main Page](#41-main-page)
 - B. [Login Page](#42-login-page)
 - C. [Conversation Board Page](#43-conversation-board-page)
+- D. [Profile Page](#44-profile-page)
 
 ## 1. Introduction and overview
 
@@ -122,7 +124,7 @@ The registered users will be able to access this page after logging in from the 
 
 ### 3.5. Creating invites
 
-The private web page will also have a button that allows them to create a set number of invites. These invites will allow the receivers to create an account for the private aspect.
+The profile web page will also have a button that allows users to create invites. Invites are limited (maximum 5 per user). These invites will allow the receivers to create an account for the private aspect.
 
 Once a registered user has created the allocated number of invites, they cannot create any more invites.
 
@@ -135,13 +137,19 @@ The images shown for the interfaces, screens, and menus are not intended to be t
 Navigation Guide/Map
 
 1. Main Page (Feed and Upload):
-	- Users can upload new images via the “Upload” button or browse through the grid of previously uploaded images. Clicking on an image in the grid will open a larger view of the image.
+	- Users can upload new images via the “Upload” button or browse through the grid of previously uploaded images. Clicking on the image in the grid will open a larger view of the image.
 2. URL → Log in Page:
-    - Users can go to the login page using their URL.
-3. Log in Page → Conversation Board:
-	- After successfully logging in, users can access the conversation board to send secret messages.
-4. Conversation Board:
-	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
+    - Users can go to the __Login page__ using their URL.
+3. Log in Page → Conversation Board Page:
+	- After successfully logging in, users can access the __Conversation Board Page__ to send or view secret messages. 
+4. Conversation Board Page:
+	- In the __Conversation Board Page__, users can view exchanged images and send new images or messages using the interface. To view a hidden message, they can tap on the picture, and if it contains a message, they will see it. To send a picture with an embedded message, a user must click on "Upload" button, and along with uploading a picture, they can type in a message.
+5. Conversation Board → Profile Page:
+	- After clicking a "Profile" button, a user is taken to the __Profile Page__, where they can change a password or invite new users.
+6. Profile Page:
+	- On the __Profile Page__, users can change their password or create a link to invite friends to give them access to secret messages. They can also log out or go back to the __Conversation Board Page__.
+7. Profile Page → Conversation Board Page:
+	- To go back from the __Profile Page__ to the __Conversation Board Page__, a user can click a "Home" button.
 
 ### 4.1. Main Page
 ![HiddenFrame Main Page](../resources/images/HF_main_page-2.png)
@@ -204,6 +212,27 @@ Navigation Flow:
 - Click Log out: Logs out of an account.
 - Click Profile: Opens a page, where a user can thange their password.
 
+### 4.4. Profile Page
+![HiddenFrame Account Page](../resources/images/HF_account_page.png)
+
+This page allows users to change their password after logging in. It also allows to send invites to people, a user wants
+to give access to read secret messages.
+
+Elements:
+- HiddenFrame logo.
+- Log out Button (top-left): Logs the user out.
+- Home Button (top-right): Takes the user to the conversation board page.
+- Current Password Field: A field where the user must input their current password for verification.
+- New Password Field: Two fields for entering and confirming the new password.
+- Change Password Button: A large button at the bottom labeled “Change Password,” which updates the password once clicked, provided the fields are correctly filled.
+- Invite Friends Button: A button at the bottom displaying how many invite slots are available, encouraging users to invite their friends to the platform.
+
+Navigation Flow:
+
+- Submit Password Change: Once the user enters their current and new password, clicking the “Change Password” button will update their password.
+- Invite Friends Button: This button allows users to invite friends, with the available slots being clearly indicated (e.g., “5/5 left”). Once clicked, it opens a standard to each operation system "share menu".
+- Click Log out: Logs the user out of an account.
+- Click Home: Takes the user back to the main page.
 
 ## 5. Use cases/scenarios
 
