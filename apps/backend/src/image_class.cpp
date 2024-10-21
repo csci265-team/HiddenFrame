@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <iostream>
 #include <string>
-#include <HiddenFrame_Headers.h>
+#include <hiddenframe_headers.h>
 
 
 #define STB_IMAGE_IMPLEMENTATION
