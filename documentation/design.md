@@ -29,6 +29,8 @@ Alternate contact person:
     - 5.2. [Key Generation](#52-key-generation)
     - 5.3. [Payload Embedding/Retrieval](#53-payload-embedding/retrieval)
 6.  [Network Design](#6-network-design)
+    - 6.1. [Authentication](#61-authentication)
+    - 6.2. [Routes](#62-routes)
 7.  [User Account Design](#7-user-account-design)
 8.  [Other Design Elements](#8-other-design-elements)
     - 8.1. [Project Directory Structure](#81-project-directory-structure)
@@ -468,52 +470,14 @@ sequenceDiagram
 
 ### 6.2 Routes
 
-GET requests to:
+GET requests to: 
 
-#### Retrieve private messages on the Secret Chat Page
-
-<details>
- <summary><code>GET</code> <code><b>/messages</b></code> <code>Get all messages sent to user</code></summary>
-
-##### Headers
-
-| name          | type     | data type                 | description |
-| ------------- | -------- | ------------------------- | ----------- |
-| Authorization | required | string (containing token) | N/A         |
-
-##### Responses
-
-| http code | content-type       | response                                              |
-| --------- | ------------------ | ----------------------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "messages": [TBD MESSAGE OBJECT]}` |
-| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`          |
-
-</details>
+#### Process user invites
 
 <details>
- <summary><code>GET</code> <code><b>/message/:id</b></code> <code>Retrieve a specific message sent to user</code></summary>
+ <summary><code>GET</code> <code><b>/user/invites</b></code> <code>Retreive number of remaining allowed invites for current privileged user</code></summary>
 
-##### Headers
-
-| name          | type     | data type                 | description |
-| ------------- | -------- | ------------------------- | ----------- |
-| Authorization | required | string (containing token) | N/A         |
-
-##### Responses
-
-| http code | content-type       | response                                           |
-| --------- | ------------------ | -------------------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "message": TBD MESSAGE OBJECT}` |
-| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`       |
-
-</details>
-
-#### Retreive number of remining allowed invites for current privileged user
-
-<details>
- <summary><code>GET</code> <code><b>/user/invites</b></code></summary>
-
-##### Headers
+##### Request Body
 
 | name          | type     | data type                 | description |
 | ------------- | -------- | ------------------------- | ----------- |
@@ -533,7 +497,7 @@ GET requests to:
 <details>
  <summary><code>GET</code> <code><b>/images</b></code> <code>Get first 100 images</code></summary>
 
-##### Headers
+##### Request Body
 
 | name          | type     | data type                 | description                                           |
 | ------------- | -------- | ------------------------- | ----------------------------------------------------- |
@@ -548,20 +512,147 @@ GET requests to:
 
 </details>
 
-- Retrieve error messages for situations like: invalid credentials, invalid image format, exceeding allowable length(1024 UTF-8 characters) for a hidden message, etc.
-  - Response: A JSON object containing the error message.
-- Retrieve system generated keys that decode the embedded images.
-  - Response: A JSON object containing the keys for the embedded images.
-- Retrieve embedded images with a hidden message.
-  - Response: An image file or url.
-- Retrieve decoded image embedded image after key has been recognized(stretch goal).
-  - Response: An image file or url.
-- Retrieve decoded embedded image after key has been recognized.
-  - Response: An image file or url.
-- Retreive the amount of likes on a specific image(stretch goal).
-  - Response: A JSON object containing the like count of the specific image.
-- Retrieve image embedded image(stretch goal).
-  - Response: An image file or url.
+#### Retrieve system generated keys that decode the embedded images.
+
+<details>
+<summary><code>GET</code> <code><b>/images/keys</b></code></summary>
+
+##### Request Body
+| name           | type     | data type | description                                          |
+|----------------|----------|-----------|------------------------------------------------------|
+| Authorization  | required | string    | If token provided and valid, keys will be in response|
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `application/json` | `{ "success": true, "keys": string[] }`                        |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
+
+#### Retrieve embedded images.
+
+<details>
+<summary><code>GET</code> <code><b>/images/embedded/message</b></code> <code>Retrieve embedded images with a hidden message</code></summary>
+
+##### Request Body
+| name           | type    | data type | description                                                     |
+|----------------|---------|-----------|-----------------------------------------------------------------|
+| Authorization  | optional| string    | If token provided and valid, embedded images will be in response|
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `image/png`        | `{ "success": true, An image file or url TBD }`                |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
+
+<details>
+<summary><code>GET</code> <code><b>/images/embedded/image</b></code> <code>Retrieve embedded image with a hidden image. (stretch goal)</code></summary>
+
+##### Request Body
+| name           | type     | data type | description                                                     |
+|----------------|----------|-----------|-----------------------------------------------------------------|
+| Authorization  | required | string    | If token provided and valid, embedded image will be in response |
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `image/png`        | `{ "success": true, An image file or url TBD }`                |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
+
+#### Retrieve decoded embedded images.
+
+<details>
+<summary><code>GET</code> <code><b>/images/decode/message</b></code> <code>Retrieve decoded images with embedded messages after key has been recognized.</code></summary>
+
+##### Request Body
+| name           | type     | data type | description                                                       |
+|----------------|----------|-----------|-------------------------------------------------------------------|
+| Authorization  | required | string    | If token provided and valid, decoded message will be in response  |
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `application/json` | `{ "success": true, "message": string[] }`                     |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
+
+<details>
+<summary><code>GET</code> <code><b>/images/decode/image</b></code> <code>Retrieve decoded images with embedded image after key has been recognized. (stretch goal)</code></summary>
+
+##### Request Body
+| name           | type     | data type | description                                                     |
+|----------------|----------|-----------|-----------------------------------------------------------------|
+| Authorization  | required | string    | If token provided and valid, decoded image will be in response  |
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `image/png`        | `{ "success": true, An image file or url TBD }`                |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
+
+#### Retrieve private messages on the Secret Chat Page (stretch goal)
+
+<details>
+ <summary><code>GET</code> <code><b>/messages</b></code> <code>Get all messages sent to user</code></summary>
+
+##### Request Body
+
+| name          | type     | data type                 | description |
+| ------------- | -------- | ------------------------- | ----------- |
+| Authorization | required | string (containing token) | N/A         |
+
+##### Responses
+
+| http code | content-type       | response                                              |
+| --------- | ------------------ | ----------------------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "messages": [TBD MESSAGE OBJECT]}` |
+| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`          |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/message/:id</b></code> <code>Retrieve a specific message sent to user</code></summary>
+
+##### Request Body
+
+| name          | type     | data type                 | description |
+| ------------- | -------- | ------------------------- | ----------- |
+| Authorization | required | string (containing token) | N/A         |
+
+##### Responses
+
+| http code | content-type       | response                                           |
+| --------- | ------------------ | -------------------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "message": TBD MESSAGE OBJECT}` |
+| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`       |
+
+</details>
+
+#### Retreive the amount of likes on a specific image(stretch goal).
+
+<details>
+<summary><code>GET</code> <code><b>/images/likes</b></code></summary>
+
+##### Request Body
+| name           | type    | data type | description                                                   |
+|----------------|---------|-----------|---------------------------------------------------------------|
+| Authorization  | optional| string    | If token provided and valid, like count will be in response   |
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `application/json` | `{ "success": true, "likes": int }`                            |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
 
 POST requests for:
 
@@ -608,18 +699,106 @@ POST requests for:
 
 </details>
 
-- Receiving user inputted credentials for the login page(email and password).
-  - Response: A JSON object confirming success or failure.
-- Receiving user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
-  - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
-- Receiving user inputted hidden message to be embedded in the image.
-  - Response: A JSON object confirming that the hidden message was successfully embedded in the image or returning an error if the process failed.
-- Receiving user inputted private messages being sent through the Secret Chat page.
-  - Response: A JSON object confirming the private message has been sent or if the process had failed.
-- Receiving the action of the user liking an image(stretch goal).
-  - Response: A JSON object confirming the "like" has been received or if an error occured.
-- Receiving user uploaded images to be embeded as an image(stretch goal).
-  - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
+#### Receiving user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
+
+<details>
+ <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a general user</code></summary>
+
+##### Request Body
+
+| name    | type     | data type | description                                   |
+| ------- | -------- | --------- | --------------------------------------------- |
+| image   | required | file      | Image file to be uploaded                     |
+
+##### Responses
+
+| http code | content-type       | response                                                          | description                               |
+| --------- | ------------------ | ----------------------------------------------------------------- | ----------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "imageUrl": string}`                           | If the image was uploaded successfully    |
+| `400`     | `application/json` | `{"success": false, "error": "Invalid image format"}`             | If the image upload failed                |
+
+</details>
+
+<details>
+ <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a privileged user</code></summary>
+
+##### Request Body
+
+| name    | type     | data type | description                                   |
+| ------- | -------- | --------- | --------------------------------------------- |
+| image   | required | file      | Image file to be uploaded                     |
+| message | required | string    | Hidden message to embed within image |
+
+##### Responses
+
+| http code | content-type       | response                                                          | description                               |
+| --------- | ------------------ | ----------------------------------------------------------------- | ----------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "imageUrl": string, "message": string}`        | If the image was uploaded successfully    |
+| `400`     | `application/json` | `{"success": false, "error": "Invalid image format"}`             | If the image upload failed                |
+
+</details>
+
+#### Receiving user inputted private messages being sent through the Secret Chat page.(stretch goal)
+
+<details>
+ <summary><code>POST</code> <code><b>/chat/messages</b></code> <code>Send a private message in Secret Chat</code></summary>
+
+##### Request Body
+
+| name    | type     | data type | description                        |
+| ------- | -------- | --------- | ---------------------------------- |
+| message | required | string    | The private message content        |
+
+##### Responses
+
+| http code | content-type       | response                                                        | description                               |
+| --------- | ------------------ | --------------------------------------------------------------- | ----------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "message": "Message sent successfully"}`     | If the message was sent successfully      |
+| `400`     | `application/json` | `{"success": false, "error": "Invalid message"}`                | If the message is invalid                 |
+| `401`     | `application/json` | `{"success": false, "error": "Unauthorized"}`                   | If the user is not authorized to send     |
+
+</details>
+
+#### Receiving the action of the user liking an image(stretch goal).
+
+<details>
+ <summary><code>POST</code> <code><b>/images/:id/like</b></code></summary>
+
+##### Request Body
+
+| name      | type     | data type | description                                   |
+| --------- | -------- | --------- | --------------------------------------------- |
+| imageId   | required | string    | The ID of the image being liked               |
+
+##### Responses
+
+| http code | content-type       | response                                                          | description                               |
+| --------- | ------------------ | ----------------------------------------------------------------  | ----------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "message": "Liked"}`                           | If the like action was successful         |
+| `400`     | `application/json` | `{"success": false, "error": "Invalid image ID"}`                 | If the image ID is invalid                |
+
+</details>
+
+#### Receiving user uploaded images to be embedded in an image as a hidden image(stretch goal).
+
+<details>
+ <summary><code>POST</code> <code><b>/images/image/:id/embed</b></code> <code>Embed an image within another image</code></summary>
+
+##### Request Body
+
+| name      | type     | data type | description                                   |
+| --------- | -------- | --------- | --------------------------------------------- |
+| image     | required | file      | The image to be embedded                      |
+| embedId   | required | string    | The ID of the image to embed within           |
+
+##### Responses
+
+| http code | content-type       | response                                                          | description                               |
+| --------- | ------------------ | ----------------------------------------------------------------  | ----------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "message": "Image embedded successfully"}`     | If the embedding action was successful    |
+| `400`     | `application/json` | `{"success": false, "error": "Invalid image or embed ID"}`        | If the image or embed ID is invalid       |
+
+</details>
 
 Our front-end utilizes the "Remix" framework where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side.
 
