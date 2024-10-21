@@ -314,7 +314,23 @@ HiddenFrame's other primary feature is the steganography manipulation of images 
 
 ### 6.3. Mathematics
 
-HiddenFrame's steganographic features require that we develop a method for inserting the payload into the carrier and successfully retrieving the payload back from the carrier. As such, we will require the ability to produce 'keys' that will mathematically describe the pixels modified. In order to accomplish this, we will utilize the algebraic concept of group generators under a binary operation mod N. This concept will allow us to describe the pixels we will be using for steganography.
+HiddenFrame's steganographic features require that we develop a method for inserting the payload into the carrier and successfully retrieving the payload back from the carrier. As such, we will require the ability to produce 'keys' that will mathematically describe the pixels modified. To accomplish this, we will utilize the algebraic concept of group generators under a binary operation mod N.
+
+Definition of a group: Let $A$ be a set together with a binary operation (we will be using addition) that assigns to each ordered pair $(a,b)$ of elements of $A$ and element of $A$ denoted $ab$. We say that $A$ is a group under this operation if the following three axioms are satisfied.
+
+1. Associativity. The operation is associative; that is, $(ab)c = a(bc)$ for all $a,b,c \in A.$
+2. Identity. There is an element $e$ (called the identity) in $G$ such that $ae=ea=a \\; \forall \\; a \in A.$
+3. Inverses exist. For each element $a \in A$, there is a unique element $b \in A$ (called the inverse of $a$ and denoted $a^{-1}$) such that $ab=ba=e.$
+
+Definition of a cyclic group and a generator: Let $A$ be a group. We say that $A$ is cyclic if there exists an element $a \in A$ such that $A=\\{a^n:n\in\mathbb{Z}\\}$ and that $a$ is a generator of $A$. Note, that in this case, $a^n$ does not mean $a$ to the power of $n$, but rather $a$ composed with itself $n$ times under the binary operation of the group $A$.
+
+Any set of integers under addtion $\\{0,1,2,...,n-1\\} \\; modulo \\; n$ denoted $\mathbb{Z}_n$ satisfies the definition of a cyclic group. This means that leveraging concepts from group theory and modular arithmetic will work for selecting pixels for modification in an image, regardless of the dimensions of an image provided by the user, where $n$ is the total number of pixels in an image. However, practical computing constraints to image size and message size will need to be considered. To generate the group when performing pixel selection, we may use any generator of the set $\\{0,1,2,...,n-1\\}$.
+
+To find generators of $n$ we may us the Euclidean Algorithm, that is given $n,x \in \mathbb{Z}$ where $x<n$:
+
+$$n=qx + r \\; : \\; q,r \in \mathbb{Z}, 0 \leq r < x$$.
+
+If $r=0$, then $gcd(n,x)=x$ otherwise, $gcd(n,x)=gcd(x,r)$. We perform these steps iteratively until $r=0$. If in our final iteration of testing the $gcd$ for two integers, the lesser integer being tested was equal to $1$, then $x$ was a generator of $n$. If $gcd(n,x)>1$, then $x$ is NOT a generator of $n$ and should not be used as jump size between pixels when selecting pixels for modification for messaging encoding and decoding.
 
 ## 7. Feature prioritization
 
