@@ -29,6 +29,8 @@ Alternate contact person:
     - 5.2. [Key Generation](#52-key-generation)
     - 5.3. [Payload Embedding/Retrieval](#53-payload-embedding/retrieval)
 6.  [Network Design](#6-network-design)
+    -6.1. [Authentication](#61-network-design)
+    -6.2. [Routes](#62-routes)
 7.  [User Account Design](#7-user-account-design)
 8.  [Other Design Elements](#8-other-design-elements)
     - 8.1. [Project Directory Structure](#81-project-directory-structure)
@@ -411,7 +413,7 @@ GET requests to:
 #### Process user invites
 
 <details>
- <summary><code>GET</code> <code><b>/user/invites</b></code> Retreive number of remaining allowed invites for current privileged user<code></summary>
+ <summary><code>GET</code> <code><b>/user/invites</b></code> <code>Retreive number of remaining allowed invites for current privileged user</code></summary>
 
 ##### Request Body
 
@@ -451,7 +453,7 @@ GET requests to:
 #### Retrieve system generated keys that decode the embedded images.
 
 <details>
-<summary><code>GET</code><b>/images/keys</b></summary>
+<summary><code>GET</code> <code><b>/images/keys</b></code></summary>
 
 ##### Request Body
 | name           | type     | data type | description                                          |
@@ -469,7 +471,7 @@ GET requests to:
 #### Retrieve embedded images.
 
 <details>
-<summary><code>GET</code><b>/images/embedded/message</b> <code>Retrieve embedded images with a hidden message</code></summary>
+<summary><code>GET</code> <code><b>/images/embedded/message</b></code> <code>Retrieve embedded images with a hidden message</code></summary>
 
 ##### Request Body
 | name           | type    | data type | description                                                     |
@@ -485,7 +487,7 @@ GET requests to:
 </details>
 
 <details>
-<summary><code>GET</code><b>/images/embedded/image</b> <code>Retrieve embedded image with a hidden image. (stretch goal)</code></summary>
+<summary><code>GET</code> <code><b>/images/embedded/image</b></code> <code>Retrieve embedded image with a hidden image. (stretch goal)</code></summary>
 
 ##### Request Body
 | name           | type     | data type | description                                                     |
@@ -503,7 +505,7 @@ GET requests to:
 #### Retrieve decoded embedded images.
 
 <details>
-<summary><code>GET</code><b>/images/decode/message</b> <code>Retrieve decoded images with embedded messages after key has been recognized.</code></summary>
+<summary><code>GET</code> <code><b>/images/decode/message</b></code> <code>Retrieve decoded images with embedded messages after key has been recognized.</code></summary>
 
 ##### Request Body
 | name           | type     | data type | description                                                       |
@@ -519,7 +521,7 @@ GET requests to:
 </details>
 
 <details>
-<summary><code>GET</code><b>/images/decode/image</b> <code>Retrieve decoded images with embedded image after key has been recognized. (stretch goal)</code></summary>
+<summary><code>GET</code> <code><b>/images/decode/image</b></code> <code>Retrieve decoded images with embedded image after key has been recognized. (stretch goal)</code></summary>
 
 ##### Request Body
 | name           | type     | data type | description                                                     |
@@ -575,7 +577,7 @@ GET requests to:
 #### Retreive the amount of likes on a specific image(stretch goal).
 
 <details>
-<summary><code>GET</code><b>/images/likes</b></summary>
+<summary><code>GET</code> <code><b>/images/likes</b></code></summary>
 
 ##### Request Body
 | name           | type    | data type | description                                                   |
