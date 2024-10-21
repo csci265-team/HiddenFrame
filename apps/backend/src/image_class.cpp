@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <iostream>
 #include <string>
-#include <HiddenFrame_Headers.h>
+#include <hiddenframe_headers.h>
 
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -21,7 +21,7 @@ image::image(string filepath):width(0),height(0),channels(0),filetype(),original
 };
 //regular constructor - data bassed by API server
 image::image(const unsigned char* Data):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
-    int length;
+    int length=0;
     original_image=stbi_load_from_memory(Data,length,&width,&height,&channels,0);
 };
 
