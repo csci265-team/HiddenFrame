@@ -23,7 +23,11 @@ Alternate contact person:
     - 4.1. [Front-End Configuration](#42-font-end-configuration)
     - 4.2. [Public Aspect](#41-public-aspect)
     - 4.3. [Private Aspect](#42-private-aspect)
-    - 4.3.1. [Image Wall](#431-image-wall)
+    - 4.4. [Image Wall](#44-image-wall)
+    - 4.5. [Image Upload](#45-image-upload)
+    - 4.6. [User login](#46-user-login)
+    - 4.7. [User registration](#47-user-registration)
+    - 4.8. [User account page](#48-user-account-page)
 5.  [Back-End Design](#5-back-end-design)
     - 5.1. [Image I/O](#51-image-i/o)
     - 5.2. [Key Generation](#52-key-generation)
@@ -52,7 +56,7 @@ Alternate contact person:
 
 ## 1. Known Omissions
 
-No sections currently discuss user account creation process
+No known omissions (idk what to write here)
 
 ## 2. Design Overview
 
@@ -268,9 +272,9 @@ Image Wall is a grid of publicly shared images that scrolls infinitely.
 - If the login was successful API server will return a token in the response, this will be saved in browser [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). The user is then redirected back to the home page.
 - If login fails they will be asked to check their username and password
 
-### 4.7 User registeration
+### 4.7 User registration
 
-- The user registeration page will only be reachable if there's an `inviteId` present in the [search params](https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams). This id will not be validated on client side but will be validated on API server.
+- The user registration page will only be reachable if there's an `inviteId` present in the [search params](https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams). This id will not be validated on client side but will be validated on API server.
 - This page will mainly consist of a HTML form element with two HTML input elements, one for username and one for password (password input will be of type "password")
 - The form will submit a POST request to the API server containing the username and hashed password in JSON format in the request body.
 - If the register was successful API server will return a token in the response, this will be saved in browser [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
@@ -285,31 +289,6 @@ Image Wall is a grid of publicly shared images that scrolls infinitely.
 - Invite creation:
   - The invite creation section will have a count of remaining invites and a list of previously created `inviteId`s and possible the date it was created on.
   - This section will also have a button that lets the user create a new invite, this button will be hidden if invite limit is reached. Once clicked this button will send a request to the API with the user's token, once everything is validated a new inviteId will be provided in the response. A prompt giving the user an option to compy an "invite link" will be shown
-
-### 4.9. Public Aspect
-
-The public-facing part of the website serves as a picture-sharing platform, allowing users to upload and browse images. This aspect is crucial to attracting a broad user base and providing the platform's visual appeal.
-
-- Main Features:
-  - Image Wall: A grid of publicly shared images that scrolls infinitely.
-  - Image Upload: A button at the top allows users to upload images to the platform. These images will appear on the public wall after uploading.
-  - User Interactions(stretch goal): Users can like, comment on, and share images.
-- User Experience:
-  - The image wall is designed for ease of use, with images displayed in a 3x3 grid format. Hover effects and clickable icons provide an intuitive interaction model for public users.
-  - Responsive Design: The public aspect will be optimized for desktop, with some mobile functionality being a stretch goal.
-
-### 4.10. Private Aspect
-
-The private side of HiddenFrame is accessible only to privileged users who have login credentials. This aspect enables secure communication through hidden messages embedded in images using steganography.
-
-- Main Features:
-
-  - Private Login Page: A dedicated login page for users with access to the hidden messaging system.
-  - Secret Message Board: After logging in, users can upload images with hidden messages and decode messages from received images.
-  - Invite System: Privileged users can invite others to access the private aspect, creating a controlled environment for hidden communication.
-
-- Security and Privacy:
-  - Login Protection: The private login page will be built with security in mind, using HTTPS and appropriate authentication measures.
 
 ## 5. Back-End Design
 
@@ -527,9 +506,9 @@ GET requests to:
 
 ##### Request Body
 
-| name          | type     | data type                 | description |
-| ------------- | -------- | ------------------------- | ----------- |
-| Authorization | required | string (containing token) | N/A         |
+| name          | type     | data type | description                           |
+| ------------- | -------- | --------- | ------------------------------------- |
+| Authorization | required | string    | A string containting the user's token |
 
 ##### Responses
 
@@ -547,9 +526,9 @@ GET requests to:
 
 ##### Request Body
 
-| name          | type     | data type                 | description                                           |
-| ------------- | -------- | ------------------------- | ----------------------------------------------------- |
-| Authorization | optional | string (containing token) | If token provided and valid, keys will be in response |
+| name          | type     | data type | description                                           |
+| ------------- | -------- | --------- | ----------------------------------------------------- |
+| Authorization | optional | string    | If token provided and valid, keys will be in response |
 
 ##### Responses
 
@@ -583,38 +562,20 @@ GET requests to:
 #### Retrieve embedded images.
 
 <details>
-<summary><code>GET</code> <code><b>/images/embedded/message</b></code> <code>Retrieve embedded images with a hidden message</code></summary>
+<summary><code>GET</code> <code><b>/images/embedded</b></code> <code>Retrieve embedded data from an image</code></summary>
 
 ##### Request Body
 
 | name          | type     | data type | description                                                      |
 | ------------- | -------- | --------- | ---------------------------------------------------------------- |
-| Authorization | optional | string    | If token provided and valid, embedded images will be in response |
+| Authorization | optional | string    | If token provided and valid, embedded data will be in response |
 
 ##### Responses
 
-| http code | content-type       | response                                        |
-| --------- | ------------------ | ----------------------------------------------- |
-| `200`     | `image/png`        | `{ "success": true, An image file or url TBD }` |
-| `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}`  |
-
-</details>
-
-<details>
-<summary><code>GET</code> <code><b>/images/embedded/image</b></code> <code>Retrieve embedded image with a hidden image. (stretch goal)</code></summary>
-
-##### Request Body
-
-| name          | type     | data type | description                                                     |
-| ------------- | -------- | --------- | --------------------------------------------------------------- |
-| Authorization | required | string    | If token provided and valid, embedded image will be in response |
-
-##### Responses
-
-| http code | content-type       | response                                        |
-| --------- | ------------------ | ----------------------------------------------- |
-| `200`     | `image/png`        | `{ "success": true, An image file or url TBD }` |
-| `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}`  |
+| http code | content-type       | response                                                               |
+| --------- | ------------------ | ---------------------------------------------------------------------- |
+| `200`     | `image/png`        | `{ "success": true, "url": string, "type": string "message": string }` |
+| `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}`                         |
 
 </details>
 
@@ -663,9 +624,9 @@ GET requests to:
 
 ##### Request Body
 
-| name          | type     | data type                 | description |
-| ------------- | -------- | ------------------------- | ----------- |
-| Authorization | required | string (containing token) | N/A         |
+| name          | type     | data type | description                           |
+| ------------- | -------- | --------- | ------------------------------------- |
+| Authorization | required | string    | A string containting the user's token |
 
 ##### Responses
 
@@ -681,9 +642,9 @@ GET requests to:
 
 ##### Request Body
 
-| name          | type     | data type                 | description |
-| ------------- | -------- | ------------------------- | ----------- |
-| Authorization | required | string (containing token) | N/A         |
+| name          | type     | data type | description                           |
+| ------------- | -------- | --------- | ------------------------------------- |
+| Authorization | required | string    | A string containting the user's token |
 
 ##### Responses
 
@@ -697,7 +658,7 @@ GET requests to:
 #### Retreive the amount of likes on a specific image(stretch goal).
 
 <details>
-<summary><code>GET</code> <code><b>/images/likes</b></code></summary>
+<summary><code>GET</code> <code><b>/image/:id/likes</b></code></summary>
 
 ##### Request Body
 
@@ -716,7 +677,7 @@ GET requests to:
 
 POST requests for:
 
-#### Receiving user inputted infromation for the sign up page (email and password).
+#### Registering new user (email and password).
 
 <details>
  <summary><code>POST</code> <code><b>/user/register</b></code> <code>Resister a new user</code></summary>
@@ -759,7 +720,7 @@ POST requests for:
 
 </details>
 
-#### Receiving user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
+#### Uploading images to the image board and/or images to be embedded with a hidden message.
 
 <details>
  <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a general user</code></summary>
@@ -798,31 +759,10 @@ POST requests for:
 
 </details>
 
-#### Receiving user inputted private messages being sent through the Secret Chat page.(stretch goal)
+#### Liking an image(stretch goal).
 
 <details>
- <summary><code>POST</code> <code><b>/chat/messages</b></code> <code>Send a private message in Secret Chat</code></summary>
-
-##### Request Body
-
-| name    | type     | data type | description                 |
-| ------- | -------- | --------- | --------------------------- |
-| message | required | string    | The private message content |
-
-##### Responses
-
-| http code | content-type       | response                                                    | description                           |
-| --------- | ------------------ | ----------------------------------------------------------- | ------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "message": "Message sent successfully"}` | If the message was sent successfully  |
-| `400`     | `application/json` | `{"success": false, "error": "Invalid message"}`            | If the message is invalid             |
-| `401`     | `application/json` | `{"success": false, "error": "Unauthorized"}`               | If the user is not authorized to send |
-
-</details>
-
-#### Receiving the action of the user liking an image(stretch goal).
-
-<details>
- <summary><code>POST</code> <code><b>/images/:id/like</b></code></summary>
+ <summary><code>POST</code> <code><b>/image/:id/like</b></code></summary>
 
 ##### Request Body
 
@@ -836,27 +776,6 @@ POST requests for:
 | --------- | ------------------ | ------------------------------------------------- | --------------------------------- |
 | `200`     | `application/json` | `{"success": true, "message": "Liked"}`           | If the like action was successful |
 | `400`     | `application/json` | `{"success": false, "error": "Invalid image ID"}` | If the image ID is invalid        |
-
-</details>
-
-#### Receiving user uploaded images to be embedded in an image as a hidden image(stretch goal).
-
-<details>
- <summary><code>POST</code> <code><b>/images/image/:id/embed</b></code> <code>Embed an image within another image</code></summary>
-
-##### Request Body
-
-| name    | type     | data type | description                         |
-| ------- | -------- | --------- | ----------------------------------- |
-| image   | required | file      | The image to be embedded            |
-| embedId | required | string    | The ID of the image to embed within |
-
-##### Responses
-
-| http code | content-type       | response                                                      | description                            |
-| --------- | ------------------ | ------------------------------------------------------------- | -------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "message": "Image embedded successfully"}` | If the embedding action was successful |
-| `400`     | `application/json` | `{"success": false, "error": "Invalid image or embed ID"}`    | If the image or embed ID is invalid    |
 
 </details>
 
