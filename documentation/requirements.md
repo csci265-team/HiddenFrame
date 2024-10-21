@@ -291,9 +291,9 @@ Definition of a group: Let $A$ be a set together with a binary operation (we wil
 
 1. Associativity. The operation is associative; that is, $(ab)c = a(bc)$ for all $a,b,c \in A.$
 2. Identity. There is an element $e$ (called the identity) in $G$ such that $ae=ea=a \\; \forall \\; a \in A.$
-3. Inverses exist. For each element $a \in A$, there is a unique element $b \in A$ (called the inverse of $a$ and denoted $a^{-1}$) such that $ab=ba=e.$ 1 in [Citations](../documentation/citations.md).
+3. Inverses exist. For each element $a \in A$, there is a unique element $b \in A$ (called the inverse of $a$ and denoted $a^{-1}$) such that $ab=ba=e.$ (1) in [Citations](../documentation/citations.md).
 
-Definition of a cyclic group and a generator: Let $A$ be a group. We say that $A$ is cyclic if there exists an element $a \in A$ such that $A=\\{a^{1},a^{2},a^{3},...,a^{n}\\}$ and that $a$ is a generator of $A$. Note, that in this case, $a^i$ does not mean $a$ to the power of $i$, but rather $a$ composed with itself $i$-times under the binary operation of the group $A$. 1 in [Citations](../documentation/citations.md).
+Definition of a cyclic group and a generator: Let $A$ be a group. We say that $A$ is cyclic if there exists an element $a \in A$ such that $A=\\{a^{1},a^{2},a^{3},...,a^{n}\\}$ and that $a$ is a generator of $A$. Note, that in this case, $a^i$ does not mean $a$ to the power of $i$, but rather $a$ composed with itself $i$-times under the binary operation of the group $A$. (1) in [Citations](../documentation/citations.md).
 
 Any set of integers under addtion $\\{0,1,2,...,n-1\\} \\; modulo \\; n$ denoted $\mathbb{Z}_n$ satisfies the definition of a cyclic group. This means that leveraging concepts from group theory and modular arithmetic will work for selecting pixels for modification in an image, regardless of the dimensions of an image provided by the user, where $n$ is the total number of pixels in an image. However, practical computing constraints to image size and message size will need to be considered. To generate the group when performing pixel selection, we may use any generator of the set $\\{0,1,2,...,n-1\\}$.
 
