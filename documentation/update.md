@@ -20,22 +20,31 @@
  6. [Phase 6 Summary of Changes](#6-phase-6-summary-of-changes)
 
  ## 1. Phase 1 Summary of Changes
+
  ### 1.1. Charter
  N/A
+
  ### 1.2. Proposal
  N/A
+
  ## 2. Phase 2 Summary of Changes
+ 
  ### 2.1. Requirements
- N/A
+
+ Per Prof. Wessels' observation, the mathematics section of the original requirements document contained little detail of the methods intended to be used in the backend of encoding or decoding messages.  This has been updated to include definitions of a group, a cyclic group, a generator and a description of the Euclidean Algorithm. A description has been included to show how these concepts will prove helpful for the encoding and decoding of bitstrings for this particular project.
+
  ### 2.2. Standards
  N/A
+
  ## Phase 3 Summary of Changes
 
 - Git standards: A new staging branch was added and a bunch of git standards were updated based on feedback.
 
  ## Phase 4 Summary of Changes
  N/A
+
  ## Phase 5 Summary of Changes
  N/A
+ 
  ## Phase 6 Summary of Changes
  N/A

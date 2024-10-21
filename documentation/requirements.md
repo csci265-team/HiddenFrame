@@ -95,7 +95,7 @@ Other known omissions are:
 
 As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
 
-This photographic content will be visible on the home page of our web app on our "Image wall," which is basically a 3x3 grid of images that "infinitely" scrolls. Having it be responsive will be one of our stretch goals.
+This photographic content will be visible on the home page of our web app on our "Image wall," which is basically a 3x3 grid of images that "infinitely" scrolls. Images will be displayed in descending order for all users, with the most recent uploads appearing first. Pictures with a hidden message will be visible to all users but will have a slightly different design/animation (TBD later) for logged in privilged users. Names of users are who uploaded a picture, whether it be embedded or not, will not be visible to other users. Having it be responsive will be one of our stretch goals. 
 
 ### 3.2. Uploading images
 
@@ -116,7 +116,7 @@ This web page will have a simple login form that will ask the user for some sort
 
 ### 3.4. Hiding messages in the pictures
 
-The same web-based app will also have a special upload section for private users, which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded, we will provide the user with a "key" that can be used to decrypt the message from the image later. 
+The same web-based app will also have a special upload section for private users, which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded, we will provide the user with a "key" that can be used to decode the message from the image later. 
 
 The text message will be limited to 1024 UTF-8 characters in an image of not less than 40,000 pixels.
 
@@ -263,36 +263,37 @@ Jeremy, a general user without an account, wants to upload a photo of his cute d
 In order to do this, these are the actions Jeremy must proceed with:
 - Jeremy enters HiddenFrame's URL in his preferred browser.
 - Jeremy clicks the "Upload Photo" button.
-- Jeremy gets redirected to the upload photo page of the website and is prompted to upload a photo in a supported format.
-- He can click on the "Upload" button to upload his photo.
+- Jeremy is prompted to upload a photo in a supported format.
+- Jeremy chooses the image file to upload.
+- Jeremy clicks on the "Upload" button to upload his photo.
 
-### 5.2.2. Sending a Secret Message with an Embedded Image Scenario
-Artem, a privileged user with an account, would like to send a photo containing a hidden message to HiddenFrame's website to tell Patrick where there are available parking spaces at VIU.
+### 5.2.2. Uploading a Secret Message through an Embedded Image Scenario
+Artem, a privileged user with an account, would like to upload a photo containing a hidden message to HiddenFrame's website to tell Patrick where there are available parking spaces at VIU.
 
 In order to do this, these are the actions Artem must proceed with:
 - Artem enters HiddenFrame's login URL in his preferred browser.
 - Artem enters the specific credentials that he uses to access HiddenFrame's website with his extra privileges.
-- Once signed in, Artem gets redirected to HiddenFrame's Secret Message page.
-- Artem looks for Patrick's name on the Secret Message page's sidebar and clicks it.
+- Artem clicks "Sign in".
+- Artem gets redirected to HiddenFrame's Conversation Board page.
 - Artem clicks the "Upload" button.
+- Artem is prompted to upload a photo in a supported format along with entering a hidden message to be embedded.
 - Artem attaches the photo he would like to use. If he chooses not to, A.I. will generate a random image.
 - Artem types the hidden message in a text field designated for the hidden message.
 - Artem clicks on the "Embed Image" button.
-- Once the image has been embedded a key is generated that he can share with Patrick.
-- Artem copies the key to send to Patrick.
-- Artem clicks send.
+- Once the image has been embedded a key is generated that he can share with other privileged users.
+- Artem copies the key and sends it through a text message to Patrick with a description of the photo that Patrick should look for.
 
 ### 5.2.3. Viewing a Hidden Message Scenario 
 Patrick, a privileged user with an account signed in to HiddenFrame, wants to view the embedded message that Artem uploaded to find the available parking space.
 
 In order to do this, these are the actions Patrick must proceed with:
 - Patrick enters HiddenFrame's URL in his preferred browser.
-- Patrick navigates to the Secret Message page.
-- Patrick clicks Artem's name on the sidebar to view their chat.
-- Patrick sees the image and clicks it.
+- Patrick gets redirected to HiddenFrame's Conversation Board page.
+- Patrick scrolls through the images, looking for the image Artem described.
+- Patrick sees the image having a slightly different design/animation (TBD) and clicks it.
+- Patrick is prompted to enter a key.
 - Patrick enters the key Artem sent him in a text field and clicks the "View Hidden Message" button.
 - Patrick receives a pop-up on his browser containing a hidden message about the parking space's location.
-
 
 ## 6. Non-functional requirements
 
@@ -309,7 +310,7 @@ One of the central pillars of Project HiddenFrame is its social media. HiddenFra
 
 HiddenFrame's other primary feature is the steganography manipulation of images for chosen users. In addition to all of the Public Aspect Non-functional Requirements, this part of the project poses its own unique challenges:
 - User Privacy - Since this part of the site will require account creation HiddenFrame will have a responsibility to safeguard any user information provided. 
-- Steganography keys -  If the decryption keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
+- Steganography keys -  If the keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
 - Misuse of HiddenFrame for Illegal activity - HiddenFrame will moderate the site for content and cooperate with law enforcement in whatever capacity is required. 
 
 ### 6.3. Mathematics
@@ -320,9 +321,9 @@ Definition of a group: Let $A$ be a set together with a binary operation (we wil
 
 1. Associativity. The operation is associative; that is, $(ab)c = a(bc)$ for all $a,b,c \in A.$
 2. Identity. There is an element $e$ (called the identity) in $G$ such that $ae=ea=a \\; \forall \\; a \in A.$
-3. Inverses exist. For each element $a \in A$, there is a unique element $b \in A$ (called the inverse of $a$ and denoted $a^{-1}$) such that $ab=ba=e.$
+3. Inverses exist. For each element $a \in A$, there is a unique element $b \in A$ (called the inverse of $a$ and denoted $a^{-1}$) such that $ab=ba=e.$ (1) in [Citations](../documentation/citations.md).
 
-Definition of a cyclic group and a generator: Let $A$ be a group. We say that $A$ is cyclic if there exists an element $a \in A$ such that $A=\\{a^n:n\in\mathbb{Z}\\}$ and that $a$ is a generator of $A$. Note, that in this case, $a^n$ does not mean $a$ to the power of $n$, but rather $a$ composed with itself $n$ times under the binary operation of the group $A$.
+Definition of a cyclic group and a generator: Let $A$ be a group. We say that $A$ is cyclic if there exists an element $a \in A$ such that $A=\\{a^{1},a^{2},a^{3},...,a^{n}\\}$ and that $a$ is a generator of $A$. Note, that in this case, $a^i$ does not mean $a$ to the power of $i$, but rather $a$ composed with itself $i$-times under the binary operation of the group $A$. (1) in [Citations](../documentation/citations.md).
 
 Any set of integers under addtion $\\{0,1,2,...,n-1\\} \\; modulo \\; n$ denoted $\mathbb{Z}_n$ satisfies the definition of a cyclic group. This means that leveraging concepts from group theory and modular arithmetic will work for selecting pixels for modification in an image, regardless of the dimensions of an image provided by the user, where $n$ is the total number of pixels in an image. However, practical computing constraints to image size and message size will need to be considered. To generate the group when performing pixel selection, we may use any generator of the set $\\{0,1,2,...,n-1\\}$.
 
@@ -330,7 +331,7 @@ To find generators of $n$ we may us the Euclidean Algorithm, that is given $n,x 
 
 $$n=qx + r \\; : \\; q,r \in \mathbb{Z}, 0 \leq r < x$$.
 
-If $r=0$, then $gcd(n,x)=x$ otherwise, $gcd(n,x)=gcd(x,r)$. We perform these steps iteratively until $r=0$. If in our final iteration of testing the $gcd$ for two integers, the lesser integer being tested was equal to $1$, then $x$ was a generator of $n$. If $gcd(n,x)>1$, then $x$ is NOT a generator of $n$ and should not be used as jump size between pixels when selecting pixels for modification for messaging encoding and decoding.
+If $r=0$, then $gcd(n,x)=x$ otherwise, $gcd(n,x)=gcd(x,r)$. We perform these steps iteratively until $r=0$. If in our final iteration of testing the $gcd$ for two integers, the lesser integer being tested was equal to $1$, then $x$ was a generator of $n$. If $gcd(n,x)>1$, then $x$ is NOT a generator of $n$ and should not be used as a jump size between pixels when selecting pixels for modification for messaging encoding and decoding.
 
 ## 7. Feature prioritization
 
@@ -378,5 +379,3 @@ Our team's stretch goals include that are not expected to make it into our proje
 **TBD**: To be decided
 
 ## 9. Appendices
-
-

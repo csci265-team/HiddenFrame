@@ -29,91 +29,95 @@ Alternate contact person:
     - 5.2. [Key Generation](#52-key-generation)
     - 5.3. [Payload Embedding/Retrieval](#53-payload-embedding/retrieval)
 6.  [Network Design](#6-network-design)
+    - 6.1. [Authentication](#61-authentication)
+    - 6.2. [Routes](#62-routes)
 7.  [User Account Design](#7-user-account-design)
 8.  [Other Design Elements](#8-other-design-elements)
     - 8.1. [Project Directory Structure](#81-project-directory-structure)
 9.  [Glossary](#9-glossary)
 10. [Appendixes](#10-appendixes)
 
-# List of Figures
-
+# List of Figures:
+- [Top Level Data Flow Diagram](#top-level-data-flow-diagram)
+- [Module Interaction Diagram](#module-interaction-diagram)
+- [Page Load Cycle](#page-load-cycle)
+- [Data Input Lifecycle](#data-Input-lifecycle)
+- [Image Subsystem Data Flow Diagram](#image-subsystem-data-flow-diagram)
+- [Image Class](#image-class)
+- [Pixel Embedding](#pixel-embedding)
+- [Authentication Requests](#authentication-requests)
+- [API Access](#api-access)
+- [Directory Structure](#directory-structure)
 ## 1. Known Omissions
-
-- Network module is not in logical design diagram
-
+No sections currently discuss user account creation process
 ## 2. Design Overview
-
-The front-end and back-end of HiddenFrame have been carefully designed to provide a seamless and secure experience for both public and private users. The project’s primary focus is on desktop browsers, with potential for mobile responsiveness as a stretch goal. This section outlines the high-level design of the platform and the key decisions made during the transition from logical design to implementation.
-
-### 2.1. Target Platform
-
-The initial focus for HiddenFrame is on desktop browsers to offer an optimal viewing and interaction experience, especially for users managing large images and hidden messages. Mobile responsiveness is a stretch goal that will be considered once primary features are stable.
-
-### 2.2 Primary Technologies
-
-- HTML5, CSS3, JavaScript: The front-end is built using standard web technologies to ensure cross-browser compatibility.
-- TypeScript: TypeScript ensures strict type-checking, which is crucial for the sensitive functions related to embedding and decoding hidden messages.
-- Remix: Remix is used as the main front-end framework, optimizing performance and simplifying full-stack React development with built-in support for web standards and tools.
-- Vite: Vite, the default build tool for Remix, allows fast development and optimized production builds, ensuring smooth performance.
-
-### 2.3 Frameworks and Libraries
-
-- TailwindCSS: TailwindCSS is used for building responsive layouts for the image wall and other UI components, ensuring scalability and easy maintenance.
-- ESLint: To maintain code quality and ensure a consistent coding style across the project, ESLint is used for linting JavaScript and TypeScript files.
-
-### 2.4 User Interface (UI) Design Principles
-
-- Clean and Minimalistic Design: The platform is designed with simplicity and ease of use in mind, minimizing distractions and focusing on core functionality.
-- Clear Visual Hierarchy: Key features, such as image uploads and the secret messaging system, are easily distinguishable to guide the user through the platform’s public and private features.
-- Intuitive Interactions: Visual feedback is provided for all user actions, such as image uploads, button clicks, and hidden message decoding, ensuring users understand the system’s response to their input.
-
-### 2.5 Front-End Configuration
-
-- Node and NPM: Node.js is used for development purposes, while Remix is based on the Web Fetch API, so Node.js will not be required in production.
-- TypeScript: Utilized to ensure strict type-checking, especially when handling sensitive operations like steganography, to avoid runtime errors.
-- Remix: As our front-end framework, Remix optimizes the platform’s performance and simplifies data management, ensuring a fast and stable user experience.
-- Vite: Vite provides a fast development environment and optimized builds, essential for secure private communication and image handling.
-- TailwindCSS: Used to build responsive layouts for image grids and other UI elements. The configuration is customized to reflect our project’s branding.
-- ESLint: Ensures that clean coding practices are enforced, preventing errors and maintaining code consistency.
-
-### 2.6 Key Transformations/Decisions from Logical Design to Implementation
-
-As we transitioned from the logical design to implementation, several key decisions shaped the final product:
-
-- Public Aspect (Image Sharing): The design incorporates a scalable and user-friendly public interface that allows for easy image uploads, browsing, and interaction (e.g., liking, commenting, sharing).
-- Private Aspect (Steganography): The private aspect of the platform allows users to embed and decode secret messages within images. This functionality is protected by secure login and encryption protocols.
-- Data Handling and Security: The platform is designed with privacy and security in mind, ensuring sensitive data (such as hidden messages) is handled securely through HTTPS and careful management of steganographic keys.
-- UI/UX Consistency: Both public and private aspects share a consistent UI/UX, making it easy for users to switch between browsing public images and managing private, secure communications.
-- Performance Optimizations: Vite and Remix were chosen to optimize build performance, ensuring fast load times and responsive user interactions, particularly crucial when dealing with large images and data payloads.
-
-## 3. Logical Design
-
+The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame 
+###### Top Level Data Flow Diagram
+```mermaid
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
+ graph TD
+ subgraph "Image Subsystem"
+   1d(Image I/O)
+   1d <--"Read from file/write to file"--> 1e[(Stored Image Files)]
+   1d --"Provide Image"--> 1g(Key Generation)
+   1g --"Provide Key for embedding Proceedure"--> 1h(Image Manipulation - embedding)
+   1h --"Return Image With payload embedded"--> 1d
+   1d --"Provide Image and Key"--> 1i(Image Manipulation - retrieval)
+   1i --"Return Payload"-->1d
+end
+subgraph "Network Subsystem"
+    2a(API Server)<--"Service Request from Users"-->1d
+    1g--"Provide Key to User"-->2a
+end
+subgraph "User Account Module"
+    3a[(User Account Database)]<--"Request and Retrieve credentials"-->2a
+end
+subgraph "User Environment Module"
+    4a(Public WebUI)<--"Process Request/return"-->2a
+    4b(Private WebUI)<--"Process Request/return"-->2a
+end
+5(Public User)<--"Request & Recieve Resources"-->4a
+6(Private User)<--"Request & Recieve Resources"-->4b
+```
+## 3. Logical Design 
 HiddenFrame will require several components to function correctly. The main overall components are:
 
 1. User Environment module
 2. User Account module
 3. Network module
 4. Imaging module
-   Notably the User Environment module and Imaging module will be required to handle different input steams for different types of users. A further decomposition of each of these modules is provided in their own sections.
-
+Notably the User Environment module and Imaging module will be required to handle different input steams for different types of users. A further decomposition of each of these modules is provided in their own sections.
 Below is a sequence diagram describing the anticipated flow of data for HiddenFrame (note: Network Module is excluded as it primarily acts as a relay/facilitator of all of these transactions).
+###### Module Interaction Diagram
 
 ```mermaid
 ---
 Title: Design Overview
 ---
-
 %%{
   init: {
     'theme': 'base',
     'themeVariables': {
       'primaryColor': '#4A90E2',
-      'primaryTextColor': '#FFFFFF',
+      'primaryTextColor': '#ddd',
       'primaryBorderColor': '#A6C1E0',
       'signalColor' : '#FF4500',
-      'actorlineColor': '#FFA500',
+      'actorLineColor': '#FFA500',
       'secondaryColor': '#7ED321',
       'tertiaryColor': '#F5F7FA'
+      
     }
   }
 }%%
@@ -122,64 +126,63 @@ sequenceDiagram
     participant public as Public User
     participant private as Private User
     participant main as User Environment Module
+    participant api as Network Module
     participant account as User Account Module
     participant image as Imaging Module
     participant db as Filesystem
 
-    Note over private,db: The user must be logged in to use steganography
-    private->>+account: Logs in using credentials
+    Note over private,db: Authentication Process
+    private->>main: attempts to login
+    main->>api: request User Authentication
+    api->>account: Check for credentials
     account->>db: Query stored accounts
     db->>account: Respond with query result
-
     alt Credentials not found
-        account->>private: Invalid credentials
+        account->>api: Invalid credentials
+        api->>main: Authentication Failure
+        main->>private: Loggin Unsucessful
     else Credentials found
-        account->>-private: Successfully logged in
-        Note over private,db: When the user is authenticated, they can now use steganography
-        public->>main: View picture
-        main->>image: Retrieve image
-        image->>db: Read image data
-        db->>image: Image data
-        image->>main: Image
-        main->>public: Image
+        account->>api: Valid credentials
+        api->>main: Authentication Successful
+        main->>private: Loggin Successful
+    end
+        Note over private,db: Steganography Processes (Requires Authentication)
         private->>main: View pictures
         main->>image: Retrieve image
         image->>db: Read image data
         db->>image: Image data
-        image->>main: Image
-        main->>private: Image
-        public->>main: Upload picture
-        main->>image: Store image
-        image->>db: Write image to filesystem
-        image->>main: Store successful
-        main->>public: Upload successful
-        par Payload Embedding
-            private--)main: upload picture & payload
-            private--)main: Embed Image with payload
-            main--)image: Encode Image with payload
-            image--)db: Store modified image
-        and Response
-            image-->>main: Image Embedded and stored
-            main-->>private: Successfully embedded
-        end
         par Payload Retrieval
-            private--)main: View picture with payload
-            private--)main: Upload key
-            private--)image: Retrieve modified image
-            image--)db: Read modified image
-        and Response
-            db-->>image: Image data
-            image-->>main: Image read and decoded
-            main-->>private: payload
+            private->>main: Provide key
+            main->>api: send key
+            api->>image: Retrieve modified image
+            image->>db: Read modified image
+            db->>image: Image data
+            image->>image: Attempt to Decode Image
+            alt Image Decoded
+                image->>api: payload
+                api->>main: payload
+                main->>private: payload
+            else No Payload found
+                image->>api: failure message
+                api->>main: failure message
+                main->>private: failure message
+            end
+        par Payload Embedding
+            private->>main: Upload picture & payload
+            main->>api: Send Image and Payload  
+            api->>image: Send Image and Payload
+            image->>image: Embed Payload
+            image->>api: return encoding Key
+            image->>db: Store modified image
+            api->>main: return encoding Key
+            main->>private: return encoding Key
         end
-    end
+        end
 
 ```
-
 ## 4. Front-End Design
 
 The front-end of HiddenFrame will be responsible for providing a user-friendly interface for both public and private users.
-
 ### 4.1 Front-End Configuration
 
 - Node and NPM: For developement we are using node.js and node package manager, since our framework Remix is built on the Web fetch API we will not need to use node.js in production.
@@ -197,6 +200,7 @@ We will use the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fet
 We won't be doing any specific caching, only the caching inbuilt in Remix (which is very minimal)
 
 Below is a minimal diagram describing the page load cycle:
+###### Page Load Cycle
 
 ```mermaid
 ---
@@ -213,6 +217,7 @@ Title: Front-end page load overview
 ### 4.3 Data input lifecycle
 
 Whenever data needs to be fetched based on any user input (forms, image upload, etc) the user request is first formatted in JSON and then a request is made to the API server. The API server then checks for authentication if required and once all data is validated it retrieves/publishes the requested data to the backend. Once that is done any data the backend returns is forwarded through the API server to the frontend server which then hydrates the HTML with new data and sends it off to the client.
+###### Data Input Lifecycle
 
 ```mermaid
 ---
@@ -275,29 +280,53 @@ The back end of HiddenFrame will have to deal with 4 general requests from the f
 3.  Public/Private Aspect user requests an stored image that has no payload or has a key that does not match.
 4.  Private Aspect user requests an stored image with a payload and has the key
     Overview of back end design modules and data flow is as follows
-
+###### Image Subsystem Data Flow Diagram
 ```mermaid
 ---
 Title: Back-End Overview
 ---
- graph TD
-   a((Front End)) --> b(API Server)
-   b <-->d(Image I/O)
-   d <--"Read from file/write to file"--> e[(Stored Image Files)]
-   d --"Provide Image"--> g(Key Generation)
-   g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
-   g--"Provide Key to User"-->b
-   h --"Return Image With payload embedded"--> d
-   d --"Provide Image and Key"--> i(Image Manipulation - retrieval)
-   i --"Return Payload"-->d
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
+ graph TD
+
+ subgraph Image Subsystem
+
+   a((Front End)) --> b(API Server)
+
+   b <-->d(Image I/O)
+
+   d <--"Read from file/write to file"--> e[(Stored Image Files)]
+
+   d --"Provide Image"--> g(Key Generation)
+
+   g --"Provide Key for embedding Proceedure"--> h(Image Manipulation - embedding)
+
+   g--"Provide Key to User"-->b
+
+   h --"Return Image With payload embedded"--> d
+
+   d --"Provide Image and Key"--> i(Image Manipulation - retrieval)
+
+   i --"Return Payload"-->d
+
+end
 ```
 
 ### 5.1. Image I/O
-
-The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file.
-
+The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file. 
 Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation we will create a class called "image." The Image class will contain methods for all other components of the Image subsystem. The following is a class definition for HiddenFrame's Image class.
-
+###### Image Class
 ```mermaid
 classDiagram
 class image{
@@ -332,7 +361,7 @@ The message will be broken down into packets of bits that will be passed through
 
 Suppose an image has $n$ pixels. We want to know, which integers under addition $mod \\; n$ generate the set $\\{0,1,2,3,...,n-1\\}$.
 
-Definition: Let $\\{0,1,2,3,...,n-1\\}$ be a group under the binary option of addition $mod \\; n$. We say that $a \in G$ generates $G$ if $G=\\{ a^n:n \in \mathbb{Z}\\}$. Note in this context $a^n$ does not mean $a$ to the power of $n$, but rather $a$ added to itself $n$-times, since the binary operation was addition.
+Definition: Let $\\{0,1,2,3,...,n-1\\}$ be a group under a binary option (addition) $mod \\; n$. We say that $a \in G$ generates $G$ if $G=\\{a^{1},a^{2},a^{3},...,a^{n}\\}$ for some $n\in\mathbb{Z}$. Note in this context $a^i$ does not mean $a$ to the power of $i$, but rather $a$ added to itself $i$-times, since the binary operation was addition. (1) in [Citations](../documentation/citations.md).
 
 To calculate the generators of $n$, we will iteratively use the Euclidean Algorithm to determine which numbers in the set $\\{0,1, 2, 3, ... , n-1\\}$ are relatively prime to $n$ up to a fixed value $k < n$ if $n$ becomes large. The purpose of going up to only a fixed value $k$, is so that our jumps between pixels do not become so large that we need to pass over unnecessarily large portions of the image with each pixel selection. To find numbers that are relatively prime to $n$, we must find integers, $i$, whose $gcd(n,i)=1$.
 
@@ -341,7 +370,7 @@ Next, we will look for a skip size in pixels that accomplishes two competing goa
 1. Allows us to use every pixel in the image if needed should the message become too large; and
 2. Maximize the space between pixels containing information to avoid clustering of modified pixels when this can be avoided.
 
-Using any generator as the size of skips between pixels already accomplishes our first goal.  Even if we pass over the image multiple times, we will only land on every pixel exactly once until we return to the starting position of pixel 0, the first pixel in the image. Once we have come back to this position, no further modifications to the image can be made. Utilizing generators will prevent us from colliding with previously modified pixels should we need to pass over the image more than once and will prevent us from wasting any space in the image that could include data.
+Using any generator as the size of skips between pixels already accomplishes our first goal.  Even if we pass over the image multiple times, we will only land on every pixel exactly once until we return to the starting position of pixel 0, the first pixel in the image since a property of a generator is that it generates every element of an $n$-set, with the identity of the binary operation being the final element it generates, in the case of addition, 0. Once we have come back to this position, no further modifications to the image can be made otherwise this would override existing data. Utilizing generators will prevent colliding with previously modified pixels should the algorithm require passing over the image more than once and will prevent wasting any space in the image that could include data.
 
 To maximize the space between pixels, we need to know how many pixels must be modified in the image to maximize the space between them. This involves knowing what the bit string contents of our message will be after the characters have been converted to binary. As will be discussed in further detail in Payload Embedding and Payload Retrieval, the channels will be used to encode the bit strings into the images. The binary will be shortened into a format resembling $[2,1,3,0,1,1,...]$ that is to be read as two 1's, three 0's, one 1, ... and looks like 110001... in binary. The size of this array divided by 2 will tell us how many pixels must be modified. Using this information, we must look through our list of generators such that the total number of pixels in our image, n, divided by the number of pixels we need to modify should be roughly equal to the generator we choose from our computed list. This will ensure as even of a distribution as possible.  When this is not possible, generators $1$, and $n-1$ should NOT be chosen as they are guaranteed to cause clustering. By this method, suppose we call the generator we've selected $g$.
 
@@ -367,6 +396,7 @@ where,
 #### Embedding:
 
 After a suitable key is generated for the target image, we then need to encode the payload. To employ this we will utilize the "image" class's modify_image method to perform the embedding procedure. Beforehand we convert the payload to a binary string, and then into a specialized array; the odd entries of this array represent the number of contiguous symbols in the subsequent array entry (which will be a 1 or 0). The maximum number that the odd entries can contain is the number of channels in the image eg: for a 3 channel image {3,1,2,0,3,1,1,0} would represent the binary string 111001110. We then perform bitwise operations on the LSB of each pixel's character. To encode a series of 3 ones we set the LSB of the 3rd channel (blue) to a 1 and the other two channels LSB's to a 0. Conversely if we wish to encode 3 0's we would set the 3rd channel's LSB to a 0, and the other two channels LSB's to a 1. The following example would encode a binary 11:
+###### Pixel Embedding
 
 ![HiddenFrame Encoding Scheme](../resources/images/Encoding_Scheme.png)
 
@@ -379,16 +409,17 @@ It is important to note here that we cannot store images as the .JPG file type, 
 Here we utilize the "Image" class's retrieve_payload method. This portion works very similar to the embedding process in reverse; we utilize the provided key to visit pixels that are encoded, retrieve the binary values concatenating a string that we return as the binary of the original payload.
 
 ## 6. Network Design
-
-Since our system is written in C++ in its back-end and uses a Javascript framework in its front-end, our front-end to back-end communication will be utilizing an API server made using ["Crow"](https://crowcpp.org/) which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for its built-in JSON support and to make back-end to front-end communication seamless.
+Since our system is written in C++ in its back-end and uses a Javascript framework in its front-end, our front-end to back-end communication will be utilizing an API server made using ["Crow"](https://crowcpp.org/) which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for its built-in JSON support and to make back-end to front-end communication seamless. 
 
 We will be implementing Crow in the back-end and defining routes to handle HTTP GET and POST requests for sending and receiving data to and from the front-end.
+ 
 
 ### 6.1 Authentication
 
 Our API server will also run authentication on privilaged routes. We will be using JWT Token authentication for the same.
 
 Represented below is basic authentication flow assuming the user is already registred:
+###### Authentication Requests
 
 ```mermaid
 ---
@@ -408,7 +439,8 @@ sequenceDiagram
     API Server-->>User: Error is returned
 ```
 
-Represented below is the basic flow for accessing API routes both privilaged and non privilaged:
+Represented below is the basic flow for accessing API routes both privileged and non privileged:
+###### API Access
 
 ```mermaid
 ---
@@ -438,52 +470,14 @@ sequenceDiagram
 
 ### 6.2 Routes
 
-GET requests to:
+GET requests to: 
 
-#### Retrieve private messages on the Secret Chat Page
-
-<details>
- <summary><code>GET</code> <code><b>/messages</b></code> <code>Get all messages sent to user</code></summary>
-
-##### Headers
-
-| name          | type     | data type                 | description |
-| ------------- | -------- | ------------------------- | ----------- |
-| Authorization | required | string (containing token) | N/A         |
-
-##### Responses
-
-| http code | content-type       | response                                              |
-| --------- | ------------------ | ----------------------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "messages": [TBD MESSAGE OBJECT]}` |
-| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`          |
-
-</details>
+#### Process user invites
 
 <details>
- <summary><code>GET</code> <code><b>/message/:id</b></code> <code>Retrieve a specific message sent to user</code></summary>
+ <summary><code>GET</code> <code><b>/user/invites</b></code> <code>Retreive number of remaining allowed invites for current privileged user</code></summary>
 
-##### Headers
-
-| name          | type     | data type                 | description |
-| ------------- | -------- | ------------------------- | ----------- |
-| Authorization | required | string (containing token) | N/A         |
-
-##### Responses
-
-| http code | content-type       | response                                           |
-| --------- | ------------------ | -------------------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "message": TBD MESSAGE OBJECT}` |
-| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`       |
-
-</details>
-
-#### Retreive number of remining allowed invites for current privileged user
-
-<details>
- <summary><code>GET</code> <code><b>/user/invites</b></code></summary>
-
-##### Headers
+##### Request Body
 
 | name          | type     | data type                 | description |
 | ------------- | -------- | ------------------------- | ----------- |
@@ -503,7 +497,7 @@ GET requests to:
 <details>
  <summary><code>GET</code> <code><b>/images</b></code> <code>Get first 100 images</code></summary>
 
-##### Headers
+##### Request Body
 
 | name          | type     | data type                 | description                                           |
 | ------------- | -------- | ------------------------- | ----------------------------------------------------- |
@@ -518,20 +512,147 @@ GET requests to:
 
 </details>
 
-- Retrieve error messages for situations like: invalid credentials, invalid image format, exceeding allowable length(1024 UTF-8 characters) for a hidden message, etc.
-  - Response: A JSON object containing the error message.
-- Retrieve system generated keys that decode the embedded images.
-  - Response: A JSON object containing the keys for the embedded images.
-- Retrieve embedded images with a hidden message.
-  - Response: An image file or url.
-- Retrieve decoded image embedded image after key has been recognized(stretch goal).
-  - Response: An image file or url.
-- Retrieve decoded embedded image after key has been recognized.
-  - Response: An image file or url.
-- Retreive the amount of likes on a specific image(stretch goal).
-  - Response: A JSON object containing the like count of the specific image.
-- Retrieve image embedded image(stretch goal).
-  - Response: An image file or url.
+#### Retrieve system generated keys that decode the embedded images.
+
+<details>
+<summary><code>GET</code> <code><b>/images/keys</b></code></summary>
+
+##### Request Body
+| name           | type     | data type | description                                          |
+|----------------|----------|-----------|------------------------------------------------------|
+| Authorization  | required | string    | If token provided and valid, keys will be in response|
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `application/json` | `{ "success": true, "keys": string[] }`                        |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
+
+#### Retrieve embedded images.
+
+<details>
+<summary><code>GET</code> <code><b>/images/embedded/message</b></code> <code>Retrieve embedded images with a hidden message</code></summary>
+
+##### Request Body
+| name           | type    | data type | description                                                     |
+|----------------|---------|-----------|-----------------------------------------------------------------|
+| Authorization  | optional| string    | If token provided and valid, embedded images will be in response|
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `image/png`        | `{ "success": true, An image file or url TBD }`                |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
+
+<details>
+<summary><code>GET</code> <code><b>/images/embedded/image</b></code> <code>Retrieve embedded image with a hidden image. (stretch goal)</code></summary>
+
+##### Request Body
+| name           | type     | data type | description                                                     |
+|----------------|----------|-----------|-----------------------------------------------------------------|
+| Authorization  | required | string    | If token provided and valid, embedded image will be in response |
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `image/png`        | `{ "success": true, An image file or url TBD }`                |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
+
+#### Retrieve decoded embedded images.
+
+<details>
+<summary><code>GET</code> <code><b>/images/decode/message</b></code> <code>Retrieve decoded images with embedded messages after key has been recognized.</code></summary>
+
+##### Request Body
+| name           | type     | data type | description                                                       |
+|----------------|----------|-----------|-------------------------------------------------------------------|
+| Authorization  | required | string    | If token provided and valid, decoded message will be in response  |
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `application/json` | `{ "success": true, "message": string[] }`                     |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
+
+<details>
+<summary><code>GET</code> <code><b>/images/decode/image</b></code> <code>Retrieve decoded images with embedded image after key has been recognized. (stretch goal)</code></summary>
+
+##### Request Body
+| name           | type     | data type | description                                                     |
+|----------------|----------|-----------|-----------------------------------------------------------------|
+| Authorization  | required | string    | If token provided and valid, decoded image will be in response  |
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `image/png`        | `{ "success": true, An image file or url TBD }`                |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
+
+#### Retrieve private messages on the Secret Chat Page (stretch goal)
+
+<details>
+ <summary><code>GET</code> <code><b>/messages</b></code> <code>Get all messages sent to user</code></summary>
+
+##### Request Body
+
+| name          | type     | data type                 | description |
+| ------------- | -------- | ------------------------- | ----------- |
+| Authorization | required | string (containing token) | N/A         |
+
+##### Responses
+
+| http code | content-type       | response                                              |
+| --------- | ------------------ | ----------------------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "messages": [TBD MESSAGE OBJECT]}` |
+| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`          |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/message/:id</b></code> <code>Retrieve a specific message sent to user</code></summary>
+
+##### Request Body
+
+| name          | type     | data type                 | description |
+| ------------- | -------- | ------------------------- | ----------- |
+| Authorization | required | string (containing token) | N/A         |
+
+##### Responses
+
+| http code | content-type       | response                                           |
+| --------- | ------------------ | -------------------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "message": TBD MESSAGE OBJECT}` |
+| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`       |
+
+</details>
+
+#### Retreive the amount of likes on a specific image(stretch goal).
+
+<details>
+<summary><code>GET</code> <code><b>/images/likes</b></code></summary>
+
+##### Request Body
+| name           | type    | data type | description                                                   |
+|----------------|---------|-----------|---------------------------------------------------------------|
+| Authorization  | optional| string    | If token provided and valid, like count will be in response   |
+
+##### Responses
+| http code      | content-type       | response                                                       |
+|----------------|--------------------|----------------------------------------------------------------|
+| `200`          | `application/json` | `{ "success": true, "likes": int }`                            |
+| `401`          | `application/json` | `{ "success": false, "error": "Unauthorized"}`                 |
+
+</details>
 
 POST requests for:
 
@@ -578,34 +699,138 @@ POST requests for:
 
 </details>
 
-- Receiving user inputted credentials for the login page(email and password).
-  - Response: A JSON object confirming success or failure.
-- Receiving user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
-  - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
-- Receiving user inputted hidden message to be embedded in the image.
-  - Response: A JSON object confirming that the hidden message was successfully embedded in the image or returning an error if the process failed.
-- Receiving user inputted private messages being sent through the Secret Chat page.
-  - Response: A JSON object confirming the private message has been sent or if the process had failed.
-- Receiving the action of the user liking an image(stretch goal).
-  - Response: A JSON object confirming the "like" has been received or if an error occured.
-- Receiving user uploaded images to be embeded as an image(stretch goal).
-  - Response: A JSON object confirming that the image was uploaded successfully or returning an error if the upload failed.
+#### Receiving user uploaded images to be uploaded to the image board and/or images to be embedded with a hidden message.
+
+<details>
+ <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a general user</code></summary>
+
+##### Request Body
+
+| name    | type     | data type | description                                   |
+| ------- | -------- | --------- | --------------------------------------------- |
+| image   | required | file      | Image file to be uploaded                     |
+
+##### Responses
+
+| http code | content-type       | response                                                          | description                               |
+| --------- | ------------------ | ----------------------------------------------------------------- | ----------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "imageUrl": string}`                           | If the image was uploaded successfully    |
+| `400`     | `application/json` | `{"success": false, "error": "Invalid image format"}`             | If the image upload failed                |
+
+</details>
+
+<details>
+ <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a privileged user</code></summary>
+
+##### Request Body
+
+| name    | type     | data type | description                                   |
+| ------- | -------- | --------- | --------------------------------------------- |
+| image   | required | file      | Image file to be uploaded                     |
+| message | required | string    | Hidden message to embed within image |
+
+##### Responses
+
+| http code | content-type       | response                                                          | description                               |
+| --------- | ------------------ | ----------------------------------------------------------------- | ----------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "imageUrl": string, "message": string}`        | If the image was uploaded successfully    |
+| `400`     | `application/json` | `{"success": false, "error": "Invalid image format"}`             | If the image upload failed                |
+
+</details>
+
+#### Receiving user inputted private messages being sent through the Secret Chat page.(stretch goal)
+
+<details>
+ <summary><code>POST</code> <code><b>/chat/messages</b></code> <code>Send a private message in Secret Chat</code></summary>
+
+##### Request Body
+
+| name    | type     | data type | description                        |
+| ------- | -------- | --------- | ---------------------------------- |
+| message | required | string    | The private message content        |
+
+##### Responses
+
+| http code | content-type       | response                                                        | description                               |
+| --------- | ------------------ | --------------------------------------------------------------- | ----------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "message": "Message sent successfully"}`     | If the message was sent successfully      |
+| `400`     | `application/json` | `{"success": false, "error": "Invalid message"}`                | If the message is invalid                 |
+| `401`     | `application/json` | `{"success": false, "error": "Unauthorized"}`                   | If the user is not authorized to send     |
+
+</details>
+
+#### Receiving the action of the user liking an image(stretch goal).
+
+<details>
+ <summary><code>POST</code> <code><b>/images/:id/like</b></code></summary>
+
+##### Request Body
+
+| name      | type     | data type | description                                   |
+| --------- | -------- | --------- | --------------------------------------------- |
+| imageId   | required | string    | The ID of the image being liked               |
+
+##### Responses
+
+| http code | content-type       | response                                                          | description                               |
+| --------- | ------------------ | ----------------------------------------------------------------  | ----------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "message": "Liked"}`                           | If the like action was successful         |
+| `400`     | `application/json` | `{"success": false, "error": "Invalid image ID"}`                 | If the image ID is invalid                |
+
+</details>
+
+#### Receiving user uploaded images to be embedded in an image as a hidden image(stretch goal).
+
+<details>
+ <summary><code>POST</code> <code><b>/images/image/:id/embed</b></code> <code>Embed an image within another image</code></summary>
+
+##### Request Body
+
+| name      | type     | data type | description                                   |
+| --------- | -------- | --------- | --------------------------------------------- |
+| image     | required | file      | The image to be embedded                      |
+| embedId   | required | string    | The ID of the image to embed within           |
+
+##### Responses
+
+| http code | content-type       | response                                                          | description                               |
+| --------- | ------------------ | ----------------------------------------------------------------  | ----------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "message": "Image embedded successfully"}`     | If the embedding action was successful    |
+| `400`     | `application/json` | `{"success": false, "error": "Invalid image or embed ID"}`        | If the image or embed ID is invalid       |
+
+</details>
 
 Our front-end utilizes the "Remix" framework where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side.
 
 ## 7. User Account Design
+We will utilize a database to store user account information and hashed passwords. This will be a very simple subsystem it is only required to respond to a few types of system requests. When a user attempts to login, username and passwords will be passed through the frontend via our API server to the database. The database will then query it's entries and check if the provided password matches then username. The database will then return the result to the API Server. 
 
+The API server will be responsible for ensuring that users requesting access to resources are only able to access resources for which they have permissions. This will likely be implemented by a token exchange. 
 ## 8. Other Design Elements
 
 ### 8.1 Project Directory Structure
 
-A few guidelines for Project HiddenFrame's Directory structure are laid out in the standards document. Beyond what is listed there we will utilize the following structure (note documentation is included in the FS but no other files are):
+A few guidelines for Project HiddenFrame's Directory structure are laid out in the standards document. Beyond what is listed there we will utilize the following structure (note documentation is included in the FS but no other files are)
+###### Directory Structure
 
 ```mermaid
 ---
 Title: Project Directory Structure
 ---
 graph LR
+ %%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'primaryColor': '#4A90E2',
+      'primaryTextColor': '#ddd',
+      'primaryBorderColor': '#A6C1E0',
+      'lineColor' : '#FF4500',
+      'secondaryColor': '#20B2AA',
+      'tertiaryColor': '#F5F7FA'
+    }
+  }
+}%%
 
     root[.] --> 1[README.md]
     root --> 2[documentation]
@@ -652,5 +877,6 @@ graph LR
 ## 9. Glossary
 
 **LSB** - Least significant bit
+**DFD** - Data Flow Diagram
 
 ## 10. Appendixes
