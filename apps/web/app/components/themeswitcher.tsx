@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 
 
-export function ThemeSwitcher() {
+export const ThemeSwitcher = () => {
 
     const [isDark, setIsDark] = useState(true);
 

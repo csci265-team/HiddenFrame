@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { MetaFunction } from "@remix-run/node";
+import { PageHeader, Button, Input } from "../../components";
 // import { useLoaderData } from "@remix-run/react";
-import PageHeader from "../../components/PageHeader";
-import { Input } from "../../components/Input";
-import { Button } from "../../components/Button";
 
 export const meta: MetaFunction = () => {
     return [

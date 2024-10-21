@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import PageHeader from "../components/PageHeader";
+import { Button, PageHeader } from "../components";
+import { FaCloudUploadAlt } from "react-icons/fa";
 
 export const meta: MetaFunction = () => {
   return [
@@ -26,6 +27,8 @@ export default function Index() {
     <div className="flex items-center justify-center h-full">
       <div className="flex flex-col items-center gap-16 h-full">
         <PageHeader />
+
+        <Button> <FaCloudUploadAlt className="w-8" /> Upload New Image</Button>
 
         <h2 className="text-2xl font-[Outfit] font-black ">Photos from Unsplash</h2>
         <div className="grid grid-cols-3 gap-4 p-4">
