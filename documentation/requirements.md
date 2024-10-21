@@ -140,7 +140,7 @@ Navigation Guide/Map
     - Users can go to the login page using their URL.
 3. Log in Page → Conversation Board:
 	- After successfully logging in, users can access the conversation board to send secret messages.
-4. Conversation Board :
+4. Conversation Board:
 	- In the conversation board, users can view exchanged images and send new images or messages using the interface.
 
 ### 4.1. Main Page
