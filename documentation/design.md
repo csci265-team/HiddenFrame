@@ -298,7 +298,7 @@ The message will be broken down into packets of bits that will be passed through
 
 Suppose an image has $n$ pixels. We want to know, which integers under addition $mod \\; n$ generate the set $\\{0,1,2,3,...,n-1\\}$.
 
-Definition: Let $\\{0,1,2,3,...,n-1\\}$ be a group under a binary option (addition) $mod \\; n$. We say that $a \in G$ generates $G$ if $G=\\{a^1,a^2,a^3,...,a^n}$ for some $n\in\mathbb{Z}$. Note in this context $a^i$ does not mean $a$ to the power of $i$, but rather $a$ added to itself $i$-times, since the binary operation was addition.
+Definition: Let $\\{0,1,2,3,...,n-1\\}$ be a group under a binary option (addition) $mod \\; n$. We say that $a \in G$ generates $G$ if $G=\\{a^{1},a^{2},a^{3},...,a^{n}\\}$ for some $n\in\mathbb{Z}$. Note in this context $a^i$ does not mean $a$ to the power of $i$, but rather $a$ added to itself $i$-times, since the binary operation was addition.
 
 1 in [Citations](../documentation/citations.md).
 
