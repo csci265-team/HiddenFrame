@@ -1,39 +1,114 @@
 #include "crow.h"
 #include <hiddenframe_headers.h>
+#include <crow/middlewares/cors.h>
+#include <fstream>
+
+using namespace std;
 
 int main()
 {
-    crow::SimpleApp app;
+    crow::App<crow::CORSHandler> app;
 
     CROW_ROUTE(app, "/")
-    ([]() -> std::string
-     { 
-        try {
-            // Simulates images on the FS
-            image* test = new image("../../resources/images/test/input/test_image_1.jpg");
-            test->displayImageProperties();
-            int n = 2; // pixel spacing
-            int arrSize = 12;
-            int arr[12] = {3, 1, 3, 0, 2, 1, 2, 0, 1, 1, 1, 0};
-            test->modify_image(n, arr, arrSize);
-            test->write_image("../../resources/images/test/output/test_image_1.png");
-            image* payloadTest = new image("../../resources/images/test/output/test_image_1.png");
-            std::string payload = payloadTest->retrieve_payload(n);
+        .methods(crow::HTTPMethod::GET)(
+            []()
+            { return "Hello, World!"; });
 
-            return "Hidden Message is " + payload;
-        
-            // Simulate image passed by API
-            /*int ioWidth, ioHeight, ioChannels;
-            std::string filepath = "../../resources/images/test/input/test_image_1.jpg";
-            unsigned char* testptr = stbi_load(filepath.c_str(), &ioWidth, &ioHeight, &ioChannels, 0);
-            image* test2 = new image(testptr);
-            test2->displayImageProperties();*/
-        }
-        catch (const std::invalid_argument& e1) {
-            std::cerr << "Encountered an exception: " << e1.what() << std::endl;
-            return "Error";
-        }
-    });
+    CROW_ROUTE(app, "/image/upload")
+        .methods(crow::HTTPMethod::POST)(
+            [](const crow::request &req)
+            {
+                srand(static_cast<unsigned>(time(NULL)));
+
+                int random = rand();
+
+                string fileData;       // @patrick: this is the image data
+                string metaDataString; // @patrick: this is of format { name: string, size: int, ext: string }, size is file size, ext is file extension
+
+                auto content_type = req.get_header_value("Content-Type");
+
+                if (content_type.find("multipart/form-data") != std::string::npos)
+                {
+                    crow::multipart::message msg(req);
+
+                    auto filePart = msg.get_part_by_name("file");
+                    auto metaPart = msg.get_part_by_name("meta");
+                    // TODO auto metaPart = msg.get_part_by_name("message");
+
+                    if (!filePart.body.empty())
+                    {
+                        fileData = filePart.body;
+                    }
+                    else
+                    {
+                        crow::json::wvalue error_json;
+                        error_json["success"] = false;
+                        error_json["error"] = "No image found in the request";
+                        return crow::response(400, error_json);
+                    }
+
+                    if (!metaPart.body.empty())
+                    {
+                        metaDataString = metaPart.body;
+                    }
+                    else
+                    {
+                        crow::json::wvalue error_json;
+                        error_json["success"] = false;
+                        error_json["error"] = "No metadata found in the request";
+                        return crow::response(400, error_json);
+                    }
+
+                    try
+                    {
+                        auto meta = crow::json::load(metaDataString);
+                        if (!meta)
+                        {
+                            crow::json::wvalue error_json;
+                            error_json["success"] = false;
+                            error_json["error"] = "Invalid JSON in metadata";
+                            return crow::response(400, error_json);
+                        }
+
+                        string fileExt = meta["ext"].s();
+                        string fileName = to_string(random) + "." + fileExt;
+
+                        string filePath = "./static/" + fileName;
+                        ofstream outputFile(filePath, ios::out | ios::binary);
+                        if (outputFile)
+                        {
+                            outputFile << fileData;
+                            outputFile.close();
+
+                            crow::json::wvalue success_json;
+                            success_json["success"] = true;
+                            success_json["url"] = "http://localhost:8080/static/" + fileName;
+                            return crow::response(200, success_json);
+                        }
+                        else
+                        {
+                            crow::json::wvalue error_json;
+                            error_json["success"] = false;
+                            error_json["error"] = "File writing failed";
+                            return crow::response(500, error_json);
+                        }
+                    }
+                    catch (const std::exception &e)
+                    {
+                        crow::json::wvalue error_json;
+                        error_json["success"] = false;
+                        error_json["error"] = string("JSON parsing error: ") + e.what();
+                        return crow::response(400, error_json);
+                    }
+                }
+                else
+                {
+                    crow::json::wvalue error_json;
+                    error_json["success"] = false;
+                    error_json["error"] = "Invalid content type";
+                    return crow::response(400, error_json);
+                }
+            });
 
     app.port(8080).multithreaded().run();
 }

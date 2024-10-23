@@ -18,6 +18,10 @@ macos: build steganography.o image_class.o api.o
 
 macos: IncludePaths= -I include/ -I /opt/homebrew/include
 
+cleanStatic:
+	rm -rf static
+	mkdir -p static
+
 clean:
 	rm -rf build
 
