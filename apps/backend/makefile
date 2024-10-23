@@ -3,6 +3,7 @@ all: build steganography.o image_class.o api.o
 
 build:
 	mkdir -p build
+	mkdir -p static
 
 image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h
 	g++ -c src/image_class.cpp -o build/image_class.o ${CompilationOptions}
@@ -19,6 +20,11 @@ macos: all
 
 linux: IncludePaths= -I include/ -I /usr/local/include
 linux: all
+
+windows: IncludePaths= -I include/ -I /usr/local/include
+windows: build steganography.o image_class.o api.o
+	g++ -o build/HiddenFrame.exe build/image_class.o build/steganography.o build/api.o ${CompilationOptions} ${CompilationWarnings}
+
 
 cleanStatic:
 	rm -rf static
