@@ -1,5 +1,5 @@
-all: build steganography.o image_class.o
-	g++ -o build/HiddenFrame build/image_class.o build/steganography.o ${CompilationOptions}
+all: build steganography.o image_class.o api.o
+	g++ -o build/HiddenFrame build/image_class.o build/steganography.o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 build:
 	mkdir -p build
@@ -13,10 +13,12 @@ steganography.o: include/hiddenframe_headers.h
 api.o: include/hiddenframe_headers.h
 	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
-macos: build steganography.o image_class.o api.o
-	g++ -o build/HiddenFrame build/image_class.o build/steganography.o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 macos: IncludePaths= -I include/ -I /opt/homebrew/include
+macos: all
+
+linux: IncludePaths= -I include/ -I /usr/local/include
+linux: all
 
 cleanStatic:
 	rm -rf static
