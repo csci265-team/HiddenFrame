@@ -1,5 +1,5 @@
 all: build steganography.o image_class.o
-	g++ -o build/HiddenFrame src/image_class.cpp src/steganography.cpp ${CompilationOptions}
+	g++ -o build/HiddenFrame build/image_class.o build/steganography.o ${CompilationOptions}
 
 build:
 	mkdir -p build
