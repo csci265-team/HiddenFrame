@@ -56,11 +56,11 @@ Alternate contact person:
 
 ## 1. Known Omissions
 
-1. We know that keys will have the format $a_1,b_1,a_2,b_2,...Gef$ where each $ab$ pair $mod \\; n$, where $n$ is the number of pixels in an image which is associated with a key, $G$ is a terminating character, $e$ is the decimal number of hex characters in each $a_i$ or $b_i$, and $f$ is the number of channels in the image in decimal. We still have yet to determine the length of the keys. For example, for larger values of $n$, the possible number of hex characters used to describe each $a_i$ and $b_i$ grows based on the randomly selected $a$ and its unique corresponding $b$ value. Therefore, depending on the value of $e$, some keys may have more $ab$ pairs than others. Thus, we will either need to find a way to standardize the length of a key or pick a range into which the lengths of a key may fall.
+1. We know that keys will have the format $a_1,b_1,a_2,b_2,...Gef$ with each $ab$ pair $mod \\; n=g$, where $n$ is the number of pixels in an image, $g$ is the skip size between pixel selections for modificantion and is a generator of $n$, $G$ is a terminating character, $e$ is the decimal number of hex characters in each $a_i$ or $b_i$, and $f$ is the decimal number of channels in the image. We still have yet to determine the length of the keys. For example, for larger values of $n$, the possible number of hex characters used to describe each $a_i$ and $b_i$ grows based on the randomly selected $a$ and its unique corresponding $b$ value. Therefore, keys with smaller $e$ values, could have more $ab$ pairs than keys with larger $e$ values. Thus, we will either need to find a way to standardize the length of a key or pick a range into which the lengths of a key must fall.
 
 ## 2. Design Overview
 
-The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame
+The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame:
 
 ###### Top Level Data Flow Diagram
 
@@ -111,7 +111,7 @@ HiddenFrame will require several components to function correctly. The main over
 2. User Account module
 3. Network module
 4. Imaging module
-   Notably the User Environment module and Imaging module will be required to handle different input steams for different types of users. A further decomposition of each of these modules is provided in their own sections.
+   Notably, the User Environment module and Imaging module will be required to handle different input streams for different types of users. A further decomposition of each of these modules is provided in their own sections.
    Below is a sequence diagram describing the anticipated flow of data for HiddenFrame (note: Network Module is excluded as it primarily acts as a relay/facilitator of all of these transactions).
 
 ###### Module Interaction Diagram
@@ -201,19 +201,19 @@ The front-end of HiddenFrame will be responsible for providing a user-friendly i
 
 ### 4.1 Front-End Configuration
 
-- Node and NPM: For developement we are using node.js and node package manager, since our framework Remix is built on the Web fetch API we will not need to use node.js in production.
-- Typescript: TypeScript is used to ensure strict type-checking and cleaner code, especially when handling sensitive functionality like steganographic embedding and decryption.
-- Remix: We are using Remix as our frontend framework. Remix is a brand new framework that optimizes performance, simplifies full-stack React development, and efficiently manages data with built-in support for modern web standards and tools. It helps us to focus on the user interface and work back through web standards to create a fast and stable user experience.
+- Node and NPM: For developement we are using node.js and node package manager. Since our framework Remix is built on the Web Fetch API we will not need to use node.js in production.
+- TypeScript: TypeScript is used to ensure strict type-checking and cleaner code, especially when handling sensitive functionality like steganographic embedding and decryption.
+- Remix: We are using Remix as our frontend framework. Remix is a brand-new framework that optimizes performance, simplifies full-stack React development, and efficiently manages data with built-in support for modern web standards and tools. It helps us focus on the user interface and work back through web standards to create a fast and stable user experience.
 - Vite: Vite is the default build tool for Remix, providing fast development server capabilities and optimized builds, which are important for maintaining the security of the private communication features.
-- TailwindCSS: TailwindCSS is being in our project to build responsive layouts for the image grid and other UI elements. We have customized the config file to add our brand colors.
+- TailwindCSS: TailwindCSS is being used in our project to build responsive layouts for the image grid and other UI elements. We have customized the config file to add our brand colors.
 - ESLint: We are using ESLint to enforce clean coding practices to maintain a consistent and error-free codebase for the public-facing UI.
 
 ### 4.2 Page load and Data fetching
 
-Since we are using [Remix](https://remix.run/) we are using server side rendering by default. This means on page load our users are sent pre rendered HTML which makes the whole experience blaing fast. All data fetching is done on the frontend server instead of the client
+Since we are using [Remix](https://remix.run/) we are using server-side rendering by default. This means on page load our users are sent pre-rendered HTML which makes the whole experience blazing fast. All data fetching is done on the frontend server instead of the client.
 
-We will use the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to fetch data from the backend. To fetch data from the backend the frontend will make requests to our API server made with crow (see section [5. Network Design](#5-network-design))
-We won't be doing any specific caching, only the caching inbuilt in Remix (which is very minimal)
+We will use the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) to fetch data from the backend. To fetch data from the backend the frontend will make requests to our API server made with Crow (see section [5. Network Design](#5-network-design))
+We won't be doing any specific caching, only the caching inbuilt in Remix (which is very minimal).
 
 Below is a minimal diagram describing the page load cycle:
 
@@ -233,7 +233,7 @@ Title: Front-end page load overview
 
 ### 4.3 Data input lifecycle
 
-Whenever data needs to be fetched based on any user input (forms, image upload, etc) the user request is first formatted in JSON and then a request is made to the API server. The API server then checks for authentication if required and once all data is validated it retrieves/publishes the requested data to the backend. Once that is done any data the backend returns is forwarded through the API server to the frontend server which then hydrates the HTML with new data and sends it off to the client.
+Whenever data needs to be fetched based on any user input (forms, image upload, etc.), the user request is first formatted in JSON and then a request is made to the API server. The API server then checks for authentication if required, and once all data is validated, it retrieves/publishes the requested data to the backend. Once that is done, any data the backend returns is forwarded through the API server to the frontend server, which then hydrates the HTML with new data and sends it off to the client.
 
 ###### Data Input Lifecycle
 
@@ -254,51 +254,51 @@ Title: Front-end data input lifecycle
 Image Wall is a grid of publicly shared images that scrolls infinitely.
 
 - The images are shown in descending order based on time of creation. This ensures everyone sees the same images at one time.
-- The image wall uses CSS grid classes to ensure responsivness.
+- The image wall uses CSS grid classes to ensure responsiveness.
 - The image data is fetched from the back-end API server on page load using the Web Fetch API.
 - Each image is a 16 REM by 16 REM square with 0.5 REM rounded corners.
 - Each image is encapsulated in the anchor tag with an href to the image's URL, which, once clicked, opens the image in a new tab.
 
 ### 4.5 Image Upload
 
-- The image upload is a HTML input element with the type "file" so it opens up the file selection UI
-- Once a file is selected it sends the file to the backend using the Web Fetch API
-- If user is logged in they will also be shown a HTML input element with type "text" to input a message, if this message is not empty the user's Authorization token will be sent in the request heaaders
+- The image upload is a HTML input element with the type "file," so it opens up the file selection UI.
+- Once a file is selected, it sends the file to the backend using the Web Fetch API.
+- If the user is logged in, they will also be shown an HTML input element with type "text" to input a message. If this message is not empty, the user's Authorization token will be sent in the request heaaders.
 
 ### 4.6 User login
 
-- The user login page will mainly consist of a HTML form element with two HTML input elements, one for username and one for password (password input will be of type "password")
+- The user login page will mainly consist of an HTML form element with two HTML input elements, one for username and one for password (password input will be of type "password").
 - The form will submit a POST request to the API server containing the username and hashed password in JSON format in the request body.
-- If the login was successful API server will return a token in the response, this will be saved in browser [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). The user is then redirected back to the home page.
-- If login fails they will be asked to check their username and password
+- If the login was successful, the API server will return a token in the response. This will be saved in the browser [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage). The user is then redirected back to the home page.
+- If login fails, the user will be asked to check their username and password.
 
 ### 4.7 User registration
 
-- The user registration page will only be reachable if there's an `inviteId` present in the [search params](https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams). This id will not be validated on client side but will be validated on API server.
-- This page will mainly consist of a HTML form element with two HTML input elements, one for username and one for password (password input will be of type "password")
+- The user registration page will only be reachable if there's an `inviteId` present in the [search params](https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams). This ID will not be validated on the client side but will be validated on the API server.
+- This page will mainly consist of an HTML form element with two HTML input elements, one for username and one for password (the password input will be of type "password").
 - The form will submit a POST request to the API server containing the username and hashed password in JSON format in the request body.
-- If the register was successful API server will return a token in the response, this will be saved in browser [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
-- This page will mainly recycle components from the login page
+- If the registration was successful, the API server will return a token in the response; this will be saved in the browser. [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage)
+- This page will mainly recycle components from the login page.
 
 ### 4.8 User account page
 
 - The account page will be divided into two sections, one for password reset and one for invite creation.
 - Password reset:
-  - The password reset section will mainly consist of a HTML form element with two HTML input elements, one for new password and one confirming the new password (both inputs will be of type "password")
-  - This form will make a request to the API with the user's token in the headers, if token was valid and new password is accepted the token will be reset and the user will be logged out. They will then be redirected to the login page.
+  - The password reset section will mainly consist of an HTML form element with two HTML input elements, one for new password and one confirming the new password (both inputs will be of type "password").
+  - This form will make a request to the API with the user's token in the headers, if token was valid and the new password is accepted, the token will be reset, and the user will be logged out. They will then be redirected to the login page.
 - Invite creation:
-  - The invite creation section will have a count of remaining invites and a list of previously created `inviteId`s and possible the date it was created on.
-  - This section will also have a button that lets the user create a new invite, this button will be hidden if invite limit is reached. Once clicked this button will send a request to the API with the user's token, once everything is validated a new inviteId will be provided in the response. A prompt giving the user an option to compy an "invite link" will be shown
+  - The invite creation section will have a count of remaining invites and a list of previously created `inviteId`s and, possibly, the date it was created on.
+  - This section will also have a button that lets the user create a new invite. This button will be hidden if the invite limit is reached. Once clicked, this button will send a request to the API with the user's token. Once everything is validated, a new inviteId will be provided in the response. A prompt giving the user an option to copy an "invite link" will be shown.
 
 ## 5. Back-End Design
 
-The back end of HiddenFrame will have to deal with 4 general requests from the front end system.
+The back end of HiddenFrame will have to deal with 4 general requests from the front-end system.
 
-1.  Public/Private Aspect user Requests Image Storage (no steganography req)
-2.  Private Aspect user requests Image Storage (Steganography req)
-3.  Public/Private Aspect user requests an stored image that has no payload or has a key that does not match.
+1.  Public/Private Aspect user requests Image Storage (no steganography required);
+2.  Private Aspect user requests Image Storage (steganography required);
+3.  Public/Private Aspect user requests an stored image that has no payload or has a key that does not match; and
 4.  Private Aspect user requests an stored image with a payload and has the key
-    Overview of back end design modules and data flow is as follows
+    overview of back-end design modules and data flow is as follows.
 
 ###### Image Subsystem Data Flow Diagram
 
@@ -346,8 +346,8 @@ end
 
 ### 5.1. Image I/O
 
-The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries We will be able to read and write images to file.
-Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation we will create a class called "image." The Image class will contain methods for all other components of the Image subsystem. The following is a class definition for HiddenFrame's Image class.
+The Image I/O module will be responsible for handling any requests to store or retrieve images from the server's file system. In order to perform these operations, HiddenFrame will utilize two small prebuilt libraries of C functions: stb_image.h and stb_image_write.h. Using these two libraries, We will be able to read and write images to files.
+Since the manipulation of images is a key component of HiddenFrame's functionality, for ease of manipulation, we will create a class called "image." The Image class will contain methods for all other components of the Image subsystem. The following is a class definition for HiddenFrame's Image class.
 
 ###### Image Class
 
@@ -371,7 +371,7 @@ class image{
 }
 ```
 
-There are two methods in "image" which are used in image I/O and they will lean heavily on two prebuilt libraries, the stb_image.h and stb_image_write to achieve functionality. These libraries greatly simplify the process of reading and writing images to file, allowing our project to focus on the steganographic process.
+There are two methods in "image" which are used in image I/O and they will lean heavily on two prebuilt libraries, the stb_image.h and stb_image_write to achieve functionality. These libraries greatly simplify the process of reading and writing images to a file, allowing our project to focus on the steganographic process.
 
 ### 5.2. Key Generation
 
@@ -381,9 +381,9 @@ The purpose of a key is to tell the encoding algorithm where to write the hidden
 2. The $(x,y)$ dimensions of pixels of the image; and
 3. The binary string to be encoded into the image.
 
-The message will be broken down into packets of bits that will be passed through the LSBs (Least Significant Bits) of a pixel's channel(s). For an image using one or two channels, one bit of information will be passed per channel per pixel that has been instructed to be encoded or decoded by the key. For three and four-channel images, the channel being utilized will tell the encoder and decoder additional information further described in Payload Embedding and Payload Retrieval. Modifying the LSBs in the pixel channels will ensure that minimal visual changes to the images are made. The key instruct the encoder and decoder how many pixels need to be skipped within the image when looking for the next significant pixel containing information. To perform this task, we will use generators of a group of integers $mod \\, n$.
+The message will be broken down into packets of bits that will be passed through the LSBs (Least Significant Bits) of a pixel's channel(s). For an image using one or two channels, one bit of information will be passed per channel per pixel that has been instructed to be encoded or decoded by the key. For three and four-channel images, the channel being utilized will tell the encoder and decoder additional information further described in Payload Embedding and Payload Retrieval. Modifying the LSBs in the pixel channels will ensure that minimal visual changes to the images are made. The key instructs the encoder and decoder how many pixels need to be skipped within the image when looking for the next significant pixel containing information. To perform this task, we will use generators of a group of integers $mod \\, n$.
 
-Suppose an image has $n$ pixels. We want to know, which integers under addition $mod \\; n$ generate the set $\\{0,1,2,3,...,n-1\\}$.
+Suppose an image has $n$ pixels. We want to know which integers under addition $mod \\; n$ generate the set $\\{0,1,2,3,...,n-1\\}$.
 
 Definition: Let $\\{0,1,2,3,...,n-1\\}$ be a group under a binary option (addition) $mod \\; n$. We say that $a \in G$ generates $G$ if $G=\\{a^{1},a^{2},a^{3},...,a^{n}\\}$ for some $n\in\mathbb{Z}$. Note in this context $a^i$ does not mean $a$ to the power of $i$, but rather $a$ added to itself $i$-times, since the binary operation was addition. (1) in [Citations](../documentation/citations.md).
 
@@ -400,8 +400,8 @@ To maximize the space between pixels, we need to know how many pixels must be mo
 
 Now, we need to pass the following information in the key to the encoder and decoder:
 
-1. The size of the skips which was the generator $g$ chosen;
-2. The number of hex characters used to describe the generator in the key since we would want to obscure this number; and
+1. The size of the skips, which was the generator $g$ chosen;
+2. The number of hex characters used to describe the generator in the key, since we would want to obscure this number; and
 3. The number of channels used in the image.
 
 We can further obscure the generator $g$ we chose by randomly selecting another generator from our list since any of these numbers can be used to produce any number in $\\{0,1,2,3,...,n-1\\}$, let's call this other generator $a$. Next, we find its multiplicative inverse $a^\{-1\}$ such that $aa^\{-1\} \\; mod \\; n=1$, and finding a number $b$ such that $ab \\; mod \\; n = g$. We can achieve this by using $a^\{-1\}$ since we can rearrange our equation $b=a^\{-1\}g \\; mod \\; n$. We can repeat this step and find multiple ways of representing $g$. The purpose of this would be to put several $ab$ pairs into a key and provide us with a way to represent unique keys where the same generator $g$ has been chosen for different images. Finally, our keys will have a format:
@@ -411,39 +411,39 @@ $$\\{a_1,b_1,a_2,b_2,...G,e,f\\}$$
 where,
 
 1. Each ab pairs are hex values that when multiplied together $mod \\; n$ give back the size of the skips between pixels containing encoded information;
-2. $G$ a terminating character to tell the reader the description of the skips have ceased;
-3. $e$ a hex character that describes how many hex digits each $a_i$ or $b_i$ is; and
-4. $f$ the number of channels used in the image.
+2. $G$ is a terminating character to tell the reader the description of the skips have ceased;
+3. $e$ is a hex character that describes how many hex digits each $a_i$ or $b_i$ is; and
+4. $f$ is the number of channels used in the image.
 
 ### 5.3. Payload Embedding/Retrieval
 
 #### Embedding:
 
-After a suitable key is generated for the target image, we then need to encode the payload. To employ this we will utilize the "image" class's modify_image method to perform the embedding procedure. Beforehand we convert the payload to a binary string, and then into a specialized array; the odd entries of this array represent the number of contiguous symbols in the subsequent array entry (which will be a 1 or 0). The maximum number that the odd entries can contain is the number of channels in the image eg: for a 3 channel image {3,1,2,0,3,1,1,0} would represent the binary string 111001110. We then perform bitwise operations on the LSB of each pixel's character. To encode a series of 3 ones we set the LSB of the 3rd channel (blue) to a 1 and the other two channels LSB's to a 0. Conversely if we wish to encode 3 0's we would set the 3rd channel's LSB to a 0, and the other two channels LSB's to a 1. The following example would encode a binary 11:
+After a suitable key is generated for the target image, we then need to encode the payload. To employ this, we will utilize the "image" class's modify_image method to perform the embedding procedure. Beforehand, we convert the payload to a binary string and then into a specialized array; the odd entries of this array represent the number of contiguous symbols in the subsequent array entry (which will be a 1 or 0). The maximum number that the odd entries can contain is the number of channels in the image eg: for a 3-channel image {3,1,2,0,3,1,1,0} would represent the binary string 111001110. We then perform bitwise operations on the LSB of each pixel's character. To encode a series of 3 ones, we set the LSB of the 3rd channel (blue) to a 1 and the other two channels LSB's to a 0. Conversely, if we wish to encode three 0's we would set the 3rd channel's LSB to a 0, and the other two channels' LSBs to 1's. The following example would encode a binary 11:
 
 ###### Pixel Embedding
 
 ![HiddenFrame Encoding Scheme](../resources/images/Encoding_Scheme.png)
 
-We utilize the generated key to provide separation between the pixels we encode and since we only modify the shade of the pixel very slightly it does not appear out of place when the image is viewed.
+We utilize the generated key to provide separation between the pixels we encode, and since we only modify the shade of the pixel very slightly, it does not appear out of place when the image is viewed.
 
-It is important to note here that we cannot store images as the .JPG file type, as this type of image file is lossy; the use of compression eradicates the subtle changes made to the image and render the payload irretrievable.
+It is important to note here that we cannot store images as the .JPG file type, as this type of image file is lossy; the use of compression eradicates the subtle changes made to the image and renders the payload irretrievable.
 
 ### Retrieval:
 
-Here we utilize the "Image" class's retrieve_payload method. This portion works very similar to the embedding process in reverse; we utilize the provided key to visit pixels that are encoded, retrieve the binary values concatenating a string that we return as the binary of the original payload.
+Here we utilize the "Image" class's retrieve_payload method. This portion works very similarly to the embedding process in reverse; we utilize the provided key to visit pixels that are encoded, retrieve the binary values, concatenating a string that we return as the binary of the original payload.
 
 ## 6. Network Design
 
-Since our system is written in C++ in its back-end and uses a Javascript framework in its front-end, our front-end to back-end communication will be utilizing an API server made using ["Crow"](https://crowcpp.org/) which is a C++ framework for creating HTTP or websocket Web services. It will be useful for our system for its built-in JSON support and to make back-end to front-end communication seamless.
+Since our system is written in C++ in its back-end and uses a JavaScript framework in its front-end, our front-end to back-end communication will be utilizing an API server made using ["Crow"](https://crowcpp.org/) which is a C++ framework for creating HTTP or WebSocket Web services. It will be useful for our system for its built-in JSON support and to make back-end to front-end communication seamless.
 
 We will be implementing Crow in the back-end and defining routes to handle HTTP GET and POST requests for sending and receiving data to and from the front-end.
 
 ### 6.1 Authentication
 
-Our API server will also run authentication on privilaged routes. We will be using JWT Token authentication for the same.
+Our API server will also run authentication on privileged routes. We will be using JWT Token authentication for the same.
 
-Represented below is basic authentication flow assuming the user is already registred:
+Represented below is the basic authentication flow assuming the user is already registered:
 
 ###### Authentication Requests
 
@@ -465,7 +465,7 @@ sequenceDiagram
     API Server-->>User: Error is returned
 ```
 
-Represented below is the basic flow for accessing API routes both privileged and non privileged:
+Represented below is the basic flow for accessing API routes, both privileged and non-privileged:
 
 ###### API Access
 
@@ -779,11 +779,11 @@ POST requests for:
 
 </details>
 
-Our front-end utilizes the "Remix" framework where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side.
+Our front-end utilizes the "Remix" framework, where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side.
 
 ## 7. User Account Design
 
-We will utilize a database to store user account information and hashed passwords. This will be a very simple subsystem it is only required to respond to a few types of system requests. When a user attempts to login, username and passwords will be passed through the frontend via our API server to the database. The database will then query it's entries and check if the provided password matches then username. The database will then return the result to the API Server.
+We will utilize a database to store user account information and hashed passwords. This will be a very simple subsystem; it is only required to respond to a few types of system requests. When a user attempts to log in, username and passwords will be passed through the frontend via our API server to the database. The database will then query its entries and check if the provided password matches the username. The database will then return the result to the API server.
 
 The API server will be responsible for ensuring that users requesting access to resources are only able to access resources for which they have permissions. This will likely be implemented by a token exchange.
 
@@ -791,7 +791,7 @@ The API server will be responsible for ensuring that users requesting access to 
 
 ### 8.1 Project Directory Structure
 
-A few guidelines for Project HiddenFrame's Directory structure are laid out in the standards document. Beyond what is listed there we will utilize the following structure (note documentation is included in the FS but no other files are)
+A few guidelines for Project HiddenFrame's directory structure are laid out in the standards document. Beyond what is listed there, we will utilize the following structure (note documentation is included in the FS, but no other files are).
 
 ###### Directory Structure
 
