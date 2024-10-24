@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int main(){
+int notmain(){
     try{
         //Simulates images on the FS
         
