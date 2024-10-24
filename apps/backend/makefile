@@ -22,7 +22,7 @@ linux: IncludePaths= -I include/ -I /usr/local/include
 linux: all
 
 windows: IncludePaths= -I include/ -I /usr/local/include # this needs to be changed to the correct path
-windows: all: build steganography.o image_class.o
+windows: build steganography.o image_class.o
 	g++ -o build/HiddenFrame build/image_class.o build/steganography.o ${CompilationOptions} ${CompilationWarnings}
 
 
