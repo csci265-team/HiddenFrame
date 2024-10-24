@@ -11,8 +11,8 @@ image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/s
 steganography.o: include/hiddenframe_headers.h
 	g++ -c src/steganography.cpp -o build/steganography.o ${CompilationOptions} ${CompilationWarnings}
 
-api.o: include/hiddenframe_headers.h
-	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
+#api.o: include/hiddenframe_headers.h
+#	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 
 macos: IncludePaths= -I include/ -I /opt/homebrew/include
