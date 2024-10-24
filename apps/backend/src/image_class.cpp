@@ -226,3 +226,65 @@ void image::write_image(string filename)
     }
 }
 
+/**
+ * @brief   Finds the multiplicative inverse of any odd number between 1 and n.
+ * @param   a any number such that 1 <= a < n.
+ * @return  Returns the multiplicative inverse of a.
+ */
+long long image::findInverse(long long a, int n) {
+    long long aInverse = 1;
+    while((a*aInverse)%n != 1) {
+        aInverse++;
+    }
+    return aInverse;
+}
+
+/**
+ * @brief   Given a number k in the range [1,n] and a known number a in the range [1,256], determines an integer b such that a*b%n = k.
+ * @param   k the number which we are trying to generate.
+ * @param   aInverse a number between 1 and n-1 that is the multiplicative inverse of a known number a in the range [1,n].
+ * @return  Returns b such that a*b%n = k.
+ */
+long long image::findB(long long idealSkipSize, int n, int aInverse) {
+    long long b = (idealSkipSize*aInverse) % n;
+    return b;
+}
+
+/**
+ * @brief   Given two positive integers n and b where 1<=b<n, computes the gcd(n,b).
+ * @param   n The larger of the two integers whose gcd will be computed.
+ * @param   b The lesser of the two integers whose gcd will be computed.
+ * @return  The integer value of gcd(n,b).
+ */
+int image::euclideanAlgorithm(int n, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = n % b;
+        n = temp;
+    }
+    return n;
+}
+
+/**
+ * @brief   Builds an array and stores numbers that are coprime to n, that is, any integers k such that
+ *          gcd(n,k)=1.
+ * @param   n The integer value that is being checked for values that are coprime to it.
+ * @param   coprimes An array to store integer values coprime to n.
+ * @param   count The size of the coprimes array.
+ * @return  No return type for a void function.
+ */
+void image::coprime_numbers(int n, int coprimes[], int &count) {
+    count = 0; // Initialize count of coprime numbers
+    for (int i = 2; i < n; ++i) {
+        if (euclideanAlgorithm(i, n) == 1) {
+            if (count < MAX_SIZE) {
+                coprimes[count] = i; // Store coprime number in array
+                count++; // Increment the count
+            } else {
+                cout << "Array size exceeded!" << endl;
+                break; // Stop if the array is full
+            }
+        }
+    }
+}
+
