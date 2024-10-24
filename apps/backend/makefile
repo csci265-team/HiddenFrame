@@ -1,5 +1,5 @@
-all: build steganography.o image_class.o api.o
-	g++ -o build/HiddenFrame build/image_class.o build/steganography.o build/api.o ${CompilationOptions} ${CompilationWarnings}
+all: build steganography.o image_class.o #api.o
+	g++ -o build/HiddenFrame build/image_class.o build/steganography.o #build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 build:
 	mkdir -p build
