@@ -18,11 +18,16 @@ image::image():width(0),height(0),channels(0),filetype(),original_image(nullptr)
 //regular constructor - image is already in the file system
 image::image(string filepath):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
     load_image(filepath);
+    if (original_image==nullptr){
+        throw std::invalid_argument("Image could not be opened");
+    }
 };
 //regular constructor - data bassed by API server
-image::image(const unsigned char* Data):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
-    int length=0;
-    original_image=stbi_load_from_memory(Data,length,&width,&height,&channels,0);
+image::image(unsigned char* Data, long long unsigned int length):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
+    original_image=stbi_load_from_memory(Data,static_cast<int>(length),&width,&height,&channels,0);
+    if (original_image==nullptr){
+        throw std::invalid_argument("Image could not be opened");
+    }
 };
 
 //destructor

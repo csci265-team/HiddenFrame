@@ -1,5 +1,5 @@
-all: build steganography.o image_class.o api.o
-	g++ -o build/HiddenFrame build/image_class.o build/steganography.o build/api.o ${CompilationOptions} ${CompilationWarnings}
+all: build steganography.o image_class.o #api.o
+	g++ -o build/HiddenFrame build/image_class.o build/steganography.o #build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 build:
 	mkdir -p build
@@ -11,8 +11,8 @@ image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/s
 steganography.o: include/hiddenframe_headers.h
 	g++ -c src/steganography.cpp -o build/steganography.o ${CompilationOptions} ${CompilationWarnings}
 
-api.o: include/hiddenframe_headers.h
-	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
+#api.o: include/hiddenframe_headers.h
+#	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 
 macos: IncludePaths= -I include/ -I /opt/homebrew/include

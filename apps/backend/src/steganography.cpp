@@ -1,12 +1,14 @@
 #include <hiddenframe_headers.h>
 #include <iostream>
+#include <fstream>//for testing data streaming capability
+#include <cstring>//for testing data streaming capability
 
 using namespace std;
 
 int notmain(){
     try{
         //Simulates images on the FS
-        
+        /*
         image* test=new image("../../resources/images/test/input/test_image_1.jpg");
         test->displayImageProperties();
         int n=2;//pixel spacing
@@ -16,14 +18,29 @@ int notmain(){
         test->write_image("../../resources/images/test/output/test_image_1.png");
         image* payloadTest=new image("../../resources/images/test/output/test_image_1.png");
         string payload=payloadTest->retrieve_payload(n);
-        cout <<"Hidden Message is " <<payload << endl;
+        cout <<"Hidden Message is " <<payload << endl;*/
         
         //Simulate image passed by API
-        /*int ioWidth, ioHeight, ioChannels;
-        string filepath="../../resources/images/test/input/test_image_1.jpg";
-        unsigned char* testptr=stbi_load(filepath.c_str(), &ioWidth, &ioHeight, &ioChannels, 0);
-        image* test2=new image(testptr);
-        test2->displayImageProperties();*/
+        string imageData;
+        ifstream file("../../resources/images/test/input/test_image_6.bmp");
+        if (!file.is_open()){
+            cerr << "String Not read" << endl;
+            return 1;
+        }
+        string line;
+        while (getline(file, line)){
+            imageData+=line;
+        }
+        file.close();
+        unsigned char* imgptr=new unsigned char[imageData.length()];
+        for (long long unsigned int i=0; i < (imageData.length()-1); i++){
+            imgptr[i]=static_cast<unsigned char>(imageData[i]);
+        }
+        image* test2=new image(imgptr,imageData.length());
+        test2->displayImageProperties();
+        test2->filetype="bmp";
+        test2->write_image("../../resources/images/test/output/test_image_6.bmp");
+        delete [] imgptr;
     }
     catch (const std::invalid_argument& e1){
         cerr << "Encountered an exception: " << e1.what() << endl;
