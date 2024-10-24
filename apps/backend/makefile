@@ -21,9 +21,8 @@ macos: all
 linux: IncludePaths= -I include/ -I /usr/local/include
 linux: all
 
-windows: IncludePaths= -I include/ -I /usr/local/include
-windows: build steganography.o image_class.o api.o
-	g++ -o build/HiddenFrame.exe build/image_class.o build/steganography.o build/api.o ${CompilationOptions} ${CompilationWarnings}
+windows: IncludePaths= -I include/ -I /usr/local/include # this needs to be changed to the correct path
+windows: all
 
 
 cleanStatic:
