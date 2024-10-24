@@ -281,7 +281,7 @@ void image::coprime_numbers(int n, int coprimes[], int &count) {
                 coprimes[count] = i; // Store coprime number in array
                 count++; // Increment the count
             } else {
-                std::cout << "Array size exceeded!" << std::endl;
+                cout << "Array size exceeded!" << endl;
                 break; // Stop if the array is full
             }
         }
