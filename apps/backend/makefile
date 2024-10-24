@@ -34,5 +34,5 @@ clean:
 	rm -rf build
 
 IncludePaths= -I include/
-CompilationOptions= -ggdb -std=c++11 ${IncludePaths} 
+CompilationOptions= -ggdb -std=c++17 ${IncludePaths} 
 CompilationWarnings=-Wall -Wextra

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type {  MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Button, PageHeader, Input } from "../components";
 import { FaCloudUploadAlt } from "react-icons/fa";
@@ -12,16 +12,19 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  const resp = await fetch("https://api.unsplash.com/photos?per_page=999", {
+  const resp = await fetch("http://localhost:8080/images", {
     headers: { Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}` },
   });
 
-  if (resp.ok) return { photos: await resp.json() };
+  if (resp.ok)
+    return { photos: await resp.json() };
   else return { photos: [] };
 }
 
 export default function Index() {
   const { photos } = useLoaderData<typeof loader>();
+
+  console.log(photos)
 
   const uploadImage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -53,6 +56,7 @@ export default function Index() {
 
     if (resp.ok) {
       alert("Image uploaded successfully!");
+      window.location.reload();
     } else {
       alert("Failed to upload image.");
     }
@@ -72,8 +76,8 @@ export default function Index() {
         <h2 className="text-2xl font-[Outfit] font-black ">Photos from Unsplash</h2>
         <div className="grid grid-cols-3 gap-4 p-4">
           {photos.map((photo: any) => (
-            <a href={photo.urls.full} target="_blank" key={photo.id} rel="noreferrer">
-              <img className="w-64 h-64 rounded-lg object-cover" src={photo.urls.small} alt={photo.alt_description} />
+            <a href={photo.url} target="_blank" key={photo.id} rel="noreferrer">
+              <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt='Img loaded from backend' />
             </a>
           ))}
         </div>

@@ -2,6 +2,8 @@
 #include <hiddenframe_headers.h>
 #include <crow/middlewares/cors.h>
 #include <fstream>
+#include <filesystem>
+#include <string>
 
 using namespace std;
 
@@ -13,6 +15,30 @@ int main()
         .methods(crow::HTTPMethod::GET)(
             []()
             { return "Hello, World!"; });
+
+    CROW_ROUTE(app, "/images")
+        .methods(crow::HTTPMethod::GET)(
+            []()
+            {
+                std::string staticPath = "./static";
+                std::string baseUrl = "http://localhost:8080/static/";
+                std::vector<crow::json::wvalue> photos;
+
+                for (const auto &entry : std::filesystem::directory_iterator(staticPath))
+                {
+                    std::string filename = entry.path().filename().string();
+                    std::string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
+                    crow::json::wvalue photo;
+                    photo["id"] = id;
+                    photo["url"] = baseUrl + filename;
+                    photos.push_back(photo);
+                }
+
+                crow::json::wvalue jsonResponse;
+                jsonResponse = crow::json::wvalue::list(photos.begin(), photos.end());
+
+                return jsonResponse;
+            });
 
     CROW_ROUTE(app, "/image/upload")
         .methods(crow::HTTPMethod::POST)(
