@@ -45,7 +45,23 @@ Assessing the results of the proof-of-concept and any implications:
 5.  [Glossary](#5-glossary)
 
 ## 1. Core Technical Challenges
+### 1.1. User Experience
+### 1.2. Image Manipulation
+### 1.3. Interconnectivity between Frontend and Backend
 ## 2. Metrics to Determine Challenge Completion
+### 2.1. Metrics for User Experience
+#### 2.1.1 Interactivity
+#### 2.1.2 Reactivity
+### 2.2. Metrics for Image Manipulation
+### 2.3. Metrics for Connectivitiy
 ## 3. Code Required to Meet Challenges
+### 3.1. Determining Frontend Framework
+#### 3.1.1. API Compatability
+#### 3.1.2. CSS Framework
+### 3.2. Image In and Out Operations
+### 3.3. Determining API SMTH
 ## 4. Assessment of Proof Of Concept
+### 4.1. Assessment of Frontend
+### 4.2. Assessment of Backend
+### 4.3. Assessment of API
 ## 5. Glossary

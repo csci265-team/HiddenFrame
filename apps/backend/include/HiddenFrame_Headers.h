@@ -8,7 +8,7 @@ class image{
     public:
     image();
     image(string filepath);
-    image(const unsigned char* Data);
+    image(unsigned char* Data, long long unsigned int);
     ~image();
     int width;
     int height;
