@@ -67,6 +67,7 @@ Below are some of the explicit rules protecting this branch:
 - No pushing directly to [`staging`](https://github.com/csci265-team/project/tree/staging). Create pull requests instead.
 - Pull requests need to be created against [`staging`](https://github.com/csci265-team/project/tree/staging) to get code merged in.
 - At least two team members need to approve changes in a PR before code can be merged into [`staging`](https://github.com/csci265-team/project/tree/staging).
+- If a PR has not met the merge criteria for over 48 hours the git lead or organizational lead may review and merge it overriding the prior rule.
 
 
 #### Adding to master
