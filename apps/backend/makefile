@@ -35,4 +35,3 @@ clean:
 IncludePaths= -I include/ 
 CompilationOptions= -ggdb -std=c++17 ${IncludePaths}
 CompilationWarnings=-Wall -Wextra
-CompilationWindowsFlags= -lws2_32 -lmswsock 
