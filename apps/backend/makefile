@@ -21,7 +21,8 @@ macos: all
 linux: IncludePaths= -I include/ -I /usr/local/include
 linux: all
 
-windows: IncludePaths= -I include/ -I  C:/msys64/ucrt64/include/asio/include ${CompilationWindowsFlags} #assumes that asio folder is in minGW include folder
+windows: IncludePaths= -I include/ -I  C:/msys64/ucrt64/include/asio/include
+windows: CompilationOptions= -ggdb -std=c++17 -lws2_32 -lmswsock ${IncludePaths}
 windows: all
 
 cleanStatic:
