@@ -282,7 +282,7 @@ void image::coprime_numbers(int n, int coprimes[], int &count) {
     count = 0; // Initialize count of coprime numbers
     for (int i = 2; i < n; ++i) {
         if (euclideanAlgorithm(i, n) == 1) {
-            if (count < MAX_SIZE) {
+            if (count < MAX_SIZE_COPRIMES){
                 coprimes[count] = i; // Store coprime number in array
                 count++; // Increment the count
             } else {

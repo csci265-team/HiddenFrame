@@ -1,5 +1,5 @@
-all: build steganography.o image_class.o #api.o
-	g++ -o build/HiddenFrame build/image_class.o build/steganography.o #build/api.o ${CompilationOptions} ${CompilationWarnings}
+all: build steganography.o image_class.o api.o
+	g++ -o build/HiddenFrame build/image_class.o build/steganography.o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 build:
 	mkdir -p build
@@ -11,8 +11,8 @@ image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/s
 steganography.o: include/hiddenframe_headers.h
 	g++ -c src/steganography.cpp -o build/steganography.o ${CompilationOptions} ${CompilationWarnings}
 
-#api.o: include/hiddenframe_headers.h
-#	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
+api.o: include/hiddenframe_headers.h include/crow.h include/crow/*
+	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 
 macos: IncludePaths= -I include/ -I /opt/homebrew/include
@@ -21,17 +21,17 @@ macos: all
 linux: IncludePaths= -I include/ -I /usr/local/include
 linux: all
 
-windows: IncludePaths= -I include/ -I /usr/local/include # this needs to be changed to the correct path
+windows: IncludePaths= -I include/ -I  C:/msys64/ucrt64/include/asio/include ${CompilationWindowsFlags} #assumes that asio folder is in minGW include folder
 windows: all
-
 
 cleanStatic:
 	rm -rf static
-	mkdir -p static
+	mkdir static
 
 clean:
 	rm -rf build
 
-IncludePaths= -I include/
-CompilationOptions= -ggdb -std=c++17 ${IncludePaths} 
+IncludePaths= -I include/ 
+CompilationOptions= -ggdb -std=c++17 ${IncludePaths}
 CompilationWarnings=-Wall -Wextra
+CompilationWindowsFlags= -lws2_32 -lmswsock 
