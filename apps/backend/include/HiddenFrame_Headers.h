@@ -1,6 +1,6 @@
 #include <string>
-#ifndef HiddenFrame_Headers 
-#define HiddenFrame_Headers
+#ifndef hiddenframe_headers 
+#define hiddenframe_headers
 
 using namespace std;
 
