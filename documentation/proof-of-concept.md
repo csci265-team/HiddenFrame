@@ -39,6 +39,9 @@ Assessing the results of the proof-of-concept and any implications:
 # Table of Contents
 
 1.  [Core Technical Challenges](#1-core-technical-challenges)
+    - 1.1. [User Experience](#11-user-experience)
+    - 1.2. [Image Manipulation](#12-image-manipulation)
+    - 1.3. [Interconnectivity between Frontend and Backend](#13-interconnectivity-between-frontend-and-backend)
 2.  [Metrics to Determine Challenge Completion](#2-metrics-to-determine-challenge-completion)
 3.  [Code Required to Meet Challenges](#3-code-required-to-meet-challenges)
 4.  [Assessment of Proof Of Concept](#4-assessment-of-proof-of-concept)
@@ -48,6 +51,7 @@ Assessing the results of the proof-of-concept and any implications:
 ### 1.1. User Experience
 ### 1.2. Image Manipulation
 ### 1.3. Interconnectivity between Frontend and Backend
+Due to our system being written in C++ in its back-end and using a JavaScript framework in its front-end, we decided to utilize an API server made using the "Crow" framework for creating HTTP or WebSocket Web services. We had different options for different back-end C++ frameworks such as Boost.Beast, Pistache, CppCMS, and more but we opted for using Crow due to it being lightweight, fast, more user friendly with a smaller learning curve, its native support for multithreading, and its built-in JSON and Websocket support. We decided to use the "Remix" framework for our front-end,(why did we choose Remix over other front-end frameworks??) where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side. Due to Crow's high-preformance and minimalistic approach and Remix's strengths in data fetching and modern UI management, these frameworks are the perfect combination for optimized HTTP requests and delivering a responsive and modern user experience.  
 ## 2. Metrics to Determine Challenge Completion
 ### 2.1. Metrics for User Experience
 #### 2.1.1 Interactivity
@@ -60,6 +64,7 @@ Assessing the results of the proof-of-concept and any implications:
 #### 3.1.2. CSS Framework
 ### 3.2. Image In and Out Operations
 ### 3.3. Determining API SMTH
+- need to figure out parameters and data types to get started on this section
 ## 4. Assessment of Proof Of Concept
 ### 4.1. Assessment of Frontend
 ### 4.2. Assessment of Backend
