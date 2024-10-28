@@ -497,9 +497,13 @@ sequenceDiagram
 
 ### 6.2 Routes
 
-GET requests to:
+Our API primarily uses GET and POST requests to send and receive information between the client-side and server.
+
+#### GET requests to:
 
 #### Process user invites
+
+#### Parameters:(enter here)
 
 <details>
  <summary><code>GET</code> <code><b>/user/invites</b></code> <code>Retreive number of remaining allowed invites for current privileged user</code></summary>
@@ -521,6 +525,8 @@ GET requests to:
 
 #### Retreive image wall images
 
+#### Parameters:(enter here)
+
 <details>
  <summary><code>GET</code> <code><b>/images</b></code> <code>Get first 100 images</code></summary>
 
@@ -540,6 +546,8 @@ GET requests to:
 </details>
 
 #### Retrieve system generated keys that decode the embedded images.
+
+#### Parameters:(enter here)
 
 <details>
 <summary><code>GET</code> <code><b>/images/keys</b></code></summary>
@@ -561,6 +569,8 @@ GET requests to:
 
 #### Retrieve embedded images.
 
+#### Parameters:(enter here)
+
 <details>
 <summary><code>GET</code> <code><b>/images/embedded</b></code> <code>Retrieve embedded data from an image</code></summary>
 
@@ -581,6 +591,10 @@ GET requests to:
 
 #### Retrieve decoded embedded images.
 
+#### Decoded embedded image with a hidden message
+
+#### Parameters:(enter here)
+
 <details>
 <summary><code>GET</code> <code><b>/images/decode/message</b></code> <code>Retrieve decoded images with embedded messages after key has been recognized.</code></summary>
 
@@ -598,6 +612,10 @@ GET requests to:
 | `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}` |
 
 </details>
+
+#### Decoded embedded image with a hidden image
+
+#### Parameters:(enter here)
 
 <details>
 <summary><code>GET</code> <code><b>/images/decode/image</b></code> <code>Retrieve decoded images with embedded image after key has been recognized. (stretch goal)</code></summary>
@@ -619,6 +637,10 @@ GET requests to:
 
 #### Retrieve private messages on the Secret Chat Page (stretch goal)
 
+#### Getting all messages sent to a user
+
+#### Parameters:(enter here)
+
 <details>
  <summary><code>GET</code> <code><b>/messages</b></code> <code>Get all messages sent to user</code></summary>
 
@@ -636,6 +658,10 @@ GET requests to:
 | `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`          |
 
 </details>
+
+#### Retrieving messages sent to a user
+
+#### Parameters:(enter here)
 
 <details>
  <summary><code>GET</code> <code><b>/message/:id</b></code> <code>Retrieve a specific message sent to user</code></summary>
@@ -657,6 +683,8 @@ GET requests to:
 
 #### Retreive the amount of likes on a specific image(stretch goal).
 
+#### Parameters:(enter here)
+
 <details>
 <summary><code>GET</code> <code><b>/image/:id/likes</b></code></summary>
 
@@ -675,7 +703,7 @@ GET requests to:
 
 </details>
 
-POST requests for:
+#### POST requests for:
 
 #### Registering new user (email and password).
 
@@ -722,6 +750,10 @@ POST requests for:
 
 #### Uploading images to the image board and/or images to be embedded with a hidden message.
 
+#### Uploading images to the image board as a general user
+
+#### Parameters:(enter here)
+
 <details>
  <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a general user</code></summary>
 
@@ -740,8 +772,12 @@ POST requests for:
 
 </details>
 
+#### Uploading images to the image board to be embedded with a hidden message as a privileged user.
+
+#### Parameters:(enter here)
+
 <details>
- <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a privileged user</code></summary>
+ <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board to be embedded with a hidden message as a privileged user</code></summary>
 
 ##### Request Body
 
