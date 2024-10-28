@@ -499,20 +499,21 @@ sequenceDiagram
 
 Our API primarily uses GET and POST requests to send and receive information between the client-side and server.
 
-#### GET requests to:
+### GET requests to:
 
-#### Process user invites
+**Process user invites**
 
-#### Parameters:(enter here)
+#### Description: This GET request retrieves the remaining invites allocated to the user. This information is stored within the user's profile data and displayed on the user's profile page. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required displays the amount of invites. If the authorization is valid it displays the amount of invites in the user's profile page. If the authorization is invalid it displays an error message.
 
+#### Endpoint:
 <details>
  <summary><code>GET</code> <code><b>/user/invites</b></code> <code>Retreive number of remaining allowed invites for current privileged user</code></summary>
 
 ##### Request Body
 
-| name          | type     | data type | description                           |
-| ------------- | -------- | --------- | ------------------------------------- |
-| Authorization | required | string    | A string containting the user's token |
+| name          | type        | data type | description                                                                               |
+| ------------- | ----------- | --------- | ----------------------------------------------------------------------------------------- |
+| Authorization | required    | string    | If token provided is valid, the number of invites is displayed in the user's profile page |
 
 ##### Responses
 
@@ -522,33 +523,37 @@ Our API primarily uses GET and POST requests to send and receive information bet
 | `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}` |
 
 </details>
+<br>
 
-#### Retreive image wall images
+**Retreive image wall images**
 
-#### Parameters:(enter here)
+#### Description: This GET request retrieves the first 100 images that is diplayed in the Image grid in the Main Page. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to access the images. If the token is valid, the response will include the image data.
 
+#### Endpoint:
 <details>
  <summary><code>GET</code> <code><b>/images</b></code> <code>Get first 100 images</code></summary>
 
 ##### Request Body
 
-| name          | type     | data type | description                                           |
-| ------------- | -------- | --------- | ----------------------------------------------------- |
-| Authorization | optional | string    | If token provided and valid, keys will be in response |
+| name          | type      | data type | description                                                                       |
+| ------------- | --------- | --------- | --------------------------------------------------------------------------------- |
+| Authorization | required  | string    | If token provided is valid, the images are displayed in the image wall            |
 
 ##### Responses
 
-| http code | content-type       | response                                                                  |
-| --------- | ------------------ | ------------------------------------------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "images": string[] \| {"url": string, "key": string}}` |
-| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`                              |
+| http code | content-type       | response                                                                              |
+| --------- | ------------------ | ------------------------------------------------------------------------------------- |
+| `200`     | `application/json` | `{"success": true, "photos": [ ... ]}` with image data as JSON.                       |
+| `401`     | `application/json` | `{"success": false,"error": "An error has occured"}` if the authorization is invalid. |
 
 </details>
+<br>
 
-#### Retrieve system generated keys that decode the embedded images.
+**Retrieve a generated key from an image and payload being uploaded to decode embedded content within the image.**
 
-#### Parameters:(enter here)
+#### Description: This GET request returns a generated key associated with the image and payload being uploaded. The back-end processes the image and payload to create the key for the users to share with other privileged users, which allow other privileged users to access embedded content within the image. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to determine that the user is a privileged user to process the image and payload and then displays the key.If the authorization is invalid it displays an error message.
 
+#### Endpoint:
 <details>
 <summary><code>GET</code> <code><b>/images/keys</b></code></summary>
 
@@ -556,7 +561,7 @@ Our API primarily uses GET and POST requests to send and receive information bet
 
 | name          | type     | data type | description                                           |
 | ------------- | -------- | --------- | ----------------------------------------------------- |
-| Authorization | required | string    | If token provided and valid, keys will be in response |
+| Authorization | required | string    | If token provided and valid, key will be in response  |
 
 ##### Responses
 
@@ -566,43 +571,49 @@ Our API primarily uses GET and POST requests to send and receive information bet
 | `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}` |
 
 </details>
+<br>
 
-#### Retrieve embedded images.
+**Retrieve embedded images.**
 
-#### Parameters:(enter here)
+#### Description: This GET request returns embedded images to be displayed in the image board along with other uploaded images that is diplayed to all users. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to determine whether the user is a general or privileged user, embedded images having different designs/animations that are viewable by privileged users to differentiate between embedded images and regular images.
 
+#### Endpoint:
 <details>
-<summary><code>GET</code> <code><b>/images/embedded</b></code> <code>Retrieve embedded data from an image</code></summary>
+<summary><code>GET</code> <code><b>/images/embedded</b></code> <code>Retrieve embedded images</code></summary>
 
 ##### Request Body
 
-| name          | type     | data type | description                                                      |
-| ------------- | -------- | --------- | ---------------------------------------------------------------- |
-| Authorization | optional | string    | If token provided and valid, embedded data will be in response |
+| name          | type     | data type | description                                                                                                             |
+| ------------- | -------- | --------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Authorization | required | string    | If token provided and valid, different designs/animations of embeded images will be in response for privileged users    |
+|               |          |           | and regular images will be in response for general users.                                                               |
 
 ##### Responses
 
-| http code | content-type       | response                                                               |
-| --------- | ------------------ | ---------------------------------------------------------------------- |
-| `200`     | `image/png`        | `{ "success": true, "url": string, "type": string "message": string }` |
-| `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}`                         |
+| http code                      | content-type       | response                                                                                         |
+| ------------------------------ | ------------------ | ------------------------------------------------------------------------------------------------ |
+| `200` (Privileged User)        | `application/json` | `{ "success": true, "images": [ { "url": "string", "type": "embedded", "design": "string" } ] }` |
+| `200` (General User)           | `application/json` | `{ "success": true, "images": [ { "url": "string", "type": "embedded" } ] }`                     |
 
 </details>
+<br>
 
-#### Retrieve decoded embedded images.
+**Retrieving Payloads**
 
-#### Decoded embedded image with a hidden message
+**Decoded embedded image with a hidden message payload**
 
-#### Parameters:(enter here)
+#### Description: After a privileged user submits a key for an embedded image, the system verifies the key. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key. If valid, the hidden message within the image is returned; otherwise, an error message is provided. 
 
+#### Endpoint:
 <details>
 <summary><code>GET</code> <code><b>/images/decode/message</b></code> <code>Retrieve decoded images with embedded messages after key has been recognized.</code></summary>
 
 ##### Request Body
 
-| name          | type     | data type | description                                                      |
-| ------------- | -------- | --------- | ---------------------------------------------------------------- |
-| Authorization | required | string    | If token provided and valid, decoded message will be in response |
+| name          | type     | data type | description                                                           |
+| ------------- | -------- | --------- | --------------------------------------------------------------------- |
+| Authorization | required | string    | If token is valid, the user will be prompted to enter a key           |
+| Key           | required | string    | If token matches the key for the image, the message will be displayed |
 
 ##### Responses
 
@@ -612,19 +623,22 @@ Our API primarily uses GET and POST requests to send and receive information bet
 | `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}` |
 
 </details>
+<br>
 
-#### Decoded embedded image with a hidden image
+**Decoded embedded image with a hidden image payload**
 
-#### Parameters:(enter here)
+#### Description: After a privileged user submits a key for an embedded image, the system verifies the key. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key.  If valid, the hidden image within the image is returned; otherwise, an error message is provided.
 
+#### Endpoint:
 <details>
 <summary><code>GET</code> <code><b>/images/decode/image</b></code> <code>Retrieve decoded images with embedded image after key has been recognized. (stretch goal)</code></summary>
 
 ##### Request Body
 
-| name          | type     | data type | description                                                    |
-| ------------- | -------- | --------- | -------------------------------------------------------------- |
-| Authorization | required | string    | If token provided and valid, decoded image will be in response |
+| name          | type     | data type | description                                                           |
+| ------------- | -------- | --------- | --------------------------------------------------------------------- |
+| Authorization | required | string    | If token provided is valid, the user will be prompted to enter a key  |
+| Key           | required | string    | If token matches the key for the image, the image will be displayed   |
 
 ##### Responses
 
@@ -634,13 +648,15 @@ Our API primarily uses GET and POST requests to send and receive information bet
 | `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}`  |
 
 </details>
+<br>
 
-#### Retrieve private messages on the Secret Chat Page (stretch goal)
+**Retrieve private messages on the Secret Chat Page (stretch goal)**
 
-#### Getting all messages sent to a user
+**Getting all messages sent to a user**
 
-#### Parameters:(enter here)
+#### Description:(enter here) 
 
+#### Endpoint:
 <details>
  <summary><code>GET</code> <code><b>/messages</b></code> <code>Get all messages sent to user</code></summary>
 
@@ -658,11 +674,13 @@ Our API primarily uses GET and POST requests to send and receive information bet
 | `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`          |
 
 </details>
+<br>
 
-#### Retrieving messages sent to a user
+**Retrieving messages sent to a user**
 
-#### Parameters:(enter here)
+#### Description:(enter here)
 
+#### Endpoint:
 <details>
  <summary><code>GET</code> <code><b>/message/:id</b></code> <code>Retrieve a specific message sent to user</code></summary>
 
@@ -683,8 +701,9 @@ Our API primarily uses GET and POST requests to send and receive information bet
 
 #### Retreive the amount of likes on a specific image(stretch goal).
 
-#### Parameters:(enter here)
+#### Description:(enter here)
 
+#### Endpoint:
 <details>
 <summary><code>GET</code> <code><b>/image/:id/likes</b></code></summary>
 
@@ -703,10 +722,11 @@ Our API primarily uses GET and POST requests to send and receive information bet
 
 </details>
 
-#### POST requests for:
+### POST requests for:
 
 #### Registering new user (email and password).
 
+#### Endpoint:
 <details>
  <summary><code>POST</code> <code><b>/user/register</b></code> <code>Resister a new user</code></summary>
 
@@ -729,6 +749,7 @@ Our API primarily uses GET and POST requests to send and receive information bet
 
 #### User login using username and password
 
+#### Endpoint:
 <details>
  <summary><code>POST</code> <code><b>/user/login</b></code> <code>Login existing user</code></summary>
 
@@ -752,8 +773,9 @@ Our API primarily uses GET and POST requests to send and receive information bet
 
 #### Uploading images to the image board as a general user
 
-#### Parameters:(enter here)
+#### Description:(enter here)
 
+#### Endpoint:
 <details>
  <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a general user</code></summary>
 
@@ -774,8 +796,9 @@ Our API primarily uses GET and POST requests to send and receive information bet
 
 #### Uploading images to the image board to be embedded with a hidden message as a privileged user.
 
-#### Parameters:(enter here)
+#### Description:(enter here)
 
+#### Endpoint:
 <details>
  <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board to be embedded with a hidden message as a privileged user</code></summary>
 
@@ -797,6 +820,9 @@ Our API primarily uses GET and POST requests to send and receive information bet
 
 #### Liking an image(stretch goal).
 
+#### Description:(enter here)
+
+#### Endpoint:
 <details>
  <summary><code>POST</code> <code><b>/image/:id/like</b></code></summary>
 
