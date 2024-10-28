@@ -497,8 +497,6 @@ sequenceDiagram
 
 ### 6.2 Routes
 
-Our API primarily uses GET and POST requests to send and receive information between the client-side and server.
-
 ### GET requests to:
 
 **Process user invites**
