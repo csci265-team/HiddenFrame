@@ -51,7 +51,13 @@ Assessing the results of the proof-of-concept and any implications:
 ### 1.1. User Experience
 ### 1.2. Image Manipulation
 ### 1.3. Interconnectivity between Frontend and Backend
-Due to our system being written in C++ in its back-end and using a JavaScript framework in its front-end, we decided to utilize an API server made using the "Crow" framework for creating HTTP or WebSocket Web services. We had different options for different back-end C++ frameworks such as Boost.Beast, Pistache, CppCMS, and more but we opted for using Crow due to it being lightweight, fast, more user friendly with a smaller learning curve, its native support for multithreading, and its built-in JSON and Websocket support. We decided to use the "Remix" framework for our front-end,(why did we choose Remix over other front-end frameworks??) where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side. Due to Crow's high-preformance and minimalistic approach and Remix's strengths in data fetching and modern UI management, these frameworks are the perfect combination for optimized HTTP requests and delivering a responsive and modern user experience.  
+At the start of our project, we divided the team into two groups: the front-end and back-end teams. The front-end team chose to develop in JavaScript, while the back-end team opted for C++. Given these language differences, we needed a reliable way to connect our front-end and back-end services.
+
+After exploring various options, we determined that using a REST API would best suit our needs, as it offers a robust solution for standard client-server interactions, handling data requests and updates efficiently without requiring real-time functionality. This approach would allow our C++ back-end to handle HTTP requests and send data in a format easily rendered by our JavaScript-based front end.
+
+To further simplify development and deployment within our project’s timeline, we also decided to use a full-stack web framework on the front end. This choice provides an integrated environment to streamline both front-end and back-end development, offering a relatively low learning curve for team members.
+
+By combining a REST API on the back end with a full-stack web framework on the front end, we will be able to create a website with a responsive, interactive UI and efficient data handling, delivering the fast, seamless experience we envisioned.
 ## 2. Metrics to Determine Challenge Completion
 ### 2.1. Metrics for User Experience
 #### 2.1.1 Interactivity
@@ -64,7 +70,6 @@ Due to our system being written in C++ in its back-end and using a JavaScript fr
 #### 3.1.2. CSS Framework
 ### 3.2. Image In and Out Operations
 ### 3.3. Determining API SMTH
-- need to figure out parameters and data types to get started on this section
 ## 4. Assessment of Proof Of Concept
 ### 4.1. Assessment of Frontend
 ### 4.2. Assessment of Backend

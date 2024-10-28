@@ -501,7 +501,7 @@ sequenceDiagram
 
 #### Process user invites
 
-This GET request retrieves the remaining invites allocated to the user. This information is stored within the user's profile data and displayed on the user's profile page. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required displays the amount of invites. If the authorization is valid it displays the amount of invites in the user's profile page. If the authorization is invalid it displays an error message.
+This GET request retrieves the remaining invites allocated to the user. This information is stored within the user's profile data and displayed on the user's profile page. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to retrieve the amount of invites. If the authorization is valid it displays the amount of invites in the user's profile page. If the authorization is invalid it displays an error message.
 
 #### Endpoint:
 <details>
@@ -600,7 +600,7 @@ This GET request returns embedded images to be displayed in the image board alon
 
 #### Decoded embedded image with a hidden message payload
 
-After a privileged user submits a key for an embedded image, the system verifies the key. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key. If valid, the hidden message within the image is returned; otherwise, an error message is provided. 
+After a privileged user submits a key for an embedded image, this GET request verifies the key. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key. If valid, the hidden message within the image is returned; otherwise, an error message is provided. 
 
 #### Endpoint:
 <details>
@@ -625,7 +625,7 @@ After a privileged user submits a key for an embedded image, the system verifies
 
 #### Decoded embedded image with a hidden image payload
 
-After a privileged user submits a key for an embedded image, the system verifies the key. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key.  If valid, the hidden image within the image is returned; otherwise, an error message is provided.
+After a privileged user submits a key for an embedded image, this GET request verifies the key and `Client-ID`. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key.  If valid, the hidden image within the image is returned; otherwise, an error message is provided.
 
 #### Endpoint:
 <details>
@@ -651,7 +651,6 @@ After a privileged user submits a key for an embedded image, the system verifies
 #### Retrieve private messages on the Secret Chat Page (stretch goal)
 
 #### Getting all messages sent to a user
-
 
 
 #### Endpoint:
