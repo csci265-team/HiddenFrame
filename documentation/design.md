@@ -499,9 +499,9 @@ sequenceDiagram
 
 ### GET requests to:
 
-**Process user invites**
+#### Process user invites
 
-#### Description: This GET request retrieves the remaining invites allocated to the user. This information is stored within the user's profile data and displayed on the user's profile page. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required displays the amount of invites. If the authorization is valid it displays the amount of invites in the user's profile page. If the authorization is invalid it displays an error message.
+This GET request retrieves the remaining invites allocated to the user. This information is stored within the user's profile data and displayed on the user's profile page. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required displays the amount of invites. If the authorization is valid it displays the amount of invites in the user's profile page. If the authorization is invalid it displays an error message.
 
 #### Endpoint:
 <details>
@@ -523,9 +523,9 @@ sequenceDiagram
 </details>
 <br>
 
-**Retreive image wall images**
+#### Retreive image wall images
 
-#### Description: This GET request retrieves the first 100 images that is diplayed in the Image grid in the Main Page. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to access the images. If the token is valid, the response will include the image data.
+This GET request retrieves the first 100 images that is diplayed in the Image grid in the Main Page. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to access the images. If the token is valid, the response will include the image data.
 
 #### Endpoint:
 <details>
@@ -547,9 +547,9 @@ sequenceDiagram
 </details>
 <br>
 
-**Retrieve a generated key from an image and payload being uploaded to decode embedded content within the image.**
+#### Retrieve a generated key from an image and payload being uploaded to decode embedded content within the image
 
-#### Description: This GET request returns a generated key associated with the image and payload being uploaded. The back-end processes the image and payload to create the key for the users to share with other privileged users, which allow other privileged users to access embedded content within the image. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to determine that the user is a privileged user to process the image and payload and then displays the key.If the authorization is invalid it displays an error message.
+This GET request returns a generated key associated with the image and payload being uploaded. The back-end processes the image and payload to create the key for the users to share with other privileged users, which allow other privileged users to access embedded content within the image. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to determine that the user is a privileged user to process the image and payload and then displays the key.If the authorization is invalid it displays an error message.
 
 #### Endpoint:
 <details>
@@ -571,9 +571,9 @@ sequenceDiagram
 </details>
 <br>
 
-**Retrieve embedded images.**
+#### Retrieve embedded images
 
-#### Description: This GET request returns embedded images to be displayed in the image board along with other uploaded images that is diplayed to all users. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to determine whether the user is a general or privileged user, embedded images having different designs/animations that are viewable by privileged users to differentiate between embedded images and regular images.
+This GET request returns embedded images to be displayed in the image board along with other uploaded images that is diplayed to all users. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to determine whether the user is a general or privileged user, embedded images having different designs/animations that are viewable by privileged users to differentiate between embedded images and regular images.
 
 #### Endpoint:
 <details>
@@ -596,11 +596,11 @@ sequenceDiagram
 </details>
 <br>
 
-**Retrieving Payloads**
+#### Retrieving Payloads
 
-**Decoded embedded image with a hidden message payload**
+#### Decoded embedded image with a hidden message payload
 
-#### Description: After a privileged user submits a key for an embedded image, the system verifies the key. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key. If valid, the hidden message within the image is returned; otherwise, an error message is provided. 
+After a privileged user submits a key for an embedded image, the system verifies the key. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key. If valid, the hidden message within the image is returned; otherwise, an error message is provided. 
 
 #### Endpoint:
 <details>
@@ -623,9 +623,9 @@ sequenceDiagram
 </details>
 <br>
 
-**Decoded embedded image with a hidden image payload**
+#### Decoded embedded image with a hidden image payload
 
-#### Description: After a privileged user submits a key for an embedded image, the system verifies the key. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key.  If valid, the hidden image within the image is returned; otherwise, an error message is provided.
+After a privileged user submits a key for an embedded image, the system verifies the key. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key.  If valid, the hidden image within the image is returned; otherwise, an error message is provided.
 
 #### Endpoint:
 <details>
@@ -648,11 +648,11 @@ sequenceDiagram
 </details>
 <br>
 
-**Retrieve private messages on the Secret Chat Page (stretch goal)**
+#### Retrieve private messages on the Secret Chat Page (stretch goal)
 
-**Getting all messages sent to a user**
+#### Getting all messages sent to a user
 
-#### Description:(enter here) 
+
 
 #### Endpoint:
 <details>
@@ -674,9 +674,8 @@ sequenceDiagram
 </details>
 <br>
 
-**Retrieving messages sent to a user**
+#### Retrieving messages sent to a user
 
-#### Description:(enter here)
 
 #### Endpoint:
 <details>
@@ -698,8 +697,6 @@ sequenceDiagram
 </details>
 
 #### Retreive the amount of likes on a specific image(stretch goal).
-
-#### Description:(enter here)
 
 #### Endpoint:
 <details>
