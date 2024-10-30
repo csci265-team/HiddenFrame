@@ -47,27 +47,6 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
 
 ## 1. Core Technical Challenges
 
-### 1.1. User Experience
-
-To maintain a consistent UX we have decided to use tailwindcss. Tailwindcss allows us to quickly create great looking designs.
-
-#### 1.1.1. Colors
-
-We will be using a simplistic design language. We are using the following two colors as part of our theme:
-
-- <font color="#F3E3BF">#F3E3BF</font>
-- <font color="#553829">#553829</font>
-
-#### 1.1.2. Themes
-
-We will also be maintaining two themes, a "dark" and a "light" theme. Since we will be using tailwindcss this task is really easy. Each component will first be styled for the "light" theme and then we will just invert the colors using the tailwind [`dark:`](https://tailwindcss.com/docs/dark-mode) selector.
-
-#### 1.1.3. Components
-
-We have decided to componentize our design elements, each of our elements will be split out into their own seperate file. For example the "Button" component will be located at [`/apps/web/app/components/Button.tsx`](https://github.com/csci265-team/project/blob/master/apps/web/app/components/Button.tsx)
-
-This approach promotes reusability and reduces redundancy. We won't have to go and modify each and every occurance of a component instead we can just modify the main component file.
-
 ### 1.2. Image Manipulation
 
 ### 1.3. Interconnectivity between Frontend and Backend
@@ -100,11 +79,30 @@ By choosing Remix, we aim to leverage its modern capabilities to build a high-pe
 
 #### 3.1.1. API Compatability
 
-#### 3.1.2. CSS Framework
+### 3.2. User Experience
 
-### 3.2. Image In and Out Operations
+To maintain a consistent UX we have decided to use tailwindcss. Tailwindcss allows us to quickly create great looking designs.
 
-### 3.3. Determining API SMTH
+#### 3.2.1. Colors
+
+We will be using a simplistic design language. We are using the following two colors as part of our theme:
+
+- <font color="#F3E3BF">#F3E3BF</font>
+- <font color="#553829">#553829</font>
+
+#### 3.2.2. Themes
+
+We will also be maintaining two themes, a "dark" and a "light" theme. Since we will be using tailwindcss this task is really easy. Each component will first be styled for the "light" theme and then we will just invert the colors using the tailwind [`dark:`](https://tailwindcss.com/docs/dark-mode) selector.
+
+#### 3.2.3. Components
+
+We have decided to componentize our design elements, each of our elements will be split out into their own seperate file. For example the "Button" component will be located at [`/apps/web/app/components/Button.tsx`](https://github.com/csci265-team/project/blob/master/apps/web/app/components/Button.tsx)
+
+This approach promotes reusability and reduces redundancy. We won't have to go and modify each and every occurance of a component instead we can just modify the main component file.
+
+### 3.3. Image In and Out Operations
+
+### 3.4. Determining API SMTH
 
 ## 4. Assessment of Proof Of Concept
 
