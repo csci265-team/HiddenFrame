@@ -86,9 +86,12 @@ export default function Index() {
           {photos
             .sort((a: { id: string }, b: { id: string }) => b.id.localeCompare(a.id))
             .map((photo: any) => (
-              <a href={photo.url} target="_blank" key={photo.id} rel="noreferrer">
-                <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
-              </a>
+              <div key={photo.id}>
+                <a href={photo.url} target="_blank" rel="noreferrer">
+                  <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
+                </a>
+                <p>{photo.payload}</p>
+              </div>
             ))}
         </div>
       </div>
