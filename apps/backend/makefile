@@ -1,11 +1,11 @@
-all: build steganography.o image_class.o api.o
-	g++ -o bin/HiddenFrame build/image_class.o build/steganography.o build/api.o ${CompilationOptions} ${CompilationWarnings}
+all: build utils.o image_class.o api.o
+	g++ -o bin/HiddenFrame build/image_class.o build/utils.o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h
 	g++ -c src/image_class.cpp -o build/image_class.o ${CompilationOptions}
 
-steganography.o: include/hiddenframe_headers.h
-	g++ -c src/steganography.cpp -o build/steganography.o ${CompilationOptions} ${CompilationWarnings}
+utils.o: include/hiddenframe_headers.h
+	g++ -c src/utils.cpp -o build/utils.o ${CompilationOptions} ${CompilationWarnings}
 
 api.o: include/hiddenframe_headers.h include/crow.h include/crow/*
 	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}

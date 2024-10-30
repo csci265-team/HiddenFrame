@@ -113,8 +113,14 @@ int main()
 
                         memcpy(convertedData.data(), fileData.c_str(), fileSize + 1);
                         image *imgptr = new image(convertedData.data(), fileSize, fileExt);
-
                         // modify image with payload here if permission granted and desired
+                        if (message != ""){
+                            //convert message to binary string
+                            string messageBN=strToBinary(message);
+                            //need to get the first param from Jeremy's functions
+                            imgptr->modify_image(2,messageBN);
+
+                        }
                         imgptr->write_image(filePath);
                         crow::json::wvalue success_json;
                         success_json["success"] = true;
