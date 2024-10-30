@@ -47,18 +47,28 @@ Assessing the results of the proof-of-concept and any implications:
 ## 1. Core Technical Challenges
 ### 1.1. User Experience
 ### 1.2. Image Manipulation
+Our team did not initially have any foundational understanding of image manipulation. Dealing with images requires reading and interpreting not only the raw information but dealing with various file formats with their attendant headers/footers. 
+
+Some formats of images provide built in compression (such as JPG), our program needs to be able to either implement a solution that will work on compressed images, or find a way to circumvent the problem. 
+
+Since we need to manipulate specific channels of the pixels in the image, and alter them only slightly, We will require the ability to manipulate individual bits within a images raw data. This is not an aspect of C++ programing that has thus far not been covered. 
 ### 1.3. Interconnectivity between Frontend and Backend
 ## 2. Metrics to Determine Challenge Completion
 ### 2.1. Metrics for User Experience
 #### 2.1.1 Interactivity
 #### 2.1.2 Reactivity
 ### 2.2. Metrics for Image Manipulation
-### 2.3. Metrics for Connectivitiy
+### 2.3. Metrics for Connectivity
 ## 3. Code Required to Meet Challenges
 ### 3.1. Determining Frontend Framework
-#### 3.1.1. API Compatability
+#### 3.1.1. API Compatibility
 #### 3.1.2. CSS Framework
 ### 3.2. Image In and Out Operations
+In order to simplify the reading and writing of images, our team elected to use two C header libraries stb_image and stb_image_write. These two libraries provide our project with the ability to deal directly with raw image data, in the form of char arrays. This abstracts us from most of the concerns surrounding file formatting. The code we use to confirm this feature set is working is test_image_io.cpp. This test file calls the two constructors, and write_image class methods from the image_class.cpp. These functions show that HiddenFrame can read a file from the filesystem or as live data passed to it from the API server, and write images to the file system. This corresponds to tests 1,2, and 4 of the image system tests. 
+
+Dealing with lossy file formats (JPG) in our case, meant that we had a choice of trying to modify our encoding algorithm to deal with compression or circumvent the problem in some manner. In our case we decided to (at least temporarily) provide full image read capabilities, but when we store the images we will only be doing so in lossless formats. This functionality is part of the image_class's write_image method. This is demonstrated by image system test 3. 
+
+Our final challenge was coding a capability to confirm that we could manipulate the individual channels of the image, and successfully store and retrieve data (in the format our compression algorithm lays out). This merely required the use of C++'s bit shifting operators and a careful application of the algorithm. We implemented this as the modify_image and retrieve_payload functions. This challenge is demonstrated by image system test 5.  
 ### 3.3. Determining API SMTH
 ## 4. Assessment of Proof Of Concept
 ### 4.1. Assessment of Frontend

@@ -14,6 +14,12 @@ steganography.o: include/hiddenframe_headers.h
 api.o: include/hiddenframe_headers.h include/crow.h include/crow/*
 	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
+test: image_class.o test_image_io.o
+	g++ -o test/test_image_io build/image_class.o test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
+
+test_image_io.o: include/hiddenframe_headers.h
+		g++ -c test/test_image_io.cpp -o test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
+
 
 macos: IncludePaths= -I include/ -I /opt/homebrew/include
 macos: all

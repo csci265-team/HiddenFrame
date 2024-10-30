@@ -21,26 +21,26 @@ int notmain(){
         cout <<"Hidden Message is " <<payload << endl;*/
         
         //Simulate image passed by API
-        string imageData;
-        ifstream file("../../resources/images/test/input/test_image_6.bmp");
-        if (!file.is_open()){
-            cerr << "String Not read" << endl;
-            return 1;
-        }
-        string line;
-        while (getline(file, line)){
-            imageData+=line;
-        }
-        file.close();
-        unsigned char* imgptr=new unsigned char[imageData.length()];
-        for (long long unsigned int i=0; i < (imageData.length()-1); i++){
-            imgptr[i]=static_cast<unsigned char>(imageData[i]);
-        }
-        image* test2=new image(imgptr,imageData.length());
-        test2->displayImageProperties();
-        test2->filetype="bmp";
-        test2->write_image("../../resources/images/test/output/test_image_6.bmp");
-        delete [] imgptr;
+        // string imageData;
+        // ifstream file("../../resources/images/test/input/test_image_6.bmp");
+        // if (!file.is_open()){
+        //     cerr << "String Not read" << endl;
+        //     return 1;
+        // }
+        // string line;
+        // while (getline(file, line)){
+        //     imageData+=line;
+        // }
+        // file.close();
+        // unsigned char* imgptr=new unsigned char[imageData.length()];
+        // for (long long unsigned int i=0; i < (imageData.length()-1); i++){
+        //     imgptr[i]=static_cast<unsigned char>(imageData[i]);
+        // }
+        // image* test2=new image(imgptr,imageData.length());
+        // test2->displayImageProperties();
+        // test2->filetype="bmp";
+        // test2->write_image("../../resources/images/test/output/test_image_6.bmp");
+        // delete [] imgptr;
     }
     catch (const std::invalid_argument& e1){
         cerr << "Encountered an exception: " << e1.what() << endl;
