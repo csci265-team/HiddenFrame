@@ -38,19 +38,19 @@ CompilationWarnings=-Wall -Wextra
 
 OS := $(shell uname)
 ifeq ($(OS),Linux)
-	RM: = rm -rf
-	MKDIR: = mkdir -p
+	RM := rm -rf
+	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
 	IncludePaths+= -I include/ -I /usr/local/include
 else ifeq ($(OS),Darwin)
-	RM: = rm -rf
-	MKDIR: = mkdir -p
+	RM := rm -rf
+	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
 	IncludePaths+= -I include/ -I /opt/homebrew/include
 else
-	RM:=rmdir /s /q 
-	MKDIR:=mkdir
+	RM := rmdir /s /q 
+	MKDIR := mkdir
 	CLEAN_DIR := del /q static\*
-	IncludePaths+= -I include/ -I  C:/msys64/ucrt64/include/asio/include
-	CompilationOptions+=-lws2_32 -lmswsock
+	IncludePaths += -I include/ -I  C:/msys64/ucrt64/include/asio/include
+	CompilationOptions += -lws2_32 -lmswsock
 endif
