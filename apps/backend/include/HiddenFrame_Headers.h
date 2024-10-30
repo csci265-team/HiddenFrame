@@ -46,7 +46,6 @@ class image{
         vector<char> bitStringCompressor(int channels, string toCompress);
     };
 
-string reverse(string other);
-string strToBinary(string s);
+
 
 #endif

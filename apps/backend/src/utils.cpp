@@ -1,39 +1,24 @@
-#include <hiddenframe_headers.h>
 #include <iostream>
+#include <bitset>
+#include <string>
 
-
-using namespace std;
-
-string reverse(string other){
-    int length=other.length();
-    string revstr;
-    int i=0;
-    int j=length-1;
-    do{
-       revstr[i]=other[j];
-       i++;
-       j--;
-    } while ( i < length); 
-    return revstr; 
+std::string stringToBinary(const std::string &str)
+{
+    std::string binaryString;
+    for (char c : str)
+    {
+        binaryString += std::bitset<8>(c).to_string(); // Each character to 8-bit binary
+    }
+    return binaryString;
 }
 
-string strToBinary(string s)
+std::string binaryToString(const std::string &binaryStr)
 {
-    int n = s.length();
-    string bin = "";
-    for (int i = 0; i <= n; i++)
+    std::string text;
+    for (size_t i = 0; i < binaryStr.size(); i += 8)
     {
-        // convert each char to
-        // ASCII value
-        int val = int(s[i]);
-        // Convert ASCII value to binary
-        while (val > 0)
-        {
-            (val % 2)? bin.push_back('1') :
-                       bin.push_back('0');
-            val /= 2;
-        }
-        reverse(bin);
+        std::bitset<8> byte(binaryStr.substr(i, 8)); // Take 8 bits at a time
+        text += static_cast<char>(byte.to_ulong());  // Convert binary to char
     }
-    return bin;
+    return text;
 }

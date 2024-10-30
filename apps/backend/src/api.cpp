@@ -4,6 +4,7 @@
 #include <fstream>
 #include <filesystem>
 #include <string>
+#include <utils.h>
 
 using namespace std;
 
@@ -35,6 +36,7 @@ int main()
                     photo["id"] = id;
                     photo["url"] = BASE_API_URL + "/static/" + filename;
                     photo["payload"] = payload;
+                    photo["resolved_payload"] = binaryToString(payload);
                     photos.push_back(photo);
                 }
 
@@ -120,7 +122,7 @@ int main()
                         if (message != "")
                         {
                             // convert message to binary string
-                            string messageBN = strToBinary(message);
+                            string messageBN = stringToBinary(message);
                             // need to get the first param from Jeremy's functions
                             imgptr->modify_image(2, messageBN);
                         }
