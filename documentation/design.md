@@ -497,17 +497,21 @@ sequenceDiagram
 
 ### 6.2 Routes
 
-### GET requests to:
+Atached below are a few planned routes including their `method`, `headers`, `body` (if applicable) and expected `response`
 
 #### Process user invites
 
-This GET request retrieves the remaining invites allocated to the user. This information is stored within the user's profile data and displayed on the user's profile page. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to retrieve the amount of invites. If the authorization is valid it displays the amount of invites in the user's profile page. If the authorization is invalid it displays an error message.
+This GET request retrieves the remaining invites allocated to the user. This information is stored within the user's profile data and displayed on the user's profile page. 
+
+#### Authorization:
+
+The user must provide a valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to retrieve the amount of invites. If the authorization is valid it displays the amount of invites in the user's profile page. If the authorization is invalid it displays an error message.
 
 #### Endpoint:
 <details>
  <summary><code>GET</code> <code><b>/user/invites</b></code> <code>Retreive number of remaining allowed invites for current privileged user</code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type        | data type | description                                                                               |
 | ------------- | ----------- | --------- | ----------------------------------------------------------------------------------------- |
@@ -515,23 +519,26 @@ This GET request retrieves the remaining invites allocated to the user. This inf
 
 ##### Responses
 
-| http code | content-type       | response                                     |
-| --------- | ------------------ | -------------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "invites": number}`       |
-| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}` |
+| http code | content-type       | response                                               | description                                                 |
+| --------- | ------------------ | ------------------------------------------------------ | ----------------------------------------------------------- |
+| `200`     | `application/json` | Shows the user invite count in the user's profile page | If the user is a privileged user viewing their profile page |
+| `401`     | `application/json` | An error message saying "Unauthorized" pops up         | If the user is not a privileged user                        |
 
 </details>
 <br>
 
 #### Retreive image wall images
 
-This GET request retrieves the first 100 images that is diplayed in the Image grid in the Main Page. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to access the images. If the token is valid, the response will include the image data.
+This GET request retrieves the first 100 images that is diplayed in the Image grid in the Main Page.
+
+#### Authorization:
+The user must provide a valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to access the images. If the token is valid, the response will include the image data.
 
 #### Endpoint:
 <details>
  <summary><code>GET</code> <code><b>/images</b></code> <code>Get first 100 images</code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type      | data type | description                                                                       |
 | ------------- | --------- | --------- | --------------------------------------------------------------------------------- |
@@ -539,47 +546,26 @@ This GET request retrieves the first 100 images that is diplayed in the Image gr
 
 ##### Responses
 
-| http code | content-type       | response                                                                              |
-| --------- | ------------------ | ------------------------------------------------------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "photos": [ ... ]}` with image data as JSON.                       |
-| `401`     | `application/json` | `{"success": false,"error": "An error has occured"}` if the authorization is invalid. |
-
-</details>
-<br>
-
-#### Retrieve a generated key from an image and payload being uploaded to decode embedded content within the image
-
-This GET request returns a generated key associated with the image and payload being uploaded. The back-end processes the image and payload to create the key for the users to share with other privileged users, which allow other privileged users to access embedded content within the image. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to determine that the user is a privileged user to process the image and payload and then displays the key.If the authorization is invalid it displays an error message.
-
-#### Endpoint:
-<details>
-<summary><code>GET</code> <code><b>/images/keys</b></code></summary>
-
-##### Request Body
-
-| name          | type     | data type | description                                           |
-| ------------- | -------- | --------- | ----------------------------------------------------- |
-| Authorization | required | string    | If token provided and valid, key will be in response  |
-
-##### Responses
-
-| http code | content-type       | response                                       |
-| --------- | ------------------ | ---------------------------------------------- |
-| `200`     | `application/json` | `{ "success": true, "keys": string[] }`        |
-| `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}` |
+| http code | content-type       | response                                              | description                                     |
+| --------- | ------------------ | ----------------------------------------------------- | ----------------------------------------------- |
+| `200`     | `application/json` | The first 100 images appear                           | If a valid `Client-ID <clientID>` is recognized |
+| `401`     | `application/json` | An error message pops up saying "An error has occured | If a `Client-ID <clientID>` is invalid          | 
 
 </details>
 <br>
 
 #### Retrieve embedded images
 
-This GET request returns embedded images to be displayed in the image board along with other uploaded images that is diplayed to all users. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to determine whether the user is a general or privileged user, embedded images having different designs/animations that are viewable by privileged users to differentiate between embedded images and regular images.
+This GET request returns embedded images to be displayed in the image board along with other uploaded images that is diplayed to all users.
+
+#### Authorization:
+The user must provide a valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to determine whether the user is a general or privileged user, embedded images having different designs/animations that are viewable by privileged users to differentiate between embedded images and regular images.
 
 #### Endpoint:
 <details>
 <summary><code>GET</code> <code><b>/images/embedded</b></code> <code>Retrieve embedded images</code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type     | data type | description                                                                                                             |
 | ------------- | -------- | --------- | ----------------------------------------------------------------------------------------------------------------------- |
@@ -588,25 +574,26 @@ This GET request returns embedded images to be displayed in the image board alon
 
 ##### Responses
 
-| http code                      | content-type       | response                                                                                         |
-| ------------------------------ | ------------------ | ------------------------------------------------------------------------------------------------ |
-| `200` (Privileged User)        | `application/json` | `{ "success": true, "images": [ { "url": "string", "type": "embedded", "design": "string" } ] }` |
-| `200` (General User)           | `application/json` | `{ "success": true, "images": [ { "url": "string", "type": "embedded" } ] }`                     |
+| http code                      | content-type       | response                                                                                         | description                                    |
+| ------------------------------ | ------------------ | ------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
+| `200` (Privileged User)        | `application/json` | Embeded images appear in the image board with different designs/animations                       | If user was recognized to be a privileged user |
+| `200` (General User)           | `application/json` | Embeded images appear in the image board                                                         | If user was recognized to be a general user    |
 
 </details>
 <br>
 
-#### Retrieving Payloads
+#### Decoded embedded image with a hidden payload
 
-#### Decoded embedded image with a hidden message payload
+This GET request allows a user to decode an embedded image with a key.
 
-After a privileged user submits a key for an embedded image, this GET request verifies the key. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key. If valid, the hidden message within the image is returned; otherwise, an error message is provided. 
+#### Authorization:
+The user must provide a valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key. If valid, the hidden payload within the image is returned; otherwise, an error message is provided. 
 
 #### Endpoint:
 <details>
-<summary><code>GET</code> <code><b>/images/decode/message</b></code> <code>Retrieve decoded images with embedded messages after key has been recognized.</code></summary>
+<summary><code>GET</code> <code><b>/images/decode</b></code> <code>Retrieve decoded images with embedded payload after key has been recognized.</code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type     | data type | description                                                           |
 | ------------- | -------- | --------- | --------------------------------------------------------------------- |
@@ -615,159 +602,80 @@ After a privileged user submits a key for an embedded image, this GET request ve
 
 ##### Responses
 
-| http code | content-type       | response                                       |
-| --------- | ------------------ | ---------------------------------------------- |
-| `200`     | `application/json` | `{ "success": true, "message": string[] }`     |
-| `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}` |
+| http code | content-type       | response                                          | description                 |
+| --------- | ------------------ | ------------------------------------------------- | --------------------------- |
+| `200`     | `application/json` | The hidden message pops up                        | If valid key was provided   |
+| `401`     | `application/json` | An error message saying "Key is invalid!" pops up | If key provided was invalid |
 
 </details>
 <br>
-
-#### Decoded embedded image with a hidden image payload
-
-After a privileged user submits a key for an embedded image, this GET request verifies the key and `Client-ID`. A valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key.  If valid, the hidden image within the image is returned; otherwise, an error message is provided.
-
-#### Endpoint:
-<details>
-<summary><code>GET</code> <code><b>/images/decode/image</b></code> <code>Retrieve decoded images with embedded image after key has been recognized. (stretch goal)</code></summary>
-
-##### Request Body
-
-| name          | type     | data type | description                                                           |
-| ------------- | -------- | --------- | --------------------------------------------------------------------- |
-| Authorization | required | string    | If token provided is valid, the user will be prompted to enter a key  |
-| Key           | required | string    | If token matches the key for the image, the image will be displayed   |
-
-##### Responses
-
-| http code | content-type       | response                                        |
-| --------- | ------------------ | ----------------------------------------------- |
-| `200`     | `image/png`        | `{ "success": true, An image file or url TBD }` |
-| `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}`  |
-
-</details>
-<br>
-
-#### Retrieve private messages on the Secret Chat Page (stretch goal)
-
-#### Getting all messages sent to a user
-
-
-#### Endpoint:
-<details>
- <summary><code>GET</code> <code><b>/messages</b></code> <code>Get all messages sent to user</code></summary>
-
-##### Request Body
-
-| name          | type     | data type | description                           |
-| ------------- | -------- | --------- | ------------------------------------- |
-| Authorization | required | string    | A string containting the user's token |
-
-##### Responses
-
-| http code | content-type       | response                                              |
-| --------- | ------------------ | ----------------------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "messages": [TBD MESSAGE OBJECT]}` |
-| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`          |
-
-</details>
-<br>
-
-#### Retrieving messages sent to a user
-
-
-#### Endpoint:
-<details>
- <summary><code>GET</code> <code><b>/message/:id</b></code> <code>Retrieve a specific message sent to user</code></summary>
-
-##### Request Body
-
-| name          | type     | data type | description                           |
-| ------------- | -------- | --------- | ------------------------------------- |
-| Authorization | required | string    | A string containting the user's token |
-
-##### Responses
-
-| http code | content-type       | response                                           |
-| --------- | ------------------ | -------------------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "message": TBD MESSAGE OBJECT}` |
-| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`       |
-
-</details>
-
-#### Retreive the amount of likes on a specific image(stretch goal).
-
-#### Endpoint:
-<details>
-<summary><code>GET</code> <code><b>/image/:id/likes</b></code></summary>
-
-##### Request Body
-
-| name          | type     | data type | description                                                 |
-| ------------- | -------- | --------- | ----------------------------------------------------------- |
-| Authorization | optional | string    | If token provided and valid, like count will be in response |
-
-##### Responses
-
-| http code | content-type       | response                                       |
-| --------- | ------------------ | ---------------------------------------------- |
-| `200`     | `application/json` | `{ "success": true, "likes": int }`            |
-| `401`     | `application/json` | `{ "success": false, "error": "Unauthorized"}` |
-
-</details>
-
-### POST requests for:
 
 #### Registering new user (email and password).
+
+This POST request allows for the registration of a new user by submitting the necessary information to the server. 
+
+#### Authentication: 
+The user must provide a valid invite ID, email, and hashed password in the request headers. Upon successful registration, the server will generate a response containing a success message along with a user object, which includes the username and an authentication token. This token can be used to manage the user's session and validate future requests. If the invite ID is invalid, the server will respond with an unauthorized error message.
 
 #### Endpoint:
 <details>
  <summary><code>POST</code> <code><b>/user/register</b></code> <code>Resister a new user</code></summary>
 
-##### Request Body
+##### Headers
 
 | name     | type     | data type | description                                                          |
 | -------- | -------- | --------- | -------------------------------------------------------------------- |
 | inviteId | required | string    | A valid invite Id generated by an existing user needs to be provided |
-| username | required | string    | User's requested username                                            |
+| username | required | string    | User's email                                                         |
 | password | required | string    | Hashed password                                                      |
 
 ##### Responses
 
-| http code | content-type       | response                                                                                                                           | description                    |
-| --------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| `200`     | `application/json` | `{"success": true, "user": { "username": string, "token": { "id": string, "exp": number: "createdAt": number, "token": string } }` | If valid invite was provided   |
-| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`                                                                                       | If invalid invite was provided |
+| http code | content-type       | response                                                                                  | description                                        |
+| --------- | ------------------ | ----------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `200`     | `application/json` | The user is logged in and redirected to the main page in the account they have registered | If valid invite ID, email, and password is entered |
+| `401`     | `application/json` | An error message saying: "Unauthorized"                                                   | If invalid invite was provided                     |
 
 </details>
+<br>
 
-#### User login using username and password
+#### User login using email and password
+
+This POST request allows for the logging in of an existing user by submitting the necessary information to the server. 
+
+#### Authentication:
+
+The user must provide a valid email and hashed password in the request headers to log in. Upon successful login, the server will generate a response containing a success message and a user object, which includes the username and an authentication token. This token can be used to manage the user’s session and validate future requests. If the email or password is incorrect, the server will respond with an unauthorized error message.
 
 #### Endpoint:
 <details>
  <summary><code>POST</code> <code><b>/user/login</b></code> <code>Login existing user</code></summary>
 
-##### Request Body
+##### Headers
 
 | name     | type     | data type | description               |
 | -------- | -------- | --------- | ------------------------- |
-| username | required | string    | User's requested username |
+| username | required | string    | User's email              |
 | password | required | string    | Hashed password           |
 
 ##### Responses
 
 | http code | content-type       | response                                                                                                                           | description                          |
 | --------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| `200`     | `application/json` | `{"success": true, "user": { "username": string, "token": { "id": string, "exp": number: "createdAt": number, "token": string } }` | If username and password match       |
-| `401`     | `application/json` | `{"success": false, "error":"Unauthorized"}`                                                                                       | If username and passwords dont match |
+| `200`     | `application/json` | The user is logged in and redirected to the main page in the account they logged in with                                           | If username and password match       |
+| `401`     | `application/json` | An error message saying "Wrong Username and/or Password" pops up.                                                                  | If username and passwords dont match |
 
 </details>
+<br>
 
 #### Uploading images to the image board and/or images to be embedded with a hidden message.
 
 #### Uploading images to the image board as a general user
 
-#### Description:(enter here)
+This POST request allows a general user to upload an image to the image board.
+
+#### Authentication:
+The user must provide a valid image file in the request body to upload it to the image board as a general user. Upon successful upload, the server will generate a response containing a success message along with the URL of the uploaded image. This URL can be used to access the image on the board. If the image format is invalid, the server will respond with an error message indicating the upload failure
 
 #### Endpoint:
 <details>
@@ -781,22 +689,25 @@ After a privileged user submits a key for an embedded image, this GET request ve
 
 ##### Responses
 
-| http code | content-type       | response                                              | description                            |
-| --------- | ------------------ | ----------------------------------------------------- | -------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "imageUrl": string}`               | If the image was uploaded successfully |
-| `400`     | `application/json` | `{"success": false, "error": "Invalid image format"}` | If the image upload failed             |
+| http code | content-type       | response                                                                                          | description                            |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `200`     | `application/json` | A message saying "Upload Succesful!" pops up then redirects user to the main page.                | If the image was uploaded successfully |
+| `400`     | `application/json` | A message saying "Upload Failed!" pops up                                                         | If the image upload failed             |
 
 </details>
 
 #### Uploading images to the image board to be embedded with a hidden message as a privileged user.
 
-#### Description:(enter here)
+This POST request allows a privileged user to upload an image to the image board, embedding a hidden message within the image.
+
+#### Authentication:
+The user must provide a valid image file and a message string in the request headers. Upon successful upload, the server will respond with a success message, including the URL of the uploaded image and the embedded message. If the image format is invalid, the server will respond with an error message indicating the upload failure.
 
 #### Endpoint:
 <details>
  <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board to be embedded with a hidden message as a privileged user</code></summary>
 
-##### Request Body
+##### Headers
 
 | name    | type     | data type | description                          |
 | ------- | -------- | --------- | ------------------------------------ |
@@ -805,37 +716,12 @@ After a privileged user submits a key for an embedded image, this GET request ve
 
 ##### Responses
 
-| http code | content-type       | response                                                   | description                            |
-| --------- | ------------------ | ---------------------------------------------------------- | -------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "imageUrl": string, "message": string}` | If the image was uploaded successfully |
-| `400`     | `application/json` | `{"success": false, "error": "Invalid image format"}`      | If the image upload failed             |
+| http code | content-type       | response                                                                                                                                                                              | description                            |
+| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `200`     | `application/json` | A message saying "Upload & Embed Succesful!" along with the key assosciated with the picture below the message pops up, then redirects user to the main page when closing the pop up. | If the image was uploaded successfully |
+| `400`     | `application/json` | A message saying "Upload & Embed Failed!" pops up                                                                                                                                     | If the image upload failed             |
 
 </details>
-
-#### Liking an image(stretch goal).
-
-#### Description:(enter here)
-
-#### Endpoint:
-<details>
- <summary><code>POST</code> <code><b>/image/:id/like</b></code></summary>
-
-##### Request Body
-
-| name    | type     | data type | description                     |
-| ------- | -------- | --------- | ------------------------------- |
-| imageId | required | string    | The ID of the image being liked |
-
-##### Responses
-
-| http code | content-type       | response                                          | description                       |
-| --------- | ------------------ | ------------------------------------------------- | --------------------------------- |
-| `200`     | `application/json` | `{"success": true, "message": "Liked"}`           | If the like action was successful |
-| `400`     | `application/json` | `{"success": false, "error": "Invalid image ID"}` | If the image ID is invalid        |
-
-</details>
-
-Our front-end utilizes the "Remix" framework, where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side.
 
 ## 7. User Account Design
 
