@@ -96,13 +96,12 @@ int main()
                             error_json["error"] = "Invalid JSON in metadata";
                             return crow::response(400, error_json);
                         }
+                        string fileExt = meta["ext"].s();
                         string fileName = to_string(random) + "." + fileExt;
                         string filePath = "./static/" + fileName;
-                        string fileExt = meta["ext"].s();
-                        string fileName =meta["name"].s();
                         int fileSize= meta["size"].i();
-                        unsigned char* convertedData[fileSize+1];
-                        strcpy(convertedData, fileData.c_str());
+                        unsigned char convertedData[fileSize+1];
+                        memcpy(convertedData, fileData.c_str(), fileSize+1);
                         image* imgptr=new image(convertedData,static_cast<long long unsigned int>(fileSize) ,fileExt);
                         //modify image with payload here if permission granted and desired
                         imgptr->write_image(filePath);
