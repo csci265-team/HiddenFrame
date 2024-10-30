@@ -14,7 +14,7 @@ test: image_class.o test_image_io.o
 	g++ -o test/test_image_io build/image_class.o test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
 
 test_image_io.o: include/hiddenframe_headers.h
-		g++ -c test/test_image_io.cpp -o test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
+	g++ -c test/test_image_io.cpp -o test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
 
 macos: all
 
