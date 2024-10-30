@@ -50,7 +50,7 @@ int main()
 
                 string fileData;       // @patrick: this is the image data
                 string metaDataString; // @patrick: this is of format { name: string, size: int, ext: string }, size is file size, ext is file extension
-                string message;        // this will remain uninitialized if not no message sent from frontend
+                string message;        // this will remain uninitialized if no message sent from frontend (FUTURE: it'll be uninitialized if no/invalid token provided)
 
                 auto content_type = req.get_header_value("Content-Type");
 
