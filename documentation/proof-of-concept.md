@@ -47,6 +47,8 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
 
 ## 1. Core Technical Challenges
 
+### 1.1. Implementing Frontend
+
 ### 1.2. Image Manipulation
 
 ### 1.3. Interconnectivity between Frontend and Backend
