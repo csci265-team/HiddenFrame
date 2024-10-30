@@ -7,6 +7,8 @@
 
 using namespace std;
 
+const string BASE_API_URL = "http://localhost:8080";
+
 int main()
 {
     crow::App<crow::CORSHandler> app;
@@ -21,7 +23,6 @@ int main()
             []()
             {
                 string staticPath = "./static";
-                string baseUrl = "http://localhost:8080/static/";
                 vector<crow::json::wvalue> photos;
 
                 for (const auto &entry : filesystem::directory_iterator(staticPath))
@@ -30,7 +31,7 @@ int main()
                     string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
                     crow::json::wvalue photo;
                     photo["id"] = id;
-                    photo["url"] = baseUrl + filename;
+                    photo["url"] = BASE_API_URL + "/static/" + filename;
                     photos.push_back(photo);
                 }
 
@@ -50,6 +51,7 @@ int main()
 
                 string fileData;       // @patrick: this is the image data
                 string metaDataString; // @patrick: this is of format { name: string, size: int, ext: string }, size is file size, ext is file extension
+                string message;        // this will remain uninitialized if no message sent from frontend (FUTURE: it'll be uninitialized if no/invalid token provided)
 
                 auto content_type = req.get_header_value("Content-Type");
 
@@ -59,7 +61,7 @@ int main()
 
                     auto filePart = msg.get_part_by_name("file");
                     auto metaPart = msg.get_part_by_name("meta");
-                    // TODO auto metaPart = msg.get_part_by_name("message");
+                    auto messagePart = msg.get_part_by_name("message");
 
                     if (!filePart.body.empty())
                     {
@@ -85,6 +87,11 @@ int main()
                         return crow::response(400, error_json);
                     }
 
+                    if (!messagePart.body.empty())
+                    {
+                        message = messagePart.body;
+                    }
+
                     try
                     {
                         auto meta = crow::json::load(metaDataString);
@@ -108,7 +115,7 @@ int main()
 
                             crow::json::wvalue success_json;
                             success_json["success"] = true;
-                            success_json["url"] = "http://localhost:8080/static/" + fileName;
+                            success_json["url"] = BASE_API_URL + "/static/" + fileName;
                             return crow::response(200, success_json);
                         }
                         else
