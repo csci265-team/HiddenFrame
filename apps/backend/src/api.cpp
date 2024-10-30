@@ -7,6 +7,8 @@
 
 using namespace std;
 
+const string BASE_API_URL = "http://localhost:8080";
+
 int main()
 {
     crow::App<crow::CORSHandler> app;
@@ -21,7 +23,6 @@ int main()
             []()
             {
                 string staticPath = "./static";
-                string baseUrl = "http://localhost:8080/static/";
                 vector<crow::json::wvalue> photos;
 
                 for (const auto &entry : filesystem::directory_iterator(staticPath))
@@ -30,7 +31,7 @@ int main()
                     string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
                     crow::json::wvalue photo;
                     photo["id"] = id;
-                    photo["url"] = baseUrl + filename;
+                    photo["url"] = BASE_API_URL + "/static/" + filename;
                     photos.push_back(photo);
                 }
 
@@ -114,7 +115,7 @@ int main()
 
                             crow::json::wvalue success_json;
                             success_json["success"] = true;
-                            success_json["url"] = "http://localhost:8080/static/" + fileName;
+                            success_json["url"] = BASE_API_URL + "/static/" + fileName;
                             return crow::response(200, success_json);
                         }
                         else
