@@ -69,7 +69,12 @@ By combining a REST API on the back end with a full-stack web framework on the f
 #### 3.1.1. API Compatability
 #### 3.1.2. CSS Framework
 ### 3.2. Image In and Out Operations
-### 3.3. Determining API SMTH
+### 3.3. API Integration
+Due to our system's back end being written in C++ and our front end using a JavaScript framework, we decided to utilize an API server built with the "Crow" framework for creating HTTP and WebSocket web services. We considered other C++ back-end frameworks, such as Boost.Beast, Pistache, and CppCMS, but chose Crow for its lightweight and fast performance, user-friendly design with a smaller learning curve, native support for multithreading, and built-in JSON and WebSocket handling.
+
+For our front end, we opted for the "Remix" framework because of its advanced data-fetching capabilities and modern UI management (expand here with additional reasons for choosing Remix over other frameworks). Using the web "fetch API," we can efficiently handle data requests from both the client and server sides.
+
+With Crow's high-performance, minimalistic approach and Remix's strengths in data management and user interface design, these frameworks form an optimal combination for efficient HTTP requests and delivering a responsive, modern user experience.
 ## 4. Assessment of Proof Of Concept
 ### 4.1. Assessment of Frontend
 ### 4.2. Assessment of Backend
