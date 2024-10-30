@@ -50,6 +50,7 @@ int main()
 
                 string fileData;       // @patrick: this is the image data
                 string metaDataString; // @patrick: this is of format { name: string, size: int, ext: string }, size is file size, ext is file extension
+                string message;        // this will remain uninitialized if not no message sent from frontend
 
                 auto content_type = req.get_header_value("Content-Type");
 
@@ -59,7 +60,7 @@ int main()
 
                     auto filePart = msg.get_part_by_name("file");
                     auto metaPart = msg.get_part_by_name("meta");
-                    // TODO auto metaPart = msg.get_part_by_name("message");
+                    auto messagePart = msg.get_part_by_name("message");
 
                     if (!filePart.body.empty())
                     {
@@ -83,6 +84,11 @@ int main()
                         error_json["success"] = false;
                         error_json["error"] = "No metadata found in the request";
                         return crow::response(400, error_json);
+                    }
+
+                    if (!messagePart.body.empty())
+                    {
+                        message = messagePart.body;
                     }
 
                     try
