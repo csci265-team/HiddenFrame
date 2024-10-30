@@ -87,6 +87,7 @@ int main()
 
                     try
                     {
+                        //image i/o here
                         auto meta = crow::json::load(metaDataString);
                         if (!meta)
                         {
@@ -97,6 +98,8 @@ int main()
                         }
 
                         string fileExt = meta["ext"].s();
+                        int fileSize= meta["size"].i();
+                        cout << fileExt << " " << fileSize << endl;
                         string fileName = to_string(random) + "." + fileExt;
 
                         string filePath = "./static/" + fileName;

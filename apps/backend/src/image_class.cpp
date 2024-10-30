@@ -19,11 +19,8 @@ image::image():width(0),height(0),channels(0),filetype(),original_image(nullptr)
 //regular constructor - image is already in the file system
 image::image(string filepath):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
     load_image(filepath);
-    if (original_image==nullptr){
-        throw std::invalid_argument("Image could not be opened");
-    }
 };
-//regular constructor - data bassed by API server
+//regular constructor - data passed by API server
 image::image(const unsigned char* Data, long long unsigned int length, string ext):width(0),height(0),channels(0),filetype(ext),original_image(nullptr), modified_image(nullptr){
     original_image=stbi_load_from_memory(Data,static_cast<int>(length),&width,&height,&channels,0);
     if (original_image==nullptr){
@@ -47,7 +44,7 @@ void image::load_image(string filepath) {
     int ioWidth, ioHeight, ioChannels;
     unsigned char* image_ptr = stbi_load(filepath.c_str(), &ioWidth, &ioHeight, &ioChannels, 0);
     if (image_ptr==nullptr){
-        throw std::invalid_argument("Image could not be opened");
+        throw std::invalid_argument("Image could not be opened - "+string(stbi_failure_reason()));
     }
     width=ioWidth;
     height=ioHeight;
