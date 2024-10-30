@@ -87,7 +87,7 @@ int main()
 
                     try
                     {
-                        //image i/o here
+                        // image i/o here
                         auto meta = crow::json::load(metaDataString);
                         if (!meta)
                         {
@@ -99,16 +99,20 @@ int main()
                         string fileExt = meta["ext"].s();
                         string fileName = to_string(random) + "." + fileExt;
                         string filePath = "./static/" + fileName;
-                        int fileSize= meta["size"].i();
-                        unsigned char convertedData[fileSize+1];
-                        memcpy(convertedData, fileData.c_str(), fileSize+1);
-                        image* imgptr=new image(convertedData,static_cast<long long unsigned int>(fileSize) ,fileExt);
-                        //modify image with payload here if permission granted and desired
+
+                        int fileSize = meta["size"].i();
+                        cout << fileSize + 1 << endl;
+                        std::vector<unsigned char> convertedData(fileSize + 1);
+
+                        memcpy(convertedData.data(), fileData.c_str(), fileSize + 1);
+                        image *imgptr = new image(convertedData.data(), fileSize, fileExt);
+
+                        // modify image with payload here if permission granted and desired
                         imgptr->write_image(filePath);
                         crow::json::wvalue success_json;
-                            success_json["success"] = true;
-                            success_json["url"] = "http://localhost:8080/static/" + fileName;
-                            return crow::response(200, success_json);
+                        success_json["success"] = true;
+                        success_json["url"] = "http://localhost:8080/static/" + fileName;
+                        return crow::response(200, success_json);
 
                         // ofstream outputFile(filePath, ios::out | ios::binary);
                         // if (outputFile)
@@ -116,7 +120,6 @@ int main()
                         //     outputFile << fileData;
                         //     outputFile.close();
 
-                            
                         // }
                         // else
                         // {
