@@ -58,6 +58,7 @@ Since we need to manipulate specific channels of the pixels in the image, and al
 #### 2.1.1 Interactivity
 #### 2.1.2 Reactivity
 ### 2.2. Metrics for Image Manipulation
+There are two primary metrics for successful image manipulation. The first is the integrity of the payload message. Anything less that 100% successful encoding and decoding of data will result in corruption of the payload. The second important metric for image manipulation is the visible difference between an encodeded and unecoded image. Our target here is that an encoded image is not significantly visibly different; we shall consider this to be successful if a user cannot distinguish between an encoded and unencoded image.
 ### 2.3. Metrics for Connectivity
 ## 3. Code Required to Meet Challenges
 ### 3.1. Determining Frontend Framework
