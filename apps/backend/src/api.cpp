@@ -20,14 +20,14 @@ int main()
         .methods(crow::HTTPMethod::GET)(
             []()
             {
-                std::string staticPath = "./static";
-                std::string baseUrl = "http://localhost:8080/static/";
-                std::vector<crow::json::wvalue> photos;
+                string staticPath = "./static";
+                string baseUrl = "http://localhost:8080/static/";
+                vector<crow::json::wvalue> photos;
 
-                for (const auto &entry : std::filesystem::directory_iterator(staticPath))
+                for (const auto &entry : filesystem::directory_iterator(staticPath))
                 {
-                    std::string filename = entry.path().filename().string();
-                    std::string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
+                    string filename = entry.path().filename().string();
+                    string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
                     crow::json::wvalue photo;
                     photo["id"] = id;
                     photo["url"] = baseUrl + filename;
@@ -53,7 +53,7 @@ int main()
 
                 auto content_type = req.get_header_value("Content-Type");
 
-                if (content_type.find("multipart/form-data") != std::string::npos)
+                if (content_type.find("multipart/form-data") != string::npos)
                 {
                     crow::multipart::message msg(req);
 
@@ -122,7 +122,7 @@ int main()
                             return crow::response(500, error_json);
                         }
                     }
-                    catch (const std::exception &e)
+                    catch (const exception &e)
                     {
                         crow::json::wvalue error_json;
                         error_json["success"] = false;
