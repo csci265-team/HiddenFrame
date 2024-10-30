@@ -547,8 +547,8 @@ This GET request retrieves the first 100 images that is diplayed in the Image gr
 
 | http code | content-type       | response                                              | description                                     |
 | --------- | ------------------ | ----------------------------------------------------- | ----------------------------------------------- |
-| `200`     | `application/json` | The first 100 images appear                           | If a valid `Client-ID <clientID>` is recognized |
-| `401`     | `application/json` | An error message pops up saying "An error has occured | If a `Client-ID <clientID>` is invalid          | 
+| `200`     | `application/json` | The first 100 images appear                           | If a valid bearer token is recognized |
+| `401`     | `application/json` | An error message pops up saying "An error has occured | If token is invalid                   | 
 
 </details>
 <br>
