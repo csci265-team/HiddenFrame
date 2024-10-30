@@ -667,7 +667,7 @@ This POST request allows general and privileged users to upload an image to the 
 | name    | type     | data type | description                                         |
 | ------- | -------- | --------- | --------------------------------------------------- |
 | image   | required | file      | Image file to be uploaded                           |
-| message | optional | file      | message to be embeded,exclusive to privileged users |
+| message | optional | file      | message to be embeded,exclusive to privileged users,(will only be checked if Authorization header is provided) |
 
 ##### Responses
 
