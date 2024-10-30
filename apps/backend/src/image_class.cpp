@@ -218,12 +218,16 @@ void image::write_image(string filename)
     strcpy(convertedFilename, filename.c_str());
     if (filetype=="png" || filetype=="jpg"){
         stbi_write_png(convertedFilename, width, height, channels, modified_image,width*channels);
+        //check for stbi_write_errors
+        cout << "writing image to file was successful." << endl;
     }
     else if (filetype=="bmp"){
         stbi_write_bmp(convertedFilename, width, height, channels, modified_image);
+        cout << "writing image to file was successful." << endl;
     }
     else if (filetype=="tga"){
         stbi_write_tga(convertedFilename, width, height, channels, modified_image);
+        cout << "writing image to file was successful." << endl;
     }
     else{
         throw std::invalid_argument("Invalid file type");        

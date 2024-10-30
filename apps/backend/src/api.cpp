@@ -96,31 +96,36 @@ int main()
                             error_json["error"] = "Invalid JSON in metadata";
                             return crow::response(400, error_json);
                         }
-
-                        string fileExt = meta["ext"].s();
-                        int fileSize= meta["size"].i();
-                        cout << fileExt << " " << fileSize << endl;
                         string fileName = to_string(random) + "." + fileExt;
-
                         string filePath = "./static/" + fileName;
-                        ofstream outputFile(filePath, ios::out | ios::binary);
-                        if (outputFile)
-                        {
-                            outputFile << fileData;
-                            outputFile.close();
-
-                            crow::json::wvalue success_json;
+                        string fileExt = meta["ext"].s();
+                        string fileName =meta["name"].s();
+                        int fileSize= meta["size"].i();
+                        unsigned char* convertedData[fileSize+1];
+                        strcpy(convertedData, fileData.c_str());
+                        image* imgptr=new image(convertedData,static_cast<long long unsigned int>(fileSize) ,fileExt);
+                        //modify image with payload here if permission granted and desired
+                        imgptr->write_image(filePath);
+                        crow::json::wvalue success_json;
                             success_json["success"] = true;
                             success_json["url"] = "http://localhost:8080/static/" + fileName;
                             return crow::response(200, success_json);
-                        }
-                        else
-                        {
-                            crow::json::wvalue error_json;
-                            error_json["success"] = false;
-                            error_json["error"] = "File writing failed";
-                            return crow::response(500, error_json);
-                        }
+
+                        // ofstream outputFile(filePath, ios::out | ios::binary);
+                        // if (outputFile)
+                        // {
+                        //     outputFile << fileData;
+                        //     outputFile.close();
+
+                            
+                        // }
+                        // else
+                        // {
+                        //     crow::json::wvalue error_json;
+                        //     error_json["success"] = false;
+                        //     error_json["error"] = "File writing failed";
+                        //     return crow::response(500, error_json);
+                        // }
                     }
                     catch (const exception &e)
                     {
