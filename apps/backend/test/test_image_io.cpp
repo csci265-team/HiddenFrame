@@ -37,10 +37,9 @@ int main(){
         //Simulate image passed by API
         vector<unsigned char> imageData = readFileToBuffer("../../resources/images/test/input/test_image_6.bmp");
         //cout << "Read " << imageData.size() << " bytes" << endl;
-        image* test4=new image(imageData.data(), static_cast<int>(imageData.size()));
+        image* test4=new image(imageData.data(), static_cast<int>(imageData.size()), "bmp");
         if (test4 != nullptr){
             cout << "Test 4 - image reading from simulated live stream - was successful." << endl;
-            //test4->filetype="bmp";
             //test4->displayImageProperties();
             //test4->write_image("../../resources/images/test/output/test_image_6.bmp");
         }

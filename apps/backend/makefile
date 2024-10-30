@@ -1,9 +1,5 @@
 all: build steganography.o image_class.o api.o
-	g++ -o build/HiddenFrame build/image_class.o build/steganography.o build/api.o ${CompilationOptions} ${CompilationWarnings}
-
-build:
-	mkdir -p build
-	mkdir -p static
+	g++ -o bin/HiddenFrame build/image_class.o build/steganography.o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h
 	g++ -c src/image_class.cpp -o build/image_class.o ${CompilationOptions}
@@ -20,24 +16,41 @@ test: image_class.o test_image_io.o
 test_image_io.o: include/hiddenframe_headers.h
 		g++ -c test/test_image_io.cpp -o test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
 
-
-macos: IncludePaths= -I include/ -I /opt/homebrew/include
 macos: all
 
-linux: IncludePaths= -I include/ -I /usr/local/include
 linux: all
 
-windows: IncludePaths= -I include/ -I  C:/msys64/ucrt64/include/asio/include
-windows: CompilationOptions= -ggdb -std=c++17 -lws2_32 -lmswsock ${IncludePaths}
 windows: all
 
-cleanStatic:
-	rm -rf static
-	mkdir static
+build:
+	$(MKDIR) build
+	$(MKDIR) static
+	$(MKDIR) bin
 
 clean:
-	rm -rf build
+	$(CLEAN_DIR) build
+	$(CLEAN_DIR) bin
+	$(CLEAN_DIR) static
 
-IncludePaths= -I include/ 
+IncludePath  ?= -I include/ 
 CompilationOptions= -ggdb -std=c++17 ${IncludePaths}
 CompilationWarnings=-Wall -Wextra
+
+OS := $(shell uname)
+ifeq ($(OS),Linux)
+	RM: = rm -rf
+	MKDIR: = mkdir -p
+	CLEAN_DIR := rm -rf static/*
+	IncludePaths+= -I include/ -I /usr/local/include
+else ifeq ($(OS),Darwin)
+	RM: = rm -rf
+	MKDIR: = mkdir -p
+	CLEAN_DIR := rm -rf static/*
+	IncludePaths+= -I include/ -I /opt/homebrew/include
+else
+	RM:=rmdir /s /q 
+	MKDIR:=mkdir
+	CLEAN_DIR := del /q static\*
+	IncludePaths+= -I include/ -I  C:/msys64/ucrt64/include/asio/include
+	CompilationOptions+=-lws2_32 -lmswsock
+endif

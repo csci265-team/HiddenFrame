@@ -24,7 +24,7 @@ image::image(string filepath):width(0),height(0),channels(0),filetype(),original
     }
 };
 //regular constructor - data bassed by API server
-image::image(const unsigned char* Data, long long unsigned int length):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
+image::image(const unsigned char* Data, long long unsigned int length, string ext):width(0),height(0),channels(0),filetype(ext),original_image(nullptr), modified_image(nullptr){
     original_image=stbi_load_from_memory(Data,static_cast<int>(length),&width,&height,&channels,0);
     if (original_image==nullptr){
         throw std::invalid_argument("Image could not be opened - "+string(stbi_failure_reason()));

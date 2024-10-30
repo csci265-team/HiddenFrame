@@ -11,7 +11,7 @@ class image{
     public:
         image();
         image(string filepath);
-        image(const unsigned char* Data, long long unsigned int);
+        image(const unsigned char* Data, long long unsigned int length, string ext);
         ~image();
         int width;
         int height;
@@ -21,10 +21,10 @@ class image{
         void modify_image(int n, string payload);
         string retrieve_payload(int n);
         void write_image(string filename);
-        unsigned char* original_image;
+        //unsigned char* original_image;
     private:
         void load_image(string filepath);
-        //unsigned char* original_image;
+        unsigned char* original_image;
         unsigned char* modified_image;
         //To find the multiplicative inverse of an element a from an Z_n group.
         long long findInverse(long long a, int n);
