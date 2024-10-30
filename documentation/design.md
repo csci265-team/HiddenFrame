@@ -58,6 +58,8 @@ Alternate contact person:
 
 1. We know that keys will have the format $a_1,b_1,a_2,b_2,...Gef$ with each $ab$ pair $mod \\; n=g$, where $n$ is the number of pixels in an image, $g$ is the skip size between pixel selections for modificantion and is a generator of $n$, $G$ is a terminating character, $e$ is the decimal number of hex characters in each $a_i$ or $b_i$, and $f$ is the decimal number of channels in the image. We still have yet to determine the length of the keys. For example, for larger values of $n$, the possible number of hex characters used to describe each $a_i$ and $b_i$ grows based on the randomly selected $a$ and its unique corresponding $b$ value. Therefore, keys with smaller $e$ values, could have more $ab$ pairs than keys with larger $e$ values. Thus, we will either need to find a way to standardize the length of a key or pick a range into which the lengths of a key must fall.
 
+2. [Routes](#61-routes) will be expanded upon to include more types of HTTP routes
+
 ## 2. Design Overview
 
 The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame:
@@ -443,6 +445,10 @@ We will be implementing Crow in the back-end and defining routes to handle HTTP 
 
 Our API server will also run authentication on privileged routes. We will be using JWT Token authentication for the same.
 
+###### Authorization:
+
+The user must provide a valid token. If the authorization is valid it continues with process and gives an appropriate response. If not, an error message will be displayed. 
+
 Represented below is the basic authentication flow assuming the user is already registered:
 
 ###### Authentication Requests
@@ -497,15 +503,11 @@ sequenceDiagram
 
 ### 6.2 Routes
 
-Atached below are a few planned routes including their `method`, `headers`, `body` (if applicable) and expected `response`
+Attached below are a few planned routes including their `method`, `headers`, `body` (if applicable) and expected `response`
 
 #### Process user invites
 
 This GET request retrieves the remaining invites allocated to the user. This information is stored within the user's profile data and displayed on the user's profile page. 
-
-#### Authorization:
-
-The user must provide a valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to retrieve the amount of invites. If the authorization is valid it displays the amount of invites in the user's profile page. If the authorization is invalid it displays an error message.
 
 #### Endpoint:
 <details>
@@ -531,9 +533,6 @@ The user must provide a valid `Client-ID` authorization token, formatted as `Cli
 
 This GET request retrieves the first 100 images that is diplayed in the Image grid in the Main Page.
 
-#### Authorization:
-The user must provide a valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to access the images. If the token is valid, the response will include the image data.
-
 #### Endpoint:
 <details>
  <summary><code>GET</code> <code><b>/images</b></code> <code>Get first 100 images</code></summary>
@@ -557,9 +556,6 @@ The user must provide a valid `Client-ID` authorization token, formatted as `Cli
 #### Retrieve embedded images
 
 This GET request returns embedded images to be displayed in the image board along with other uploaded images that is diplayed to all users.
-
-#### Authorization:
-The user must provide a valid `Client-ID` authorization token, formatted as `Client-ID <clientID>`, is required to determine whether the user is a general or privileged user, embedded images having different designs/animations that are viewable by privileged users to differentiate between embedded images and regular images.
 
 #### Endpoint:
 <details>
@@ -586,9 +582,6 @@ The user must provide a valid `Client-ID` authorization token, formatted as `Cli
 
 This GET request allows a user to decode an embedded image with a key.
 
-#### Authorization:
-The user must provide a valid `Client-ID` authorization token, formatted as `Client-ID <clientID>` and a valid Key token, is required to authenticate the user and validate the key. If valid, the hidden payload within the image is returned; otherwise, an error message is provided. 
-
 #### Endpoint:
 <details>
 <summary><code>GET</code> <code><b>/images/decode</b></code> <code>Retrieve decoded images with embedded payload after key has been recognized.</code></summary>
@@ -613,9 +606,6 @@ The user must provide a valid `Client-ID` authorization token, formatted as `Cli
 #### Registering new user (email and password).
 
 This POST request allows for the registration of a new user by submitting the necessary information to the server. 
-
-#### Authentication: 
-The user must provide a valid invite ID, email, and hashed password in the request headers. Upon successful registration, the server will generate a response containing a success message along with a user object, which includes the username and an authentication token. This token can be used to manage the user's session and validate future requests. If the invite ID is invalid, the server will respond with an unauthorized error message.
 
 #### Endpoint:
 <details>
@@ -643,10 +633,6 @@ The user must provide a valid invite ID, email, and hashed password in the reque
 
 This POST request allows for the logging in of an existing user by submitting the necessary information to the server. 
 
-#### Authentication:
-
-The user must provide a valid email and hashed password in the request headers to log in. Upon successful login, the server will generate a response containing a success message and a user object, which includes the username and an authentication token. This token can be used to manage the user’s session and validate future requests. If the email or password is incorrect, the server will respond with an unauthorized error message.
-
 #### Endpoint:
 <details>
  <summary><code>POST</code> <code><b>/user/login</b></code> <code>Login existing user</code></summary>
@@ -668,60 +654,31 @@ The user must provide a valid email and hashed password in the request headers t
 </details>
 <br>
 
-#### Uploading images to the image board and/or images to be embedded with a hidden message.
+#### Uploading images to the image board 
 
-#### Uploading images to the image board as a general user
-
-This POST request allows a general user to upload an image to the image board.
-
-#### Authentication:
-The user must provide a valid image file in the request body to upload it to the image board as a general user. Upon successful upload, the server will generate a response containing a success message along with the URL of the uploaded image. This URL can be used to access the image on the board. If the image format is invalid, the server will respond with an error message indicating the upload failure
+This POST request allows general and privileged users to upload an image to the image board. 
 
 #### Endpoint:
 <details>
- <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a general user</code></summary>
+ <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board </code></summary>
 
 ##### Request Body
 
-| name  | type     | data type | description               |
-| ----- | -------- | --------- | ------------------------- |
-| image | required | file      | Image file to be uploaded |
+| name    | type     | data type | description                                         |
+| ------- | -------- | --------- | --------------------------------------------------- |
+| image   | required | file      | Image file to be uploaded                           |
+| message | optional | file      | message to be embeded,exclusive to privileged users |
 
 ##### Responses
 
 | http code | content-type       | response                                                                                          | description                            |
-| --------- | ------------------ | ------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `200`     | `application/json` | A message saying "Upload Succesful!" pops up then redirects user to the main page.                | If the image was uploaded successfully |
+| --------------- | ------------------ | ------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| `200`           | `application/json` | A message saying "Upload Succesful!" pops up then redirects user to the main page.                | If the image was uploaded successfully |
+| `200`(embedding)| `application/json` | A message saying "Upload and embed Succesful!" pops up then redirects user to the main page.                | If the image and message was uploaded and embedded successfully |
 | `400`     | `application/json` | A message saying "Upload Failed!" pops up                                                         | If the image upload failed             |
 
 </details>
 
-#### Uploading images to the image board to be embedded with a hidden message as a privileged user.
-
-This POST request allows a privileged user to upload an image to the image board, embedding a hidden message within the image.
-
-#### Authentication:
-The user must provide a valid image file and a message string in the request headers. Upon successful upload, the server will respond with a success message, including the URL of the uploaded image and the embedded message. If the image format is invalid, the server will respond with an error message indicating the upload failure.
-
-#### Endpoint:
-<details>
- <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board to be embedded with a hidden message as a privileged user</code></summary>
-
-##### Headers
-
-| name    | type     | data type | description                          |
-| ------- | -------- | --------- | ------------------------------------ |
-| image   | required | file      | Image file to be uploaded            |
-| message | required | string    | Hidden message to embed within image |
-
-##### Responses
-
-| http code | content-type       | response                                                                                                                                                                              | description                            |
-| --------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `200`     | `application/json` | A message saying "Upload & Embed Succesful!" along with the key assosciated with the picture below the message pops up, then redirects user to the main page when closing the pop up. | If the image was uploaded successfully |
-| `400`     | `application/json` | A message saying "Upload & Embed Failed!" pops up                                                                                                                                     | If the image upload failed             |
-
-</details>
 
 ## 7. User Account Design
 
