@@ -187,7 +187,7 @@ string image::retrieve_payload(int n)
                 result=result+"000";
             }
             //if we got here then we are no longer reading the hidden message
-            //WenMay wish to add an escape sequence
+
             else{
                 return result;
             }

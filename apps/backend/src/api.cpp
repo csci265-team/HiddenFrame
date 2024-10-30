@@ -107,15 +107,20 @@ int main()
                         string fileName = to_string(random) + "." + fileExt;
                         string filePath = "./static/" + fileName;
 
-<<<<<<< HEAD
                         int fileSize = meta["size"].i();
                         cout << fileSize + 1 << endl;
                         std::vector<unsigned char> convertedData(fileSize + 1);
 
                         memcpy(convertedData.data(), fileData.c_str(), fileSize + 1);
                         image *imgptr = new image(convertedData.data(), fileSize, fileExt);
-
                         // modify image with payload here if permission granted and desired
+                        if (message != ""){
+                            //convert message to binary string
+                            string messageBN=strToBinary(message);
+                            //need to get the first param from Jeremy's functions
+                            imgptr->modify_image(2,messageBN);
+
+                        }
                         imgptr->write_image(filePath);
                         crow::json::wvalue success_json;
                         success_json["success"] = true;
@@ -136,20 +141,6 @@ int main()
                         //     error_json["error"] = "File writing failed";
                         //     return crow::response(500, error_json);
                         // }
-=======
-                            crow::json::wvalue success_json;
-                            success_json["success"] = true;
-                            success_json["url"] = BASE_API_URL + "/static/" + fileName;
-                            return crow::response(200, success_json);
-                        }
-                        else
-                        {
-                            crow::json::wvalue error_json;
-                            error_json["success"] = false;
-                            error_json["error"] = "File writing failed";
-                            return crow::response(500, error_json);
-                        }
->>>>>>> d21584fa8f51a1ee1aa2c7b85ffb48a4bcbfbefe
                     }
                     catch (const exception &e)
                     {
