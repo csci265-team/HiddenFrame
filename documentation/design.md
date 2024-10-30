@@ -58,6 +58,8 @@ Alternate contact person:
 
 1. We know that keys will have the format $a_1,b_1,a_2,b_2,...Gef$ with each $ab$ pair $mod \\; n=g$, where $n$ is the number of pixels in an image, $g$ is the skip size between pixel selections for modificantion and is a generator of $n$, $G$ is a terminating character, $e$ is the decimal number of hex characters in each $a_i$ or $b_i$, and $f$ is the decimal number of channels in the image. We still have yet to determine the length of the keys. For example, for larger values of $n$, the possible number of hex characters used to describe each $a_i$ and $b_i$ grows based on the randomly selected $a$ and its unique corresponding $b$ value. Therefore, keys with smaller $e$ values, could have more $ab$ pairs than keys with larger $e$ values. Thus, we will either need to find a way to standardize the length of a key or pick a range into which the lengths of a key must fall.
 
+2. [Routes](#61-routes) will be expanded upon to include more types of HTTP routes
+
 ## 2. Design Overview
 
 The following is a Top Level Data Flow Diagram that describes the overall design of HiddenFrame:
@@ -439,72 +441,18 @@ Since our system is written in C++ in its back-end and uses a JavaScript framewo
 
 We will be implementing Crow in the back-end and defining routes to handle HTTP GET and POST requests for sending and receiving data to and from the front-end.
 
-### 6.1 Authentication
+### 6.1 Routes
 
-Our API server will also run authentication on privileged routes. We will be using JWT Token authentication for the same.
+Our API server will use HTTP routes to serve different backend functions to the front end. We will primarily use GET and POST requests to send and receive information between the client-side and server. While also using a few PATCH and DELETE routes to provide complex functionality.
 
-Represented below is the basic authentication flow assuming the user is already registered:
-
-###### Authentication Requests
-
-```mermaid
----
-Title: Authentication Token generation flow
----
-sequenceDiagram
-    participant User
-    participant API Server
-    participant Authentication module
-
-    User->>API Server: Attempts login with username and password
-    API Server->>Authentication module: Identity needs to be validated
-    Authentication module->>API Server: Validation Succeeds, token is returned
-    API Server->>User: Token is returned
-
-    Authentication module-->>API Server: Validation Fails, Error is returned
-    API Server-->>User: Error is returned
-```
-
-Represented below is the basic flow for accessing API routes, both privileged and non-privileged:
-
-###### API Access
-
-```mermaid
----
-Title: Route authentication flow
----
-sequenceDiagram
-    participant User
-    participant API Server
-    participant Authentication module
-    participant Backend
-
-    User->>API Server: Requests private data
-    API Server->>Authentication module: Identity needs to be validated
-    Authentication module->>Backend: Validation Succeeds, data is fetched based on request (valid auth token found in header)
-    Backend->>API Server: Data is returned
-    API Server->>User: Data is returned
-
-    Authentication module-->>API Server: Validation Fails, Error is returned (no token or inavlid token)
-    API Server-->>User: Error is returned
-
-
-    User->>API Server: Requests public data
-    API Server->>Backend: Data is fetched based on request
-    Backend->>API Server: Data is returned
-    API Server->>User: Data is returned
-```
-
-### 6.2 Routes
-
-GET requests to:
+Atached below are a few planned routes including their `method`, `headers`, `body` (if applicable) and expected `response`
 
 #### Process user invites
 
 <details>
  <summary><code>GET</code> <code><b>/user/invites</b></code> <code>Retreive number of remaining allowed invites for current privileged user</code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type     | data type | description                           |
 | ------------- | -------- | --------- | ------------------------------------- |
@@ -524,7 +472,7 @@ GET requests to:
 <details>
  <summary><code>GET</code> <code><b>/images</b></code> <code>Get first 100 images</code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type     | data type | description                                           |
 | ------------- | -------- | --------- | ----------------------------------------------------- |
@@ -544,7 +492,7 @@ GET requests to:
 <details>
 <summary><code>GET</code> <code><b>/images/keys</b></code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type     | data type | description                                           |
 | ------------- | -------- | --------- | ----------------------------------------------------- |
@@ -564,10 +512,10 @@ GET requests to:
 <details>
 <summary><code>GET</code> <code><b>/images/embedded</b></code> <code>Retrieve embedded data from an image</code></summary>
 
-##### Request Body
+##### Headers
 
-| name          | type     | data type | description                                                      |
-| ------------- | -------- | --------- | ---------------------------------------------------------------- |
+| name          | type     | data type | description                                                    |
+| ------------- | -------- | --------- | -------------------------------------------------------------- |
 | Authorization | optional | string    | If token provided and valid, embedded data will be in response |
 
 ##### Responses
@@ -584,7 +532,7 @@ GET requests to:
 <details>
 <summary><code>GET</code> <code><b>/images/decode/message</b></code> <code>Retrieve decoded images with embedded messages after key has been recognized.</code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type     | data type | description                                                      |
 | ------------- | -------- | --------- | ---------------------------------------------------------------- |
@@ -602,7 +550,7 @@ GET requests to:
 <details>
 <summary><code>GET</code> <code><b>/images/decode/image</b></code> <code>Retrieve decoded images with embedded image after key has been recognized. (stretch goal)</code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type     | data type | description                                                    |
 | ------------- | -------- | --------- | -------------------------------------------------------------- |
@@ -622,7 +570,7 @@ GET requests to:
 <details>
  <summary><code>GET</code> <code><b>/messages</b></code> <code>Get all messages sent to user</code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type     | data type | description                           |
 | ------------- | -------- | --------- | ------------------------------------- |
@@ -640,7 +588,7 @@ GET requests to:
 <details>
  <summary><code>GET</code> <code><b>/message/:id</b></code> <code>Retrieve a specific message sent to user</code></summary>
 
-##### Request Body
+##### Headers
 
 | name          | type     | data type | description                           |
 | ------------- | -------- | --------- | ------------------------------------- |
@@ -659,12 +607,6 @@ GET requests to:
 
 <details>
 <summary><code>GET</code> <code><b>/image/:id/likes</b></code></summary>
-
-##### Request Body
-
-| name          | type     | data type | description                                                 |
-| ------------- | -------- | --------- | ----------------------------------------------------------- |
-| Authorization | optional | string    | If token provided and valid, like count will be in response |
 
 ##### Responses
 
@@ -725,11 +667,18 @@ POST requests for:
 <details>
  <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a general user</code></summary>
 
+##### Headers
+
+| name          | type     | data type | description                                                                                             |
+| ------------- | -------- | --------- | ------------------------------------------------------------------------------------------------------- |
+| Authorization | optional | string    | A string containting the user's token, if valid token provided mesasge sent in the body will be encoded |
+
 ##### Request Body
 
-| name  | type     | data type | description               |
-| ----- | -------- | --------- | ------------------------- |
-| image | required | file      | Image file to be uploaded |
+| name    | type     | data type | description                                                                      |
+| ------- | -------- | --------- | -------------------------------------------------------------------------------- |
+| image   | required | file      | Image file to be uploaded                                                        |
+| message | required | string    | Mesasge to be encoded (will only be checked if Authorization header is provided) |
 
 ##### Responses
 
@@ -740,24 +689,6 @@ POST requests for:
 
 </details>
 
-<details>
- <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board as a privileged user</code></summary>
-
-##### Request Body
-
-| name    | type     | data type | description                          |
-| ------- | -------- | --------- | ------------------------------------ |
-| image   | required | file      | Image file to be uploaded            |
-| message | required | string    | Hidden message to embed within image |
-
-##### Responses
-
-| http code | content-type       | response                                                   | description                            |
-| --------- | ------------------ | ---------------------------------------------------------- | -------------------------------------- |
-| `200`     | `application/json` | `{"success": true, "imageUrl": string, "message": string}` | If the image was uploaded successfully |
-| `400`     | `application/json` | `{"success": false, "error": "Invalid image format"}`      | If the image upload failed             |
-
-</details>
 
 #### Liking an image(stretch goal).
 
@@ -780,6 +711,62 @@ POST requests for:
 </details>
 
 Our front-end utilizes the "Remix" framework, where we will leverage the web "fetch API" to handle fetching data from both the client side and the server side.
+
+### 6.2 Authentication
+
+Our API server will also run authentication on privileged routes. We will be using JWT Token authentication for the same.
+
+Represented below is the basic authentication flow assuming the user is already registered:
+
+###### Authentication Requests
+
+```mermaid
+---
+Title: Authentication Token generation flow
+---
+sequenceDiagram
+    participant User
+    participant API Server
+    participant Authentication module
+
+    User->>API Server: Attempts login with username and password
+    API Server->>Authentication module: Identity needs to be validated
+    Authentication module->>API Server: Validation Succeeds, token is returned
+    API Server->>User: Token is returned
+
+    Authentication module-->>API Server: Validation Fails, Error is returned
+    API Server-->>User: Error is returned
+```
+
+Represented below is the basic flow for accessing API routes, both privileged and non-privileged:
+
+###### API Access
+
+```mermaid
+---
+Title: Route authentication flow
+---
+sequenceDiagram
+    participant User
+    participant API Server
+    participant Authentication module
+    participant Backend
+
+    User->>API Server: Requests private data
+    API Server->>Authentication module: Identity needs to be validated
+    Authentication module->>Backend: Validation Succeeds, data is fetched based on request (valid auth token found in header)
+    Backend->>API Server: Data is returned
+    API Server->>User: Data is returned
+
+    Authentication module-->>API Server: Validation Fails, Error is returned (no token or inavlid token)
+    API Server-->>User: Error is returned
+
+
+    User->>API Server: Requests public data
+    API Server->>Backend: Data is fetched based on request
+    Backend->>API Server: Data is returned
+    API Server->>User: Data is returned
+```
 
 ## 7. User Account Design
 
