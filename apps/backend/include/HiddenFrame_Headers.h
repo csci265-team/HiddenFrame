@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 #ifndef hiddenframe_headers 
 #define hiddenframe_headers
 
@@ -10,16 +11,17 @@ class image{
     public:
         image();
         image(string filepath);
-        image(unsigned char* Data, long long unsigned int);
+        image(const unsigned char* Data, long long unsigned int length, string ext);
         ~image();
         int width;
         int height;
         int channels;
         string filetype;
         void displayImageProperties();
-        void modify_image(int n, int arr[], int arrSize);
+        void modify_image(int n, string payload);
         string retrieve_payload(int n);
         void write_image(string filename);
+        //unsigned char* original_image;
     private:
         void load_image(string filepath);
         unsigned char* original_image;
@@ -41,6 +43,7 @@ class image{
 
         //Compresses a string of binary bits into an array of integers with the format:
         //[3,1,2,0,4,1,...] that is to be read, "Three 1's, two 0's, four 1's..."
-        int* bitStringCompressor3Or4Channels(int channel, string toCompress, int width, int height);
+        vector<char> bitStringCompressor(int channels, string toCompress);
     };
+
 #endif

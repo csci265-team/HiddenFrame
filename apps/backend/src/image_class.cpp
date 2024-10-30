@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <iostream>
 #include <string>
+#include <vector>
 #include <hiddenframe_headers.h>
 
 
@@ -18,15 +19,12 @@ image::image():width(0),height(0),channels(0),filetype(),original_image(nullptr)
 //regular constructor - image is already in the file system
 image::image(string filepath):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
     load_image(filepath);
-    if (original_image==nullptr){
-        throw std::invalid_argument("Image could not be opened");
-    }
 };
-//regular constructor - data bassed by API server
-image::image(unsigned char* Data, long long unsigned int length):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
+//regular constructor - data passed by API server
+image::image(const unsigned char* Data, long long unsigned int length, string ext):width(0),height(0),channels(0),filetype(ext),original_image(nullptr), modified_image(nullptr){
     original_image=stbi_load_from_memory(Data,static_cast<int>(length),&width,&height,&channels,0);
     if (original_image==nullptr){
-        throw std::invalid_argument("Image could not be opened");
+        throw std::invalid_argument("Image could not be opened - "+string(stbi_failure_reason()));
     }
 };
 
@@ -46,7 +44,7 @@ void image::load_image(string filepath) {
     int ioWidth, ioHeight, ioChannels;
     unsigned char* image_ptr = stbi_load(filepath.c_str(), &ioWidth, &ioHeight, &ioChannels, 0);
     if (image_ptr==nullptr){
-        throw std::invalid_argument("Image could not be opened");
+        throw std::invalid_argument("Image could not be opened - "+string(stbi_failure_reason()));
     }
     width=ioWidth;
     height=ioHeight;
@@ -55,23 +53,24 @@ void image::load_image(string filepath) {
     return;
 }
 
-void image::modify_image(int n, int arr[], int arrSize)
+void image::modify_image(int n, string payload)
 {
     if (original_image==nullptr){
         throw "Original Image we are trying to modify is null";
     }
     modified_image=new unsigned char[channels*width*height];
     memcpy(modified_image,original_image, channels*width*height);
-    int k=0;
+    vector <char> vec=bitStringCompressor(channels,payload);
+    int k=0;//index for the vector will increment by 2 every time the loop executes
     for (int i=0; i < height; i++){
         for (int j=0; j < width; j+=n,k+=2){
             int index=(i*width+j)*channels;
             //we will land on only the pixel's we need to change
             //here we clean the pixel and change the LSB of the channel
             //case that we have a sequence of 1's
-            if(arr[k+1]==1){
+            if(vec[k+1]=='1'){
                 //need to modify channel 1
-                if (arr[k]==1)
+                if (vec[k]=='1')
                 {
                     modified_image[index] |= 1;
                     modified_image[index+1]&= ~1;
@@ -81,7 +80,7 @@ void image::modify_image(int n, int arr[], int arrSize)
                     }
                 }
                 //need to modify channel 2
-                else if (arr[k]==2)
+                else if (vec[k]=='2')
                 {
                     modified_image[index]&= ~1;
                     modified_image[index+1]|= 1;
@@ -91,7 +90,7 @@ void image::modify_image(int n, int arr[], int arrSize)
                     }
                 }
                 //need to modify channel 3
-                else if (arr[k]==3)
+                else if (vec[k]=='3')
                 {
                     modified_image[index]&= ~1;
                     modified_image[index+1]&= ~1;
@@ -110,7 +109,7 @@ void image::modify_image(int n, int arr[], int arrSize)
             }
             //we have a sequence of 0's
             else{
-                if(arr[k]==1){
+                if(vec[k]=='1'){
                     modified_image[index] &= ~1;
                     modified_image[index+1]|= 1;
                     modified_image[index+2]|= 1;
@@ -119,7 +118,7 @@ void image::modify_image(int n, int arr[], int arrSize)
                     }
                 }
                 //need to modify channel 2
-                else if(arr[k]==2)
+                else if(vec[k]=='2')
                 {
                     modified_image[index]|= 1;
                     modified_image[index+1]&= ~1;
@@ -129,7 +128,7 @@ void image::modify_image(int n, int arr[], int arrSize)
                     }
                 }
                 //need to modify channel 3
-                else if (arr[k]==3)
+                else if (vec[k]=='3')
                 {
                     modified_image[index]|= 1;
                     modified_image[index+1]|= 1;
@@ -146,7 +145,7 @@ void image::modify_image(int n, int arr[], int arrSize)
                 modified_image[index+3]&= ~1;
                 }
             }
-            if (k >= (arrSize-2)){
+            if (k >= vec.size()){
                 return;
             }
         }
@@ -219,16 +218,36 @@ void image::write_image(string filename)
     strcpy(convertedFilename, filename.c_str());
     if (filetype=="png" || filetype=="jpg"){
         stbi_write_png(convertedFilename, width, height, channels, modified_image,width*channels);
+        //check for stbi_write_errors
+        cout << "writing image to file was successful." << endl;
     }
     else if (filetype=="bmp"){
         stbi_write_bmp(convertedFilename, width, height, channels, modified_image);
+        cout << "writing image to file was successful." << endl;
     }
     else if (filetype=="tga"){
         stbi_write_tga(convertedFilename, width, height, channels, modified_image);
+        cout << "writing image to file was successful." << endl;
     }
     else{
         throw std::invalid_argument("Invalid file type");        
     }
+}
+
+vector<char> image::bitStringCompressor(int channels, string toCompress){
+    vector <char> vec;
+    int count=1;
+    for(int i=0; i < toCompress.length(); i+=count){
+        count=1;
+        char value=toCompress[i];
+        while ( count < channels && toCompress[i+count]==value){
+            count++;
+        }
+        vec.push_back(static_cast<char>(count+'0'));
+        vec.push_back(value);
+    }
+    vec.shrink_to_fit();
+    return vec;
 }
 
 /**
