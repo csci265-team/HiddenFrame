@@ -56,10 +56,13 @@ No one on our team had past experience with progromatic image manipulation. This
 ## 2. Metrics to Determine Challenge Completion
 
 ### 2.1. Metrics for User Experience
+The HiddenFrame project is divided into two major parts in terms of front-end. Displaying/Uploading images with or without embedded message (note, that it is crucial for both types of images to be displayed identically in terms of quality, color accuracy, and resolution), and the rest of UI, which includes seamless and comprehensive workflow experience for users and navigation with ease.
 
-#### 2.1.1 Interactivity
+#### 2.1.1 Image Display/Upload
+For the image display and upload feature, as mentioned above, success will be measured by the frontend’s ability to handle and visually present both encoded and unencoded images with no perceptible differences in quality, color accuracy, or resolution. The goal is to ensure that images embedded with hidden messages appear identical to standard images, maintaining visual integrity. Additionally, the upload process should be straightforward and intuitive, allowing users to easily upload images without experiencing interface disruptions, errors, or quality degradation post-upload.
 
-#### 2.1.2 Reactivity
+#### 2.1.2 User Interface
+The UI aims to provide a seamless, intuitive experience that guides users effortlessly through the app’s functionality. Success in this metric will be determined by how easily users can navigate between core features (such as browsing, uploading, and encoding/decoding images) without confusion. The interface should be responsive, providing immediate visual feedback to user actions, such as confirmations for uploads and clear indicators of progress. The UI should also be free of unnecessary complexity, ensuring that users find it easy to complete tasks, even on their first use.
 
 ### 2.2. Metrics for Image Manipulation
 
@@ -109,6 +112,17 @@ This approach promotes reusability and reduces redundancy. We won't have to go a
 ## 4. Assessment of Proof Of Concept
 
 ### 4.1. Assessment of Frontend
+
+1. Image Display/Upload Evaluation:
+	 - Visual Integrity: The frontend has been assessed to determine if it can display encoded and unencoded images with no discernible visual differences. The quality, color accuracy, and resolution are confirmed to be consistent across both types, indicating successful handling of image display requirements.
+	 - Upload Process: Initial testing of the upload process shows that users can upload images without issues or visible quality degradation. 
+
+2.	User UI Evaluation:
+	- Navigation and Accessibility: The primary UI components, including navigation between the main features (image upload, encoding, and scrolling), were tested to ensure they provide a smooth, intuitive experience. 
+	- Responsiveness and Feedback: Interactive elements (buttons, notifications) provide immediate feedback, contributing to a responsive and engaging user experience. 
+
+3.	Challenges Identified:
+	- Load Times: The UI responsiveness is satisfactory in most cases, but load times for displaying images might need optimization in the final implementation.
 
 ### 4.2. Assessment of Backend
 Jeremy
