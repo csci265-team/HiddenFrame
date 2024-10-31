@@ -44,8 +44,12 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
     - 1.2. [Image Manipulation](#12-image-manipulation)
     - 1.3. [Interconnectivity between Frontend and Backend](#13-interconnectivity-between-frontend-and-backend)
 2.  [Metrics to Determine Challenge Completion](#2-metrics-to-determine-challenge-completion)
+    - 2.1. [Metrics for User Experience](#21-metrics-for-user-experience)
+        - 2.1.1. [Image Display/Upload](#211-image-displayupload)
+        - 2.1.2. [User Interface](#212-user-interface)
 3.  [Code Required to Meet Challenges](#3-code-required-to-meet-challenges)
 4.  [Assessment of Proof Of Concept](#4-assessment-of-proof-of-concept)
+    - 4.1. [Assessment of Frontend](#41-assessment-of-frontend)
 5.  [Glossary](#5-glossary)
 
 ## 1. Core Technical Challenges
@@ -73,10 +77,13 @@ By combining a REST API on the back end with a full-stack web framework on the f
 ## 2. Metrics to Determine Challenge Completion
 
 ### 2.1. Metrics for User Experience
+The HiddenFrame project is divided into two major parts in terms of front-end. Displaying/Uploading images with or without embedded message (note, that it is crucial for both types of images to be displayed identically in terms of quality, color accuracy, and resolution), and the rest of UI, which includes seamless and comprehensive workflow experience for users and navigation with ease.
 
-#### 2.1.1 Interactivity
+#### 2.1.1. Image Display/Upload
+For the image display and upload feature, as mentioned above, success will be measured by the frontend’s ability to handle and visually present both encoded and unencoded images with no perceptible differences in quality, color accuracy, or resolution. The goal is to ensure that images embedded with hidden messages appear identical to standard images, maintaining visual integrity. Additionally, the upload process should be straightforward and intuitive, allowing users to easily upload images without experiencing interface disruptions, errors, or quality degradation post-upload.
 
-#### 2.1.2 Reactivity
+#### 2.1.2. User Interface
+The UI aims to provide a seamless, intuitive experience that guides users effortlessly through the app’s functionality. Success in this metric will be determined by how easily users can navigate between core features (such as scrolling, uploading, and encoding/decoding images) without confusion. The interface should be responsive, providing immediate visual feedback to user actions, such as confirmations for uploads and clear indicators of progress. The UI should also be free of unnecessary complexity, ensuring that users find it easy to complete tasks, even on their first use.
 
 ### 2.2. Metrics for Image Manipulation
 There are two primary metrics for successful image manipulation. The first is the integrity of the payload message. Anything less that 100% successful encoding and decoding of data will result in corruption of the payload. The second important metric for image manipulation is the visible difference between an encodeded and unecoded image. Our target here is that an encoded image is not significantly visibly different; we shall consider this to be successful if a user cannot distinguish between an encoded and unencoded image.
@@ -135,6 +142,17 @@ With Crow's high-performance, minimalistic approach and Remix's strengths in dat
 ## 4. Assessment of Proof Of Concept
 
 ### 4.1. Assessment of Frontend
+
+1. Image Display/Upload Evaluation:
+	- Visual Integrity: The frontend generally displays encoded and unencoded images with no discernible visual differences, maintaining quality, color accuracy, and resolution.
+	- Upload Process: Initial testing of the upload process shows that users can upload images without issues or visible quality degradation. 
+
+2. User UI Evaluation:
+	- Navigation and Accessibility: The primary UI components, including navigation between the main features (image upload, encoding, and scrolling), were tested to ensure they provide a smooth, intuitive experience. 
+	- Responsiveness and Feedback: Interactive elements (buttons, notifications) provide immediate feedback, contributing to a responsive and engaging user experience. 
+
+3. Challenges Identified:
+	- Load Times: The UI responsiveness is satisfactory in most cases, but load times for displaying images might need optimization in the final implementation.
 
 ### 4.2. Assessment of Backend
 
