@@ -635,7 +635,7 @@ This POST request allows general and privileged users to upload an image to the 
 
 | name          | type     | data type | description                                                                                                            |
 | ------------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Authorization | required | string    | If token is valid, the user will be prompted to upload an image file (general user) and message (privileged user only) |
+| Authorization | optional | string    | If token is valid, the user will be prompted to upload an image file (general user) and message (privileged user only) |
 
 ##### Request Body
 
