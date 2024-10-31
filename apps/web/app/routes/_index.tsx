@@ -92,7 +92,8 @@ export default function Index() {
                   <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
                 </a>
                 {photo.payload && <p>{photo.payload}</p>}
-                {photo.resolved_payload && <p>{photo.resolved_payload}</p>}
+                {  photo.resolved_payload && <p>{photo.resolved_payload}</p>
+                }
               </div>
             ))}
         </div>
