@@ -22,9 +22,9 @@ int main()
         .methods(crow::HTTPMethod::GET)(
             []()
             {
-                std::string staticPath = "./static";
+                string staticPath = "./static";
                 //std::string baseUrl = "http://127.0.0.1:8080/static/"; // Code for Artem. Does not work for me otherwise
-                std::vector<crow::json::wvalue> photos;
+                vector<crow::json::wvalue> photos;
 
                 for (const auto &entry : filesystem::directory_iterator(staticPath))
                 {
