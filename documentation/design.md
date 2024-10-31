@@ -653,6 +653,7 @@ This POST request allows general and privileged users to upload an image to the 
 | `400`           | `application/json` | A message saying "Upload Failed!" pops up                                                         | If the image upload failed                                      |
 
 </details>
+<br>
 
 #### Decode embedded image with a hidden payload
 
