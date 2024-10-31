@@ -51,6 +51,7 @@ Assessing the results of the proof-of-concept and any implications:
 ## 2. Metrics to Determine Challenge Completion
 ### 2.1. Metrics for User Experience
 #### 2.1.1 Interactivity
+
 #### 2.1.2 Reactivity
 ### 2.2. Metrics for Image Manipulation
 ### 2.3. Metrics for Connectivitiy
