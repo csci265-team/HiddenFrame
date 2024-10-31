@@ -100,7 +100,7 @@ void image::modify_image(int n, string payload)
                     }
                 }
                 //need to modify channel 4
-                else{
+                else if (vec[k]=='4'){
                 modified_image[index]&= ~1;
                 modified_image[index+1]&= ~1;
                 modified_image[index+2]&= ~1;
@@ -138,14 +138,23 @@ void image::modify_image(int n, string payload)
                     }
                 }
                 //need to modify channel 4
-                else{
+                else if (vec[k]=='4'){
                 modified_image[index]|= 1;
                 modified_image[index+1]|= 1;
                 modified_image[index+2]|= 1;
                 modified_image[index+3]&= ~1;
                 }
             }
-            if (k >= vec.size()){
+            //write a stop pixel and return when we are done encoding
+            if (k >= vec.size()-2){
+                j+=n;
+                int index=(i*width+j)*channels;
+                modified_image[index] &= ~1;
+                modified_image[index+1]&= ~1;
+                modified_image[index+2]&= ~1;
+                if (channels==4){
+                    modified_image[index+3]&= ~1;
+                }
                 return;
             }
         }
@@ -155,44 +164,83 @@ void image::modify_image(int n, string payload)
 string image::retrieve_payload(int n)
 {
     if (original_image==nullptr){
-        throw "cannot retrive image is null";
+        throw std::runtime_error("cannot retrive image is null");
     }
     string result;
     int k=0;
     for (int i=0; i < height; i++){
         for (int j=0; j < width; j+=n,k+=2){
             int index=(i*width+j)*channels;
-            //check channel 1 and 1's
-            if((original_image[index] & 1) && !(original_image[index+1] & 1) && !(original_image[index+2] & 1)){
-                result=result+"1";
-            }
-              //check channel 1 and 0's
-            else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && (original_image[index+2] & 1)){
-                result=result+"0";
-            }
-            //check channel 2 and 1's
-            else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1)){
-                result=result+"11";
-            }
-            //check channel 2 and 0's
-            else if((original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1)){
-                result=result+"00";
-            }
-            //check channel 3 and 1's
-            else if(!(original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1)){
-                result=result+"111";
-            }
-            //check channel 3 and 0's
-            else if((original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1)){
-                result=result+"000";
-            }
-            //if we got here then we are no longer reading the hidden message
-
-            else{
-                return result;
+                if (channels==3){
+                    //check channel 1 and 1's
+                    if((original_image[index] & 1) && !(original_image[index+1] & 1) && !(original_image[index+2] & 1)){
+                        result=result+"1";
+                    }
+                    //check channel 1 and 0's
+                    else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && (original_image[index+2] & 1)){
+                        result=result+"0";
+                    }
+                    //check channel 2 and 1's
+                    else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1)){
+                        result=result+"11";
+                    }
+                    //check channel 2 and 0's
+                    else if((original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1)){
+                        result=result+"00";
+                    }
+                    //check channel 3 and 1's
+                    else if(!(original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1)){
+                        result=result+"111";
+                    }
+                    //check channel 3 and 0's
+                    else if((original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1)){
+                        result=result+"000";
+                    }
+                    //if we got here then we are no longer reading the hidden message
+                    else{
+                        return result;
+                    }
+                }
+                else if (channels==4){
+                                    //check channel 1 and 1's
+                    if((original_image[index] & 1) && !(original_image[index+1] & 1) && !(original_image[index+2] & 1) && !(original_image[index+3] & 1)){
+                        result=result+"1";
+                    }
+                    //check channel 1 and 0's
+                    else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && (original_image[index+2] & 1) && (original_image[index+3] & 1)){
+                        result=result+"0";
+                    }
+                    //check channel 2 and 1's
+                    else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1) && !(original_image[index+3] & 1)){
+                        result=result+"11";
+                    }
+                    //check channel 2 and 0's
+                    else if((original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1) && (original_image[index+3] & 1)){
+                        result=result+"00";
+                    }
+                    //check channel 3 and 1's
+                    else if(!(original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1) && !(original_image[index+3] & 1)){
+                        result=result+"111";
+                    }
+                    //check channel 3 and 0's
+                    else if((original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1) && (original_image[index+3] & 1)){
+                        result=result+"000";
+                    }
+                    //check channel 4 for 1's
+                    else if (!(original_image[index] & 1) && !(original_image[index+1] & 1) && !(original_image[index+2] & 1)&& (original_image[index+3] & 1)){
+                        result=result+"1111";
+                    }
+                    //check channel 4 for 0's
+                    else if ((original_image[index] & 1) && (original_image[index+1] & 1) && (original_image[index+2] & 1) && !(original_image[index+3] & 1)){
+                        result=result+"0000";
+                    }
+                    //if we got here then we are no longer reading the hidden message
+                    else{
+                        return result;
+                    }   
+                }
             }
         }
-    }
     return result;
 }
 

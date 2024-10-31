@@ -50,6 +50,8 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
 
 ## 1. Core Technical Challenges
 
+### 1.1. Implementing Frontend
+
 ### 1.2. Image Manipulation
 Our team did not initially have any foundational understanding of image manipulation. Dealing with images requires reading and interpreting not only the raw information but dealing with various file formats with their attendant headers/footers. 
 
