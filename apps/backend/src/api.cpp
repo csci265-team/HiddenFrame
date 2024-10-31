@@ -4,6 +4,7 @@
 #include <fstream>
 #include <filesystem>
 #include <string>
+#include <utils.h>
 
 using namespace std;
 
@@ -27,11 +28,17 @@ int main()
 
                 for (const auto &entry : filesystem::directory_iterator(staticPath))
                 {
+                    image *imgptr = new image(entry.path().string());
+                    string payload = imgptr->retrieve_payload(2);
+
                     string filename = entry.path().filename().string();
                     string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
+
                     crow::json::wvalue photo;
                     photo["id"] = id;
                     photo["url"] = BASE_API_URL + "/static/" + filename;
+                    //photo["payload"] = payload;
+                    photo["resolved_payload"] = binaryToString(payload);
                     photos.push_back(photo);
                 }
 
@@ -114,17 +121,17 @@ int main()
                         memcpy(convertedData.data(), fileData.c_str(), fileSize + 1);
                         image *imgptr = new image(convertedData.data(), fileSize, fileExt);
                         // modify image with payload here if permission granted and desired
-                        if (message != ""){
-                            //convert message to binary string
-                            string messageBN=strToBinary(message);
-                            //need to get the first param from Jeremy's functions
-                            imgptr->modify_image(2,messageBN);
-
+                        if (message != "")
+                        {
+                            // convert message to binary string
+                            string messageBN = stringToBinary(message);
+                            // need to get the first param from Jeremy's functions
+                            imgptr->modify_image(2, messageBN);
                         }
                         imgptr->write_image(filePath);
                         crow::json::wvalue success_json;
                         success_json["success"] = true;
-                        success_json["url"] = "http://localhost:8080/static/" + fileName;
+                        success_json["url"] = BASE_API_URL + "/static/" + fileName;
                         return crow::response(200, success_json);
 
                         // ofstream outputFile(filePath, ios::out | ios::binary);

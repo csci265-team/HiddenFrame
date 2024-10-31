@@ -3,6 +3,8 @@ import type { MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Button, PageHeader, Input } from "../components";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { useState } from "react";
+import { BASE_API_URL } from "../lib/consts";
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,7 +14,7 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  const resp = await fetch("http://localhost:8080/images", {
+  const resp = await fetch(`${BASE_API_URL}/images`, {
     headers: { Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}` },
   });
 
@@ -24,16 +26,21 @@ export async function loader() {
 export default function Index() {
   const { photos } = useLoaderData<typeof loader>();
 
-  console.log(photos)
+  const [loading, setLoading] = useState(false);
 
   const uploadImage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true)
 
     const formData = new FormData();
-    const element = document.getElementById("file") as HTMLInputElement;
-    if (!element || !element.files) return;
-    const file = element.files[0];
+    const fileElement = document.getElementById("file") as HTMLInputElement;
+    const messageElement = document.getElementById("message") as HTMLInputElement;
+
+    if (!fileElement || !fileElement.files) return;
+    const file = fileElement.files[0];
     if (!file) return;
+
+    if (messageElement) formData.append("message", messageElement.value);
 
     let fileExt: string[] | string = file.name.split(".");
     fileExt = fileExt[fileExt.length - 1];
@@ -46,7 +53,7 @@ export default function Index() {
     }));
 
 
-    const resp = await fetch("http://localhost:8080/image/upload", {
+    const resp = await fetch(`${BASE_API_URL}/image/upload`, {
       method: "POST",
       body: formData,
       headers: {
@@ -59,6 +66,7 @@ export default function Index() {
       window.location.reload();
     } else {
       alert("Failed to upload image.");
+      setLoading(false)
     }
   }
 
@@ -69,7 +77,8 @@ export default function Index() {
 
         <form onSubmit={uploadImage} className="flex flex-col gap-2">
           <Input accept=".jpg,.png" id="file" type="file" />
-          <Button type="submit"> <FaCloudUploadAlt className="w-8" /> Upload New Image</Button>
+          <Input id="message" type="text" placeholder="Enter message..." />
+          <Button loading={loading} type="submit"> <FaCloudUploadAlt className="w-8" /> Upload New Image</Button>
         </form>
 
 
@@ -78,9 +87,13 @@ export default function Index() {
           {photos
             .sort((a: { id: string }, b: { id: string }) => b.id.localeCompare(a.id))
             .map((photo: any) => (
-              <a href={photo.url} target="_blank" key={photo.id} rel="noreferrer">
-                <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
-              </a>
+              <div key={photo.id}>
+                <a href={photo.url} target="_blank" rel="noreferrer">
+                  <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
+                </a>
+                {photo.payload && <p>{photo.payload}</p>}
+                {photo.resolved_payload && <p>{photo.resolved_payload}</p>}
+              </div>
             ))}
         </div>
       </div>

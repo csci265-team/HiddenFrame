@@ -1,17 +1,17 @@
 all: build utils.o image_class.o api.o
 	g++ -o bin/HiddenFrame build/image_class.o build/utils.o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
-image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h
+image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h 
 	g++ -c src/image_class.cpp -o build/image_class.o ${CompilationOptions}
 
-utils.o: include/hiddenframe_headers.h
+utils.o: include/hiddenframe_headers.h include/utils.h
 	g++ -c src/utils.cpp -o build/utils.o ${CompilationOptions} ${CompilationWarnings}
 
 api.o: include/hiddenframe_headers.h include/crow.h include/crow/*
 	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 test: image_class.o test_image_io.o
-	g++ -o test/test_image_io build/image_class.o test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
+	g++ -o test/test_image_io build/image_class.o test/test_image_io.o build/utils.o ${CompilationOptions} ${CompilationWarnings}
 
 test_image_io.o: include/hiddenframe_headers.h
 	g++ -c test/test_image_io.cpp -o test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
