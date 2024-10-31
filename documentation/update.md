@@ -17,7 +17,7 @@
  3. [Phase 3 Summary of Changes](#3-phase-3-summary-of-changes)
     - 3.1. [Requirements](#31-requirements)
  4. [Phase 4 Summary of Changes](#4-phase-4-summary-of-changes)
-    - 4.1 [Standards](#41-standards-and-processes)
+    - 4.1 [Standards](#41-standards)
     - 4.2 [Design](#42-design)
  5. [Phase 5 Summary of Changes](#5-phase-5-summary-of-changes)
  6. [Phase 6 Summary of Changes](#6-phase-6-summary-of-changes)
