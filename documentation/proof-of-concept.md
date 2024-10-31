@@ -57,13 +57,12 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
 ### 1.1. Implementing Frontend
 
 ### 1.2. Image Manipulation
-Our team did not initially have any foundational understanding of image manipulation. Dealing with images requires reading and interpreting not only the raw information but dealing with various file formats with their attendant headers/footers. 
 
-Some formats of images provide built in compression (such as JPG), our program needs to be able to either implement a solution that will work on compressed images, or find a way to circumvent the problem. 
+No one on our team had past experience with progromatic image manipulation. Dealing with images requires reading and interpreting not only the raw information but dealing with various file formats with their attendant headers/footers. This required implementing the scheme described more fully in ![5.3 Design - Payload Embedding & Retrieval](./design.md#53-payload-embeddingretrieval)
 
-Since we need to manipulate specific channels of the pixels in the image, and alter them only slightly, We will require the ability to manipulate individual bits within a images raw data. This is not an aspect of C++ programing that has thus far not been covered. 
+Some formats of images provide built in compression (such as JPG), our program needs to be able to either implement a solution that will work on compressed images, or find a way to circumvent the problem of the image being compressed after embedding.
 
-No one on our team had past experience with progromatic image manipulation. This will involve stripping an image file of its raw data contents, copying that data into a data structure, and being able to manipulate the values stored in this data structure in such a way that once a series of operations are performed to encode message data, the data stored within the image data structure can still be used to output a new image that looks indistinguishable from the original image. This will require the scheme described more fully in ![5.3 Design - Payload Embedding & Retrieval](./design.md#53-payload-embeddingretrieval), however, this also will involve learning about how image data is stored.
+Since we need to manipulate specific channels of the pixels in the image, and alter them only slightly, We will require the ability to manipulate individual bits within a images raw data. This is not an aspect of C++ programing that has thus far not been covered in our CSCI courses.
 
 ### 1.3. Interconnectivity between Frontend and Backend
 At the start of our project, we divided the team into two groups: the front-end and back-end teams. The front-end team chose to develop in JavaScript, while the back-end team opted for C++. Given these language differences, we needed a reliable way to connect our front-end and back-end services.
@@ -155,7 +154,11 @@ With Crow's high-performance, minimalistic approach and Remix's strengths in dat
 	- Load Times: The UI responsiveness is satisfactory in most cases, but load times for displaying images might need optimization in the final implementation.
 
 ### 4.2. Assessment of Backend
-Jeremy
+
+From our proof of concept of how messages can be embedded and retrieved, we have been able to successfully embed and read bitstrings encoded into an image with minimal visual changes made to the image. In our final product, we expect to be able to use an image analysis tool to see how different the encoded image is from the original. We learned from this that on the retrieval of a message from an image, we need a stopping condition. When embedding a message, we know how long the message is, but this is unknown when retrieving the image. For this reason, we create a stopping bit in the embedding process where a skip is performed after the final bit or set of bits is embedded to a pixel and the next bit's LSBs in all channels of the pixel are set to 0.
+
+Additionally, when finding the multiplicative inverse of an element a in a Zn set, we have found that our initial algorithm can take longer than :w1:expected to run depending on two factors, how large n is, and how large the multiplicative inverse $a^{-1}$ happens to be.  The closer $a^{-1}$ is to ${n-1}$, the longer the algorithm takes to run.  While our current implementation of checking whether $a*a^{-1} \\, mod \\, n=1$ in a while loop works, we may look at ways to speed up this process.
+
 ### 4.3. Assessment of API
 
 ## 5. Glossary
