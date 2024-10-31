@@ -40,6 +40,9 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
 # Table of Contents
 
 1.  [Core Technical Challenges](#1-core-technical-challenges)
+    - 1.1. [User Experience](#11-user-experience)
+    - 1.2. [Image Manipulation](#12-image-manipulation)
+    - 1.3. [Interconnectivity between Frontend and Backend](#13-interconnectivity-between-frontend-and-backend)
 2.  [Metrics to Determine Challenge Completion](#2-metrics-to-determine-challenge-completion)
 3.  [Code Required to Meet Challenges](#3-code-required-to-meet-challenges)
 4.  [Assessment of Proof Of Concept](#4-assessment-of-proof-of-concept)
@@ -52,6 +55,13 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
 No one on our team had past experience with progromatic image manipulation. This will involve stripping an image file of its raw data contents, copying that data into a data structure, and being able to manipulate the values stored in this data structure in such a way that once a series of operations are performed to encode message data, the data stored within the image data structure can still be used to output a new image that looks indistinguishable from the original image. This will require the scheme described more fully in ![5.3 Design - Payload Embedding & Retrieval](./design.md#53-payload-embeddingretrieval), however, this also will involve learning about how image data is stored.
 
 ### 1.3. Interconnectivity between Frontend and Backend
+At the start of our project, we divided the team into two groups: the front-end and back-end teams. The front-end team chose to develop in JavaScript, while the back-end team opted for C++. Given these language differences, we needed a reliable way to connect our front-end and back-end services.
+
+After exploring various options, we determined that using a REST API would best suit our needs, as it offers a robust solution for standard client-server interactions, handling data requests and updates efficiently without requiring real-time functionality. This approach would allow our C++ back-end to handle HTTP requests and send data in a format easily rendered by our JavaScript-based front end.
+
+To further simplify development and deployment within our project’s timeline, we also decided to use a full-stack web framework on the front end. This choice provides an integrated environment to streamline both front-end and back-end development, offering a relatively low learning curve for team members.
+
+By combining a REST API on the back end with a full-stack web framework on the front end, we will be able to create a website with a responsive, interactive UI and efficient data handling, delivering the fast, seamless experience we envisioned.
 
 ## 2. Metrics to Determine Challenge Completion
 
@@ -104,8 +114,12 @@ This approach promotes reusability and reduces redundancy. We won't have to go a
 
 ### 3.3. Image In and Out Operations
 
-### 3.4. Determining API SMTH
+### 3.4. API Integration
+Due to our system's back end being written in C++ and our front end using a JavaScript framework, we decided to utilize an API server built with the "Crow" framework for creating HTTP and WebSocket web services. We considered other C++ back-end frameworks, such as Boost.Beast, Pistache, and CppCMS, but chose Crow for its lightweight and fast performance, user-friendly design with a smaller learning curve, native support for multithreading, and built-in JSON and WebSocket handling.
 
+For our front end, we opted for the "Remix" framework because of its advanced data-fetching capabilities and modern UI management (expand here with additional reasons for choosing Remix over other frameworks). Using the web "fetch API," we can efficiently handle data requests from both the client and server sides.
+
+With Crow's high-performance, minimalistic approach and Remix's strengths in data management and user interface design, these frameworks form an optimal combination for efficient HTTP requests and delivering a responsive, modern user experience.
 ## 4. Assessment of Proof Of Concept
 
 ### 4.1. Assessment of Frontend
