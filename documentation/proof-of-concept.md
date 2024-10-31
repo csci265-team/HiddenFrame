@@ -44,8 +44,12 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
     - 1.2. [Image Manipulation](#12-image-manipulation)
     - 1.3. [Interconnectivity between Frontend and Backend](#13-interconnectivity-between-frontend-and-backend)
 2.  [Metrics to Determine Challenge Completion](#2-metrics-to-determine-challenge-completion)
+    - 2.1. [Metrics for User Experience](#21-metrics-for-user-experience)
+        - 2.1.1. [Image Display/Upload](#211-image-displayupload)
+        - 2.1.2. [User Interface](#212-user-interface)
 3.  [Code Required to Meet Challenges](#3-code-required-to-meet-challenges)
 4.  [Assessment of Proof Of Concept](#4-assessment-of-proof-of-concept)
+    - 4.1. [Assessment of Frontend](#41-assessment-of-frontend)
 5.  [Glossary](#5-glossary)
 
 ## 1. Core Technical Challenges
@@ -53,13 +57,12 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
 ### 1.1. Implementing Frontend
 
 ### 1.2. Image Manipulation
-Our team did not initially have any foundational understanding of image manipulation. Dealing with images requires reading and interpreting not only the raw information but dealing with various file formats with their attendant headers/footers. 
 
-Some formats of images provide built in compression (such as JPG), our program needs to be able to either implement a solution that will work on compressed images, or find a way to circumvent the problem. 
+No one on our team had past experience with progromatic image manipulation. Dealing with images requires reading and interpreting not only the raw information but dealing with various file formats with their attendant headers/footers. This required implementing the scheme described more fully in ![5.3 Design - Payload Embedding & Retrieval](./design.md#53-payload-embeddingretrieval)
 
-Since we need to manipulate specific channels of the pixels in the image, and alter them only slightly, We will require the ability to manipulate individual bits within a images raw data. This is not an aspect of C++ programing that has thus far not been covered. 
+Some formats of images provide built in compression (such as JPG), our program needs to be able to either implement a solution that will work on compressed images, or find a way to circumvent the problem of the image being compressed after embedding.
 
-No one on our team had past experience with progromatic image manipulation. This will involve stripping an image file of its raw data contents, copying that data into a data structure, and being able to manipulate the values stored in this data structure in such a way that once a series of operations are performed to encode message data, the data stored within the image data structure can still be used to output a new image that looks indistinguishable from the original image. This will require the scheme described more fully in ![5.3 Design - Payload Embedding & Retrieval](./design.md#53-payload-embeddingretrieval), however, this also will involve learning about how image data is stored.
+Since we need to manipulate specific channels of the pixels in the image, and alter them only slightly, We will require the ability to manipulate individual bits within a images raw data. This is not an aspect of C++ programing that has thus far not been covered in our CSCI courses.
 
 ### 1.3. Interconnectivity between Frontend and Backend
 At the start of our project, we divided the team into two groups: the front-end and back-end teams. The front-end team chose to develop in JavaScript, while the back-end team opted for C++. Given these language differences, we needed a reliable way to connect our front-end and back-end services.
@@ -73,16 +76,28 @@ By combining a REST API on the back end with a full-stack web framework on the f
 ## 2. Metrics to Determine Challenge Completion
 
 ### 2.1. Metrics for User Experience
+The HiddenFrame project is divided into two major parts in terms of front-end. Displaying/Uploading images with or without embedded message (note, that it is crucial for both types of images to be displayed identically in terms of quality, color accuracy, and resolution), and the rest of UI, which includes seamless and comprehensive workflow experience for users and navigation with ease.
 
-#### 2.1.1 Interactivity
+#### 2.1.1. Image Display/Upload
+For the image display and upload feature, as mentioned above, success will be measured by the frontend’s ability to handle and visually present both encoded and unencoded images with no perceptible differences in quality, color accuracy, or resolution. The goal is to ensure that images embedded with hidden messages appear identical to standard images, maintaining visual integrity. Additionally, the upload process should be straightforward and intuitive, allowing users to easily upload images without experiencing interface disruptions, errors, or quality degradation post-upload.
 
-#### 2.1.2 Reactivity
+#### 2.1.2. User Interface
+The UI aims to provide a seamless, intuitive experience that guides users effortlessly through the app’s functionality. Success in this metric will be determined by how easily users can navigate between core features (such as scrolling, uploading, and encoding/decoding images) without confusion. The interface should be responsive, providing immediate visual feedback to user actions, such as confirmations for uploads and clear indicators of progress. The UI should also be free of unnecessary complexity, ensuring that users find it easy to complete tasks, even on their first use.
 
 ### 2.2. Metrics for Image Manipulation
 There are two primary metrics for successful image manipulation. The first is the integrity of the payload message. Anything less that 100% successful encoding and decoding of data will result in corruption of the payload. The second important metric for image manipulation is the visible difference between an encodeded and unecoded image. Our target here is that an encoded image is not significantly visibly different; we shall consider this to be successful if a user cannot distinguish between an encoded and unencoded image.
 
 ### 2.3. Metrics for Connectivitiy
+To ensure optimal performance and user experience, we would be monitoring the following key metrices for connectivity:
+- Latency: The time taken by a data packet travelling from one place to other. We would be measuring the round-trip time of these data packets travelling from user's computer to the servers where the website will be hosted. Our target is to maintain an average latency of 200ms for 97% of the user connection while browsing through our website (excluding image upload with a hidden message).
+- Response size refers to the total amount of data sent from the server to the client in response to a request. Larger response sizes require more data to be transferred, directly affecting the throughput and loading times. We are aiming to reduce the response size as much as possible, which would intern improve the loading speed and reduce the load on the servers. We also will try to implement caching.
+- Image upload success rate: This metric is key for us to measure how reliable and fast our image upload process has become more so because of the added complexity in embedding secret messages through steganography. Higher success rates mean fewer retries due to which we can also reduce the load on servers and bandwidth consumption. Our target is to maintain a success rate of 90% or higher.
 
+    $$
+    Success\ \ Rate = \frac {successful\ \ uploads}{total\ \ upload\ \ attempts} 100\%
+    $$
+
+- Time complexity of the steganography algorithm: To calculate the time complexity, we would first need to figure out the problem size. Theoretically, if the message is larger than the image, we would not be able to encode it. Therefore the problem size would be the size of the message. Furthermore, this algorithm is also dependent on keying algorithm which iterating through each pixel of the image to find the pixels which could be easily modified such that the image doesn't change drastically. So the worst case would be O(NM) where N is the size of the message to encoded and M is the size of the image. We would have to optimize these algorithms so that uploading pictures with messaage embedded in them is as fast as uploading regular media.
 ## 3. Code Required to Meet Challenges
 
 ### 3.1. Determining Frontend Framework
@@ -136,8 +151,38 @@ With Crow's high-performance, minimalistic approach and Remix's strengths in dat
 
 ### 4.1. Assessment of Frontend
 
-### 4.2. Assessment of Backend
-Jeremy
-### 4.3. Assessment of API
+1. Image Display/Upload Evaluation:
+	- Visual Integrity: The frontend generally displays encoded and unencoded images with no discernible visual differences, maintaining quality, color accuracy, and resolution.
+	- Upload Process: Initial testing of the upload process shows that users can upload images without issues or visible quality degradation. 
 
+2. User UI Evaluation:
+	- Navigation and Accessibility: The primary UI components, including navigation between the main features (image upload, encoding, and scrolling), were tested to ensure they provide a smooth, intuitive experience. 
+	- Responsiveness and Feedback: Interactive elements (buttons, notifications) provide immediate feedback, contributing to a responsive and engaging user experience. 
+
+3. Challenges Identified:
+	- Load Times: The UI responsiveness is satisfactory in most cases, but load times for displaying images might need optimization in the final implementation.
+
+### 4.2. Assessment of Backend
+
+From our proof of concept of how messages can be embedded and retrieved, we have been able to successfully embed and read bitstrings encoded into an image with minimal visual changes made to the image. In our final product, we expect to be able to use an image analysis tool to see how different the encoded image is from the original. We learned from this that on the retrieval of a message from an image, we need a stopping condition. When embedding a message, we know how long the message is, but this is unknown when retrieving the image. For this reason, we create a stopping bit in the embedding process where a skip is performed after the final bit or set of bits is embedded to a pixel and the next bit's LSBs in all channels of the pixel are set to 0.
+
+Additionally, when finding the multiplicative inverse of an element a in a Zn set, we have found that our initial algorithm can take longer than :w1:expected to run depending on two factors, how large n is, and how large the multiplicative inverse $a^{-1}$ happens to be.  The closer $a^{-1}$ is to ${n-1}$, the longer the algorithm takes to run.  While our current implementation of checking whether $a*a^{-1} \\, mod \\, n=1$ in a while loop works, we may look at ways to speed up this process.
+
+### 4.3. Assessment of API
+We will be using Postman to carry out extensive testing and monitoring of our API to guarantee its reliability, performance, and especially the steganography-enabled image upload feature.
+
+#### 4.3.1. Testing
+
+- Postman makes it easier to write and execute test cases. Postman Collections are essentially portable sets of API requests that we will be using to execute the test cases systematically. To automate the tests, we will be using Postman’s built-in testing features, such as pm.test for writing assertions. 
+
+    Different types of tests:
+    - Functional tests which verifies that the API endpoints (e.g., upload, retrieve, delete images) are behaving as expected.
+    - Validation tests ensures that the inputs and outputs conform to the expected formats and constraints (e.g., image file types, size limits).
+    - Boundary tests are to test the edge cases to ensure the API can handle maximum and minimum values, as well as invalid inputs gracefully.
+
+- Through Postman we can make environments which are basically collection of variables that we can manage centrally, making it easier to switch between different setups (e.g., development, staging). Setting up different environment will boost our testing efficiency as we could easily switch between different environment without modifying the requests.
+- To load test, Postman can simulate load by having multiple parallel virtual users hit our endpoints. Using this method we can observe how the API performs under stress, and measure the response time to ensure that they meet the required benchmarks.
+
+#### 4.3.2. Monitoring
+Postman plots the graph for the above discussed matrics which make it easier to visualize these performance data. It also can set-up periodic health checks our API endpoints to ensure they are up and running. This involves sending a simple request to each endpoint and checking the status code. A 200 status code indicates the API is functioning correctly. We can also configure alerts sent to our emails which would notify us of any critical issues in the time of automated test runs.
 ## 5. Glossary
