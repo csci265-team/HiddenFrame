@@ -519,6 +519,13 @@ This GET request retrieves the remaining invites allocated to the user. This inf
 | ------------- | ----------- | --------- | ----------------------------------------------------------------------------------------- |
 | Authorization | required    | string    | If token provided is valid, the number of invites is displayed in the user's profile page |
 
+##### Request Body
+
+| name         | type        | data type | description            |
+| ------------ | ----------- | --------- | ---------------------- |
+| User Id      | required    | string    | Current user's ID      |
+| Invite Count | required    | integer   | Amount of user invites |
+
 ##### Responses
 
 | http code | content-type       | response                                               | description                                                 |
@@ -545,60 +552,10 @@ This GET request retrieves the first 100 images that is diplayed in the Image gr
 
 ##### Responses
 
-| http code | content-type       | response                                              | description                                     |
-| --------- | ------------------ | ----------------------------------------------------- | ----------------------------------------------- |
+| http code | content-type       | response                                              | description                           |
+| --------- | ------------------ | ----------------------------------------------------- | ------------------------------------- |
 | `200`     | `application/json` | The first 100 images appear                           | If a valid bearer token is recognized |
 | `401`     | `application/json` | An error message pops up saying "An error has occured | If token is invalid                   | 
-
-</details>
-<br>
-
-#### Retrieve embedded images
-
-This GET request returns embedded images to be displayed in the image board along with other uploaded images that is diplayed to all users.
-
-#### Endpoint:
-<details>
-<summary><code>GET</code> <code><b>/images/embedded</b></code> <code>Retrieve embedded images</code></summary>
-
-##### Headers
-
-| name          | type     | data type | description                                                                                                             |
-| ------------- | -------- | --------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Authorization | required | string    | If token provided and valid, different designs/animations of embeded images will be in response for privileged users    |
-|               |          |           | and regular images will be in response for general users.                                                               |
-
-##### Responses
-
-| http code                      | content-type       | response                                                                                         | description                                    |
-| ------------------------------ | ------------------ | ------------------------------------------------------------------------------------------------ | ---------------------------------------------- |
-| `200` (Privileged User)        | `application/json` | Embeded images appear in the image board with different designs/animations                       | If user was recognized to be a privileged user |
-| `200` (General User)           | `application/json` | Embeded images appear in the image board                                                         | If user was recognized to be a general user    |
-
-</details>
-<br>
-
-#### Decoded embedded image with a hidden payload
-
-This GET request allows a user to decode an embedded image with a key.
-
-#### Endpoint:
-<details>
-<summary><code>GET</code> <code><b>/images/decode</b></code> <code>Retrieve decoded images with embedded payload after key has been recognized.</code></summary>
-
-##### Headers
-
-| name          | type     | data type | description                                                           |
-| ------------- | -------- | --------- | --------------------------------------------------------------------- |
-| Authorization | required | string    | If token is valid, the user will be prompted to enter a key           |
-| Key           | required | string    | If token matches the key for the image, the message will be displayed |
-
-##### Responses
-
-| http code | content-type       | response                                          | description                 |
-| --------- | ------------------ | ------------------------------------------------- | --------------------------- |
-| `200`     | `application/json` | The hidden message pops up                        | If valid key was provided   |
-| `401`     | `application/json` | An error message saying "Key is invalid!" pops up | If key provided was invalid |
 
 </details>
 <br>
@@ -612,6 +569,12 @@ This POST request allows for the registration of a new user by submitting the ne
  <summary><code>POST</code> <code><b>/user/register</b></code> <code>Resister a new user</code></summary>
 
 ##### Headers
+
+| name          | type     | data type | description                                                                         |
+| ------------- | -------- | --------- | ----------------------------------------------------------------------------------- |
+| Authorization | required | string    | If token is valid, the user will be prompted to enter an email address and password |
+
+##### Request Body
 
 | name     | type     | data type | description                                                          |
 | -------- | -------- | --------- | -------------------------------------------------------------------- |
@@ -639,10 +602,16 @@ This POST request allows for the logging in of an existing user by submitting th
 
 ##### Headers
 
-| name     | type     | data type | description               |
-| -------- | -------- | --------- | ------------------------- |
-| username | required | string    | User's email              |
-| password | required | string    | Hashed password           |
+| name          | type     | data type | description                                                                         |
+| ------------- | -------- | --------- | ----------------------------------------------------------------------------------- |
+| Authorization | required | string    | If token is valid, the user will be prompted to enter an email address and password |
+
+##### Request Body
+
+| name     | type     | data type | description     |
+| -------- | -------- | --------- | --------------- |
+| username | required | string    | User's email    |
+| password | required | string    | Hashed password |
 
 ##### Responses
 
@@ -662,6 +631,12 @@ This POST request allows general and privileged users to upload an image to the 
 <details>
  <summary><code>POST</code> <code><b>/images/upload</b></code> <code>Upload an image to the image board </code></summary>
 
+##### Headers
+
+| name          | type     | data type | description                                                                                                            |
+| ------------- | -------- | --------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Authorization | required | string    | If token is valid, the user will be prompted to upload an image file (general user) and message (privileged user only) |
+
 ##### Request Body
 
 | name    | type     | data type | description                                         |
@@ -671,14 +646,43 @@ This POST request allows general and privileged users to upload an image to the 
 
 ##### Responses
 
-| http code | content-type       | response                                                                                          | description                            |
-| --------------- | ------------------ | ------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| `200`           | `application/json` | A message saying "Upload Succesful!" pops up then redirects user to the main page.                | If the image was uploaded successfully |
-| `200`(embedding)| `application/json` | A message saying "Upload and embed Succesful!" pops up then redirects user to the main page.                | If the image and message was uploaded and embedded successfully |
-| `400`     | `application/json` | A message saying "Upload Failed!" pops up                                                         | If the image upload failed             |
+| http code | content-type             | response                                                                                          | description                                                     |
+| --------------- | ------------------ | ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| `200`           | `application/json` | A message saying "Upload Succesful!" pops up then redirects user to the main page.                | If the image was uploaded successfully                          |
+| `200`(embedding)| `application/json` | A message saying "Upload and embed Succesful!" pops up then redirects user to the main page.      | If the image and message was uploaded and embedded successfully |
+| `400`           | `application/json` | A message saying "Upload Failed!" pops up                                                         | If the image upload failed                                      |
 
 </details>
 
+#### Decode embedded image with a hidden payload
+
+This POST request allows a user to decode an embedded message with a key.
+
+#### Endpoint:
+<details>
+<summary><code>POST</code> <code><b>/decode</b></code> <code>Retrieve decoded message after key has been recognized.</code></summary>
+
+##### Headers
+
+| name          | type     | data type | description                                                           |
+| ------------- | -------- | --------- | --------------------------------------------------------------------- |
+| Authorization | required | string    | If token is valid, the user will be prompted to enter a key           |
+
+##### Request Body
+
+| name          | type     | data type | description              |
+| ------------- | -------- | --------- | ------------------------ |
+| Key           | required | string    | Key to decode the image  |
+
+##### Responses
+
+| http code | content-type       | response                                          | description                 |
+| --------- | ------------------ | ------------------------------------------------- | --------------------------- |
+| `200`     | `application/json` | The hidden message pops up                        | If valid key was provided   |
+| `401`     | `application/json` | An error message saying "Key is invalid!" pops up | If key provided was invalid |
+
+</details>
+<br>
 
 ## 7. User Account Design
 
