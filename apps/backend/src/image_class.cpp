@@ -56,11 +56,14 @@ void image::load_image(string filepath) {
 void image::modify_image(int n, string payload)
 {
     if (original_image==nullptr){
-        throw "Original Image we are trying to modify is null";
+        throw std::invalid_argument("Original Image we are trying to modify is null");
     }
     modified_image=new unsigned char[channels*width*height];
     memcpy(modified_image,original_image, channels*width*height);
     vector <char> vec=bitStringCompressor(channels,payload);
+    if (vec.size() > channels*width*height){
+        throw std::invalid_argument("payload is too large for image size");
+    }
     int k=0;//index for the vector will increment by 2 every time the loop executes
     for (int i=0; i < height; i++){
         for (int j=0; j < width; j+=n,k+=2){
