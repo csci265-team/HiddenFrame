@@ -88,7 +88,16 @@ The UI aims to provide a seamless, intuitive experience that guides users effort
 There are two primary metrics for successful image manipulation. The first is the integrity of the payload message. Anything less that 100% successful encoding and decoding of data will result in corruption of the payload. The second important metric for image manipulation is the visible difference between an encodeded and unecoded image. Our target here is that an encoded image is not significantly visibly different; we shall consider this to be successful if a user cannot distinguish between an encoded and unencoded image.
 
 ### 2.3. Metrics for Connectivitiy
+To ensure optimal performance and user experience, we would be monitoring the following key metrices for connectivity:
+- Latency: The time taken by a data packet travelling from one place to other. We would be measuring the round-trip time of these data packets travelling from user's computer to the servers where the website will be hosted. Our target is to maintain an average latency of 200ms for 97% of the user connection while browsing through our website (excluding image upload with a hidden message).
+- Response size refers to the total amount of data sent from the server to the client in response to a request. Larger response sizes require more data to be transferred, directly affecting the throughput and loading times. We are aiming to reduce the response size as much as possible, which would intern improve the loading speed and reduce the load on the servers. We also will try to implement caching.
+- Image upload success rate: This metric is key for us to measure how reliable and fast our image upload process has become more so because of the added complexity in embedding secret messages through steganography. Higher success rates mean fewer retries due to which we can also reduce the load on servers and bandwidth consumption. Our target is to maintain a success rate of 90% or higher.
 
+    $$
+    Success\ \ Rate = \frac {successful\ \ uploads}{total\ \ upload\ \ attempts} 100\%
+    $$
+
+- Time complexity of the steganography algorithm: To calculate the time complexity, we would first need to figure out the problem size. Theoretically, if the message is larger than the image, we would not be able to encode it. Therefore the problem size would be the size of the message. Furthermore, this algorithm is also dependent on keying algorithm which iterating through each pixel of the image to find the pixels which could be easily modified such that the image doesn't change drastically. So the worst case would be O(NM) where N is the size of the message to encoded and M is the size of the image. We would have to optimize these algorithms so that uploading pictures with messaage embedded in them is as fast as uploading regular media.
 ## 3. Code Required to Meet Challenges
 
 ### 3.1. Determining Frontend Framework
@@ -160,5 +169,20 @@ From our proof of concept of how messages can be embedded and retrieved, we have
 Additionally, when looking for the multiplicative inverse of an element $a$ in a $Z_n$ set, we have found that our initial algorithm can take longer than expected to run depending on two factors, how large $n$ is, and how large the multiplicative inverse $a^{-1}$ happens to be.  The closer $a^{-1}$ is to ${n-1}$, the longer the algorithm takes to run.  While our current implementation of checking whether $a*a^{-1} \\, mod \\, n=1$ in a while loop works, we may look at ways to speed up this process.
 
 ### 4.3. Assessment of API
+We will be using Postman to carry out extensive testing and monitoring of our API to guarantee its reliability, performance, and especially the steganography-enabled image upload feature.
 
+#### 4.3.1. Testing
+
+- Postman makes it easier to write and execute test cases. Postman Collections are essentially portable sets of API requests that we will be using to execute the test cases systematically. To automate the tests, we will be using Postman’s built-in testing features, such as pm.test for writing assertions. 
+
+    Different types of tests:
+    - Functional tests which verifies that the API endpoints (e.g., upload, retrieve, delete images) are behaving as expected.
+    - Validation tests ensures that the inputs and outputs conform to the expected formats and constraints (e.g., image file types, size limits).
+    - Boundary tests are to test the edge cases to ensure the API can handle maximum and minimum values, as well as invalid inputs gracefully.
+
+- Through Postman we can make environments which are basically collection of variables that we can manage centrally, making it easier to switch between different setups (e.g., development, staging). Setting up different environment will boost our testing efficiency as we could easily switch between different environment without modifying the requests.
+- To load test, Postman can simulate load by having multiple parallel virtual users hit our endpoints. Using this method we can observe how the API performs under stress, and measure the response time to ensure that they meet the required benchmarks.
+
+#### 4.3.2. Monitoring
+Postman plots the graph for the above discussed matrics which make it easier to visualize these performance data. It also can set-up periodic health checks our API endpoints to ensure they are up and running. This involves sending a simple request to each endpoint and checking the status code. A 200 status code indicates the API is functioning correctly. We can also configure alerts sent to our emails which would notify us of any critical issues in the time of automated test runs.
 ## 5. Glossary
