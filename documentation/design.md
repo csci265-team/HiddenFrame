@@ -560,7 +560,7 @@ This GET request retrieves the first 100 images that is diplayed in the Image gr
 </details>
 <br>
 
-#### Registering new user (email and password).
+#### Registering new user (username and password).
 
 This POST request allows for the registration of a new user by submitting the necessary information to the server. 
 
@@ -592,7 +592,7 @@ This POST request allows for the registration of a new user by submitting the ne
 </details>
 <br>
 
-#### User login using email and password
+#### User login using username and password
 
 This POST request allows for the logging in of an existing user by submitting the necessary information to the server. 
 
