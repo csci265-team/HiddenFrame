@@ -117,7 +117,7 @@ This approach promotes reusability and reduces redundancy. We won't have to go a
 
 ### 4.1. Assessment of Frontend
 
-1. Image Display/Upload Evaluation:
+1.  Image Display/Upload Evaluation:
 	- Visual Integrity: The frontend generally displays encoded and unencoded images with no discernible visual differences, maintaining quality, color accuracy, and resolution. However, an issue was identified with 4-channel images (those with an alpha channel for transparency). These images may not display the embedded message as intended.
 	- Upload Process: Initial testing of the upload process shows that users can upload images without issues or visible quality degradation. 
 
