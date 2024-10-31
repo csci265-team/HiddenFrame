@@ -51,6 +51,11 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
 ## 1. Core Technical Challenges
 
 ### 1.2. Image Manipulation
+Our team did not initially have any foundational understanding of image manipulation. Dealing with images requires reading and interpreting not only the raw information but dealing with various file formats with their attendant headers/footers. 
+
+Some formats of images provide built in compression (such as JPG), our program needs to be able to either implement a solution that will work on compressed images, or find a way to circumvent the problem. 
+
+Since we need to manipulate specific channels of the pixels in the image, and alter them only slightly, We will require the ability to manipulate individual bits within a images raw data. This is not an aspect of C++ programing that has thus far not been covered. 
 
 No one on our team had past experience with progromatic image manipulation. This will involve stripping an image file of its raw data contents, copying that data into a data structure, and being able to manipulate the values stored in this data structure in such a way that once a series of operations are performed to encode message data, the data stored within the image data structure can still be used to output a new image that looks indistinguishable from the original image. This will require the scheme described more fully in ![5.3 Design - Payload Embedding & Retrieval](./design.md#53-payload-embeddingretrieval), however, this also will involve learning about how image data is stored.
 
@@ -72,13 +77,13 @@ By combining a REST API on the back end with a full-stack web framework on the f
 #### 2.1.2 Reactivity
 
 ### 2.2. Metrics for Image Manipulation
+There are two primary metrics for successful image manipulation. The first is the integrity of the payload message. Anything less that 100% successful encoding and decoding of data will result in corruption of the payload. The second important metric for image manipulation is the visible difference between an encodeded and unecoded image. Our target here is that an encoded image is not significantly visibly different; we shall consider this to be successful if a user cannot distinguish between an encoded and unencoded image.
 
 ### 2.3. Metrics for Connectivitiy
 
 ## 3. Code Required to Meet Challenges
 
 ### 3.1. Determining Frontend Framework
-
 We decided to use the "Remix" framework for our front-end. Remix offers several advantages that influenced our decision:
 
 1. **Modern and Innovative**: Remix is a relatively new framework that provides an opportunity to learn and work with cutting-edge technologies.
@@ -113,6 +118,11 @@ We have decided to componentize our design elements, each of our elements will b
 This approach promotes reusability and reduces redundancy. We won't have to go and modify each and every occurance of a component instead we can just modify the main component file.
 
 ### 3.3. Image In and Out Operations
+In order to simplify the reading and writing of images, our team elected to use two C header libraries stb_image and stb_image_write. These two libraries provide our project with the ability to deal directly with raw image data, in the form of char arrays. This abstracts us from most of the concerns surrounding file formatting. The code we use to confirm this feature, is test_image_io.cpp. This test file calls the two constructors, and write_image class methods from the image_class.cpp. These functions show that HiddenFrame can read a file from the filesystem or as live data passed to it from the API server, and write images to the file system. This corresponds to tests 1,2, and 4 of the image system tests. 
+
+Dealing with lossy file formats (JPG) in our case, meant that we had a choice of trying to modify our encoding algorithm to deal with compression or circumvent the problem in some manner. In our case we decided to (at least temporarily) provide full image read capabilities, but when we store the images we will only be doing so in lossless formats. This functionality is part of the image_class's write_image method. This is demonstrated by image system test 3. 
+
+Our final challenge was coding a capability to confirm that we could manipulate the individual channels of the image, and successfully store and retrieve data (in the format our compression algorithm lays out). This merely required the use of C++'s bit shifting operators and a careful application of the algorithm. We implemented this as the modify_image and retrieve_payload functions. This challenge is demonstrated by image system test 5.  
 
 ### 3.4. API Integration
 Due to our system's back end being written in C++ and our front end using a JavaScript framework, we decided to utilize an API server built with the "Crow" framework for creating HTTP and WebSocket web services. We considered other C++ back-end frameworks, such as Boost.Beast, Pistache, and CppCMS, but chose Crow for its lightweight and fast performance, user-friendly design with a smaller learning curve, native support for multithreading, and built-in JSON and WebSocket handling.
