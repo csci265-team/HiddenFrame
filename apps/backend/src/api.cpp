@@ -35,7 +35,7 @@ int main()
                     crow::json::wvalue photo;
                     photo["id"] = id;
                     photo["url"] = BASE_API_URL + "/static/" + filename;
-                    photo["payload"] = payload;
+                    //photo["payload"] = payload;
                     photo["resolved_payload"] = binaryToString(payload);
                     photos.push_back(photo);
                 }
