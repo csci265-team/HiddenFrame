@@ -90,12 +90,12 @@ There are two primary metrics for successful image manipulation. The first is th
 
 ### 2.3. Metrics for Connectivitiy
 To ensure optimal performance and user experience, we would be monitoring the following key metrices for connectivity:
-- Latency: The time taken by a data packet travelling from one place to other. We would be measuring the round-trip time of these data packets travelling from user's computer to the servers where the website will be hosted. Our target is to maintain an average latency of 200ms for 97% of the user connection while browsing through our website.
+- Latency: The time taken by a data packet travelling from one place to other. We would be measuring the round-trip time of these data packets travelling from user's computer to the servers where the website will be hosted. Our target is to maintain an average latency of 200ms for 97% of the user connection while browsing through our website (excluding image upload with a hidden message).
 - Response size refers to the total amount of data sent from the server to the client in response to a request. Larger response sizes require more data to be transferred, directly affecting the throughput and loading times. We are aiming to reduce the response size as much as possible, which would intern improve the loading speed and reduce the load on the servers. We also will try to implement caching.
 - Image upload success rate: This metric is key for us to measure how reliable and fast our image upload process has become more so because of the added complexity in embedding secret messages through steganography. Higher success rates mean fewer retries due to which we can also reduce the load on servers and bandwidth consumption. Our target is to maintain a success rate of 90% or higher.
 
     $$
-    Upload\ \ Success\ \ Rate = \frac {successful\ \ uploads}{total\ \ upload\ \ attempts}\ 100\%
+    Success\ \ Rate = \frac {successful\ \ uploads}{total\ \ upload\ \ attempts}\ 100\%
     $$
 
 - Time complexity of the steganography algorithm: To calculate the time complexity, we would first need to figure out the problem size. Theoretically, if the message is larger than the image, we would not be able to encode it. Therefore the problem size would be the size of the message. Furthermore, this algorithm is also dependent on keying algorithm which iterating through each pixel of the image to find the pixels which could be easily modified such that the image doesn't change drastically. So the worst case would be O(NM) where N is the size of the message to encoded and M is the size of the image. We would have to optimize these algorithms so that uploading pictures with messaage embedded in them is as fast as uploading regular media.
