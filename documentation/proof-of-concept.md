@@ -145,9 +145,9 @@ We will be using Postman to carry out extensive testing and monitoring of our AP
     - Validation tests ensures that the inputs and outputs conform to the expected formats and constraints (e.g., image file types, size limits).
     - Boundary tests are to test the edge cases to ensure the API can handle maximum and minimum values, as well as invalid inputs gracefully.
 
-- Through Postman we can make environments which are basically collection of variables that we can manage centrally, making it easier to switch between different setups (e.g., development, staging, production). Setting up different environment will boost our testing efficiency as we could easily switch between different environment without modifying the requests.
+- Through Postman we can make environments which are basically collection of variables that we can manage centrally, making it easier to switch between different setups (e.g., development, staging). Setting up different environment will boost our testing efficiency as we could easily switch between different environment without modifying the requests.
 - To load test, Postman can simulate load by having multiple parallel virtual users hit our endpoints. Using this method we can observe how the API performs under stress, and measure the response time to ensure that they meet the required benchmarks.
 
 #### 4.3.2. Monitoring
-Postman plots the graph for the above discussed matrics which make it easier to visualize these performance data. It also can set-up periodic health checks our API endpoints to ensure they are up and running. This involves sending a simple request to each endpoint and checking the status code. A 200 status code indicates the API is functioning correctly. We can also set-up alerts sent to our emails which would notify us of any critical issues in the time of automated test runs.
+Postman plots the graph for the above discussed matrics which make it easier to visualize these performance data. It also can set-up periodic health checks our API endpoints to ensure they are up and running. This involves sending a simple request to each endpoint and checking the status code. A 200 status code indicates the API is functioning correctly. We can also configure alerts sent to our emails which would notify us of any critical issues in the time of automated test runs.
 ## 5. Glossary
