@@ -30,8 +30,10 @@ int main()
                 {
                     image *imgptr = new image(entry.path().string());
                     string payload = imgptr->retrieve_payload(2);
+
                     string filename = entry.path().filename().string();
                     string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
+
                     crow::json::wvalue photo;
                     photo["id"] = id;
                     photo["url"] = BASE_API_URL + "/static/" + filename;
