@@ -17,6 +17,8 @@
  3. [Phase 3 Summary of Changes](#3-phase-3-summary-of-changes)
     - 3.1. [Requirements](#31-requirements)
  4. [Phase 4 Summary of Changes](#4-phase-4-summary-of-changes)
+    - 4.1 [Standards](#41-standards-and-processes)
+    - 4.2 [Design](#42-design)
  5. [Phase 5 Summary of Changes](#5-phase-5-summary-of-changes)
  6. [Phase 6 Summary of Changes](#6-phase-6-summary-of-changes)
 
@@ -46,7 +48,14 @@
  - The new web page "Profile Page" has been added. The information about it may be found in Chapter 4, specifically 4.4.
 
  ## Phase 4 Summary of Changes
- N/A
+ 
+ ### 4.1 Standards
+
+ -  The team has added an extra clause to our existing merging rule to the staging branch stating "If a PR has not met the merge criteria for over 48 hours the git lead or organizational lead may review and merge it overriding the prior rule" due to pull requests taking too much time to merge into the staging branch.
+
+ ### 4.2 Design 
+
+ - Significant changes have been made to section 6.2 Routes ommiting uneccesary routes, adding headers, fixing request bodies, and adding descriptive text to explain each request. 
 
  ## Phase 5 Summary of Changes
  N/A
