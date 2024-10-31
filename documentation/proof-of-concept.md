@@ -95,7 +95,7 @@ To ensure optimal performance and user experience, we would be monitoring the fo
 - Image upload success rate: This metric is key for us to measure how reliable and fast our image upload process has become more so because of the added complexity in embedding secret messages through steganography. Higher success rates mean fewer retries due to which we can also reduce the load on servers and bandwidth consumption. Our target is to maintain a success rate of 90% or higher.
 
     $$
-    Success\ \ Rate = \frac {successful\ \ uploads}{total\ \ upload\ \ attempts}\ \ 100\%
+    Success\ \ Rate = \frac {successful\ \ uploads}{total\ \ upload\ \ attempts} \times 100\%
     $$
 
 - Time complexity of the steganography algorithm: To calculate the time complexity, we would first need to figure out the problem size. Theoretically, if the message is larger than the image, we would not be able to encode it. Therefore the problem size would be the size of the message. Furthermore, this algorithm is also dependent on keying algorithm which iterating through each pixel of the image to find the pixels which could be easily modified such that the image doesn't change drastically. So the worst case would be O(NM) where N is the size of the message to encoded and M is the size of the image. We would have to optimize these algorithms so that uploading pictures with messaage embedded in them is as fast as uploading regular media.
