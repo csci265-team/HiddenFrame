@@ -4,6 +4,7 @@
 #include <fstream>
 #include <filesystem>
 #include <string>
+#include <utils.h>
 
 using namespace std;
 
@@ -27,11 +28,17 @@ int main()
 
                 for (const auto &entry : filesystem::directory_iterator(staticPath))
                 {
+                    image *imgptr = new image(entry.path().string());
+                    string payload = imgptr->retrieve_payload(2);
+
                     string filename = entry.path().filename().string();
                     string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
+
                     crow::json::wvalue photo;
                     photo["id"] = id;
                     photo["url"] = BASE_API_URL + "/static/" + filename;
+                    //photo["payload"] = payload;
+                    photo["resolved_payload"] = binaryToString(payload);
                     photos.push_back(photo);
                 }
 
@@ -94,6 +101,7 @@ int main()
 
                     try
                     {
+                        // image i/o here
                         auto meta = crow::json::load(metaDataString);
                         if (!meta)
                         {
@@ -102,29 +110,44 @@ int main()
                             error_json["error"] = "Invalid JSON in metadata";
                             return crow::response(400, error_json);
                         }
-
                         string fileExt = meta["ext"].s();
                         string fileName = to_string(random) + "." + fileExt;
-
                         string filePath = "./static/" + fileName;
-                        ofstream outputFile(filePath, ios::out | ios::binary);
-                        if (outputFile)
-                        {
-                            outputFile << fileData;
-                            outputFile.close();
 
-                            crow::json::wvalue success_json;
-                            success_json["success"] = true;
-                            success_json["url"] = BASE_API_URL + "/static/" + fileName;
-                            return crow::response(200, success_json);
-                        }
-                        else
+                        int fileSize = meta["size"].i();
+                        cout << fileSize + 1 << endl;
+                        std::vector<unsigned char> convertedData(fileSize + 1);
+
+                        memcpy(convertedData.data(), fileData.c_str(), fileSize + 1);
+                        image *imgptr = new image(convertedData.data(), fileSize, fileExt);
+                        // modify image with payload here if permission granted and desired
+                        if (message != "")
                         {
-                            crow::json::wvalue error_json;
-                            error_json["success"] = false;
-                            error_json["error"] = "File writing failed";
-                            return crow::response(500, error_json);
+                            // convert message to binary string
+                            string messageBN = stringToBinary(message);
+                            // need to get the first param from Jeremy's functions
+                            imgptr->modify_image(2, messageBN);
                         }
+                        imgptr->write_image(filePath);
+                        crow::json::wvalue success_json;
+                        success_json["success"] = true;
+                        success_json["url"] = BASE_API_URL + "/static/" + fileName;
+                        return crow::response(200, success_json);
+
+                        // ofstream outputFile(filePath, ios::out | ios::binary);
+                        // if (outputFile)
+                        // {
+                        //     outputFile << fileData;
+                        //     outputFile.close();
+
+                        // }
+                        // else
+                        // {
+                        //     crow::json::wvalue error_json;
+                        //     error_json["success"] = false;
+                        //     error_json["error"] = "File writing failed";
+                        //     return crow::response(500, error_json);
+                        // }
                     }
                     catch (const exception &e)
                     {

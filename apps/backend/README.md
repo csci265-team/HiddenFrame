@@ -25,7 +25,6 @@ Before we build the backend executable you need to make sure [asio](https://thin
 ### Windows
 
 - Install [asio](https://think-async.com/Asio/) 
-  - vcpkg can be used to install it, run: `vcpkg install asio`
-- Ensure `$IncludePaths` in makefile includes both this project's `include/` subdirectory and homebrew's include directory `FIND CORRECT PATH` or the correct include path
+- Ensure `$IncludePaths` in makefile includes both this project's `include/` subdirectory  directory `FIND CORRECT PATH` or the correct include path
 - Now the project can be built by running `make windows`
 - The executable can be found at `build/HiddenFrame.exe`
