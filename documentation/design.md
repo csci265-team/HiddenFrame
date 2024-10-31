@@ -673,7 +673,7 @@ This POST request allows a user to decode an embedded message with a key.
 
 | name          | type     | data type | description              |
 | ------------- | -------- | --------- | ------------------------ |
-| Key           | required | string    | Key to decode the image  |
+| key           | required | string    | Key to decode the image  |
 
 ##### Responses
 
