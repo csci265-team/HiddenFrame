@@ -41,8 +41,12 @@ The proof-of-concepts may or may not be entirely successful, and may actually re
 
 1.  [Core Technical Challenges](#1-core-technical-challenges)
 2.  [Metrics to Determine Challenge Completion](#2-metrics-to-determine-challenge-completion)
+    - 2.1. [Metrics for User Experience](#21-metrics-for-user-experience)
+        - 2.1.1. [Image Display/Upload](#211-image-displayupload)
+        - 2.1.2. [User Interface](#212-user-interface)
 3.  [Code Required to Meet Challenges](#3-code-required-to-meet-challenges)
 4.  [Assessment of Proof Of Concept](#4-assessment-of-proof-of-concept)
+    - 4.1. [Assessment of Frontend](#41-assessment-of-frontend)
 5.  [Glossary](#5-glossary)
 
 ## 1. Core Technical Challenges
@@ -58,10 +62,10 @@ No one on our team had past experience with progromatic image manipulation. This
 ### 2.1. Metrics for User Experience
 The HiddenFrame project is divided into two major parts in terms of front-end. Displaying/Uploading images with or without embedded message (note, that it is crucial for both types of images to be displayed identically in terms of quality, color accuracy, and resolution), and the rest of UI, which includes seamless and comprehensive workflow experience for users and navigation with ease.
 
-#### 2.1.1 Image Display/Upload
+#### 2.1.1. Image Display/Upload
 For the image display and upload feature, as mentioned above, success will be measured by the frontend’s ability to handle and visually present both encoded and unencoded images with no perceptible differences in quality, color accuracy, or resolution. The goal is to ensure that images embedded with hidden messages appear identical to standard images, maintaining visual integrity. Additionally, the upload process should be straightforward and intuitive, allowing users to easily upload images without experiencing interface disruptions, errors, or quality degradation post-upload.
 
-#### 2.1.2 User Interface
+#### 2.1.2. User Interface
 The UI aims to provide a seamless, intuitive experience that guides users effortlessly through the app’s functionality. Success in this metric will be determined by how easily users can navigate between core features (such as scrolling, uploading, and encoding/decoding images) without confusion. The interface should be responsive, providing immediate visual feedback to user actions, such as confirmations for uploads and clear indicators of progress. The UI should also be free of unnecessary complexity, ensuring that users find it easy to complete tasks, even on their first use.
 
 ### 2.2. Metrics for Image Manipulation
