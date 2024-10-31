@@ -12,7 +12,8 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  const resp = await fetch("http://127.0.0.1:8080/images", {
+  //const resp = await fetch("http://127.0.0.1:8080/images", { //Code for Artem. Does not work for me otherwise
+  const resp = await fetch("http://localhost:8080/images", {
     headers: { Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}` },
   });
 
@@ -46,7 +47,8 @@ export default function Index() {
     }));
 
 
-    const resp = await fetch("http://127.0.0.1:8080/image/upload", {
+    //const resp = await fetch("http://127.0.0.1:8080/image/upload", { // Code for Artem. Does not work for me otherwise
+    const resp = await fetch("http://localhost:8080/image/upload", {
       method: "POST",
       body: formData,
       headers: {
