@@ -23,7 +23,6 @@ int main()
             []()
             {
                 string staticPath = "./static";
-                //std::string baseUrl = "http://127.0.0.1:8080/static/"; // Code for Artem. Does not work for me otherwise
                 vector<crow::json::wvalue> photos;
 
                 for (const auto &entry : filesystem::directory_iterator(staticPath))
@@ -117,7 +116,7 @@ int main()
                             crow::json::wvalue success_json;
                             success_json["success"] = true;
                             success_json["url"] = BASE_API_URL + "/static/" + fileName;
-                            //success_json["url"] = "http://127.0.0.1:8080/static/" + fileName; // Code for Artem. Does not work for me otherwise
+        
                             return crow::response(200, success_json);
                         }
                         else
