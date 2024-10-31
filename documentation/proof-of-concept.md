@@ -111,7 +111,11 @@ This approach promotes reusability and reduces redundancy. We won't have to go a
 ### 4.1. Assessment of Frontend
 
 ### 4.2. Assessment of Backend
-Jeremy
+
+From our proof of concept of how messages can be embedded and retrieved, we have been able to successfully embed and read bitstrings encoded into an image with minimal visual changes made to the image. In our final product, we expect to be able to use an image analysis tool to see how different the encoded image is from the original. We learned from this that on the retrieval of a message from an image, we need a stopping condition. When embedding a message, we know how long the message is, but this is unknown when retrieving the image. For this reason, we create a stopping bit in the embedding process where a skip is performed after the final bit or set of bits is embedded to a pixel and the next bit's LSBs in all channels of the pixel are set to 0.
+
+Additionally, when finding the multiplicative inverse of an element a in a Zn set, we have found that our initial algorithm can take longer than expected to run depending on two factors, how large n is, and how large the multiplicative inverse $a^{-1}$ happens to be.  The closer $a^{-1}$ is to ${n-1}$, the longer the algorithm takes to run.  While our current implementation of checking whether $a*a^{-1}$ % $n=1$ in a while loop works, we may look at ways to speed up this process.
+
 ### 4.3. Assessment of API
 
 ## 5. Glossary
