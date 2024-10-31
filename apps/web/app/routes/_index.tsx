@@ -4,7 +4,7 @@ import { useLoaderData } from "@remix-run/react";
 import { Button, PageHeader, Input } from "../components";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { useState } from "react";
-import { BASE_API_URL } from "~/lib/consts";
+import { BASE_API_URL } from "../lib/consts";
 
 export const meta: MetaFunction = () => {
   return [
