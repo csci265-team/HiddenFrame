@@ -4,6 +4,7 @@ import { useLoaderData } from "@remix-run/react";
 import { Button, PageHeader, Input } from "../components";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { useState } from "react";
+import { BASE_API_URL } from "~/lib/consts";
 
 export const meta: MetaFunction = () => {
   return [
@@ -13,7 +14,7 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  const resp = await fetch("http://localhost:8080/images", {
+  const resp = await fetch(`${BASE_API_URL}/images`, {
     headers: { Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}` },
   });
 
@@ -52,7 +53,7 @@ export default function Index() {
     }));
 
 
-    const resp = await fetch("http://localhost:8080/image/upload", {
+    const resp = await fetch(`${BASE_API_URL}/image/upload`, {
       method: "POST",
       body: formData,
       headers: {
@@ -90,8 +91,8 @@ export default function Index() {
                 <a href={photo.url} target="_blank" rel="noreferrer">
                   <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
                 </a>
-                <p>{photo.payload}</p>
-                <p>{photo.resolved_payload}</p>
+                {photo.payload && <p>{photo.payload}</p>}
+                {photo.resolved_payload && <p>{photo.resolved_payload}</p>}
               </div>
             ))}
         </div>
