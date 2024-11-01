@@ -58,9 +58,11 @@
  ### 4.2 Requirements
 
  - Users will use a username as an identifier, not an email address.
+ - Set a default time for Image Retention as shown in Section 6.1.
+ - Set a default upload size and maximum resolution as shown in Section 6.1.
  - Removal of "how many invites a user can send to others to join the secret user's list" and "whether we will use a private user's username or email address as identifying information" from Section 2. Known issues/omissions under "Other known ommisions".
  - Removal of embedded images having a slightly different design/animation due to api requests taking too long making it unviable to load all payloads initially with image loads.
- - Addition of Administrative User Actions and UI for administrative users to Section 2. Known issues/omissions, to be worked on during the next phase.
+ - Addition of Administrative User Actions for administrative users to Section 2. Known issues/omissions, to be worked on during the next phase.
 
  ### 4.3 Design 
 

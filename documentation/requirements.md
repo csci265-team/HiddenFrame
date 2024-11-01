@@ -83,8 +83,6 @@ Our strech goals include:
 Other known omissions are:
 
 - the amount of required storage and network capacity on a per-user basis;
-- the default length of time an image will be retained on the site and customizing the length of time it can be retained on the site;
-- the file size limit and/or max resolution of images that may be uploaded;
 - storage location of steganographic 'keys'; 
 - administrative user actions and their UI;
 - key to be provided to load images with payloads
@@ -304,7 +302,8 @@ One of the central pillars of Project HiddenFrame is its social media. HiddenFra
 - Data use and Retention - HiddenFrame will have to comply with federal and provincial data protection laws, such as the federal [Personal Information Protection and Electronic Documents Act](https://laws-lois.justice.gc.ca/PDF/P-8.6.pdf) and the BC [Personal Information Protection Act](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03063_01).  
 - Moderation - With the anonymous nature of the posts on the public site, it is extremely important that HiddenFrame moderate content to ensure that the pictures on the site are appropriate. 
 - Hardware & Networking - Images have a relatively large storage requirement; managing server space in order to accommodate demand may be a challenge. The uploading and downloading of images can also take a significant amount of time; as such, a fast internet connection for the server will be required. (The amount of storage space and network speed required will need to be quantified on a per-user basis.)
-- Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such, Project HiddenFrame will only retain images for a set period of time before deletion (exact amount of time TBD).
+- Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such, Project HiddenFrame will only retain images for a set period of time before deletion. The default setting for retention will be a week, but customizable by admin.
+- Upload Limit - The default file size upload limit will be 10MB and the max resolution of images will be 2048 pixels, but customizable by admin.
 
 ### 6.2. Private Aspect
 

@@ -58,9 +58,7 @@ Alternate contact person:
 
 1. We know that keys will have the format $a_1,b_1,a_2,b_2,...Gef$ with each $ab$ pair $mod \\; n=g$, where $n$ is the number of pixels in an image, $g$ is the skip size between pixel selections for modificantion and is a generator of $n$, $G$ is a terminating character, $e$ is the decimal number of hex characters in each $a_i$ or $b_i$, and $f$ is the decimal number of channels in the image. We still have yet to determine the length of the keys. For example, for larger values of $n$, the possible number of hex characters used to describe each $a_i$ and $b_i$ grows based on the randomly selected $a$ and its unique corresponding $b$ value. Therefore, keys with smaller $e$ values, could have more $ab$ pairs than keys with larger $e$ values. Thus, we will either need to find a way to standardize the length of a key or pick a range into which the lengths of a key must fall.
 
-2. There will be an addition to the Front-end design section for Administrative Users that are able to set the file size limit and/or max resolution of images that may be uploaded and the length of time an image will be retained on the site.
-
-3. [Routes](#62-routes) will be expanded upon to include more types of HTTP routes including routes for administrative users.
+2. [Routes](#62-routes) will be expanded upon to include more types of HTTP routes including routes for administrative users.
 
 ## 2. Design Overview
 
