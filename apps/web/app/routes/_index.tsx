@@ -9,7 +9,7 @@ import { BASE_API_URL } from "../lib/consts";
 export const meta: MetaFunction = () => {
   return [
     { title: "HiddenFrame" },
-    { name: "description", content: "Welcome to Remix!" },
+    { name: "description", content: "Welcome to HiddenFrame!" },
   ];
 };
 

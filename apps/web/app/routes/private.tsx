@@ -5,7 +5,7 @@ import { useLoaderData } from "@remix-run/react";
 export const meta: MetaFunction = () => {
   return [
     { title: "HiddenFrame" },
-    { name: "description", content: "Welcome to Remix!" },
+    { name: "description", content: "Welcome to HiddenFrame!" },
   ];
 };
 
