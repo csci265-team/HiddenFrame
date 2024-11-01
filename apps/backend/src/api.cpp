@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <string>
 #include <utils.h>
+#include <jwt-cpp/jwt.h>
 
 using namespace std;
 
@@ -12,6 +13,8 @@ const string BASE_API_URL = "http://localhost:8080";
 
 int main()
 {
+    srand(static_cast<unsigned>(time(NULL)));
+
     crow::App<crow::CORSHandler> app;
 
     CROW_ROUTE(app, "/")
@@ -48,12 +51,66 @@ int main()
                 return jsonResponse;
             });
 
+    CROW_ROUTE(app, "/register")
+        .methods(crow::HTTPMethod::POST)(
+            [](const crow::request &req)
+            {
+                auto jsonBody = crow::json::load(req.body);
+                // username and password sent as json in req body
+                string username = jsonBody["username"].s();
+                string password = jsonBody["password"].s();
+                string inviteId = jsonBody["inviteId"].s();
+
+                // check if invite is valid here, if not return error 401
+                // crow::json::wvalue error_json;
+                // error_json["success"] = true;
+                // error_json["error"] = Invalid invite id";
+                // return crow::response(401, error_json);
+
+                // save username and password to database here if valid invite
+
+                crow::json::wvalue success_json;
+                success_json["success"] = true;
+                return crow::response(200, success_json);
+            });
+
+    CROW_ROUTE(app, "/login")
+        .methods(crow::HTTPMethod::POST)(
+            [](const crow::request &req)
+            {
+                auto jsonBody = crow::json::load(req.body);
+                // username and password sent as json in req body
+                string username = jsonBody["username"].s();
+                string password = jsonBody["password"].s();
+
+                // check username and password against database here
+                // if valid, generate token and return it
+
+                string tokenId = to_string(rand()); // this needs to more random. store this in DB
+
+                string secret = std::getenv("JWT_SECRET");
+                int expTime = (int)std::getenv("JWT_EXP_HOURS");
+
+                // create token and set to exp in 3 days
+                auto token = jwt::create()
+                                 .set_type("JWS")
+                                 .set_issuer("HiddenFrame")
+                                 .set_id(tokenId)
+                                 .set_payload_claim("username", jwt::claim(username))
+                                 .set_issued_at(std::chrono::system_clock::now())
+                                 .set_expires_at(std::chrono::system_clock::now() + std::chrono::hours{expTime})
+                                 .sign(jwt::algorithm::hs256{secret});
+
+                crow::json::wvalue success_json;
+                success_json["success"] = true;
+                success_json["token"] = token;
+                return crow::response(200, success_json);
+            });
+
     CROW_ROUTE(app, "/image/upload")
         .methods(crow::HTTPMethod::POST)(
             [](const crow::request &req)
             {
-                srand(static_cast<unsigned>(time(NULL)));
-
                 int random = rand();
 
                 string fileData;       // @patrick: this is the image data
