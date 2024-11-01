@@ -44,11 +44,11 @@ Another challenge we encountered was determining how to style the frontend. We w
 
 ### 1.2. Image Manipulation
 
-No one on our team had past experience with progromatic image manipulation. Dealing with images requires reading and interpreting not only the raw information but dealing with various file formats with their attendant headers/footers. This required implementing the scheme described more fully in ![5.3 Design - Payload Embedding & Retrieval](./design.md#53-payload-embeddingretrieval)
+No one on our team had past experience with programmatic image manipulation. Dealing with images requires reading and interpreting not only the raw information but also dealing with various file formats with their attendant headers/footers. This required implementing the scheme described more fully in ![5.3 Design - Payload Embedding & Retrieval](./design.md#53-payload-embeddingretrieval).
 
-Some formats of images provide built in compression (such as JPG), our program needs to be able to either implement a solution that will work on compressed images, or find a way to circumvent the problem of the image being compressed after embedding.
+Some formats of images provide built-in compression (such as JPEG). Our program needs to be able to either implement a solution that will work on compressed images or find a way to circumvent the problem of the image being compressed after embedding.
 
-Since we need to manipulate specific channels of the pixels in the image, and alter them only slightly, We will require the ability to manipulate individual bits within a images raw data. This is not an aspect of C++ programing that has thus far not been covered in our CSCI courses.
+Since we need to manipulate specific channels of the pixels in the image and alter them only slightly, we will require the ability to manipulate individual bits within an image’s raw data. This is not an aspect of C++ programming that has thus far not been covered in our CSCI courses.
 
 ### 1.3. Interconnectivity between Frontend and Backend
 
@@ -64,7 +64,7 @@ By combining a REST API on the back end with a full-stack web framework on the f
 
 ### 2.1. Metrics for User Experience
 
-The HiddenFrame project is divided into two major parts in terms of front-end. Displaying/Uploading images with or without embedded message (note, that it is crucial for both types of images to be displayed identically in terms of quality, color accuracy, and resolution), and the rest of UI, which includes seamless and comprehensive workflow experience for users and navigation with ease.
+The HiddenFrame project is divided into two major parts in terms of front-end. Displaying/uploading images with or without embedded messages (note that it is crucial for both types of images to be displayed identically in terms of quality, color accuracy, and resolution), and the rest of the UI, which includes a seamless and comprehensive workflow experience for users and navigation with ease.
 
 #### 2.1.1. Image Display/Upload
 
@@ -76,21 +76,21 @@ The UI aims to provide a seamless, intuitive experience that guides users effort
 
 ### 2.2. Metrics for Image Manipulation
 
-There are two primary metrics for successful image manipulation. The first is the integrity of the payload message. Anything less that 100% successful encoding and decoding of data will result in corruption of the payload. The second important metric for image manipulation is the visible difference between an encodeded and unecoded image. Our target here is that an encoded image is not significantly visibly different; we shall consider this to be successful if a user cannot distinguish between an encoded and unencoded image.
+There are two primary metrics for successful image manipulation. The first is the integrity of the payload message. Anything less than 100% successful encoding and decoding of data will result in corruption of the payload. The second important metric for image manipulation is the visible difference between an encoded and unencoded image. Our target here is that an encoded image is not significantly visibly different; we shall consider this to be successful if a user cannot distinguish between an encoded and unencoded image.
 
 ### 2.3. Metrics for Connectivitiy
 
-To ensure optimal performance and user experience, we would be monitoring the following key metrices for connectivity:
+To ensure optimal performance and user experience, we would be monitoring the following key metrics for connectivity:
 
-- Latency: The time taken by a data packet travelling from one place to other. We would be measuring the round-trip time of these data packets travelling from user's computer to the servers where the website will be hosted. Our target is to maintain an average latency of 200ms for 97% of the user connection while browsing through our website (excluding image upload with a hidden message).
-- Response size refers to the total amount of data sent from the server to the client in response to a request. Larger response sizes require more data to be transferred, directly affecting the throughput and loading times. We are aiming to reduce the response size as much as possible, which would intern improve the loading speed and reduce the load on the servers. We also will try to implement caching.
-- Image upload success rate: This metric is key for us to measure how reliable and fast our image upload process has become more so because of the added complexity in embedding secret messages through steganography. Higher success rates mean fewer retries due to which we can also reduce the load on servers and bandwidth consumption. Our target is to maintain a success rate of 90% or higher.
+- Latency: The time taken by a data packet travelling from one place to another. We would be measuring the round-trip time of these data packets travelling from the user's computer to the servers where the website will be hosted. Our target is to maintain an average latency of 200ms for 97% of the user connection while browsing through our website (excluding image upload with a hidden message).
+- Response size refers to the total amount of data sent from the server to the client in response to a request. Larger response sizes require more data to be transferred, directly affecting the throughput and loading times. We are aiming to reduce the response size as much as possible, which would in turn improve the loading speed and reduce the load on the servers. We will also try to implement caching.
+- Image upload success rate: This metric is key for us to measure how reliable and fast our image upload process has become, more so because of the added complexity in embedding secret messages through steganography. Higher success rates mean fewer retries, due to which we can also reduce the load on servers and bandwidth consumption. Our target is to maintain a success rate of 90% or higher.
 
-    $$
-    \text{Success Rate} = \frac {\text{successful uploads}}{\text{total upload attempts}} 100 \%
-    $$
+  $$
+  Success\ \ Rate = \frac {successful\ \ uploads}{total\ \ upload\ \ attempts} 100\%
+  $$
 
-- Time complexity of the steganography algorithm: To calculate the time complexity, we would first need to figure out the problem size. Theoretically, if the message is larger than the image, we would not be able to encode it. Therefore the problem size would be the size of the message. Furthermore, this algorithm is also dependent on keying algorithm which iterating through each pixel of the image to find the pixels which could be easily modified such that the image doesn't change drastically. So the worst case would be O(NM) where N is the size of the message to encoded and M is the size of the image. We would have to optimize these algorithms so that uploading pictures with messaage embedded in them is as fast as uploading regular media.
+- Time complexity of the steganography algorithm: To calculate the time complexity, we would first need to figure out the problem size. Theoretically, if the message is larger than the image, we would not be able to encode it. Therefore, the problem size would be the size of the message. Furthermore, this algorithm is also dependent on the keying algorithm, which iterates through each pixel of the image to find the pixels which could be easily modified such that the image doesn't change drastically. So the worst case would be O(NM), where N is the size of the message to be encoded and M is the size of the image. We would have to optimize these algorithms so that uploading pictures with messages embedded in them is as fast as uploading regular media.
 
 ## 3. Code Required to Meet Challenges
 
@@ -108,7 +108,7 @@ By choosing Remix, we aim to leverage its modern capabilities to build a high-pe
 
 ### 3.2. User Experience
 
-To maintain a consistent UX we have decided to use tailwindcss. Tailwindcss allows us to quickly create great looking designs.
+To maintain a consistent UX, we have decided to use Tailwindcss. Tailwindcss allows us to quickly create great-looking designs.
 
 #### 3.2.1. Colors
 
@@ -119,21 +119,21 @@ We will be using a simplistic design language. We are using the following two co
 
 #### 3.2.2. Themes
 
-We will also be maintaining two themes, a "dark" and a "light" theme. Since we will be using tailwindcss this task is really easy. Each component will first be styled for the "light" theme and then we will just invert the colors using the tailwind [`dark:`](https://tailwindcss.com/docs/dark-mode) selector.
+We will also be maintaining two themes, a "dark" and a "light" theme. Since we will be using tailwindcss this task is really easy. Each component will first be styled for the "light" theme, and then we will just invert the colors using the tailwind [`dark:`](https://tailwindcss.com/docs/dark-mode) selector.
 
 #### 3.2.3. Components
 
-We have decided to componentize our design elements, each of our elements will be split out into their own seperate file. For example the "Button" component will be located at [`/apps/web/app/components/Button.tsx`](https://github.com/csci265-team/project/blob/master/apps/web/app/components/Button.tsx)
+We have decided to componentize our design elements; each of our elements will be split out into its own separate file. For example, the "Button" component will be located at [`/apps/web/app/components/Button.tsx`](https://github.com/csci265-team/project/blob/master/apps/web/app/components/Button.tsx).
 
-This approach promotes reusability and reduces redundancy. We won't have to go and modify each and every occurance of a component instead we can just modify the main component file.
+This approach promotes reusability and reduces redundancy. We won't have to go and modify each and every occurrence of a component; instead, we can just modify the main component file.
 
 ### 3.3. Image In and Out Operations
 
-In order to simplify the reading and writing of images, our team elected to use two C header libraries stb_image and stb_image_write. These two libraries provide our project with the ability to deal directly with raw image data, in the form of char arrays. This abstracts us from most of the concerns surrounding file formatting. The code we use to confirm this feature, is test_image_io.cpp. This test file calls the two constructors, and write_image class methods from the image_class.cpp. These functions show that HiddenFrame can read a file from the filesystem or as live data passed to it from the API server, and write images to the file system. This corresponds to tests 1,2, and 4 of the image system tests.
+In order to simplify the reading and writing of images, our team elected to use two C header libraries stb_image and stb_image_write. These two libraries provide our project with the ability to deal directly with raw image data, in the form of char arrays. This abstracts us from most of the concerns surrounding file formatting. The code we use to confirm this feature is test_image_io.cpp. This test file calls the two constructors and write_image class methods from the image_class.cpp. These functions show that HiddenFrame can read a file from the filesystem or as live data passed to it from the API server and write images to the file system. This corresponds to tests 1, 2, and 4 of the image system tests.
 
-Dealing with lossy file formats (JPG) in our case, meant that we had a choice of trying to modify our encoding algorithm to deal with compression or circumvent the problem in some manner. In our case we decided to (at least temporarily) provide full image read capabilities, but when we store the images we will only be doing so in lossless formats. This functionality is part of the image_class's write_image method. This is demonstrated by image system test 3.
+Dealing with lossy file formats (JPG) in our case meant that we had a choice of trying to modify our encoding algorithm to deal with compression or circumvent the problem in some manner. In our case, we decided to (at least temporarily) provide full image read capabilities, but when we store the images, we will only be doing so in lossless formats. This functionality is part of the image_class's write_image method. This is demonstrated by image system test 3.
 
-Our final challenge was coding a capability to confirm that we could manipulate the individual channels of the image, and successfully store and retrieve data (in the format our compression algorithm lays out). This merely required the use of C++'s bit shifting operators and a careful application of the algorithm. We implemented this as the modify_image and retrieve_payload functions. This challenge is demonstrated by image system test 5.
+Our final challenge was coding a capability to confirm that we could manipulate the individual channels of the image and successfully store and retrieve data (in the format our compression algorithm lays out). This merely required the use of C++'s bit shifting operators and a careful application of the algorithm. We implemented this as the modify_image and retrieve_payload functions. This challenge is demonstrated by image system test 5.
 
 ### 3.4. API Integration
 
@@ -176,15 +176,15 @@ We will be using Postman to carry out extensive testing and monitoring of our AP
 
   Different types of tests:
 
-  - Functional tests which verifies that the API endpoints (e.g., upload, retrieve, delete images) are behaving as expected.
-  - Validation tests ensures that the inputs and outputs conform to the expected formats and constraints (e.g., image file types, size limits).
+  - Functional tests which verify that the API endpoints (e.g., upload, retrieve, delete images) are behaving as expected.
+  - Validation tests ensure that the inputs and outputs conform to the expected formats and constraints (e.g., image file types, size limits).
   - Boundary tests are to test the edge cases to ensure the API can handle maximum and minimum values, as well as invalid inputs gracefully.
 
-- Through Postman we can make environments which are basically collection of variables that we can manage centrally, making it easier to switch between different setups (e.g., development, staging). Setting up different environment will boost our testing efficiency as we could easily switch between different environment without modifying the requests.
-- To load test, Postman can simulate load by having multiple parallel virtual users hit our endpoints. Using this method we can observe how the API performs under stress, and measure the response time to ensure that they meet the required benchmarks.
+- Through Postman, we can make environments which are basically collections of variables that we can manage centrally, making it easier to switch between different setups (e.g., development, staging). Setting up different environments will boost our testing efficiency as we could easily switch between different environments without modifying the requests.
+- To load test, Postman can simulate load by having multiple parallel virtual users hit our endpoints. Using this method, we can observe how the API performs under stress and measure the response time to ensure that they meet the required benchmarks.
 
 #### 4.3.2. Monitoring
 
-Postman plots the graph for the above discussed matrics which make it easier to visualize these performance data. It also can set-up periodic health checks our API endpoints to ensure they are up and running. This involves sending a simple request to each endpoint and checking the status code. A 200 status code indicates the API is functioning correctly. We can also configure alerts sent to our emails which would notify us of any critical issues in the time of automated test runs.
+Postman plots the graph for the above-discussed metrics, which makes it easier to visualize performance data. It also can set up periodic health checks for our API endpoints to ensure they are up and running. This involves sending a simple request to each endpoint and checking the status code. A 200 status code indicates that the API is functioning correctly. We can also configure alerts sent to our emails, which would notify us of any critical issues in the time of automated test runs.
 
 ## 5. Glossary
