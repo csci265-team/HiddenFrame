@@ -28,8 +28,8 @@ int main()
 
                 for (const auto &entry : filesystem::directory_iterator(staticPath))
                 {
-                    // image *imgptr = new image(entry.path().string());
-                    // string payload = imgptr->retrieve_payload(2);
+                    image *imgptr = new image(entry.path().string());
+                    string payload = imgptr->retrieve_payload(2);
 
                     string filename = entry.path().filename().string();
                     string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
@@ -38,7 +38,7 @@ int main()
                     photo["id"] = id;
                     photo["url"] = BASE_API_URL + "/static/" + filename;
                     //photo["payload"] = payload;
-                    // photo["resolved_payload"] = binaryToString(payload);
+                    photo["resolved_payload"] = binaryToString(payload);
                     photos.push_back(photo);
                 }
 

@@ -53,14 +53,14 @@ int main(){
         int n=2;//pixel spacing
         //string teststr="111000110010";
         //string teststr="01101000";
-        //string teststr="010010000110010101101100011011000110111100100000010101110110111101110010011011000110010000100001";
-        ifstream file("../../resources/lorumBN.txt");
-        if (!file.is_open()){
-            throw ("error opening lorum file");
-        }
-        stringstream buffer;
-        buffer <<file.rdbuf();
-        string teststr=buffer.str();
+        string teststr="010010000110010101101100011011000110111100100000010101110110111101110010011011000110010000100001";
+        // ifstream file("../../resources/lorumBN.txt");
+        // if (!file.is_open()){
+        //     throw ("error opening lorum file");
+        // }
+        // stringstream buffer;
+        // buffer <<file.rdbuf();
+        // string teststr=buffer.str();
         test5->modify_image(n,teststr);
         test5->write_image("../../resources/images/test/output/test_image_7.png");
         test5->displayImageProperties();
