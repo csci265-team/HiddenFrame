@@ -56,11 +56,14 @@ void image::load_image(string filepath) {
 void image::modify_image(int n, string payload)
 {
     if (original_image==nullptr){
-        throw "Original Image we are trying to modify is null";
+        throw std::invalid_argument("Original Image we are trying to modify is null");
     }
     modified_image=new unsigned char[channels*width*height];
     memcpy(modified_image,original_image, channels*width*height);
     vector <char> vec=bitStringCompressor(channels,payload);
+    if (vec.size() > channels*width*height){
+        throw std::invalid_argument("payload is too large for image size");
+    }
     int k=0;//index for the vector will increment by 2 every time the loop executes
     for (int i=0; i < height; i++){
         for (int j=0; j < width; j+=n,k+=2){
@@ -171,73 +174,131 @@ string image::retrieve_payload(int n)
     for (int i=0; i < height; i++){
         for (int j=0; j < width; j+=n,k+=2){
             int index=(i*width+j)*channels;
-                if (channels==3){
-                    //check channel 1 and 1's
-                    if((original_image[index] & 1) && !(original_image[index+1] & 1) && !(original_image[index+2] & 1)){
-                        result=result+"1";
-                    }
-                    //check channel 1 and 0's
-                    else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && (original_image[index+2] & 1)){
-                        result=result+"0";
-                    }
-                    //check channel 2 and 1's
-                    else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1)){
-                        result=result+"11";
-                    }
-                    //check channel 2 and 0's
-                    else if((original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1)){
-                        result=result+"00";
-                    }
-                    //check channel 3 and 1's
-                    else if(!(original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1)){
-                        result=result+"111";
-                    }
-                    //check channel 3 and 0's
-                    else if((original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1)){
-                        result=result+"000";
-                    }
-                    //if we got here then we are no longer reading the hidden message
-                    else{
-                        return result;
-                    }
+                int redLSB=original_image[index]&1;
+                int greenLSB=original_image[index+1]&1;
+                int blueLSB=original_image[index+2]&1;
+                int combined=(redLSB << 2) | (greenLSB << 1) | blueLSB;
+                if (channels==4){
+                    int alphaLSB=original_image[index+3]&1;
+                    combined=(redLSB << 3) | (greenLSB << 2) | (blueLSB << 1) | alphaLSB;   
                 }
-                else if (channels==4){
-                                    //check channel 1 and 1's
-                    if((original_image[index] & 1) && !(original_image[index+1] & 1) && !(original_image[index+2] & 1) && !(original_image[index+3] & 1)){
-                        result=result+"1";
-                    }
-                    //check channel 1 and 0's
-                    else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && (original_image[index+2] & 1) && (original_image[index+3] & 1)){
-                        result=result+"0";
-                    }
-                    //check channel 2 and 1's
-                    else if(!(original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1) && !(original_image[index+3] & 1)){
-                        result=result+"11";
-                    }
-                    //check channel 2 and 0's
-                    else if((original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1) && (original_image[index+3] & 1)){
-                        result=result+"00";
-                    }
-                    //check channel 3 and 1's
-                    else if(!(original_image[index] & 1) && !(original_image[index+1] & 1) && (original_image[index+2] & 1) && !(original_image[index+3] & 1)){
-                        result=result+"111";
-                    }
-                    //check channel 3 and 0's
-                    else if((original_image[index] & 1) && (original_image[index+1] & 1) && !(original_image[index+2] & 1) && (original_image[index+3] & 1)){
-                        result=result+"000";
-                    }
-                    //check channel 4 for 1's
-                    else if (!(original_image[index] & 1) && !(original_image[index+1] & 1) && !(original_image[index+2] & 1)&& (original_image[index+3] & 1)){
-                        result=result+"1111";
-                    }
-                    //check channel 4 for 0's
-                    else if ((original_image[index] & 1) && (original_image[index+1] & 1) && (original_image[index+2] & 1) && !(original_image[index+3] & 1)){
-                        result=result+"0000";
-                    }
-                    //if we got here then we are no longer reading the hidden message
-                    else{
-                        return result;
-                    }   
+                switch (channels){
+                    case 3:
+                        switch (combined){
+                            //LSB's are 000
+                            case 0:
+                                return result;
+
+                            //LSB's are 001
+                            case 1:
+                                result=result+"111";
+                                break;
+
+                            //LSB's are 010
+                            case 2:
+                                result=result+"11";
+                                break;
+
+                            //LSB's are 011
+                            case 3:
+                                result=result+"0";
+                                break;
+
+                            //LSB's are 100
+                            case 4:
+                                result=result+"1";
+                                break;
+
+                            //LSB's are 101
+                            case 5:
+                                result=result+"00";
+                                break;
+
+                            //LSB's are 110
+                            case 6:
+                                result=result+"000";
+                                break;
+
+                            //LSB's are 111
+                            case 7:
+                                return result;
+                            
+                        }
+                    break;
+                    case 4:
+                        switch (combined){                                 
+                            //LSB's are 0000
+                            case 0:
+                                return result;
+
+                            //LSB's are 0001
+                            case 1:
+                                result=result+"1111";
+                                break;
+
+                            //LSB's are 0010
+                            case 2:
+                                result=result+"111";
+                                break;
+
+                            //LSB's are 0011
+                            case 3:
+                                return result;
+
+                            //LSB's are 0100
+                            case 4:
+                                result=result+"11";
+                                break;
+
+                            //LSB's are 0101
+                            case 5:
+                                return result;
+
+                            //LSB's are 0110
+                            case 6:
+                                return result;
+
+                            //LSB's are 0111
+                            case 7:
+                                result=result+"0";
+                                break;
+
+                            //LSB's are 1000
+                            case 8:
+                                result=result+"1";
+                                break;
+
+                            //LSB's are 1001
+                            case 9:
+                                return result;
+
+                            //LSB's are 1010
+                            case 10:
+                                return result;
+
+                            //LSB's are 1011
+                            case 11:
+                                result=result+"00";
+                                break;
+
+                            //LSB's are 1100
+                            case 12:
+                                return result;
+
+                            //LSB's are 1101
+                            case 13:
+                                result=result+"000";
+                                break;
+
+                            //LSB's are 1110
+                            case 14:
+                                result=result+"0000";
+                                break;
+                            //LSB's are 1111
+                            case 15:
+                                return result;   
+                        }
+                    break;
                 }
             }
         }
