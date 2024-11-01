@@ -22,7 +22,7 @@ Alternate contact person:
 4.  [Front-End Design](#4-front-end-design)
     - 4.1. [Front-End Configuration](#41-front-end-configuration)
     - 4.2. [Page load and Data fetching](#42-page-load-and-data-fetching)
-    - 4.3. [Private Aspect](#43-data-input-lifecycle)
+    - 4.3. [Data input Lifecycle](#43-data-input-lifecycle)
     - 4.4. [Image Wall](#44-image-wall)
     - 4.5. [Image Upload](#45-image-upload)
     - 4.6. [User login](#46-user-login)
