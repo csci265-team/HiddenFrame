@@ -20,9 +20,9 @@ Alternate contact person:
 2.  [Design Overview](#2-design-overview)
 3.  [Logical Design](#3-logical-design)
 4.  [Front-End Design](#4-front-end-design)
-    - 4.1. [Front-End Configuration](#42-font-end-configuration)
-    - 4.2. [Public Aspect](#41-public-aspect)
-    - 4.3. [Private Aspect](#42-private-aspect)
+    - 4.1. [Front-End Configuration](#41-front-end-configuration)
+    - 4.2. [Page load and Data fetching](#42-page-load-and-data-fetching)
+    - 4.3. [Data input Lifecycle](#43-data-input-lifecycle)
     - 4.4. [Image Wall](#44-image-wall)
     - 4.5. [Image Upload](#45-image-upload)
     - 4.6. [User login](#46-user-login)
@@ -58,7 +58,7 @@ Alternate contact person:
 
 1. We know that keys will have the format $a_1,b_1,a_2,b_2,...Gef$ with each $ab$ pair $mod \\; n=g$, where $n$ is the number of pixels in an image, $g$ is the skip size between pixel selections for modificantion and is a generator of $n$, $G$ is a terminating character, $e$ is the decimal number of hex characters in each $a_i$ or $b_i$, and $f$ is the decimal number of channels in the image. We still have yet to determine the length of the keys. For example, for larger values of $n$, the possible number of hex characters used to describe each $a_i$ and $b_i$ grows based on the randomly selected $a$ and its unique corresponding $b$ value. Therefore, keys with smaller $e$ values, could have more $ab$ pairs than keys with larger $e$ values. Thus, we will either need to find a way to standardize the length of a key or pick a range into which the lengths of a key must fall.
 
-2. [Routes](#61-routes) will be expanded upon to include more types of HTTP routes
+2. [Routes](#62-routes) will be expanded upon to include more types of HTTP routes including routes for administrative users.
 
 ## 2. Design Overview
 
@@ -764,6 +764,9 @@ graph LR
 ## 9. Glossary
 
 **LSB** - Least significant bit
+<br>
 **DFD** - Data Flow Diagram
+<br>
+**JWT** - JSON Web Token
 
 ## 10. Appendixes
