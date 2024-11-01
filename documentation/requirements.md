@@ -83,11 +83,11 @@ Our strech goals include:
 Other known omissions are:
 
 - the amount of required storage and network capacity on a per-user basis;
-- the length of time an image will be retained on the site;
+- the default length of time an image will be retained on the site and customizing the length of time it can be retained on the site;
 - the file size limit and/or max resolution of images that may be uploaded;
 - storage location of steganographic 'keys'; 
-- how many invites a user can send to others to join the secret user's list; and
-- whether we will use a private user's username or email address as identifying information.
+- administrative user actions and their UI;
+- key to be provided to load images with payloads
 
 ## 3. Product features and behaviour
 
@@ -95,7 +95,7 @@ Other known omissions are:
 
 As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
 
-This photographic content will be visible on the home page of our web app on our "Image wall," which is basically a 3x3 grid of images that "infinitely" scrolls. Images will be displayed in descending order for all users, with the most recent uploads appearing first. Pictures with a hidden message will be visible to all users but will have a slightly different design/animation (TBD later) for logged in privilged users. Names of users are who uploaded a picture, whether it be embedded or not, will not be visible to other users. Having it be responsive will be one of our stretch goals. 
+This photographic content will be visible on the home page of our web app on our "Image wall," which is basically a 3x3 grid of images that "infinitely" scrolls. Images will be displayed in descending order for all users, with the most recent uploads appearing first.Pictures with a hidden message will be visible to all users. Names of users are who uploaded a picture, whether it be embedded or not, will not be visible to other users. Having it be responsive will be one of our stretch goals. 
 
 ### 3.2. Uploading images
 
@@ -111,7 +111,7 @@ Select users will be using HiddenFrame's true capabilities to exchange pictures 
 
 Our web app will have a private login page that will allow this capability. Users will be able to find this page at the `/login` endpoint (subject to change).
 
-This web page will have a simple login form that will ask the user for some sort of identifier (username/email, TBD) and a password (using passkeys is a stretch goal).
+This web page will have a simple login form that will ask the user for a username and a password (using passkeys is a stretch goal).
 
 
 ### 3.4. Hiding messages in the pictures
