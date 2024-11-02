@@ -89,16 +89,12 @@ int main()
                 // if valid, generate token and return it
                 if (validcredentials){
                     string tokenId = to_string(rand()); // this needs to more random. store this in DB
-                    //store the token in the DB.                    
-                }
-                else{
-                    //failure of UAC
-                }
-                string secret = std::getenv("JWT_SECRET");
-                int expTime = (int)std::getenv("JWT_EXP_HOURS");
+                    //store the token in the DB. 
+                    string secret = std::getenv("JWT_SECRET");
+                    int expTime = (int)std::getenv("JWT_EXP_HOURS");
 
-                // create token and set to exp in 3 days
-                auto token = jwt::create()
+                    // create token and set to exp in 3 days
+                    auto token = jwt::create()
                                  .set_type("JWS")
                                  .set_issuer("HiddenFrame")
                                  .set_id(tokenId)
@@ -107,10 +103,17 @@ int main()
                                  .set_expires_at(std::chrono::system_clock::now() + std::chrono::hours{expTime})
                                  .sign(jwt::algorithm::hs256{secret});
 
-                crow::json::wvalue success_json;
-                success_json["success"] = true;
-                success_json["token"] = token;
-                return crow::response(200, success_json);
+                    crow::json::wvalue success_json;
+                    success_json["success"] = true;
+                    success_json["token"] = token;
+                    return crow::response(200, success_json);                   
+                }
+                else{
+                    crow::json::wvalue error_json;
+                    error_json["success"] = true;
+                    error_json["error"] = "Invalid credentials";
+                    return crow::response(401, error_json);
+                }
             });
 
     CROW_ROUTE(app, "/image/upload")
