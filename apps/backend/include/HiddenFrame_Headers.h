@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <sqlite3.h>
 #ifndef hiddenframe_headers 
 #define hiddenframe_headers
 
@@ -46,6 +47,8 @@ class image{
         vector<char> bitStringCompressor(int channels, string toCompress);
     };
 
-
+sqlite3* createDB();
+void createNewUser(sqlite3 *database,const string& username, const string& password);
+bool authenticateUser(sqlite3 *database, const string& username, const string& password);
 
 #endif
