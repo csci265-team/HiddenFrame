@@ -22,6 +22,7 @@ sqlite3* createDB(){
     const char* sql="CREATE TABLE IF NOT EXISTS Users(" \
     "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"\
     "USERNAME TEXT NOT NULL,"\
+    "TOKENID TEXT,"\
     "PASSWORD TEXT NOT NULL);";
 
     rc=sqlite3_exec(db,sql, 0,0, &errMsg);

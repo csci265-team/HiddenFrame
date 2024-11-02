@@ -54,13 +54,14 @@ int main()
 
     CROW_ROUTE(app, "/register")
         .methods(crow::HTTPMethod::POST)(
-            [](const crow::request &req)
+            [db](const crow::request &req)
             {
                 auto jsonBody = crow::json::load(req.body);
                 // username and password sent as json in req body
                 string username = jsonBody["username"].s();
                 string password = jsonBody["password"].s();
-                string inviteId = jsonBody["inviteId"].s();
+                createNewUser(db,username,password);
+                //string inviteId = jsonBody["inviteId"].s();
 
                 // check if invite is valid here, if not return error 401
                 // crow::json::wvalue error_json;
@@ -77,18 +78,22 @@ int main()
 
     CROW_ROUTE(app, "/login")
         .methods(crow::HTTPMethod::POST)(
-            [](const crow::request &req)
+            [db](const crow::request &req)
             {
                 auto jsonBody = crow::json::load(req.body);
                 // username and password sent as json in req body
                 string username = jsonBody["username"].s();
                 string password = jsonBody["password"].s();
-
                 // check username and password against database here
+                bool validcredentials=authenticateUser(db,username,password);
                 // if valid, generate token and return it
-
-                string tokenId = to_string(rand()); // this needs to more random. store this in DB
-
+                if (validcredentials){
+                    string tokenId = to_string(rand()); // this needs to more random. store this in DB
+                    //store the token in the DB.                    
+                }
+                else{
+                    //failure of UAC
+                }
                 string secret = std::getenv("JWT_SECRET");
                 int expTime = (int)std::getenv("JWT_EXP_HOURS");
 
