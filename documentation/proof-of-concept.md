@@ -19,7 +19,7 @@
       - 2.1.1. [Image Display/Upload](#211-image-displayupload)
       - 2.1.2. [User Interface](#212-user-interface)
     - 2.2. [Metrics for Image Manipulation](#22-metrics-for-image-manipulation)
-    - 2.3. [Metrics for Connectivity](#23-metrics-for-connectivity)
+    - 2.3. [Metrics for Connectivity](#23-metrics-for-connectivitiy)
 3.  [Code Required to Meet Challenges](#3-code-required-to-meet-challenges)
     - 3.1. [Determining Frontend Framework](#31-determining-frontend-framework)
     - 3.2. [User Experience](#32-user-experience)
