@@ -1,5 +1,5 @@
-all: build utils.o image_class.o api.o db_operations.o
-	g++ -o bin/HiddenFrame build/image_class.o build/utils.o build/api.o build/db_operations.o ${CompilationOptions} ${CompilationWarnings}
+all: build utils.o image_class.o api.o authorization.o db_operations.o
+	g++ -o bin/HiddenFrame build/image_class.o build/utils.o build/api.o build/authorization.o build/db_operations.o${CompilationOptions} ${CompilationWarnings}
 
 image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h 
 	g++ -c src/image_class.cpp -o build/image_class.o ${CompilationOptions}
@@ -12,6 +12,9 @@ db_operations.o: include/hiddenframe_headers.h include/sqlite/*
 
 api.o: include/hiddenframe_headers.h include/crow.h include/crow/*
 	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
+
+authorization.o: include/jwt-cpp/* include/picojson/*
+	g++ -c src/authorization.cpp -o build/authorization.o ${CompilationOptions} ${CompilationWarnings}
 
 test-image: image_class.o test_image_io.o
 	g++ -o test/test_image_io build/image_class.o test/test_image_io.o build/utils.o ${CompilationOptions} ${CompilationWarnings}
