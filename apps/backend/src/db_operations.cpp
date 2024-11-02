@@ -14,26 +14,32 @@ sqlite3* createDB(){
     if(rc) {
       throw std::runtime_error("Database not opened correctly - "+string(sqlite3_errmsg(db)));
     } 
-    //DELETE FOR PRODUCTION
-    else {
-      fprintf(stderr, "Opened database successfully\n");
-    }
 
     const char* sql="CREATE TABLE IF NOT EXISTS Users(" \
     "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"\
     "USERNAME TEXT NOT NULL,"\
     "TOKENID TEXT,"\
+    "INVITESREMAINING INTEGER DEFAULT 5,"\
     "PASSWORD TEXT NOT NULL);";
+
+    const char* sql2="CREATE TABLE IF NOT EXISTS Invites(" \
+    "ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"\
+    "INVITEID INTEGER,"\
+    "USERNAME TEXT NOT NULL,"\
+    "FOREIGN KEY (INVITEID) REFERENCES Users(ID) ON DELETE CASCADE);";
 
     rc=sqlite3_exec(db,sql, 0,0, &errMsg);
     if (rc != SQLITE_OK) {
         throw std::runtime_error("Database not opened correctly - "+string(sqlite3_errmsg(db)));
         sqlite3_free(errMsg);
     } 
-    //DELETE FOR PRODUCTION
-    else {
-        printf("Table created successfully\n");
-    }
+
+    rc=sqlite3_exec(db,sql2, 0,0, &errMsg);
+    if (rc != SQLITE_OK) {
+        throw std::runtime_error("Database not opened correctly - "+string(sqlite3_errmsg(db)));
+        sqlite3_free(errMsg);
+    } 
+
     return db;
 }
 

@@ -1,19 +1,19 @@
-all: build utils.o image_class.o api.o authorization.o db_operations.o
-	g++ -o bin/HiddenFrame build/image_class.o build/utils.o build/api.o build/authorization.o build/db_operations.o${CompilationOptions} ${CompilationWarnings}
+all: build build/utils.o build/image_class.o build/api.o build/authorization.o build/db_operations.o
+	g++ -o bin/HiddenFrame build/image_class.o build/utils.o build/api.o build/authorization.o build/db_operations.o ${CompilationOptions} ${CompilationWarnings}
 
-image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h 
+build/image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h 
 	g++ -c src/image_class.cpp -o build/image_class.o ${CompilationOptions}
 
-utils.o: include/hiddenframe_headers.h include/utils.h
+build/utils.o: include/hiddenframe_headers.h include/utils.h
 	g++ -c src/utils.cpp -o build/utils.o ${CompilationOptions} ${CompilationWarnings}
 
-db_operations.o: include/hiddenframe_headers.h include/sqlite/*
+build/db_operations.o: include/hiddenframe_headers.h include/sqlite/*
 	g++ -c src/db_operations.cpp -o build/db_operations.o ${CompilationOptions} ${CompilationWarnings}
 
-api.o: include/hiddenframe_headers.h include/crow.h include/crow/*
+build/api.o: include/hiddenframe_headers.h include/crow.h include/crow/*
 	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
-authorization.o: include/jwt-cpp/* include/picojson/*
+build/authorization.o: include/jwt-cpp/* include/picojson/*
 	g++ -c src/authorization.cpp -o build/authorization.o ${CompilationOptions} ${CompilationWarnings}
 
 test-image: image_class.o test_image_io.o
@@ -66,5 +66,5 @@ else
 	MKDIR := mkdir
 	CLEAN_DIR := del /q static\*
 	IncludePaths += -I include/ -I  C:/msys64/ucrt64/include/asio/include
-	CompilationOptions += -lws2_32 -lmswsock
+	CompilationOptions += -lws2_32 -lmswsock -lssl -lcrypto
 endif

@@ -60,8 +60,14 @@ int main()
                 // username and password sent as json in req body
                 string username = jsonBody["username"].s();
                 string password = jsonBody["password"].s();
-                createNewUser(db,username,password);
                 //string inviteId = jsonBody["inviteId"].s();
+
+                //query invite ID here                
+
+                
+                // save username and password to database here if valid invite
+                createNewUser(db,username,password);
+
 
                 // check if invite is valid here, if not return error 401
                 // crow::json::wvalue error_json;
@@ -69,7 +75,7 @@ int main()
                 // error_json["error"] = Invalid invite id";
                 // return crow::response(401, error_json);
 
-                // save username and password to database here if valid invite
+
 
                 crow::json::wvalue success_json;
                 success_json["success"] = true;
@@ -91,8 +97,7 @@ int main()
                     string tokenId = to_string(rand()); // this needs to more random. store this in DB
                     //store the token in the DB. 
                     string secret = std::getenv("JWT_SECRET");
-                    int expTime = (int)std::getenv("JWT_EXP_HOURS");
-
+                    //int expTime = (int)std::getenv("JWT_EXP_HOURS");
                     // create token and set to exp in 3 days
                     auto token = jwt::create()
                                  .set_type("JWS")
@@ -100,7 +105,7 @@ int main()
                                  .set_id(tokenId)
                                  .set_payload_claim("username", jwt::claim(username))
                                  .set_issued_at(std::chrono::system_clock::now())
-                                 .set_expires_at(std::chrono::system_clock::now() + std::chrono::hours{expTime})
+                                 //.set_expires_at(std::chrono::system_clock::now() + std::chrono::hours{expTime})
                                  .sign(jwt::algorithm::hs256{secret});
 
                     crow::json::wvalue success_json;
