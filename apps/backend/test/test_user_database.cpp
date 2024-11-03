@@ -8,7 +8,7 @@ int main(){
     sqlite3 *db=nullptr;
     try{
         db=createDB();
-        createNewUser(db,"Pat", "password");
+        createNewAdmin(db,"Pat", "password");
         //test authentications
         bool auth1=authenticateUser(db,"NotPat","password");
         bool auth2=authenticateUser(db,"Pat","passw0rd");
@@ -19,6 +19,13 @@ int main(){
         else{
             std::cerr<< "Authentication was not OK! Test of UAC FAILED" << std::endl;
         }
+        createNewUser(db,"1","p1",1);
+        createNewUser(db,"2","p2",1);
+        createNewUser(db,"3","p3",1);
+        createNewUser(db,"4","p4",1);
+        createNewUser(db,"5","p5",1);
+        //createNewUser(db,"6","p6",1);
+
     }
     catch (const std::runtime_error& e){
         std::cerr<<e.what() << std::endl;

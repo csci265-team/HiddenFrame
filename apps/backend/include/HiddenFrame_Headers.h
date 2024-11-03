@@ -48,7 +48,8 @@ class image{
     };
 
 sqlite3* createDB();
-void createNewUser(sqlite3 *database,const string& username, const string& password);
+void createNewAdmin(sqlite3 *database,const string& username, const string& password);
+void createNewUser(sqlite3 *database,const string& username, const string& password, const int InviteID);
 bool authenticateUser(sqlite3 *database, const string& username, const string& password);
 
 #endif

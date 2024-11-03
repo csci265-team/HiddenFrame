@@ -60,23 +60,16 @@ int main()
                 // username and password sent as json in req body
                 string username = jsonBody["username"].s();
                 string password = jsonBody["password"].s();
-                //string inviteId = jsonBody["inviteId"].s();
-
-                //query invite ID here                
-
-                
-                // save username and password to database here if valid invite
-                createNewUser(db,username,password);
-
-
-                // check if invite is valid here, if not return error 401
-                // crow::json::wvalue error_json;
-                // error_json["success"] = true;
-                // error_json["error"] = Invalid invite id";
-                // return crow::response(401, error_json);
-
-
-
+                int inviteId = jsonBody["inviteId"].i(); 
+                try{                 
+                    createNewUser(db,username,password, inviteId);
+                }
+                catch (const std::runtime_error& e){
+                    crow::json::wvalue error_json;
+                    error_json["success"] = true;
+                    error_json["error"] = e.what();
+                    return crow::response(401, error_json);
+                }
                 crow::json::wvalue success_json;
                 success_json["success"] = true;
                 return crow::response(200, success_json);

@@ -16,17 +16,17 @@ build/api.o: include/hiddenframe_headers.h include/crow.h include/crow/*
 build/authorization.o: include/jwt-cpp/* include/picojson/*
 	g++ -c src/authorization.cpp -o build/authorization.o ${CompilationOptions} ${CompilationWarnings}
 
-test-image: image_class.o test_image_io.o
+test-image: build/image_class.o test/test_image_io.o
 	g++ -o test/test_image_io build/image_class.o test/test_image_io.o build/utils.o ${CompilationOptions} ${CompilationWarnings}
 
-test_image_io.o: include/hiddenframe_headers.h
+test/test_image_io.o: include/hiddenframe_headers.h
 	g++ -c test/test_image_io.cpp -o test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
 
-test-db: test_user_database.o db_operations.o
-	g++ -o test/usrdbtest test/test_user_database.o build/db_operations.o ${CompilationOptions} ${CompilationWarnings}
+test/test_user_database.o: include/hiddenframe_headers.h include/sqlite/*
+	g++ -c test/test_user_database.cpp -o test/test_user_database.o ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
 
-test_user_database.o: include/hiddenframe_headers.h include/sqlite/*
-	g++ -c test/test_user_database.cpp -o test/test_user_database.o ${CompilationOptions} ${CompilationWarnings}
+test-db: test/test_user_database.o build/db_operations.o
+	g++ -o test/usrdbtest test/test_user_database.o build/db_operations.o ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
 
 macos: all
 
