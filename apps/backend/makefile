@@ -1,5 +1,5 @@
-all: build build/utils.o build/image_class.o build/api.o build/authorization.o build/db_operations.o
-	g++ -o bin/HiddenFrame build/image_class.o build/utils.o build/api.o build/authorization.o build/db_operations.o ${CompilationOptions} ${CompilationWarnings}
+all: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o
+	g++ -o bin/HiddenFrame build/image_class.o build/utils.o build/authorization.o build/db_operations.o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
 build/image_class.o: include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h 
 	g++ -c src/image_class.cpp -o build/image_class.o ${CompilationOptions}
@@ -10,10 +10,10 @@ build/utils.o: include/hiddenframe_headers.h include/utils.h
 build/db_operations.o: include/hiddenframe_headers.h include/sqlite/*
 	g++ -c src/db_operations.cpp -o build/db_operations.o ${CompilationOptions} ${CompilationWarnings}
 
-build/api.o: include/hiddenframe_headers.h include/crow.h include/crow/*
+build/api.o: include/hiddenframe_headers.h include/crow.h include/crow/* include/authorization.h 
 	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
-build/authorization.o: include/jwt-cpp/* include/picojson/* include/authorization.h
+build/authorization.o: include/jwt-cpp/* include/picojson/* include/crow/* include/crow/* include/authorization.h
 	g++ -c src/authorization.cpp -o build/authorization.o ${CompilationOptions} ${CompilationWarnings}
 
 test-image: build/image_class.o test/test_image_io.o
@@ -66,6 +66,6 @@ else
 	RM := rmdir /s /q 
 	MKDIR := mkdir
 	CLEAN_DIR := del /q static\*
-	IncludePaths += -I include/ -I  C:/msys64/ucrt64/include/asio/include
+	IncludePaths += -I include/ -I  C:/msys64/ucrt64/include/asio/include 
 	CompilationOptions += -lws2_32 -lmswsock -lssl -lcrypto
 endif
