@@ -51,6 +51,7 @@ sqlite3* createDB();
 void createNewAdmin(sqlite3 *database,const string& username, const string& password);
 void createNewUser(sqlite3 *database,const string& username, const string& password, const int InviteID);
 bool authenticateUser(sqlite3 *database, const string& username, const string& password);
+int createInvite(sqlite3 *database, const string &username);
 pair<int, string> verifyToken(sqlite3 *database, const string &tokenId);
 
 #endif

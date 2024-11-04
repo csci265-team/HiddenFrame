@@ -13,7 +13,7 @@ build/db_operations.o: include/hiddenframe_headers.h include/sqlite/*
 build/api.o: include/hiddenframe_headers.h include/crow.h include/crow/*
 	g++ -c src/api.cpp -o build/api.o ${CompilationOptions} ${CompilationWarnings}
 
-build/authorization.o: include/jwt-cpp/* include/picojson/*
+build/authorization.o: include/jwt-cpp/* include/picojson/* include/authorization.h
 	g++ -c src/authorization.cpp -o build/authorization.o ${CompilationOptions} ${CompilationWarnings}
 
 test-image: build/image_class.o test/test_image_io.o

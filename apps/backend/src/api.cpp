@@ -6,7 +6,7 @@
 #include <string>
 #include <utils.h>
 #include <jwt-cpp/jwt.h>
-#include <authorization.cpp>
+#include <authorization.h>
 
 using namespace std;
 
@@ -147,27 +147,23 @@ int main()
     CROW_ROUTE(app, "/invites/create")
         .CROW_MIDDLEWARES(app, AuthorizationMiddleware)
         .methods(crow::HTTPMethod::POST)(
-            [db](crow::request &req, crow::response &res, context &ctx)
+            [db](crow::request &req, crow::response &res, AuthorizationMiddleware::context &ctx)
             {
-                auto jsonBody = crow::json::load(req.body);
-                // username and password sent as json in req body
-                string username = jsonBody["username"].s();
-                string password = jsonBody["password"].s();
-                int inviteId = jsonBody["inviteId"].i();
                 try
                 {
-                    createNewUser(db, username, password, inviteId);
+                    int inviteId = createInvite(db, ctx.username);
+                    crow::json::wvalue success_json;
+                    success_json["success"] = true;
+                    success_json["inviteId"] = inviteId;
+                    return crow::response(200, success_json);
                 }
-                catch (const std::runtime_error &e)
+                catch (const std::exception &e)
                 {
                     crow::json::wvalue error_json;
-                    error_json["success"] = true;
+                    error_json["success"] = false;
                     error_json["error"] = e.what();
-                    return crow::response(401, error_json);
+                    return crow::response(500, error_json);
                 }
-                crow::json::wvalue success_json;
-                success_json["success"] = true;
-                return crow::response(200, success_json);
             });
 
     CROW_ROUTE(app, "/image/upload")
