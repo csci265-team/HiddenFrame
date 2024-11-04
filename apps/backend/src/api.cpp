@@ -17,7 +17,7 @@ int main()
     sqlite3 *db = createDB();
     srand(static_cast<unsigned>(time(NULL)));
 
-    crow::App<crow::CORSHandler, AuthorizationMiddleware> app;
+    crow::Crow<crow::CORSHandler, AuthorizationMiddleware> app;
 
     CROW_ROUTE(app, "/")
         .methods(crow::HTTPMethod::GET)(
@@ -146,14 +146,18 @@ int main()
                 return crow::response(200, success_json);
             });
 
-    CROW_ROUTE(app, "/invites/create")
-        .CROW_MIDDLEWARES(app, AuthorizationMiddleware)
+    /*CROW_ROUTE(app, "/invites/create")
+        .CROW_MIDDLEWARES(app, AuthorizationMiddleware())
         .methods(crow::HTTPMethod::POST)(
             [db](crow::request &req, crow::response &res, AuthorizationMiddleware::context &ctx)
             {
+                auto jsonBody = crow::json::load(req.body);
                 try
                 {
                     int inviteId = createInvite(db, ctx.username);
+                    if (inviteId==-1){
+                        throw std::runtime_error("User has reached the maximum number of invites.");
+                    }
                     crow::json::wvalue success_json;
                     success_json["success"] = true;
                     success_json["inviteId"] = inviteId;
@@ -167,7 +171,7 @@ int main()
                     res = crow::response(500, error_json);
                 }
                 res.end();
-            });
+            });*/
 
     CROW_ROUTE(app, "/image/upload")
         .methods(crow::HTTPMethod::POST)(

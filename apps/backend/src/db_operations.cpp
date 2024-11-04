@@ -90,7 +90,6 @@ void createNewUser(sqlite3 *database, const string &username, const string &pass
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
   }
   sqlite3_exec(database, "BEGIN TRANSACTION;", NULL, NULL, NULL);
-  int invitesRemaining;
   // create a new sql statement
   sqlite3_stmt *stmt;
 
@@ -133,6 +132,7 @@ void createNewUser(sqlite3 *database, const string &username, const string &pass
   }
   sqlite3_finalize(stmt);
   sqlite3_exec(database, "COMMIT;", NULL, NULL, NULL);
+  return;
 }
 
 int createInvite(sqlite3 *database, const string &username)
@@ -196,9 +196,10 @@ int createInvite(sqlite3 *database, const string &username)
     else
     {
       sqlite3_finalize(stmt);
-      throw std::runtime_error("User has reached the maximum number of invites.");
+      return -1;
     }
   }
+  return -1;
 }
 
 bool authenticateUser(sqlite3 *database, const string &username, const string &password)
