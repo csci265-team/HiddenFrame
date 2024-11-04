@@ -266,6 +266,37 @@ pair<int, string> verifyToken(sqlite3 *database, const string &tokenId)
     sqlite3_finalize(stmt);
     return make_pair(userID, reinterpret_cast<const char *>(username));
   }
-  return make_pair(-1, "");
+
+  throw std::runtime_error("Token not found.");
 }
 
+void saveToken(sqlite3 *database, const string &username, const string &tokenId)
+{
+  // check if DB is opened correctly
+  if (!database)
+  {
+    throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
+  }
+  // make a new sql statement
+  sqlite3_stmt *stmt;
+  // setup sql statement
+  const char *sql = "UPDATE Users SET token_id = ? WHERE username = ?;";
+  // prepare sql statement
+  int rc = sqlite3_prepare_v2(database, sql, -1, &stmt, NULL);
+  if (rc != SQLITE_OK)
+  {
+    throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
+  }
+  // bind arguments to SQL statment
+  sqlite3_bind_text(stmt, 1, tokenId.c_str(), -1, SQLITE_STATIC);
+  sqlite3_bind_text(stmt, 2, username.c_str(), -1, SQLITE_STATIC);
+
+  // Query the DB
+  rc = sqlite3_step(stmt);
+  if (rc != SQLITE_DONE)
+  {
+    throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
+  }
+  sqlite3_finalize(stmt);
+  return;
+}

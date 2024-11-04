@@ -17,7 +17,7 @@ int main()
     sqlite3 *db = createDB();
     srand(static_cast<unsigned>(time(NULL)));
 
-    crow::App<crow::CORSHandler> app;
+    crow::App<crow::CORSHandler, AuthorizationMiddleware> app;
 
     CROW_ROUTE(app, "/")
         .methods(crow::HTTPMethod::GET)(
@@ -105,6 +105,8 @@ int main()
                                      //.set_expires_at(std::chrono::system_clock::now() + std::chrono::hours{expTime})
                                      .sign(jwt::algorithm::hs256{secret});
 
+                    saveToken(db, username, tokenId);
+
                     crow::json::wvalue success_json;
                     success_json["success"] = true;
                     success_json["token"] = token;
@@ -155,15 +157,16 @@ int main()
                     crow::json::wvalue success_json;
                     success_json["success"] = true;
                     success_json["inviteId"] = inviteId;
-                    return crow::response(200, success_json);
+                    res = crow::response(200, success_json);
                 }
                 catch (const std::exception &e)
                 {
                     crow::json::wvalue error_json;
                     error_json["success"] = false;
                     error_json["error"] = e.what();
-                    return crow::response(500, error_json);
+                    res = crow::response(500, error_json);
                 }
+                res.end();
             });
 
     CROW_ROUTE(app, "/image/upload")

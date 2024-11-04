@@ -60,7 +60,8 @@ else ifeq ($(OS),Darwin)
 	RM := rm -rf
 	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
-	IncludePaths+= -I include/ -I /opt/homebrew/include
+	IncludePaths+= -I include/ -I /opt/homebrew/include -L /opt/homebrew/opt/openssl/lib
+	CompilationOptions += -lcrypto
 else
 	RM := rmdir /s /q 
 	MKDIR := mkdir

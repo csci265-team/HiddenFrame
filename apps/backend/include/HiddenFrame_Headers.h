@@ -53,5 +53,6 @@ void createNewUser(sqlite3 *database,const string& username, const string& passw
 bool authenticateUser(sqlite3 *database, const string& username, const string& password);
 int createInvite(sqlite3 *database, const string &username);
 pair<int, string> verifyToken(sqlite3 *database, const string &tokenId);
+void saveToken(sqlite3 *database, const string &username, const string &tokenId);
 
 #endif

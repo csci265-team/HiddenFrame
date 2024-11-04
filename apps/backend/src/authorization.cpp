@@ -55,8 +55,8 @@ struct AuthorizationMiddleware : crow::ILocalMiddleware
                 {
                     crow::json::wvalue error_json;
                     error_json["success"] = false;
-                    error_json["error"] = "Internal server error";
-                    res.code = 500;
+                    error_json["error"] = e.what();
+                    res.code = 401;
                     res.write(error_json.dump());
                     res.end();
                     return;
@@ -86,8 +86,5 @@ struct AuthorizationMiddleware : crow::ILocalMiddleware
         }
     }
 
-    void after_handle(crow::request &req, crow::response &res, context &ctx)
-    {
-        // add logged in user to context
-    }
+
 };
