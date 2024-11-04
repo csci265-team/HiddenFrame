@@ -6,7 +6,7 @@ import { PageHeader, Button, Input } from "../../components";
 export const meta: MetaFunction = () => {
     return [
         { title: "HiddenFrame" },
-        { name: "description", content: "Welcome to Remix!" },
+        { name: "description", content: "Welcome to HiddenFrame!" },
     ];
 };
 
