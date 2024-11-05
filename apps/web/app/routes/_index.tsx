@@ -14,9 +14,7 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader() {
-  const resp = await fetch(`${BASE_API_URL}/images`, {
-    headers: { Authorization: token },
-  });
+  const resp = await fetch(`${BASE_API_URL}/images`);
 
   if (resp.ok)
     return { photos: await resp.json() };
@@ -53,7 +51,7 @@ export default function Index() {
       ext: fileExt,
     }));
 
-    const token = localStorage.getItem("@user/token");
+    // const token = localStorage.getItem("@user/token");
 
 
     const resp = await fetch(`${BASE_API_URL}/image/upload`, {

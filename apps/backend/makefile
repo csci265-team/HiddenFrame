@@ -44,7 +44,7 @@ clean:
 	$(CLEAN_DIR) build
 	$(CLEAN_DIR) bin
 	$(CLEAN_DIR) static
-	$(CLEAN_DIR) database
+	# $(CLEAN_DIR) database
 
 IncludePath  ?= -I include/ 
 CompilationOptions= -ggdb -std=c++17 -lsqlite3 ${IncludePaths}
