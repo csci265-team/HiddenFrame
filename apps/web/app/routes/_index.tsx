@@ -13,12 +13,21 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export async function loader() {
-  const resp = await fetch(`${BASE_API_URL}/images`);
+export async function loader({ request }: { request: Request }) {
+  const resp = await fetch(`${BASE_API_URL}/images`, {
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      "Cookie": request.headers.get("Cookie") || "token=lol",
+    }
+  });
 
   if (resp.ok)
     return { photos: await resp.json() };
-  else return { photos: [] };
+  else {
+    resp.json().then(console.error);
+    return { photos: [] };
+  }
 }
 
 export default function Index() {
