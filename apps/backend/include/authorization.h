@@ -15,7 +15,7 @@ struct AuthorizationMiddleware : public crow::ILocalMiddleware
         int userId;
     };
 
-    void before_handle(crow::request &req, crow::response &res, context &ctx);
+    void before_handle(crow::request &req, crow::response &res, context &ctx, crow::AllContext &all_ctx);
     void after_handle(crow::request &req, crow::response &res, context &ctx);
 };
 

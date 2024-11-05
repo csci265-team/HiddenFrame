@@ -7,6 +7,7 @@
 #include <utils.h>
 #include <jwt-cpp/jwt.h>
 #include <authorization.h>
+#include <crow/middlewares/cookie_parser.h>
 
 using namespace std;
 
@@ -17,7 +18,7 @@ int main()
     sqlite3 *db = createDB();
     srand(static_cast<unsigned>(time(NULL)));
 
-    crow::Crow<crow::CORSHandler, AuthorizationMiddleware> app;
+    crow::Crow<crow::CORSHandler, crow::CookieParser, AuthorizationMiddleware> app;
 
     CROW_ROUTE(app, "/")
         .methods(crow::HTTPMethod::GET)(
@@ -25,6 +26,7 @@ int main()
             { return "Hello, World!"; });
 
     CROW_ROUTE(app, "/images")
+        .CROW_MIDDLEWARES(app, AuthorizationMiddleware)
         .methods(crow::HTTPMethod::GET)(
             []()
             {
@@ -57,14 +59,15 @@ int main()
         .methods(crow::HTTPMethod::POST)(
             [db](const crow::request &req)
             {
-                auto jsonBody = crow::json::load(req.body);
-                // username and password sent as json in req body
-                string username = jsonBody["username"].s();
-                string password = jsonBody["password"].s();
-                int inviteId = jsonBody["inviteId"].i();
                 try
                 {
-                    createNewUser(db, username, password, inviteId);
+                    auto jsonBody = crow::json::load(req.body);
+                    // username and password sent as json in req body
+                    string username = jsonBody["username"].s();
+                    string password = jsonBody["password"].s();
+                    // int inviteId = jsonBody["inviteId"].i();
+
+                    createNewAdmin(db, username, password);
                 }
                 catch (const std::runtime_error &e)
                 {
@@ -80,7 +83,7 @@ int main()
 
     CROW_ROUTE(app, "/login")
         .methods(crow::HTTPMethod::POST)(
-            [db](const crow::request &req)
+            [&app, db](const crow::request &req)
             {
                 auto jsonBody = crow::json::load(req.body);
                 // username and password sent as json in req body
@@ -106,6 +109,11 @@ int main()
                                      .sign(jwt::algorithm::hs256{secret});
 
                     saveToken(db, username, tokenId);
+
+                    auto &ctx = app.get_context<crow::CookieParser>(req);
+                    ctx.set_cookie("token", token)
+                        .path("/");
+                    //.max_age(120); // this needs to be same as token expiry time
 
                     crow::json::wvalue success_json;
                     success_json["success"] = true;

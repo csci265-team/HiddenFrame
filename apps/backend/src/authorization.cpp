@@ -2,15 +2,17 @@
 #include "crow.h"
 #include <jwt-cpp/jwt.h>
 #include <HiddenFrame_Headers.h>
+#include <crow/middlewares/cookie_parser.h>
 
 using namespace std;
 
-
-void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &res, context &ctx)
+void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &res, context &ctx, AllContext &all_ctx)
 {
     try
     {
         string token = req.get_header_value("Authorization");
+
+        auto cookie_ctx = all_ctx.template get<CookieParser>();
 
         auto decoded = jwt::decode(token);
 
@@ -79,6 +81,7 @@ void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &
     }
 }
 
-void AuthorizationMiddleware::after_handle(crow::request &req, crow::response &res, context &ctx){
+void AuthorizationMiddleware::after_handle(crow::request &req, crow::response &res, context &ctx)
+{
     return;
 }
