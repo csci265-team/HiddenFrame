@@ -1,16 +1,25 @@
 #include "authorization.h"
-#include "crow.h"
 #include <jwt-cpp/jwt.h>
 #include <HiddenFrame_Headers.h>
+#include <crow/middlewares/cookie_parser.h>
+#include <crow/middlewares/cors.h>
 
 using namespace std;
 
-
-void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &res, context &ctx)
+template <typename AllContext>
+void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &res, context &ctx, AllContext &all_ctx)
 {
     try
     {
         string token = req.get_header_value("Authorization");
+
+        if (token.empty())
+        {
+            auto cookie_ctx = all_ctx.template get<crow::CookieParser>();
+            token = cookie_ctx.get_cookie("token");
+        }
+
+        cout << token << endl;
 
         auto decoded = jwt::decode(token);
 
@@ -21,64 +30,39 @@ void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &
                 crow::json::wvalue error_json;
                 error_json["success"] = false;
                 error_json["error"] = "Token expired";
-                res.code = 401;
-                res.write(error_json.dump());
+                res = crow::response(401, error_json);
                 res.end();
                 return;
             }
 
-            string token_id = decoded.get_id();
-            string secret = std::getenv("JWT_SECRET");
-
-            auto verifier = jwt::verify()
-                                .with_issuer("HiddenFrame")
-                                .allow_algorithm(jwt::algorithm::hs256{secret});
-            verifier.verify(decoded); // this will error if verification fails
-
-            try
-            {
-                sqlite3 *db = createDB();
-                auto [user_id, username] = verifyToken(db, token_id);
-
-                ctx.userId = user_id;
-                ctx.tokenId = token_id;
-                ctx.username = username;
-            }
-            catch (const std::exception &e)
-            {
-                crow::json::wvalue error_json;
-                error_json["success"] = false;
-                error_json["error"] = e.what();
-                res.code = 401;
-                res.write(error_json.dump());
-                res.end();
-                return;
-            }
+            ctx.username = decoded.get_payload_claim("username").as_string();
+            ctx.tokenId = decoded.get_id();
+            ctx.userId = decoded.get_payload_claim("userId").as_integer();
         }
         else
         {
             crow::json::wvalue error_json;
             error_json["success"] = false;
-            error_json["error"] = "Unauthorized";
-            res.code = 401;
-            res.write(error_json.dump());
+            error_json["error"] = "Invalid token";
+            res = crow::response(401, error_json);
             res.end();
             return;
         }
     }
-
     catch (const std::exception &e)
     {
         crow::json::wvalue error_json;
         error_json["success"] = false;
-        error_json["error"] = "Unauthorized";
-        res.code = 401;
-        res.write(error_json.dump());
+        error_json["error"] = e.what();
+        res = crow::response(401, error_json);
         res.end();
         return;
     }
 }
 
-void AuthorizationMiddleware::after_handle(crow::request &req, crow::response &res, context &ctx){
+void AuthorizationMiddleware::after_handle(crow::request &req, crow::response &res, context &ctx)
+{
     return;
 }
+
+template void AuthorizationMiddleware::before_handle<crow::detail::context<crow::CORSHandler, crow::CookieParser, AuthorizationMiddleware>>(crow::request &req, crow::response &res, context &ctx, crow::detail::context<crow::CORSHandler, crow::CookieParser, AuthorizationMiddleware> &all_ctx);
