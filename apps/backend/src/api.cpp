@@ -146,16 +146,18 @@ int main()
                 return crow::response(200, success_json);
             });
 
-    /*CROW_ROUTE(app, "/invites/create")
-        .CROW_MIDDLEWARES(app, AuthorizationMiddleware())
-        .methods(crow::HTTPMethod::POST)(
-            [db](crow::request &req, crow::response &res, AuthorizationMiddleware::context &ctx)
+    CROW_ROUTE(app, "/invites/create")
+        .methods(crow::HTTPMethod::POST)
+        .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(
+            [&app, db](crow::request &req, crow::response &res)
             {
+                auto &ctx = app.get_context<AuthorizationMiddleware>(req);
                 auto jsonBody = crow::json::load(req.body);
                 try
                 {
                     int inviteId = createInvite(db, ctx.username);
-                    if (inviteId==-1){
+                    if (inviteId == -1)
+                    {
                         throw std::runtime_error("User has reached the maximum number of invites.");
                     }
                     crow::json::wvalue success_json;
@@ -171,7 +173,7 @@ int main()
                     res = crow::response(500, error_json);
                 }
                 res.end();
-            });*/
+            });
 
     CROW_ROUTE(app, "/image/upload")
         .methods(crow::HTTPMethod::POST)(
