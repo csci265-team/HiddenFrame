@@ -18,7 +18,7 @@ int main()
     sqlite3 *db = createDB();
     srand(static_cast<unsigned>(time(NULL)));
 
-    crow::Crow<crow::CORSHandler, crow::CookieParser, AuthorizationMiddleware> app;
+    crow::Crow<crow::CookieParser, crow::CORSHandler, AuthorizationMiddleware> app;
 
     CROW_ROUTE(app, "/")
         .methods(crow::HTTPMethod::GET)(
@@ -26,7 +26,7 @@ int main()
             { return "Hello, World!"; });
 
     CROW_ROUTE(app, "/images")
-        .CROW_MIDDLEWARES(app, AuthorizationMiddleware)
+        // .CROW_MIDDLEWARES(app, AuthorizationMiddleware) this was done for testing auth middleware
         .methods(crow::HTTPMethod::GET)(
             []()
             {
@@ -105,15 +105,15 @@ int main()
                                      .set_id(tokenId)
                                      .set_payload_claim("username", jwt::claim(username))
                                      .set_issued_at(std::chrono::system_clock::now())
-                                     //.set_expires_at(std::chrono::system_clock::now() + std::chrono::hours{expTime})
+                                     .set_expires_at(std::chrono::system_clock::now() + std::chrono::hours{3000})
                                      .sign(jwt::algorithm::hs256{secret});
 
                     saveToken(db, username, tokenId);
 
                     auto &ctx = app.get_context<crow::CookieParser>(req);
                     ctx.set_cookie("token", token)
-                        .path("/");
-                    //.max_age(120); // this needs to be same as token expiry time
+                        .path("/")
+                        .max_age(120); // this needs to be same as token expiry time
 
                     crow::json::wvalue success_json;
                     success_json["success"] = true;
