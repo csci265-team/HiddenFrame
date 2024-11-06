@@ -58,12 +58,13 @@ else
 	IS_UNIX = 1
 endif
 
+#OS specific commands and flags
 ifeq ($(IS_UNIX), 1)
 	# For Unix-like systems (Linux/macOS)
 	RM := rm -rf
 	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
-	IncludePaths+= -I include/ -I /usr/local/include
+	IncludePaths+= -I include/ -I /usr/local/include /opt/homebrew/include
 	BUILD_DIRS := build static bin database
 	BUILD_DIRS_COMMAND = $(foreach dir,$(BUILD_DIRS),$(shell if [ ! -d "$(dir)" ]; then $(MKDIR) $(dir); fi))
 else ifeq ($(IS_WINDOWS), 1)
