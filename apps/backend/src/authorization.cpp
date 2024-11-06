@@ -87,7 +87,8 @@ void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &
     }
 }
 
-void AuthorizationMiddleware::after_handle(crow::request &req, crow::response &res, context &ctx)
+//@ amitoj - I commented out args to suppress compile warnings
+void AuthorizationMiddleware::after_handle(crow::request &/*req*/, crow::response &/*res*/, context &/*ctx*/)
 {
     // Implement any post-processing logic here
 }

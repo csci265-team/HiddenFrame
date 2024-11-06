@@ -28,6 +28,8 @@ test/test_user_database.o: include/hiddenframe_headers.h include/sqlite/*
 test-db: test/test_user_database.o build/db_operations.o
 	g++ -o test/usrdbtest test/test_user_database.o build/db_operations.o ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
 
+.PHONY: build clean test-db macos linux windows
+
 macos: all
 
 linux: all
@@ -35,37 +37,42 @@ linux: all
 windows: all
 
 build:
-	$(MKDIR) build
-	$(MKDIR) static
-	$(MKDIR) bin
-	$(MKDIR) database
+	$(BUILD_DIRS_COMMAND)
 
 clean:
 	$(CLEAN_DIR) build
 	$(CLEAN_DIR) bin
 	$(CLEAN_DIR) static
-	# $(CLEAN_DIR) database
+#	$(CLEAN_DIR) database 
 
 IncludePath  ?= -I include/ 
 CompilationOptions= -ggdb -std=c++17 -lsqlite3 ${IncludePaths}
 CompilationWarnings=-Wall -Wextra
 
-OS := $(shell uname)
-ifeq ($(OS),Linux)
+# Detect the OS type
+ifeq ($(OS),Windows_NT)
+	# For Windows
+	IS_WINDOWS = 1
+else
+	# For Unix-based systems (Linux/macOS)
+	IS_UNIX = 1
+endif
+
+ifeq ($(IS_UNIX), 1)
+	# For Unix-like systems (Linux/macOS)
 	RM := rm -rf
 	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
 	IncludePaths+= -I include/ -I /usr/local/include
-else ifeq ($(OS),Darwin)
-	RM := rm -rf
-	MKDIR := mkdir -p
-	CLEAN_DIR := rm -rf static/*
-	IncludePaths+= -I include/ -I /opt/homebrew/include -L /opt/homebrew/opt/openssl/lib
-	CompilationOptions += -lcrypto
-else
+	BUILD_DIRS := build static bin database
+	BUILD_DIRS_COMMAND = $(foreach dir,$(BUILD_DIRS),$(shell if [ ! -d "$(dir)" ]; then $(MKDIR) $(dir); fi))
+else ifeq ($(IS_WINDOWS), 1)
+	# For Windows (MinGW/MSYS) logic
 	RM := rmdir /s /q 
 	MKDIR := mkdir
 	CLEAN_DIR := del /q static\*
 	IncludePaths += -I include/ -I  C:/msys64/ucrt64/include/asio/include 
 	CompilationOptions += -lws2_32 -lmswsock -lssl -lcrypto
+	BUILD_DIRS := build static bin database
+	BUILD_DIRS_COMMAND = $(foreach dir,$(BUILD_DIRS),$(shell if not exist "$(dir)" mkdir $(dir)))
 endif
