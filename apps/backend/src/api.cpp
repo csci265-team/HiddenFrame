@@ -91,6 +91,10 @@ int main()
                 string password = jsonBody["password"].s();
                 // check username and password against database here
                 bool validcredentials = authenticateUser(db, username, password);
+                //TEST
+                if (validcredentials){
+                    cout << "user authentication was successful";
+                }
                 // if valid, generate token and return it
                 if (validcredentials)
                 {

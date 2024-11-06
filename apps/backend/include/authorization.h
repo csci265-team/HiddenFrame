@@ -3,7 +3,7 @@
 
 #include "crow.h"
 #include <jwt-cpp/jwt.h>
-#include <HiddenFrame_Headers.h>
+#include <hiddenframe_headers.h>
 #include <string>
 #include <crow/middlewares/cors.h>
 #include <variant>
