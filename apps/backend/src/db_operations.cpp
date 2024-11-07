@@ -238,7 +238,7 @@ bool authenticateUser(sqlite3 *database, const string &username, const string &p
 }
 
 // verify token fucntion that returns user id and username if token is valid
-pair<int, string> verifyToken(sqlite3 *database, const string &tokenId)
+pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId)
 {
   // check if DB is opened correctly
   if (!database)
