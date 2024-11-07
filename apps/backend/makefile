@@ -28,6 +28,8 @@ test/test_user_database.o: include/hiddenframe_headers.h include/sqlite/*
 test-db: test/test_user_database.o build/db_operations.o
 	g++ -o test/usrdbtest test/test_user_database.o build/db_operations.o ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
 
+.PHONY: build clean
+
 macos: all
 
 linux: all
@@ -44,7 +46,7 @@ clean:
 	$(CLEAN_DIR) build
 	$(CLEAN_DIR) bin
 	$(CLEAN_DIR) static
-	# $(CLEAN_DIR) database
+#   $(CLEAN_DIR) database
 
 IncludePath  ?= -I include/ 
 CompilationOptions= -ggdb -std=c++17 -lsqlite3 ${IncludePaths}
@@ -64,8 +66,8 @@ else ifeq ($(OS),Darwin)
 	CompilationOptions += -lcrypto
 else
 	RM := rmdir /s /q 
-	MKDIR := mkdir
+	MKDIR := powershell -Command "New-Item -ItemType Directory -Force -Path " 
 	CLEAN_DIR := del /q static\*
 	IncludePaths += -I include/ -I  C:/msys64/ucrt64/include/asio/include 
-	CompilationOptions += -lws2_32 -lmswsock -lssl -lcrypto
+	CompilationOptions += -lws2_32 -lmswsock -lssl -lcrypto 
 endif
