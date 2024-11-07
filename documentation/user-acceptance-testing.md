@@ -4,6 +4,14 @@
 
 ## Project/product name: HiddenFrame
 
+Test compoent lead:
+- Artem: UI
+- Yagna: API
+- Amitoj: encoding/decoding
+- Patrick: Universal testing
+- Jermey: User Account Control
+- Will: Image I/O
+
 ## Known Issues
 
 This is likely to be a large and highly detailed document, describing many scripts, files, and other resources on the team repo (and possibly elsewhere). It is likely that the team will not have the time to fully complete all the various repo-side test content, so the known issues section should clearly and precisely identify what is incomplete (along with any other known errors/omissions in the document).
