@@ -52,7 +52,7 @@ void createNewAdmin(sqlite3 *database,const string& username, const string& pass
 void createNewUser(sqlite3 *database,const string& username, const string& password, const int InviteID);
 bool authenticateUser(sqlite3 *database, const string& username, const string& password);
 int createInvite(sqlite3 *database, const string &username);
-pair<int, string> verifyToken(sqlite3 *database, const string &tokenId);
+pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId);
 void saveToken(sqlite3 *database, const string &username, const string &tokenId);
 
 #endif

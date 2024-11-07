@@ -26,7 +26,7 @@ int main()
             { return "Hello, World!"; });
 
     CROW_ROUTE(app, "/images")
-        // .CROW_MIDDLEWARES(app, AuthorizationMiddleware) this was done for testing auth middleware
+        // .CROW_MIDDLEWARES(app, AuthorizationMiddleware) // this was done for testing auth middleware
         .methods(crow::HTTPMethod::GET)(
             []()
             {
@@ -91,8 +91,9 @@ int main()
                 string password = jsonBody["password"].s();
                 // check username and password against database here
                 bool validcredentials = authenticateUser(db, username, password);
-                //TEST
-                if (validcredentials){
+                // TEST
+                if (validcredentials)
+                {
                     cout << "user authentication was successful";
                 }
                 // if valid, generate token and return it
@@ -161,7 +162,7 @@ int main()
     CROW_ROUTE(app, "/invites/create")
         .methods(crow::HTTPMethod::POST)
         .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(
-            [&app, db](crow::request &req, crow::response &res)
+            [&app, db](const crow::request &req, crow::response &res)
             {
                 auto &ctx = app.get_context<AuthorizationMiddleware>(req);
                 auto jsonBody = crow::json::load(req.body);
@@ -189,7 +190,7 @@ int main()
 
     CROW_ROUTE(app, "/image/upload")
         .methods(crow::HTTPMethod::POST)(
-            [](const crow::request &req)
+            [&app, db](const crow::request &req)
             {
                 int random = rand();
 
@@ -253,7 +254,15 @@ int main()
 
                         int fileSize = meta["size"].i();
 
-                        if (message != "")
+                        // check if token is sent, then verify token
+                        auto &cookie_ctx = app.get_context<crow::CookieParser>(req);
+                        std::string token = cookie_ctx.get_cookie("token");
+                        auto [isAuthed, _] = verify_token(token, db);
+
+                        cout << "token" << token << endl;
+                        cout << "isAuthed: " << isAuthed << endl;
+
+                        if (message != "" && isAuthed)
                         {
                             std::vector<unsigned char> convertedData(fileSize + 1);
 

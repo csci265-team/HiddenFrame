@@ -2,8 +2,8 @@
 import type { MetaFunction, ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData, Form, useNavigation } from "@remix-run/react";
-import { PageHeader, Button, Input } from "../../components";
-import { BASE_API_URL } from "../../lib/consts";
+import { PageHeader, Button, Input } from "../components";
+import { BASE_API_URL } from "../lib/consts";
 
 export const meta: MetaFunction = () => {
     return [

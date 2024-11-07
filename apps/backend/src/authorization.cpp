@@ -28,7 +28,7 @@ std::pair<bool, std::variant<std::string, std::tuple<int, std::string, std::stri
                                 .allow_algorithm(jwt::algorithm::hs256{secret});
             verifier.verify(decoded); // this will error if verification fails
 
-            auto [user_id, username] = verifyToken(database, token_id); // verify with db
+            auto [user_id, username] = verifyTokenWithDb(database, token_id); // verify with db
 
             return {true, std::make_tuple(user_id, token_id, username)};
         }
