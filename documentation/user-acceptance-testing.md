@@ -1,4 +1,4 @@
-# CSCI 265 Team Structure and Project Proposal (Phase 1)
+# CSCI 265 User Acceptance Testing (Phase 5)
 
 ## Team name: Team HiddenFrame
 
