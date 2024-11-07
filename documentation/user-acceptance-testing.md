@@ -1,19 +1,8 @@
 # CSCI 265 Team Structure and Project Proposal (Phase 1)
 
-## Team name: YOUR TEAM NAME HERE
+## Team name: Team HiddenFrame
 
-## Project/product name: YOUR PRODUCT NAME HERE
-
-## Members and contact email
-
-*note which person has been designated the main contact person for questions from the instructor*
-
- - NameA, their@emailaddy *main contact*
- - NameB, their@emailaddy
- - NameC, their@emailaddy
- - NameD, their@emailaddy
- - NameE, their@emailaddy
- - NameF, their@emailaddy
+## Project/product name: HiddenFrame
 
 ## Known Issues
 
