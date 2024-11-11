@@ -43,7 +43,7 @@ The 'frontend' testing will also require a suite of particular tests including:
 The two systems must also work together so a whole system test should examine all of the components that each of the above tests describe as well as:
 - Communication using the API server is correct and responsive. 
 - The front end can access all, appropriate to user permission, features.
-- Confirm that the HiddenFrame works in a client-server configuration (i.e.: works on over a LAN), and that the communication is secured (HTTPS).
+- Confirm that the HiddenFrame works in a client-server configuration (i.e.: works over a LAN), and that the communication is secured (HTTPS).
 
 ### Testing Overview
 
