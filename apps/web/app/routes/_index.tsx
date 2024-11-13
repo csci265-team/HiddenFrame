@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { MetaFunction, ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useLoaderData, Form, useNavigation } from "@remix-run/react";
+import { useLoaderData, Form, useNavigation, useActionData } from "@remix-run/react";
 import { Button, PageHeader, Input, Switch } from "../components";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BASE_API_URL } from "../lib/consts";
+import { toast } from "sonner";
 
 export const meta: MetaFunction = () => {
   return [
@@ -74,6 +75,17 @@ export default function Index() {
   const transition = useNavigation();
   const loading = transition.state === "submitting";
   const [showMessages, setShowMessages] = useState(false);
+  const action = useActionData();
+
+  useEffect(() => {
+    // @ts-expect-error cant type
+    if (action?.error) {
+      // @ts-expect-error cant type
+      toast.error(action.error || "An error occurred");
+    } else {
+      toast.success("Image uploaded successfully")
+    }
+  }, [action]);
 
   return (
     <div className="flex items-center justify-center h-full">
