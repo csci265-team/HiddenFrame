@@ -5,6 +5,7 @@ import { BASE_API_URL } from "../lib/consts";
 import { useState } from "react";
 import { useSearchParams } from "@remix-run/react";
 import { hashPassword } from "../lib/utils";
+import { toast } from "sonner";
 // import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
@@ -41,9 +42,11 @@ export default function Register() {
         });
 
         if (resp.ok) {
+            toast.success("Registered successfully");
             window.location.href = "/login";
         } else {
-            alert("Failed to upload image.");
+            const error = await resp.text();
+            toast.error("Unable to register", { description: error });
             setLoading(false)
         }
     }
