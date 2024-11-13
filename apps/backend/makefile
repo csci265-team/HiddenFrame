@@ -16,17 +16,23 @@ build/api.o: include/hiddenframe_headers.h include/crow.h include/crow/* include
 build/authorization.o: include/jwt-cpp/* include/picojson/* include/crow/* include/crow/* include/authorization.h
 	g++ -c src/authorization.cpp -o build/authorization.o ${CompilationOptions} ${CompilationWarnings}
 
-test-image: build/image_class.o test/test_image_io.o
-	g++ -o test/test_image_io build/image_class.o test/test_image_io.o build/utils.o ${CompilationOptions} ${CompilationWarnings}
+test: all build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
+	g++ -o bin/test/HiddenFrame_Test build/test/test_image_io.o build/test/test_user_database.o build/test/main.o build/image_class.o build/utils.o build/authorization.o build/db_operations.o ${CompilationOptions} ${CompilationWarnings}
 
-test/test_image_io.o: include/hiddenframe_headers.h
-	g++ -c test/test_image_io.cpp -o test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
+test-image: build/image_class.o build/test/test_image_io.o
+	g++ -o bin/test/test_image_io build/image_class.o build/test/test_image_io.o build/utils.o ${CompilationOptions} ${CompilationWarnings}
 
-test/test_user_database.o: include/hiddenframe_headers.h include/sqlite/*
-	g++ -c test/test_user_database.cpp -o test/test_user_database.o ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
+build/test/test_image_io.o: include/hiddenframe_headers.h
+	g++ -c test/test_image_io.cpp -o build/test/test_image_io.o ${CompilationOptions} ${CompilationWarnings}
 
-test-db: test/test_user_database.o build/db_operations.o
-	g++ -o test/usrdbtest test/test_user_database.o build/db_operations.o ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
+build/test/test_user_database.o: include/hiddenframe_headers.h include/sqlite/*
+	g++ -c test/test_user_database.cpp -o build/test/test_user_database.o ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
+
+test-db: build/db_operations.o build/test/test_user_database.o 
+	g++ -o bin/test/usrdbtest build/test/test_user_database.o build/db_operations.o ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
+
+build/test/main.o: test/main.cpp
+	g++ -c test/main.cpp -o build/test/main.o ${CompilationOptions} ${CompilationWarnings}
 
 .PHONY: build clean
 
@@ -37,9 +43,9 @@ linux: all
 windows: all
 
 build:
-	$(MKDIR) build
+	$(MKDIR) build/test
 	$(MKDIR) static
-	$(MKDIR) bin
+	$(MKDIR) bin/test
 	$(MKDIR) database
 
 clean:
