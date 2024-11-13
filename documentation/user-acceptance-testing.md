@@ -65,19 +65,19 @@ PwdInv01	First bad password	one entry of bad password by registered user
 PwdInv03	Third password failure	third consecutive bad password by registered user
 
 Key Generation Testing
-Keys001     Generating a dummy key. This should generate a dummy key that looks like a typical key but does NOT match a valid key's requirements.
-Keys002     Generating a key for a image/message with more than the maximum number of characters.  Should return a throw error.
-Keys003     Generating a key for a message with the minimum number of characters. Should return a valid key.
-Keys004     Generating a key for a message with the maximum number of characters. Should return a valid key.
-Keys005     Generating two keys for identical images and messages.  Should generate unique valid keys for both carriers/payloads.
-Keys006     Generating 500 random image sizes and 500 random text strings sizes to calculate the average time for each key generation. Generating the image sizes and text string sizes should not be included in the average time calculation. NEED TO DECIDE WHAT AN ACCEPTABLE TIME THRESHOLD SHOULD BE TO GENERATE A KEY AND/OR EMBED AN IMAGE.
-Keys007     Generating a key for an image that does not exist. Should return a throw error.
-Keys008     Generating a key for an image that is greater than the maximum allowed image size ((2^31)+1 pixels). Should return a throw error.
-Keys009     Generating a key for an image that is of the minimum size (3 pixels for a 4 channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key.
-Keys010     Generating a key for an image that is the minimum size (4 pixels for a 3 channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key.
-Keys011     Generating a key for an image that is the minimum size (9 pixels for a 2 channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.
-Keys012     Generating a key for an image that is the minimum size (9 pixels for a 1 channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.
-Keys013     Generating a key for an image that is of the maximum pixel size (largest 32-bit integer (2^31)) for any valid character length. Should generate a valid key.
+- Keys001 - Generating a dummy key. This should generate a dummy key that looks like a typical key but does NOT match a valid key's requirements.
+- Keys002 - Generating a key for a image/message with more than the maximum number of characters.  Should return a throw error.
+- Keys003 - Generating a key for a message with the minimum number of characters. Should return a valid key.
+- Keys004 - Generating a key for a message with the maximum number of characters. Should return a valid key.
+- Keys005 - Generating two keys for identical images and messages.  Should generate unique valid keys for both carriers/payloads.
+- Keys006 - Generating 500 random image sizes and 500 random text strings sizes to calculate the average time for each key generation. Generating the image sizes and text string sizes should not be included in the average time calculation. NEED TO DECIDE WHAT AN ACCEPTABLE TIME THRESHOLD SHOULD BE TO GENERATE A KEY AND/OR EMBED AN IMAGE.
+- Keys007 - Generating a key for an image that does not exist. Should return a throw error.
+- Keys008 - Generating a key for an image that is greater than the maximum allowed image size ((2^31)+1 pixels). Should return a throw error.
+- Keys009 - Generating a key for an image that is of the minimum size (3 pixels for a 4 channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key.
+- Keys010 - Generating a key for an image that is the minimum size (4 pixels for a 3 channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key.
+- Keys011 - Generating a key for an image that is the minimum size (9 pixels for a 2 channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.
+- Keys012 - Generating a key for an image that is the minimum size (9 pixels for a 1 channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.
+- Keys013 - Generating a key for an image that is of the maximum pixel size (largest 32-bit integer (2^31)) for any valid character length. Should generate a valid key.
 
 
 ## Test Infrastructure
