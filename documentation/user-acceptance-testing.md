@@ -64,21 +64,37 @@ A couple of sample entries might be something like the following (links not repr
 PwdInv01	First bad password	one entry of bad password by registered user
 PwdInv03	Third password failure	third consecutive bad password by registered user
 
-Key Generation Testing
+#### Key Generation Testing
 - Keys001 - Generating a dummy key. This should generate a dummy key that looks like a typical key but does NOT match a valid key's requirements.
-- Keys002 - Generating a key for a image/message with more than the maximum number of characters.  Should return a throw error.
+- Keys002 - Generating a key for an image/message with more than the maximum number of characters.  Should return a throw error.
 - Keys003 - Generating a key for a message with the minimum number of characters. Should return a valid key.
 - Keys004 - Generating a key for a message with the maximum number of characters. Should return a valid key.
 - Keys005 - Generating two keys for identical images and messages.  Should generate unique valid keys for both carriers/payloads.
-- Keys006 - Generating 500 random image sizes and 500 random text strings sizes to calculate the average time for each key generation. Generating the image sizes and text string sizes should not be included in the average time calculation. NEED TO DECIDE WHAT AN ACCEPTABLE TIME THRESHOLD SHOULD BE TO GENERATE A KEY AND/OR EMBED AN IMAGE.
+- Keys006 - Generating 500 random image sizes and 500 random text string sizes to calculate the average time for each key generation. Generating the image sizes and text string sizes should not be included in the average time calculation. NEED TO DECIDE WHAT AN ACCEPTABLE TIME THRESHOLD SHOULD BE TO GENERATE A KEY AND/OR EMBED AN IMAGE.
 - Keys007 - Generating a key for an image that does not exist. Should return a throw error.
 - Keys008 - Generating a key for an image that is greater than the maximum allowed image size ((2^31)+1 pixels). Should return a throw error.
 - Keys009 - Generating a key for an image that is of the minimum size (3 pixels for a 4 channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key.
-- Keys010 - Generating a key for an image that is the minimum size (4 pixels for a 3 channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key.
-- Keys011 - Generating a key for an image that is the minimum size (9 pixels for a 2 channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.
-- Keys012 - Generating a key for an image that is the minimum size (9 pixels for a 1 channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.
+- Keys010 - Generating a key for an image that is the minimum size (4 pixels for a 3-channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key.
+- Keys011 - Generating a key for an image that is the minimum size (9 pixels for a 2-channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.
+- Keys012 - Generating a key for an image that is the minimum size (9 pixels for a 1-channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.
 - Keys013 - Generating a key for an image that is of the maximum pixel size (largest 32-bit integer (2^31)) for any valid character length. Should generate a valid key.
 
+#### User Account Control
+- User001 - Create an invalid username with more than one "@" characters. Username should not be created.
+- User002 - Create an invalid username with more than one "." characters after the singular "@" character. Username should not be created.
+- User003 - Create an invalid username where the first character in the username is an "@" character (ie no user before the @domain). Username should not be created.
+- User004 - Create an invalid username with no "@" character (ie no indication of where the @domain begins). Username should not be created.
+- User005 - Create an invalid username with no "." after the singular "@" character (ie no indication of where .com .ca .other after the @domain begins). Username should not be created.
+- User006 - Create an invalid username with no "a-z" characters between the singular "@" and singular trailing "." characters (no domain in @domain). Username should not be created.
+- User007 - Create an invalid username with no "a-z" characters after the singular "." character following the singular "@" character (ie no indication of .com .ca .other type). Username should not be created.
+- User008 - Create a special character (!@#$%^&*()_-+=) appears after the "." character following the singular "@" character. Username should not be created.
+- User009 - Create a valid user account using an email address. User should be added.
+- User010 - Create five valid user accounts from invites from the valid user account in User008 test. The five users should be added.
+- User011 - Attempt the creation of a sixth user account as an invite from a valid user account in User008 test. The sixth invite should not be created.
+- User012 - Create a new user account with a username matching an existing user account.  The user should not be created.
+- User013 - Create a new unique invite account from an existing invite account. The user account should be created.
+- User014 - Remove the inviter account from which the invitee was created for User013 test. Both the inviter and invitee should be removed.
+- User015 - Re-invite the inviter and invitee from User013 test. NEED TO DECIDE AS A GROUP IF THEY SHOULD BE REINVITED/REACTIVATED/ACCESS REVOKED/SENT TO ADMIN FOR APPROVAL.
 
 ## Test Infrastructure
 
