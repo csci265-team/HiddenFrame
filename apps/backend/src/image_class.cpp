@@ -405,9 +405,10 @@ int image::euclideanAlgorithm(int n, int b) {
 }
 
 /**
- * @brief   Store numbers coprime to n in an array and keeps track of the number calculated.
- * @param   n The value for which we are searching for number coprime to.
- * @param   coprimes The array storing value coprime to n.
+ * @brief   Builds an array and stores numbers that are coprime to n, that is, any integers k such that
+ *          gcd(n,k)=1.
+ * @param   n The integer value that is being checked for values that are coprime to it.
+ * @param   coprimes An array to store integer values coprime to n.
  * @param   count The size of the coprimes array.
  * @return  No return type for a void function.
  */
@@ -426,10 +427,10 @@ void image::coprime_numbers(int n, int coprimes[], int &count) {
 }
 
 /**
- * @brief   Searches the coprimes array for a skip size that is just less than the 
- * @param   n The value for which we are searching for number coprime to.
- * @param   coprimes The array storing value coprime to n.
- * @param   count The size of the coprimes array.
+ * @brief   Searches the coprimes array for a skip size that is just less than an even division of data pixels into the total pixels.
+ * @param   coprimes The array storing values coprime to n.
+ * @param   size The size of the coprimes array.
+ * @param   idealSkipSize An even division of the characters into the image's pixel count that is not a generator of the total pixels.
  * @return  No return type for a void function.
  */
 int image::binarySearch(int coprimes[], int size, const int idealSkipSize) {
@@ -463,8 +464,6 @@ string image::generateKey(int imageSize, int messageSize, int channels) {
     if (messageSize <= 1 || messageSize > 1024) {
         return "Invalid message size, exiting.";
     }
-    //time_t seed = time(NULL);
-    //srand(seed);
     int coprimes[MAX_SIZE];
     int size = 0;
     coprime_numbers(imageSize, coprimes, size);
@@ -545,8 +544,6 @@ int image::decodeKey(string key, int imageSize) {
  * @return  Returns a dummy string that does NOT satisfy the key model.
  */
 string image::generateDummyKey(int imageSize) {
-    //time_t seed = time(NULL);
-    //srand(seed);
     int randHexLength[] = {4, 5, 6, 7, 8};
     int randomLength = randHexLength[rand() % 5];
     const char hexChars[] = "0123456789ABCDEF";
