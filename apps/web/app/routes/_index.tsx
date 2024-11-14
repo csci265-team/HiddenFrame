@@ -62,7 +62,6 @@ export const action: ActionFunction = async ({ request }) => {
     method: "POST",
     body: formData,
     headers: {
-      "Content-Type": "multipart/form-data",
       "Cookie": request.headers.get("Cookie") || "",
     }
   });
