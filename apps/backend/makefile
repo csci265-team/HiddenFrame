@@ -1,3 +1,5 @@
+run: all
+	./bin/HiddenFrame
 .PHONY: all
 all: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o
 	g++ $(ObjectFiles) -o bin/HiddenFrame ${CompilationOptions} ${CompilationWarnings}
@@ -24,18 +26,18 @@ test-image: build/image_class.o build/test/test_image_io.o
 	g++ $^ build/utils.o -o bin/test/test_image_io ${CompilationOptions} ${CompilationWarnings}
 
 build/test/test_user_database.o: test/test_user_database.cpp include/hiddenframe_headers.h include/sqlite/*
-	g++ -c $< -o $@o ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
+	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
 
 test-db: build/db_operations.o build/test/test_user_database.o
 	g++ $^ -o bin/test/usrdbtest ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
 
 build/test/main.o: test/main.cpp
-	g++ -c $^ -o $@ ${CompilationOptions} ${CompilationWarnings}
+	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
 
 .PHONY: test
-test: all build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
-	g++ $(ObjectFiles) $(TestObjectFiles) -o bin/test/HiddenFrame_Test ${CompilationOptions} ${CompilationWarnings}
-
+test: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
+	g++ build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/test/test_image_io.o build/test/test_user_database.o build/test/main.o -o bin/test/HiddenFrame_Test ${CompilationOptions} ${CompilationWarnings}
+	./bin/test/HiddenFrame_Test --log_level=message
 
 macos: all
 
