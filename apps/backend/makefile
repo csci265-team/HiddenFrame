@@ -1,5 +1,5 @@
 run: all
-	./bin/HiddenFrame
+	JWT_SECRET=secret ./bin/HiddenFrame
 .PHONY: all
 all: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o
 	g++ $(ObjectFiles) -o bin/HiddenFrame ${CompilationOptions} ${CompilationWarnings}
@@ -37,7 +37,7 @@ build/test/main.o: test/main.cpp
 .PHONY: test
 test: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
 	g++ build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/test/test_image_io.o build/test/test_user_database.o build/test/main.o -o bin/test/HiddenFrame_Test ${CompilationOptions} ${CompilationWarnings}
-	./bin/test/HiddenFrame_Test --log_level=message
+	BOOST_TEST_LOG_LEVEL=message ./bin/test/HiddenFrame_Test
 
 macos: all
 
