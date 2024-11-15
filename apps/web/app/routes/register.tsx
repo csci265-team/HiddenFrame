@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction, ActionFunction } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
 import { PageHeader, Button, Input } from "../components";
 import { BASE_API_URL } from "../lib/consts";
-import { useState } from "react";
-import { useSearchParams } from "@remix-run/react";
+import { useEffect } from "react";
+import { useSearchParams, useActionData, Form, useNavigation } from "@remix-run/react";
 import { hashPassword } from "../lib/utils";
 import { toast } from "sonner";
-// import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
     return [
@@ -15,41 +15,48 @@ export const meta: MetaFunction = () => {
     ];
 };
 
-export default function Register() {
+export const action: ActionFunction = async ({ request }) => {
+    const formData = await request.formData();
+    const inviteId = formData.get("inviteId") as string;
+    const username = formData.get("username") as string;
+    const password = formData.get("password") as string;
 
-    const [loading, setLoading] = useState(false);
+    const hashedPassword = await hashPassword(password);
+
+    const resp = await fetch(`${BASE_API_URL}/register`, {
+        method: "POST",
+        body: JSON.stringify({
+            inviteId,
+            username,
+            password: hashedPassword,
+        }),
+        headers: {
+            "Content-Type": "application/json",
+        }
+    });
+
+    if (resp.ok) {
+        return redirect("/login");
+    } else {
+        const error = await resp.text();
+        return json({ error }, { status: 400 });
+    }
+};
+
+export default function Register() {
     const [searchParams] = useSearchParams();
     const inviteId = searchParams.get("inviteId");
+    const actionData = useActionData();
+    const transition = useNavigation();
+    const loading = transition.state === "submitting";
 
-    const register = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setLoading(true);
-
-        const username = e.currentTarget.username.value;
-
-        const hashedPassword = await hashPassword(e.currentTarget.password.value);
-
-        const resp = await fetch(`${BASE_API_URL}/register`, {
-            method: "POST",
-            body: JSON.stringify({
-                inviteId,
-                username,
-                password: hashedPassword,
-            }),
-            headers: {
-                contentType: "application/json",
-            }
-        });
-
-        if (resp.ok) {
-            toast.success("Registered successfully");
-            window.location.href = "/login";
-        } else {
-            const error = await resp.text();
-            toast.error("Unable to register", { description: error });
-            setLoading(false)
+    useEffect(() => {
+        // @ts-expect-error error
+        if (actionData?.error) {
+            // @ts-expect-error error
+            toast.error("Unable to register", { description: actionData.error });
         }
-    }
+    }, [actionData]);
 
     return (
         <div className="flex items-center justify-center h-full">
@@ -59,11 +66,12 @@ export default function Register() {
                 <h2 className="text-2xl font-black ">Register</h2>
 
                 <div className="flex flex-col gap-4 p-4">
-                    <form className="flex flex-col gap-4 p-4" onSubmit={register}>
+                    <Form method="post" className="flex flex-col gap-4 p-4">
+                        <input type="hidden" name="inviteId" value={inviteId || ""} />
                         <Input type="text" id="username" name="username" placeholder="Username" />
                         <Input type="password" id="password" name="password" placeholder="Password" />
                         <Button loading={loading} type="submit">Register</Button>
-                    </form>
+                    </Form>
                 </div>
             </div>
         </div>
