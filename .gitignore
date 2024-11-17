@@ -9,3 +9,12 @@ a.out
 .DS_Store
 **/*/.DS_Store
 **/.DS_Store
+
+*.swp
+**/*/*.swp
+**/*.swp
+
+.vscode
+*.exe
+**/*/*.exe
+**/*.exe

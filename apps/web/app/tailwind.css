@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  @apply bg-colors-hf-beige dark:bg-colors-hf-brown;
+  @apply text-colors-hf-brown dark:text-colors-hf-beige;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+
+  font-family: Outfit;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
