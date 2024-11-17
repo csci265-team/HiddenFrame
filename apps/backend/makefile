@@ -59,7 +59,7 @@ clean:
 
 IncludePath  ?= -I include/ 
 CompilationOptions= -ggdb -std=c++17 ${IncludePaths}
-LinkerOptions= -lsqlite3 -L /opt/homebrew/opt/openssl/lib -lcrypto
+LinkerOptions= -lsqlite3
 CompilationWarnings=-Wall -Wextra
 ObjectFiles= build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o
 TestObjectFiles= build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
@@ -80,7 +80,7 @@ else ifeq ($(OS),Darwin)
 	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
 	IncludePaths+= -I include/ -I /opt/homebrew/include
-	LinkerOptions += -lcrypto
+	LinkerOptions += -L /opt/homebrew/opt/openssl/lib -lcrypto
 else
 	RM := rmdir /s /q 
 	MKDIR := powershell -Command "New-Item -ItemType Directory -Force -Path " 
