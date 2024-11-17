@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { MetaFunction, ActionFunction } from "@remix-run/node";
+import type { MetaFunction, ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData, Form, useActionData, useNavigation } from "@remix-run/react";
 import { Button, PageHeader, Input, Switch } from "../components";
@@ -7,6 +7,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { BASE_API_URL } from "../lib/consts";
 import { toast } from "sonner";
+import { getSession } from "../session.server";
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,28 +16,35 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export async function loader({ request }: { request: Request }) {
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  const token = session.get("token");
+  const username = session.get("username");
+
   try {
     const resp = await fetch(`${BASE_API_URL}/images`, {
       headers: {
         "Content-Type": "application/json",
-        "Cookie": request.headers.get("Cookie") || "",
+        "Authorization": token || "",
+        "Cookie": `token=${token}`,
       }
     });
 
     if (resp.ok)
-      return { success: true, message: "", photos: await resp.json() };
+      return { success: true, message: "", photos: await resp.json(), username };
     else {
       const error = await resp.json();
       console.error(error);
-      return { success: false, message: error, photos: [] };
+      return { success: false, message: error, photos: [], username };
     }
   } catch (error) {
-    return { success: false, message: error, photos: [] };
+    return { success: false, message: error, photos: [], username };
   }
-}
+};
 
 export const action: ActionFunction = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  const token = session.get("token");
   const formData = await request.formData();
   const file = formData.get("file") as File;
   const message = formData.get("message") as string;
@@ -62,7 +70,8 @@ export const action: ActionFunction = async ({ request }) => {
     method: "POST",
     body: formData,
     headers: {
-      "Cookie": request.headers.get("Cookie") || "",
+      "Authorization": token || "",
+      "Cookie": `token=${token}`,
     }
   });
 
@@ -79,7 +88,7 @@ type ActionData = {
 };
 
 export default function Index() {
-  const { photos, success: loaderSuccess, message: loaderMessage } = useLoaderData<typeof loader>();
+  const { photos, success: loaderSuccess, message: loaderMessage, username } = useLoaderData<typeof loader>();
   const transition = useNavigation();
   const loading = transition.state === "submitting";
   const action = useActionData<ActionData>();
@@ -106,6 +115,8 @@ export default function Index() {
       <div className="flex flex-col items-center gap-16 h-full">
         <PageHeader />
 
+        {username && <h2 className="text-2xl font-black">Logged In as {username}</h2>}
+
         <Form method="post" encType="multipart/form-data" className="flex flex-col gap-2">
           <Input accept=".jpg,.png" id="file" name="file" type="file" />
           <Input id="message" name="message" type="text" placeholder="Enter message..." />
@@ -123,7 +134,7 @@ export default function Index() {
             .sort((a: { id: string }, b: { id: string }) => b.id.localeCompare(a.id))
             .map((photo: any) => (
               <div key={photo.id}>
-                <a href={photo.url} target="_blank" rel="noreferrer">
+                <a href={`/u/${photo.id}`} target="_blank" rel="noreferrer">
                   <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
                 </a>
                 {photo.payload && <p>{photo.payload}</p>}

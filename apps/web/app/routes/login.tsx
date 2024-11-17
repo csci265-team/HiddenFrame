@@ -7,7 +7,7 @@ import { BASE_API_URL } from "../lib/consts";
 import { hashPassword } from "../lib/utils";
 import { useEffect } from "react";
 import { toast } from "sonner";
-
+import { getSession, commitSession } from "../session.server";
 
 export const meta: MetaFunction = () => {
     return [
@@ -36,9 +36,12 @@ export const action: ActionFunction = async ({ request }) => {
 
     if (resp.ok) {
         const body = await resp.json();
+        const session = await getSession(request.headers.get("Cookie"));
+        session.set("username", username);
+        session.set("token", body.token);
         return redirect("/", {
             headers: {
-                "Set-Cookie": `token=${body.token}; HttpOnly; Path=/`
+                "Set-Cookie": await commitSession(session)
             }
         });
     } else {

@@ -51,6 +51,8 @@ void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &
     {
         string token = req.get_header_value("Authorization");
 
+        cout << token << endl;
+
         if (token.empty())
         {
             auto &cookie_ctx = all_ctx.template get<crow::CookieParser>();
