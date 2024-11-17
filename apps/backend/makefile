@@ -13,13 +13,13 @@ build/image_class.o: src/image_class.cpp include/hiddenframe_headers.h include/s
 	g++ -c $< -o $@ ${CompilationOptions}
 
 build/authorization.o: src/authorization.cpp include/jwt-cpp/* include/picojson/* include/crow/* include/crow/* include/authorization.h
-	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} 
+	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
 build/db_operations.o: src/db_operations.cpp include/hiddenframe_headers.h include/sqlite/*
-	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
+	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
 build/api.o: src/api.cpp include/hiddenframe_headers.h include/crow.h include/crow/* include/authorization.h 
-	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
+	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
 build/test/test_image_io.o: test/test_image_io.cpp include/hiddenframe_headers.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
