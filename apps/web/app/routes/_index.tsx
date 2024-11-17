@@ -7,7 +7,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { BASE_API_URL } from "../lib/consts";
 import { toast } from "sonner";
-import { getSession } from "../session.server";
+import { getSession } from "../session";
 
 export const meta: MetaFunction = () => {
   return [
@@ -115,11 +115,10 @@ export default function Index() {
       <div className="flex flex-col items-center gap-16 h-full">
         <PageHeader />
 
-        {username && <h2 className="text-2xl font-black">Logged In as {username}</h2>}
 
         <Form method="post" encType="multipart/form-data" className="flex flex-col gap-2">
           <Input accept=".jpg,.png" id="file" name="file" type="file" />
-          <Input id="message" name="message" type="text" placeholder="Enter message..." />
+          {username && <Input id="message" name="message" type="text" placeholder="Enter message..." />}
           <Button loading={loading} type="submit"> <FaCloudUploadAlt className="w-8" /> Upload New Image</Button>
         </Form>
 
@@ -134,7 +133,7 @@ export default function Index() {
             .sort((a: { id: string }, b: { id: string }) => b.id.localeCompare(a.id))
             .map((photo: any) => (
               <div key={photo.id}>
-                <a href={`/u/${photo.id}`} target="_blank" rel="noreferrer">
+                <a href={`/u/${photo.id}`}>
                   <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
                 </a>
                 {photo.payload && <p>{photo.payload}</p>}

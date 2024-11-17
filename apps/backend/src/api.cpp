@@ -93,7 +93,8 @@ int main()
                 }
             });
 
-    CROW_ROUTE(app, "/register")
+    // internal route for POC pourposes only
+    CROW_ROUTE(app, "/register/admin")
         .methods(crow::HTTPMethod::POST)(
             [db](const crow::request &req)
             {
@@ -106,6 +107,32 @@ int main()
                     // int inviteId = jsonBody["inviteId"].i();
 
                     createNewAdmin(db, username, password);
+                }
+                catch (const std::runtime_error &e)
+                {
+                    crow::json::wvalue error_json;
+                    error_json["success"] = true;
+                    error_json["error"] = e.what();
+                    return crow::response(401, error_json);
+                }
+                crow::json::wvalue success_json;
+                success_json["success"] = true;
+                return crow::response(200, success_json);
+            });
+
+    CROW_ROUTE(app, "/register")
+        .methods(crow::HTTPMethod::POST)(
+            [db](const crow::request &req)
+            {
+                try
+                {
+                    auto jsonBody = crow::json::load(req.body);
+                    // username and password sent as json in req body
+                    string username = jsonBody["username"].s();
+                    string password = jsonBody["password"].s();
+                    int inviteId = jsonBody["inviteId"].i();
+
+                    createNewUser(db, username, password, inviteId);
                 }
                 catch (const std::runtime_error &e)
                 {
@@ -203,7 +230,6 @@ int main()
             [&app, db](const crow::request &req, crow::response &res)
             {
                 auto &ctx = app.get_context<AuthorizationMiddleware>(req);
-                auto jsonBody = crow::json::load(req.body);
                 try
                 {
                     int inviteId = createInvite(db, ctx.username);
@@ -221,6 +247,7 @@ int main()
                     crow::json::wvalue error_json;
                     error_json["success"] = false;
                     error_json["error"] = e.what();
+                    cout << e.what() << endl;
                     res = crow::response(500, error_json);
                 }
                 res.end();

@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { MetaFunction, ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useActionData, Form, useNavigation } from "@remix-run/react";
-import { PageHeader, Button, Input } from "../components";
-import { BASE_API_URL } from "../lib/consts";
-import { hashPassword } from "../lib/utils";
+import { PageHeader, Button, Input } from "../../components";
+import { BASE_API_URL } from "../../lib/consts";
 import { useEffect } from "react";
+import { hashPassword } from "../../lib/utils";
 import { toast } from "sonner";
-import { getSession, commitSession } from "../session";
+import { useActionData, Form, useNavigation } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
     return [
@@ -23,11 +22,11 @@ export const action: ActionFunction = async ({ request }) => {
 
     const hashedPassword = await hashPassword(password);
 
-    const resp = await fetch(`${BASE_API_URL}/login`, {
+    const resp = await fetch(`${BASE_API_URL}/register/admin`, {
         method: "POST",
         body: JSON.stringify({
             username,
-            password: hashedPassword
+            password: hashedPassword,
         }),
         headers: {
             "Content-Type": "application/json",
@@ -35,21 +34,14 @@ export const action: ActionFunction = async ({ request }) => {
     });
 
     if (resp.ok) {
-        const body = await resp.json();
-        const session = await getSession(request.headers.get("Cookie"));
-        session.set("username", username);
-        session.set("token", body.token);
-        return redirect("/", {
-            headers: {
-                "Set-Cookie": await commitSession(session)
-            }
-        });
+        return redirect("/login");
     } else {
-        return json({ error: "Invalid credentials" }, { status: 401 });
+        const error = await resp.text();
+        return json({ error }, { status: 400 });
     }
 };
 
-export default function Login() {
+export default function RegisterAdmin() {
     const actionData = useActionData();
     const transition = useNavigation();
     const loading = transition.state === "submitting";
@@ -58,22 +50,22 @@ export default function Login() {
         // @ts-expect-error cant type
         if (actionData?.error) {
             // @ts-expect-error cant type
-            toast.error(actionData.error || "An error occurred");
+            toast.error("Unable to register", { description: actionData.error });
         }
-    }, [actionData])
+    }, [actionData]);
 
     return (
         <div className="flex items-center justify-center h-full">
             <div className="flex flex-col items-center gap-8 h-full">
                 <PageHeader />
 
-                <h2 className="text-2xl font-black ">Login</h2>
+                <h2 className="text-2xl font-black ">Register admin</h2>
 
                 <div className="flex flex-col gap-4 p-4">
                     <Form method="post" className="flex flex-col gap-4 p-4">
                         <Input type="text" id="username" name="username" placeholder="Username" />
                         <Input type="password" id="password" name="password" placeholder="Password" />
-                        <Button loading={loading} type="submit">Login</Button>
+                        <Button loading={loading} type="submit">Register</Button>
                     </Form>
                 </div>
             </div>

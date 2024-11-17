@@ -77,6 +77,8 @@ void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &
         ctx.userId = user_id;
         ctx.tokenId = token_id;
         ctx.username = username;
+
+        cout << "User: " << username << " with id: " << user_id << endl;
     }
     catch (const std::exception &e)
     {
@@ -90,7 +92,7 @@ void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &
 }
 
 //@ amitoj - I commented out args to suppress compile warnings
-void AuthorizationMiddleware::after_handle(crow::request &/*req*/, crow::response &/*res*/, context &/*ctx*/)
+void AuthorizationMiddleware::after_handle(crow::request & /*req*/, crow::response & /*res*/, context & /*ctx*/)
 {
     // Implement any post-processing logic here
 }

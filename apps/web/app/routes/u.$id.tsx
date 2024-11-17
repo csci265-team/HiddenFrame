@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { MetaFunction, ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData, Form, useActionData, useNavigation } from "@remix-run/react";
+import { useLoaderData, Form, useActionData, useNavigation, redirect } from "@remix-run/react";
 import { Button, PageHeader, Input } from "../components";
 import { useEffect } from "react";
 import { BASE_API_URL } from "../lib/consts";
 import { toast } from "sonner";
-import { getSession } from "../session.server";
+import { getSession } from "../session";
 import { InfoIcon } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../components/ui/tooltip";
 
 export const meta: MetaFunction = () => {
     return [
@@ -20,9 +19,13 @@ export const meta: MetaFunction = () => {
 export const loader: LoaderFunction = async ({ request, params }) => {
     const session = await getSession(request.headers.get("Cookie"));
     const username = session.get("username");
-    const { id } = params;
 
-    return { id, username };
+    const { id } = params;
+    const imgUrl = `${BASE_API_URL}/static/${id}`;
+
+    if (!username) redirect(imgUrl)
+
+    return { imgUrl, username };
 };
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -61,7 +64,7 @@ type ActionData = {
 };
 
 export default function ImagePage() {
-    const { id, username } = useLoaderData<typeof loader>();
+    const { imgUrl, username } = useLoaderData<typeof loader>();
     const transition = useNavigation();
     const loading = transition.state === "submitting";
     const action = useActionData<ActionData>();
@@ -76,7 +79,6 @@ export default function ImagePage() {
         }
     }, [action]);
 
-    const imgUrl = `${BASE_API_URL}/static/${id}`;
 
     return (
         <div className="flex items-center justify-center h-full">
@@ -105,7 +107,7 @@ export default function ImagePage() {
                                         <Tooltip>
                                             <TooltipTrigger type="button"><InfoIcon size={24} /></TooltipTrigger>
                                             <TooltipContent>
-                                                <p>The image not actually have a message embedded.</p>
+                                                <p>The image may not actually have a message embedded.</p>
                                             </TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
