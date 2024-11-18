@@ -33,6 +33,9 @@ build/test/main.o: test/main.cpp
 .PHONY: test
 test: all build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
 	g++ build/utils.o build/image_class.o build/authorization.o build/db_operations.o ${TestObjectFiles} -o bin/test/HiddenFrame_Test ${LinkerOptions} ${CompilationWarnings}
+
+.PHONY: run-test
+run-test: test
 	BOOST_TEST_LOG_LEVEL=message ./bin/test/HiddenFrame_Test
 
 macos: all
