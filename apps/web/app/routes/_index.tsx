@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { MetaFunction, ActionFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useLoaderData, Form, useNavigation } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { useLoaderData, Form, useActionData, useNavigation } from "@remix-run/react";
 import { Button, PageHeader, Input, Switch } from "../components";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BASE_API_URL } from "../lib/consts";
+import { toast } from "sonner";
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,19 +16,23 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({ request }: { request: Request }) {
-  const resp = await fetch(`${BASE_API_URL}/images`, {
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      "Cookie": request.headers.get("Cookie") || "",
-    }
-  });
+  try {
+    const resp = await fetch(`${BASE_API_URL}/images`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Cookie": request.headers.get("Cookie") || "",
+      }
+    });
 
-  if (resp.ok)
-    return { photos: await resp.json() };
-  else {
-    resp.json().then(console.error);
-    return { photos: [] };
+    if (resp.ok)
+      return { success: true, message: "", photos: await resp.json() };
+    else {
+      const error = await resp.json();
+      console.error(error);
+      return { success: false, message: error, photos: [] };
+    }
+  } catch (error) {
+    return { success: false, message: error, photos: [] };
   }
 }
 
@@ -37,7 +42,7 @@ export const action: ActionFunction = async ({ request }) => {
   const message = formData.get("message") as string;
 
   if (!file) {
-    return json({ error: "No file uploaded" }, { status: 400 });
+    return json({ success: false, message: "No file uploaded" }, { status: 400 });
   }
 
   let fileExt: string[] | string = file.name.split(".");
@@ -57,23 +62,44 @@ export const action: ActionFunction = async ({ request }) => {
     method: "POST",
     body: formData,
     headers: {
-      contentType: "multipart/form-data",
       "Cookie": request.headers.get("Cookie") || "",
     }
   });
 
   if (resp.ok) {
-    return redirect("/");
+    return json({ success: true, message: "Image uploaded successfully" }, { status: 200 });
   } else {
-    return json({ error: "Failed to upload image" }, { status: 500 });
+    return json({ success: false, message: "Failed to upload image" }, { status: 500 });
   }
 };
 
+type ActionData = {
+  success: boolean;
+  message: string;
+};
+
 export default function Index() {
-  const { photos } = useLoaderData<typeof loader>();
+  const { photos, success: loaderSuccess, message: loaderMessage } = useLoaderData<typeof loader>();
   const transition = useNavigation();
   const loading = transition.state === "submitting";
+  const action = useActionData<ActionData>();
   const [showMessages, setShowMessages] = useState(false);
+
+  useEffect(() => {
+    if (action) {
+      if (!action.success) {
+        toast.error(action.message || "An error occurred");
+      } else {
+        toast.success(action.message || "Image uploaded successfully");
+      }
+    }
+  }, [action]);
+
+  useEffect(() => {
+    if (!loaderSuccess) {
+      toast.error(loaderMessage || "An error occurred");
+    }
+  }, [loaderSuccess, loaderMessage]);
 
   return (
     <div className="flex items-center justify-center h-full">

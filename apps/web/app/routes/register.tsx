@@ -4,6 +4,8 @@ import { PageHeader, Button, Input } from "../components";
 import { BASE_API_URL } from "../lib/consts";
 import { useState } from "react";
 import { useSearchParams } from "@remix-run/react";
+import { hashPassword } from "../lib/utils";
+import { toast } from "sonner";
 // import { useLoaderData } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
@@ -25,15 +27,14 @@ export default function Register() {
 
         const username = e.currentTarget.username.value;
 
-        const hashedPassword = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(e.currentTarget.password.value));
-        const hashedPasswordHex = Array.from(new Uint8Array(hashedPassword)).map(b => b.toString(16).padStart(2, '0')).join('');
+        const hashedPassword = await hashPassword(e.currentTarget.password.value);
 
         const resp = await fetch(`${BASE_API_URL}/register`, {
             method: "POST",
             body: JSON.stringify({
                 inviteId,
                 username,
-                password: hashedPasswordHex,
+                password: hashedPassword,
             }),
             headers: {
                 contentType: "application/json",
@@ -41,9 +42,11 @@ export default function Register() {
         });
 
         if (resp.ok) {
+            toast.success("Registered successfully");
             window.location.href = "/login";
         } else {
-            alert("Failed to upload image.");
+            const error = await resp.text();
+            toast.error("Unable to register", { description: error });
             setLoading(false)
         }
     }

@@ -4,6 +4,10 @@ import { json, redirect } from "@remix-run/node";
 import { useActionData, Form, useNavigation } from "@remix-run/react";
 import { PageHeader, Button, Input } from "../components";
 import { BASE_API_URL } from "../lib/consts";
+import { hashPassword } from "../lib/utils";
+import { useEffect } from "react";
+import { toast } from "sonner";
+
 
 export const meta: MetaFunction = () => {
     return [
@@ -17,14 +21,13 @@ export const action: ActionFunction = async ({ request }) => {
     const username = formData.get("username") as string;
     const password = formData.get("password") as string;
 
-    const hashedPassword = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(password));
-    const hashedPasswordHex = Array.from(new Uint8Array(hashedPassword)).map(b => b.toString(16).padStart(2, '0')).join('');
+    const hashedPassword = await hashPassword(password);
 
     const resp = await fetch(`${BASE_API_URL}/login`, {
         method: "POST",
         body: JSON.stringify({
             username,
-            password: hashedPasswordHex
+            password: hashedPassword
         }),
         headers: {
             "Content-Type": "application/json",
@@ -48,6 +51,14 @@ export default function Login() {
     const transition = useNavigation();
     const loading = transition.state === "submitting";
 
+    useEffect(() => {
+        // @ts-expect-error cant type
+        if (actionData?.error) {
+            // @ts-expect-error cant type
+            toast.error(actionData.error || "An error occurred");
+        }
+    }, [actionData])
+
     return (
         <div className="flex items-center justify-center h-full">
             <div className="flex flex-col items-center gap-8 h-full">
@@ -61,8 +72,6 @@ export default function Login() {
                         <Input type="password" id="password" name="password" placeholder="Password" />
                         <Button loading={loading} type="submit">Login</Button>
                     </Form>
-                    { /* @ts-expect-error it only returns error if error otherwise redirects */}
-                    {actionData?.error && <p className="text-red-500">{actionData.error}</p>}
                 </div>
             </div>
         </div>
