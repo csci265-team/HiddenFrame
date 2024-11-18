@@ -5,6 +5,9 @@
 #include <stdexcept>
 #include <string>
 #include <iostream>
+#include <vector>
+#include <tuple>
+#include <crow/json.h>
 
 using namespace std;
 
@@ -224,6 +227,42 @@ int createInvite(sqlite3 *database, const string &username)
   {
     throw std::runtime_error("User not found.");
   }
+}
+
+vector<crow::json::wvalue> listInvites(sqlite3 *database, const int &userId)
+{
+  // check if DB is opened correctly
+  if (!database)
+  {
+    throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
+  }
+
+  // create a new sql statement
+  sqlite3_stmt *stmt;
+  const char *sql = "SELECT id, is_valid, created_by, used_by FROM Invites WHERE created_by = ?;";
+  int rc = sqlite3_prepare_v2(database, sql, -1, &stmt, NULL);
+  if (rc != SQLITE_OK)
+  {
+    throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
+  }
+  sqlite3_bind_int(stmt, 1, userId);
+
+  vector<crow::json::wvalue> invites;
+
+  while (sqlite3_step(stmt) == SQLITE_ROW)
+  {
+    crow::json::wvalue invite;
+    invite["id"] = sqlite3_column_int(stmt, 0);
+    invite["is_valid"] = sqlite3_column_int(stmt, 1);
+    invite["created_by"] = sqlite3_column_int(stmt, 2);
+    invite["used_by"] = sqlite3_column_int(stmt, 3);
+
+    invites.push_back(invite);
+  }
+
+  sqlite3_finalize(stmt);
+
+  return invites;
 }
 
 bool authenticateUser(sqlite3 *database, const string &username, const string &password)

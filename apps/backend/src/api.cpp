@@ -200,28 +200,17 @@ int main()
             });
 
     CROW_ROUTE(app, "/invites")
-        .methods(crow::HTTPMethod::POST)(
-            [db](const crow::request &req)
+        .methods(crow::HTTPMethod::GET)
+        .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(
+            [&app, db](const crow::request &req)
             {
-                auto jsonBody = crow::json::load(req.body);
-                // username and password sent as json in req body
-                string username = jsonBody["username"].s();
-                string password = jsonBody["password"].s();
-                int inviteId = jsonBody["inviteId"].i();
-                try
-                {
-                    createNewUser(db, username, password, inviteId);
-                }
-                catch (const std::runtime_error &e)
-                {
-                    crow::json::wvalue error_json;
-                    error_json["success"] = true;
-                    error_json["error"] = e.what();
-                    return crow::response(401, error_json);
-                }
-                crow::json::wvalue success_json;
-                success_json["success"] = true;
-                return crow::response(200, success_json);
+                auto &ctx = app.get_context<AuthorizationMiddleware>(req);
+                vector<crow::json::wvalue> invites = listInvites(db, ctx.userId);
+
+                crow::json::wvalue jsonResponse;
+                jsonResponse = crow::json::wvalue::list(invites.begin(), invites.end());
+
+                return jsonResponse;
             });
 
     CROW_ROUTE(app, "/invites/create")
@@ -235,7 +224,11 @@ int main()
                     int inviteId = createInvite(db, ctx.username);
                     if (inviteId == -1)
                     {
-                        throw std::runtime_error("User has reached the maximum number of invites.");
+                        crow::json::wvalue error_json;
+                        error_json["success"] = false;
+                        error_json["message"] = "User has reached the maximum number of invites.";
+                        res = crow::response(401, error_json);
+                        res.end();
                     }
                     crow::json::wvalue success_json;
                     success_json["success"] = true;
