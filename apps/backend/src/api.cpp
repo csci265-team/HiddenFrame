@@ -15,8 +15,6 @@ const string BASE_API_URL = "http://localhost:8080";
 
 int main()
 {
-    string secret = std::getenv("JWT_SECRET");
-    cout << secret << endl;
     sqlite3 *db = createDB();
     srand(static_cast<unsigned>(time(NULL)));
 
