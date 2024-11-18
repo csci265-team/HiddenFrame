@@ -31,7 +31,7 @@ build/test/main.o: test/main.cpp
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
 
 .PHONY: test
-test: all build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
+test: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
 	g++ build/utils.o build/image_class.o build/authorization.o build/db_operations.o ${TestObjectFiles} -o bin/test/HiddenFrame_Test ${LinkerOptions} ${CompilationWarnings}
 
 .PHONY: run-test
