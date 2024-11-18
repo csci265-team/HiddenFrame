@@ -1,6 +1,6 @@
 .PHONY: run
 run: all
-	JWT_SECRET=secret ./bin/HiddenFrame
+	$(EXECUTE)
 
 .PHONY: all
 all: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o
@@ -62,7 +62,7 @@ clean:
 
 IncludePath  ?= -I include/ 
 CompilationOptions= -ggdb -std=c++17 ${IncludePaths}
-LinkerOptions= -lsqlite3
+LinkerOptions= -lsqlite3 -lcrypto
 CompilationWarnings=-Wall -Wextra
 ObjectFiles= build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o
 TestObjectFiles= build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
@@ -77,17 +77,20 @@ ifeq ($(OS),Linux)
 	RM := rm -rf
 	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
+	EXECUTE := JWT_SECRET=secret ./bin/HiddenFrame
 	IncludePaths+= -I include/ -I /usr/local/include
 else ifeq ($(OS),Darwin)
 	RM := rm -rf
 	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
+	EXECUTE := JWT_SECRET=secret ./bin/HiddenFrame
 	IncludePaths+= -I include/ -I /opt/homebrew/include
-	LinkerOptions += -L /opt/homebrew/opt/openssl/lib -lcrypto
+	LinkerOptions += -L /opt/homebrew/opt/openssl/lib 
 else
 	RM := rmdir /s /q 
-	MKDIR := powershell -Command "New-Item -ItemType Directory -Force -Path " 
+	MKDIR := @powershell -Command "New-Item -ItemType Directory -Force -Path " 
 	CLEAN_DIR := del /q static\*
+	EXECUTE := 	@powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
 	IncludePaths += -I include/ -I  C:/msys64/ucrt64/include/asio/include 
-	LinkerOptions += -lws2_32 -lmswsock -lssl -lcrypto 
+	LinkerOptions += -lws2_32 -lmswsock -lssl  
 endif
