@@ -35,8 +35,8 @@ test: build build/utils.o build/image_class.o build/authorization.o build/db_ope
 	g++ build/utils.o build/image_class.o build/authorization.o build/db_operations.o ${TestObjectFiles} -o bin/test/HiddenFrame_Test ${LinkerOptions} ${CompilationWarnings}
 
 .PHONY: run-test
-run-test: test
-	BOOST_TEST_LOG_LEVEL=message ./bin/test/HiddenFrame_Test
+run-test: test 
+	$(RUNTEST)
 
 macos: all
 
@@ -78,12 +78,14 @@ ifeq ($(OS),Linux)
 	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
 	EXECUTE := JWT_SECRET=secret ./bin/HiddenFrame
+	RUNTEST := BOOST_TEST_LOG_LEVEL=message ./bin/test/HiddenFrame_Test
 	IncludePaths+= -I include/ -I /usr/local/include
 else ifeq ($(OS),Darwin)
 	RM := rm -rf
 	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
 	EXECUTE := JWT_SECRET=secret ./bin/HiddenFrame
+	RUNTEST := BOOST_TEST_LOG_LEVEL=message ./bin/test/HiddenFrame_Test
 	IncludePaths+= -I include/ -I /opt/homebrew/include
 	LinkerOptions += -L /opt/homebrew/opt/openssl/lib 
 else
@@ -91,6 +93,7 @@ else
 	MKDIR := @powershell -Command "New-Item -ItemType Directory -Force -Path " 
 	CLEAN_DIR := del /q static\*
 	EXECUTE := 	@powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
+	RUNTEST := @powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
 	IncludePaths += -I include/ -I  C:/msys64/ucrt64/include/asio/include 
 	LinkerOptions += -lws2_32 -lmswsock -lssl  
 endif
