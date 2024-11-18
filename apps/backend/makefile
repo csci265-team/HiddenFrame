@@ -76,6 +76,7 @@ ifeq ($(OS),Linux)
 	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
 	IncludePaths+= -I include/ -I /usr/local/include
+	CompilationOptions += -lcrypto
 else ifeq ($(OS),Darwin)
 	RM := rm -rf
 	MKDIR := mkdir -p
