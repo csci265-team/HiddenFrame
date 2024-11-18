@@ -4,6 +4,7 @@
 #include <hiddenframe_headers.h>
 #include <stdexcept>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -22,7 +23,7 @@ sqlite3 *createDB()
                     "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
                     "username TEXT NOT NULL,"
                     "token_id TEXT,"
-                    "invites_created INTEGER DEFAULT 5,"
+                    "invites_created INTEGER DEFAULT 0,"
                     "password TEXT NOT NULL);";
 
   const char *sql2 = "CREATE TABLE IF NOT EXISTS Invites("
@@ -131,6 +132,26 @@ void createNewUser(sqlite3 *database, const string &username, const string &pass
     throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
   }
   sqlite3_finalize(stmt);
+
+  // get the new user's ID
+  int newUserID = sqlite3_last_insert_rowid(database);
+
+  // update the invite to set is_valid to false and used_by to the new user ID
+  const char *sql2 = "UPDATE Invites SET is_valid = 0, used_by = ? WHERE id = ?;";
+  rc = sqlite3_prepare_v2(database, sql2, -1, &stmt, NULL);
+  if (rc != SQLITE_OK)
+  {
+    throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
+  }
+  sqlite3_bind_int(stmt, 1, newUserID);
+  sqlite3_bind_int(stmt, 2, inviteID);
+  rc = sqlite3_step(stmt);
+  if (rc != SQLITE_DONE)
+  {
+    throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
+  }
+  sqlite3_finalize(stmt);
+
   sqlite3_exec(database, "COMMIT;", NULL, NULL, NULL);
   return;
 }
@@ -157,6 +178,7 @@ int createInvite(sqlite3 *database, const string &username)
   {
     int userID = sqlite3_column_int(stmt, 0);
     int invitesCreated = sqlite3_column_int(stmt, 1);
+    cout << "Invites created: " << invitesCreated << endl;
     sqlite3_finalize(stmt);
     // check if user has invites remaining, they can make max 5
     if (invitesCreated < 5)
@@ -195,11 +217,13 @@ int createInvite(sqlite3 *database, const string &username)
     }
     else
     {
-      sqlite3_finalize(stmt);
-      return -1;
+      return -1; // No invites remaining
     }
   }
-  return -1;
+  else
+  {
+    throw std::runtime_error("User not found.");
+  }
 }
 
 bool authenticateUser(sqlite3 *database, const string &username, const string &password)
@@ -255,7 +279,7 @@ pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId)
   {
     throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
   }
-  // bind arguments to SQL statment
+  // bind arguments to SQL statement
   sqlite3_bind_text(stmt, 1, tokenId.c_str(), -1, SQLITE_STATIC);
 
   // Query the DB
@@ -264,8 +288,9 @@ pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId)
   {
     int userID = sqlite3_column_int(stmt, 0);
     const unsigned char *username = sqlite3_column_text(stmt, 1);
+    std::string usernameStr(reinterpret_cast<const char *>(username));
     sqlite3_finalize(stmt);
-    return make_pair(userID, reinterpret_cast<const char *>(username));
+    return make_pair(userID, usernameStr);
   }
 
   throw std::runtime_error("Token not found.");
