@@ -57,7 +57,10 @@ In this section the objective is to give the reader a clear understanding of the
 
 ### Key Back-End Testing Challenges
 
-In this section the objective is to give the reader a clear understanding of the biggest challenges/obstacles in the thorough testing of all the requirements for your product. (The challenges faced will be very particular to the specific product and its runtime environment.)
+Key back-end challenges where as follows:
+- Determining the test folder and makefile structure
+- Determining if testing would be automated or manual
+- Determining which, if any test framework was going to be used
 
 ### Testing Timeline
 

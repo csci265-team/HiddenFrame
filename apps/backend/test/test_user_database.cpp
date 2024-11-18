@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE(TestCreateAndAuthenticateUser)
         createNewAdmin(db, "amitoj", "meow");
 
         // Test authentications
-        bool auth1 = authenticateUser(db, "NotPat", "password");
+        bool auth1 = authenticateUser(db, "NotPat", "meow");
         bool auth2 = authenticateUser(db, "amitoj", "me0w");
         bool auth3 = authenticateUser(db, "amitoj", "meow");
 
@@ -45,13 +45,12 @@ BOOST_AUTO_TEST_CASE(TestCreateNewUsers)
     try
     {
         db = createDB();
-        // int id1 = createInvite(db, "amitoj");
-        // int id2 = createInvite(db, "amitoj");
-        // int id3 = createInvite(db, "amitoj");
-        // createNewUser(db, "1", "p1", id1);
-        // createNewUser(db, "2", "p2", id2);
-        // createNewUser(db, "3", "p3", id3);
-        // create invite is currently broken, yay testing! 
+        int id1 = createInvite(db, "amitoj");
+        int id2 = createInvite(db, "amitoj");
+        int id3 = createInvite(db, "amitoj");
+        createNewUser(db, "1", "p1", id1);
+        createNewUser(db, "2", "p2", id2);
+        createNewUser(db, "3", "p3", id3);
 
         BOOST_CHECK_THROW(createNewUser(db, "4", "p4", 0000), std::runtime_error);
 
