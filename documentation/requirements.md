@@ -83,11 +83,9 @@ Our strech goals include:
 Other known omissions are:
 
 - the amount of required storage and network capacity on a per-user basis;
-- the length of time an image will be retained on the site;
-- the file size limit and/or max resolution of images that may be uploaded;
 - storage location of steganographic 'keys'; 
-- how many invites a user can send to others to join the secret user's list; and
-- whether we will use a private user's username or email address as identifying information.
+- administrative user actions and their UI;
+- key to be provided to load images with payloads
 
 ## 3. Product features and behaviour
 
@@ -95,7 +93,7 @@ Other known omissions are:
 
 As mentioned earlier, HiddenFrame is, in brief, a picture board (like Pinterest). It will be publicly accessible and encourages the general public to share photographic content. 
 
-This photographic content will be visible on the home page of our web app on our "Image wall," which is basically a 3x3 grid of images that "infinitely" scrolls. Images will be displayed in descending order for all users, with the most recent uploads appearing first. Pictures with a hidden message will be visible to all users but will have a slightly different design/animation (TBD later) for logged in privilged users. Names of users are who uploaded a picture, whether it be embedded or not, will not be visible to other users. Having it be responsive will be one of our stretch goals. 
+This photographic content will be visible on the home page of our web app on our "Image wall," which is basically a 3x3 grid of images that "infinitely" scrolls. Images will be displayed in descending order for all users, with the most recent uploads appearing first.Pictures with a hidden message will be visible to all users. Names of users are who uploaded a picture, whether it be embedded or not, will not be visible to other users. Having it be responsive will be one of our stretch goals. 
 
 ### 3.2. Uploading images
 
@@ -111,7 +109,7 @@ Select users will be using HiddenFrame's true capabilities to exchange pictures 
 
 Our web app will have a private login page that will allow this capability. Users will be able to find this page at the `/login` endpoint (subject to change).
 
-This web page will have a simple login form that will ask the user for some sort of identifier (username/email, TBD) and a password (using passkeys is a stretch goal).
+This web page will have a simple login form that will ask the user for a username and a password (using passkeys is a stretch goal).
 
 
 ### 3.4. Hiding messages in the pictures
@@ -304,7 +302,8 @@ One of the central pillars of Project HiddenFrame is its social media. HiddenFra
 - Data use and Retention - HiddenFrame will have to comply with federal and provincial data protection laws, such as the federal [Personal Information Protection and Electronic Documents Act](https://laws-lois.justice.gc.ca/PDF/P-8.6.pdf) and the BC [Personal Information Protection Act](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03063_01).  
 - Moderation - With the anonymous nature of the posts on the public site, it is extremely important that HiddenFrame moderate content to ensure that the pictures on the site are appropriate. 
 - Hardware & Networking - Images have a relatively large storage requirement; managing server space in order to accommodate demand may be a challenge. The uploading and downloading of images can also take a significant amount of time; as such, a fast internet connection for the server will be required. (The amount of storage space and network speed required will need to be quantified on a per-user basis.)
-- Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such, Project HiddenFrame will only retain images for a set period of time before deletion (exact amount of time TBD).
+- Image retention period - The permanent storage of images in bulk is unlikely to be viable. As such, Project HiddenFrame will only retain images for a set period of time before deletion. The default setting for retention will be a week, but customizable by admin.
+- Upload Limit - The default file size upload limit will be 10MB and the max resolution of images will be 2048 pixels, but customizable by admin.
 
 ### 6.2. Private Aspect
 
