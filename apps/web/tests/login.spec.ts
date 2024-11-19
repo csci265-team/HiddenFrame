@@ -21,9 +21,6 @@ test('should register and log in successfully with valid credentials', async ({ 
     await page.click('button[type="submit"]');
     await page.waitForLoadState('networkidle');
 
-
-
-
     await expect(page).toHaveURL('http://localhost:5173/login');
 
     await page.fill('input[name="username"]', 'correctUsername');
