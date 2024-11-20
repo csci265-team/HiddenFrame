@@ -35,7 +35,9 @@ test: build build/utils.o build/image_class.o build/authorization.o build/db_ope
 	g++ build/utils.o build/image_class.o build/authorization.o build/db_operations.o ${TestObjectFiles} -o bin/test/HiddenFrame_Test ${LinkerOptions} ${CompilationWarnings}
 
 .PHONY: run-test
-run-test: test 
+run-test: test
+	$(CLEAN_DIR) bin/test/database
+	$(MKDIR) bin/test/database 
 	$(RUNTEST)
 
 macos: all
@@ -51,6 +53,7 @@ build:
 	$(MKDIR) static
 	$(MKDIR) bin
 	$(MKDIR) bin/test
+	$(MKDIR) bin/test/database
 	$(MKDIR) database
 
 .PHONY: clean
@@ -58,7 +61,7 @@ clean:
 	$(CLEAN_DIR) build
 	$(CLEAN_DIR) bin
 	$(CLEAN_DIR) static
-#   $(CLEAN_DIR) database
+#	$(CLEAN_DIR) database
 
 IncludePath  ?= -I include/ 
 CompilationOptions= -ggdb -std=c++17 ${IncludePaths}
@@ -80,7 +83,6 @@ ifeq ($(OS),Linux)
 	EXECUTE := JWT_SECRET=secret ./bin/HiddenFrame
 	RUNTEST := BOOST_TEST_LOG_LEVEL=message ./bin/test/HiddenFrame_Test
 	IncludePaths+= -I include/ -I /usr/local/include
-	CompilationOptions += -lcrypto
 else ifeq ($(OS),Darwin)
 	RM := rm -rf
 	MKDIR := mkdir -p

@@ -15,7 +15,7 @@ const string BASE_API_URL = "http://localhost:8080";
 
 int main()
 {
-    sqlite3 *db = createDB();
+    sqlite3 *db = createDB("database/userdatabase.db");
     srand(static_cast<unsigned>(time(NULL)));
 
     crow::Crow<crow::CookieParser, crow::CORSHandler, AuthorizationMiddleware> app;
@@ -381,5 +381,5 @@ int main()
             });
 
     app.port(8080).multithreaded().run();
-    sqlite3_close(db);
+    closeDB(db);
 }

@@ -47,12 +47,15 @@ class image{
         vector<char> bitStringCompressor(int channels, string toCompress);
     };
 
-sqlite3* createDB();
+
+//DB_OPS Functions
+sqlite3* createDB(string filepath);
 void createNewAdmin(sqlite3 *database,const string& username, const string& password);
 void createNewUser(sqlite3 *database,const string& username, const string& password, const int InviteID);
 bool authenticateUser(sqlite3 *database, const string& username, const string& password);
 int createInvite(sqlite3 *database, const string &username);
 pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId);
 void saveToken(sqlite3 *database, const string &username, const string &tokenId);
-
+void closeDB(sqlite3* db); 
+bool usernameExists(sqlite3* db,const string& username);
 #endif
