@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <sqlite3.h>
 #ifndef hiddenframe_headers 
 #define hiddenframe_headers
 
@@ -40,12 +41,28 @@ class image{
         //{0,1,2,3,...,n-1} that are coprime to n and store them in an array, and keeps
         //track of the count of the number of values it finds.
         void coprime_numbers(int n, int coprimes[], int &count);
-
+        //Performs a binary search of the coprimes array to find an ideal skip size between pixels for
+        //A payload going into an image.
+        int binarySearch(int coprimes[], int size, const int idealSkipSize);
+        //Generates a valid key for an image of the form (a_1,b_1,a_2,b_2,e,f) where the ab pairs
+        //may be multiplied together mod imageSize so that a*b mod imageSize = idealSkipSize;
+        string generateKey(int imageSize, int messageSize, int channels);
+        //Decodes an image key.  Returns the ideal skip size or -1 if the key is invalid.
+        int decodeKey(string key, int imageSize);
+        //Generates a dummy key that does not meet the requirements of a valid key though looks like a valid
+        //key anyone unfamiliar with how to decode a key.
+        string generateDummyKey(int imageSize);
         //Compresses a string of binary bits into an array of integers with the format:
         //[3,1,2,0,4,1,...] that is to be read, "Three 1's, two 0's, four 1's..."
         vector<char> bitStringCompressor(int channels, string toCompress);
     };
 
-
+sqlite3* createDB();
+void createNewAdmin(sqlite3 *database,const string& username, const string& password);
+void createNewUser(sqlite3 *database,const string& username, const string& password, const int InviteID);
+bool authenticateUser(sqlite3 *database, const string& username, const string& password);
+int createInvite(sqlite3 *database, const string &username);
+pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId);
+void saveToken(sqlite3 *database, const string &username, const string &tokenId);
 
 #endif

@@ -5,6 +5,9 @@
 #include <filesystem>
 #include <string>
 #include <utils.h>
+#include <jwt-cpp/jwt.h>
+#include <authorization.h>
+#include <crow/middlewares/cookie_parser.h>
 
 using namespace std;
 
@@ -12,7 +15,10 @@ const string BASE_API_URL = "http://localhost:8080";
 
 int main()
 {
-    crow::App<crow::CORSHandler> app;
+    sqlite3 *db = createDB();
+    srand(static_cast<unsigned>(time(NULL)));
+
+    crow::Crow<crow::CookieParser, crow::CORSHandler, AuthorizationMiddleware> app;
 
     CROW_ROUTE(app, "/")
         .methods(crow::HTTPMethod::GET)(
@@ -20,6 +26,7 @@ int main()
             { return "Hello, World!"; });
 
     CROW_ROUTE(app, "/images")
+        // .CROW_MIDDLEWARES(app, AuthorizationMiddleware) // this was done for testing auth middleware
         .methods(crow::HTTPMethod::GET)(
             []()
             {
@@ -28,17 +35,12 @@ int main()
 
                 for (const auto &entry : filesystem::directory_iterator(staticPath))
                 {
-                    image *imgptr = new image(entry.path().string());
-                    string payload = imgptr->retrieve_payload(2);
-
                     string filename = entry.path().filename().string();
                     string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
 
                     crow::json::wvalue photo;
-                    photo["id"] = id;
+                    photo["id"] = filename;
                     photo["url"] = BASE_API_URL + "/static/" + filename;
-                    // photo["payload"] = payload;
-                    photo["resolved_payload"] = binaryToString(payload);
                     photos.push_back(photo);
                 }
 
@@ -48,12 +50,213 @@ int main()
                 return jsonResponse;
             });
 
+    CROW_ROUTE(app, "/decode/<string>")
+        .methods(crow::HTTPMethod::POST)(
+            [](const crow::request &req, const string &id)
+            {
+                try
+                {
+                    auto jsonBody = crow::json::load(req.body);
+                    if (!jsonBody)
+                    {
+                        crow::json::wvalue errorResponse;
+                        errorResponse["success"] = false;
+                        errorResponse["message"] = "Invalid JSON";
+                        return crow::response(400, errorResponse);
+                    }
+
+                    string key = jsonBody["key"].s();
+                    string imagePath = "./static/" + id;
+
+                    if (!filesystem::exists(imagePath))
+                    {
+                        crow::json::wvalue errorResponse;
+                        errorResponse["success"] = false;
+                        errorResponse["message"] = "Image not found";
+                        return crow::response(404, errorResponse);
+                    }
+
+                    image *imgptr = new image(imagePath);
+                    string payload = imgptr->retrieve_payload(stoi(key));
+
+                    crow::json::wvalue jsonResponse;
+                    jsonResponse["success"] = true;
+                    jsonResponse["message"] = binaryToString(payload);
+                    return crow::response(200, jsonResponse);
+                }
+                catch (const std::exception &e)
+                {
+                    crow::json::wvalue errorResponse;
+                    errorResponse["success"] = false;
+                    errorResponse["message"] = e.what();
+                    return crow::response(500, errorResponse);
+                }
+            });
+
+    // internal route for POC pourposes only
+    CROW_ROUTE(app, "/register/admin")
+        .methods(crow::HTTPMethod::POST)(
+            [db](const crow::request &req)
+            {
+                try
+                {
+                    auto jsonBody = crow::json::load(req.body);
+                    // username and password sent as json in req body
+                    string username = jsonBody["username"].s();
+                    string password = jsonBody["password"].s();
+                    // int inviteId = jsonBody["inviteId"].i();
+
+                    createNewAdmin(db, username, password);
+                }
+                catch (const std::runtime_error &e)
+                {
+                    crow::json::wvalue error_json;
+                    error_json["success"] = true;
+                    error_json["error"] = e.what();
+                    return crow::response(401, error_json);
+                }
+                crow::json::wvalue success_json;
+                success_json["success"] = true;
+                return crow::response(200, success_json);
+            });
+
+    CROW_ROUTE(app, "/register")
+        .methods(crow::HTTPMethod::POST)(
+            [db](const crow::request &req)
+            {
+                try
+                {
+                    auto jsonBody = crow::json::load(req.body);
+                    // username and password sent as json in req body
+                    string username = jsonBody["username"].s();
+                    string password = jsonBody["password"].s();
+                    int inviteId = jsonBody["inviteId"].i();
+
+                    createNewUser(db, username, password, inviteId);
+                }
+                catch (const std::runtime_error &e)
+                {
+                    crow::json::wvalue error_json;
+                    error_json["success"] = true;
+                    error_json["error"] = e.what();
+                    return crow::response(401, error_json);
+                }
+                crow::json::wvalue success_json;
+                success_json["success"] = true;
+                return crow::response(200, success_json);
+            });
+
+    CROW_ROUTE(app, "/login")
+        .methods(crow::HTTPMethod::POST)(
+            [&app, db](const crow::request &req)
+            {
+                auto jsonBody = crow::json::load(req.body);
+                // username and password sent as json in req body
+                string username = jsonBody["username"].s();
+                string password = jsonBody["password"].s();
+                // check username and password against database here
+                bool validcredentials = authenticateUser(db, username, password);
+                // TEST
+                if (validcredentials)
+                {
+                    cout << "user authentication was successful";
+                }
+                // if valid, generate token and return it
+                if (validcredentials)
+                {
+                    string tokenId = to_string(rand()); // this needs to more random. store this in DB
+                    // store the token in the DB.
+                    string secret = std::getenv("JWT_SECRET");
+                    // int expTime = (int)std::getenv("JWT_EXP_HOURS");
+                    //  create token and set to exp in 3 days
+                    auto token = jwt::create()
+                                     .set_type("JWS")
+                                     .set_issuer("HiddenFrame")
+                                     .set_id(tokenId)
+                                     .set_payload_claim("username", jwt::claim(username))
+                                     .set_issued_at(std::chrono::system_clock::now())
+                                     .set_expires_at(std::chrono::system_clock::now() + std::chrono::hours{3000})
+                                     .sign(jwt::algorithm::hs256{secret});
+
+                    saveToken(db, username, tokenId);
+
+                    auto &ctx = app.get_context<crow::CookieParser>(req);
+                    ctx.set_cookie("token", token)
+                        .path("/")
+                        .max_age(120); // this needs to be same as token expiry time
+
+                    crow::json::wvalue success_json;
+                    success_json["success"] = true;
+                    success_json["token"] = token;
+                    return crow::response(200, success_json);
+                }
+                else
+                {
+                    crow::json::wvalue error_json;
+                    error_json["success"] = true;
+                    error_json["error"] = "Invalid credentials";
+                    return crow::response(401, error_json);
+                }
+            });
+
+    CROW_ROUTE(app, "/invites")
+        .methods(crow::HTTPMethod::POST)(
+            [db](const crow::request &req)
+            {
+                auto jsonBody = crow::json::load(req.body);
+                // username and password sent as json in req body
+                string username = jsonBody["username"].s();
+                string password = jsonBody["password"].s();
+                int inviteId = jsonBody["inviteId"].i();
+                try
+                {
+                    createNewUser(db, username, password, inviteId);
+                }
+                catch (const std::runtime_error &e)
+                {
+                    crow::json::wvalue error_json;
+                    error_json["success"] = true;
+                    error_json["error"] = e.what();
+                    return crow::response(401, error_json);
+                }
+                crow::json::wvalue success_json;
+                success_json["success"] = true;
+                return crow::response(200, success_json);
+            });
+
+    CROW_ROUTE(app, "/invites/create")
+        .methods(crow::HTTPMethod::POST)
+        .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(
+            [&app, db](const crow::request &req, crow::response &res)
+            {
+                auto &ctx = app.get_context<AuthorizationMiddleware>(req);
+                try
+                {
+                    int inviteId = createInvite(db, ctx.username);
+                    if (inviteId == -1)
+                    {
+                        throw std::runtime_error("User has reached the maximum number of invites.");
+                    }
+                    crow::json::wvalue success_json;
+                    success_json["success"] = true;
+                    success_json["inviteId"] = inviteId;
+                    res = crow::response(200, success_json);
+                }
+                catch (const std::exception &e)
+                {
+                    crow::json::wvalue error_json;
+                    error_json["success"] = false;
+                    error_json["error"] = e.what();
+                    cout << e.what() << endl;
+                    res = crow::response(500, error_json);
+                }
+                res.end();
+            });
+
     CROW_ROUTE(app, "/image/upload")
         .methods(crow::HTTPMethod::POST)(
-            [](const crow::request &req)
+            [&app, db](const crow::request &req)
             {
-                srand(static_cast<unsigned>(time(NULL)));
-
                 int random = rand();
 
                 string fileData;       // @patrick: this is the image data
@@ -116,7 +319,15 @@ int main()
 
                         int fileSize = meta["size"].i();
 
-                        if (message != "")
+                        // check if token is sent, then verify token
+                        auto &cookie_ctx = app.get_context<crow::CookieParser>(req);
+                        std::string token = cookie_ctx.get_cookie("token");
+                        auto [isAuthed, _] = verify_token(token, db);
+
+                        cout << "token" << token << endl;
+                        cout << "isAuthed: " << isAuthed << endl;
+
+                        if (message != "" && isAuthed)
                         {
                             std::vector<unsigned char> convertedData(fileSize + 1);
 
@@ -170,4 +381,5 @@ int main()
             });
 
     app.port(8080).multithreaded().run();
+    sqlite3_close(db);
 }
