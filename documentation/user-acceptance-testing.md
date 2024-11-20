@@ -134,6 +134,125 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
 | User014 | Remove the inviter account from which the invitee was created for User013 test. Both the inviter and invitee should be removed. |
 | User015 | Re-invite the inviter and invitee from User013 test. NEED TO DECIDE AS A GROUP IF THEY SHOULD BE REINVITED/REACTIVATED/ACCESS REVOKED/SENT TO ADMIN FOR APPROVAL. |
 
+#### API Testing
+- Uploading an image
+    
+    Objective: Verify that the API can upload an image successfully.
+    
+    Request:
+            
+         POST /image/upload
+    Input data:
+    
+        Image file: test_image_1.jpg
+    Output:
+            
+        Status code: 200
+        Message: Image uploaded successfully
+- Uploading an image with a secret message
+    
+    Objective: Verify that the API can upload an image and embed a secret message successfully.
+    
+    Request:
+            
+         POST /image/upload
+    Input data:
+    
+        Image file: test_image_2.png
+        Secret message: "This is a secret"
+    Output:
+            
+        Status code: 200
+        Message: Image uploaded successfully
+- Displaying the images on the image wall
+
+    Objective: Verify that the API can load all the images from the database successfully.
+
+    Request:
+            
+         GET /images
+    Output:
+            
+        Status code: 200
+        Message: Images loaded successfully
+- Logging in to the private section with the correct password
+
+    Objective: Verifing that the login function correctly processes valid credentials.
+
+    Request:
+            
+         POST /login
+    Input data:
+    
+        username: "acb"
+        password: "correctpassword"
+    Output:
+            
+        Status code: 200
+        Message: Successfully loged in
+- Logging in to the private section with incorrect password
+
+    Objective: Verifing that the login function rejects invalid credentials.
+
+    Request:
+            
+         POST /login
+    Input data:
+    
+        username: "acb"
+        password: "wrongpassword"
+    Output:
+            
+        Status code: 400
+        Message: Invalid password and username
+- Registering a user with valid invite
+
+    Objective: Verifing that the register function creates a new account for a user with a valid invite
+
+    Request:
+            
+         POST /register
+    Input data:
+    
+        username: "acb"
+        password: "correctpassword"
+        inviteID: 12345
+    Output:
+            
+        Status code: 200
+        Message: New user registered
+- Registering a user with invalid invite
+
+    Objective: Verifing that the register function rejects the request to create a new account for a user with invalid invite
+
+    Request:
+            
+         POST /register
+    Input data:
+    
+        username: "acb"
+        password: "correctpassword"
+        inviteID: 2468
+    Output:
+            
+        Status code: 401
+        Message: The invite is invalid
+- Uploading an image with a secret message bigger than the image
+    
+    Objective: Verify that the API can handle validation tests like this.
+    
+    Request:
+            
+         POST /image/upload
+    Input data:
+    
+        Image file: a_small_image.png
+        Secret message: "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead. I recently discovered I could make fudge with just chocolate chips, sweetened condensed milk, vanilla extract, and a thick pot on slow heat. I tried it with dark chocolate chunks and I tried it with semi-sweet chocolate chips. It's better with both kinds. It comes out pretty bad with just the dark chocolate. The best add-ins are crushed almonds and marshmallows -- what you get from that is Rocky Road. It takes about twenty minutes from start to fridge, and then it takes about six months to work off the twenty pounds you gain from eating it. All things in moderation, friends. All things in moderation. Samantha wanted to be famous. The problem was that she had never considered all the downsides to actually being famous. Had she taken the time to objectively consider these downsides, she would have never agreed to publically sing that first song."
+    Output:
+            
+        Status code: 500
+        Message: Failed to upload image
+
 ## Test Infrastructure
 
 This section should outline everything needed in order to carry out the actual testing. The breakdown below provides a suggested structure, but (depending on the nature of your product and operating environment) you are welcome to organize it differently as long as equivalent/suitable information can all be quickly and easily found within the document by a first-time reader.
@@ -145,6 +264,8 @@ This can vary considerably depending on the project/team, e.g.:
 For a simple client-side game this might just specify whose laptop(s) and OS/version(s) you're testing on and that you're following manual 'user action scripts' as the process.
 For a product that connects to other elements (AI, databases, web servers, etc) it will also need to specify which ones and how (this can be an overview, with details given in the 'External resources' section below).
 If you're using third party tools (e.g. to record/playback UI actions) then those need to be listed and their use outlined here.
+
+-The API was tested using Postman, with the application hosted on a Windows operating system.
 
 ### User Action Scripts
 
