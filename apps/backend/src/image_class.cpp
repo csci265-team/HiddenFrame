@@ -412,152 +412,152 @@ int image::euclideanAlgorithm(int n, int b) {
  * @param   count The size of the coprimes array.
  * @return  No return type for a void function.
  */
-void image::coprime_numbers(int n, int coprimes[], int &count) {
-    for (int i = 2; i < n; ++i) {
-        if (euclideanAlgorithm(i, n) == 1) {
-            if (count < MAX_SIZE) {
-                coprimes[count] = i; // Store coprime number in array
-                count++; // Increment the count
-            } else {
-                //cout << "Array size exceeded!" << std::endl;
-                break; // Stop if the array is full
-            }
-        }
-    }
-}
+// void image::coprime_numbers(int n, int coprimes[], int &count) {
+//     for (int i = 2; i < n; ++i) {
+//         if (euclideanAlgorithm(i, n) == 1) {
+//             if (count < MAX_SIZE) {
+//                 coprimes[count] = i; // Store coprime number in array
+//                 count++; // Increment the count
+//             } else {
+//                 //cout << "Array size exceeded!" << std::endl;
+//                 break; // Stop if the array is full
+//             }
+//         }
+//     }
+// }
 
-/**
- * @brief   Searches the coprimes array for a skip size that is just less than an even division of data pixels into the total pixels.
- * @param   coprimes The array storing values coprime to n.
- * @param   size The size of the coprimes array.
- * @param   idealSkipSize An even division of the characters into the image's pixel count that is not a generator of the total pixels.
- * @return  No return type for a void function.
- */
-int image::binarySearch(int coprimes[], int size, const int idealSkipSize) {
-    int start = 0;
-    int end = size-1;
-    int mid = (start + end)/2;
-    while(start+1 != end && coprimes[mid] != idealSkipSize) {
-        if(coprimes[mid] < idealSkipSize) {
-            start = mid;
-        } else {
-            end = mid;
-        }
-        mid = (start + end)/2;
-    }
-    if(mid == idealSkipSize) {
-        return coprimes[mid];
-    } else {
-        return coprimes[start];
-    }
-}
+// /**
+//  * @brief   Searches the coprimes array for a skip size that is just less than an even division of data pixels into the total pixels.
+//  * @param   coprimes The array storing values coprime to n.
+//  * @param   size The size of the coprimes array.
+//  * @param   idealSkipSize An even division of the characters into the image's pixel count that is not a generator of the total pixels.
+//  * @return  No return type for a void function.
+//  */
+// int image::binarySearch(int coprimes[], int size, const int idealSkipSize) {
+//     int start = 0;
+//     int end = size-1;
+//     int mid = (start + end)/2;
+//     while(start+1 != end && coprimes[mid] != idealSkipSize) {
+//         if(coprimes[mid] < idealSkipSize) {
+//             start = mid;
+//         } else {
+//             end = mid;
+//         }
+//         mid = (start + end)/2;
+//     }
+//     if(mid == idealSkipSize) {
+//         return coprimes[mid];
+//     } else {
+//         return coprimes[start];
+//     }
+// }
 
-/**
- * @brief   Generates a key for an embedded and decoding a message to/from an image.
- * @param   imageSize The number of pixels in the image as an integer.
- * @param   messageSize The number of pixels required to contain the message (including the stopping pixel).
- * @param   channels The number of channels in the image.
- * @return  A string the contains an image key in the format (a_1,b_1,a_2,b_2,e,f) where each pair a*b mod imageSize = idealSkipSize, e is the hex length
- *          of each a, b, and f is the number of channels in the image.
- */
-string image::generateKey(int imageSize, int messageSize, int channels) {
-    if (messageSize <= 1 || messageSize > 1024) {
-        return "Invalid message size, exiting.";
-    }
-    int coprimes[MAX_SIZE];
-    int size = 0;
-    coprime_numbers(imageSize, coprimes, size);
-    int idealSkipSize = imageSize / messageSize;
-    idealSkipSize = binarySearch(coprimes, size, idealSkipSize);
-    string abArray[4];
-    for(int i = 0; i < 4; i+=2) {
-        long long randomA = coprimes[rand() % size];
-        while (randomA == idealSkipSize) {
-            randomA = coprimes[rand() % size];
-        }
-        cout << "a chosen is " << randomA << endl;
-        int inverse = findInverse(randomA, imageSize);
-        long long b = findB(idealSkipSize, imageSize, inverse);
-        cout << "b is " << b << endl;
-        cout << "The skip size should be " << randomA * b % imageSize << endl;
-        abArray[i] = intToHex(randomA);
-        abArray[i+1] = intToHex(b);
-    }
-    int lengths[4];
-    int maxLength = 0;
-    for(int i = 0; i < 4; i++) {
-        if(abArray[i].length() > maxLength) {
-            maxLength = abArray[i].length();
-        }
-    }
-    for(int i = 0; i < 4; i++) {
-        while(abArray[i].length() < maxLength) {
-            abArray[i] = '0' + abArray[i];
-        }
-    }
-    string key = "";
-    for(int i = 0; i < 4; i++) {
-        key = key + abArray[i];
-    }
-    key = key + to_string(maxLength) + to_string(channels);
-    cout << "The key is " << key << endl;
-    return key;
-}
+// /**
+//  * @brief   Generates a key for an embedded and decoding a message to/from an image.
+//  * @param   imageSize The number of pixels in the image as an integer.
+//  * @param   messageSize The number of pixels required to contain the message (including the stopping pixel).
+//  * @param   channels The number of channels in the image.
+//  * @return  A string the contains an image key in the format (a_1,b_1,a_2,b_2,e,f) where each pair a*b mod imageSize = idealSkipSize, e is the hex length
+//  *          of each a, b, and f is the number of channels in the image.
+//  */
+// string image::generateKey(int imageSize, int messageSize, int channels) {
+//     if (messageSize <= 1 || messageSize > 1024) {
+//         return "Invalid message size, exiting.";
+//     }
+//     int coprimes[MAX_SIZE];
+//     int size = 0;
+//     coprime_numbers(imageSize, coprimes, size);
+//     int idealSkipSize = imageSize / messageSize;
+//     idealSkipSize = binarySearch(coprimes, size, idealSkipSize);
+//     string abArray[4];
+//     for(int i = 0; i < 4; i+=2) {
+//         long long randomA = coprimes[rand() % size];
+//         while (randomA == idealSkipSize) {
+//             randomA = coprimes[rand() % size];
+//         }
+//         cout << "a chosen is " << randomA << endl;
+//         int inverse = findInverse(randomA, imageSize);
+//         long long b = findB(idealSkipSize, imageSize, inverse);
+//         cout << "b is " << b << endl;
+//         cout << "The skip size should be " << randomA * b % imageSize << endl;
+//         abArray[i] = intToHex(randomA);
+//         abArray[i+1] = intToHex(b);
+//     }
+//     int lengths[4];
+//     int maxLength = 0;
+//     for(int i = 0; i < 4; i++) {
+//         if(abArray[i].length() > maxLength) {
+//             maxLength = abArray[i].length();
+//         }
+//     }
+//     for(int i = 0; i < 4; i++) {
+//         while(abArray[i].length() < maxLength) {
+//             abArray[i] = '0' + abArray[i];
+//         }
+//     }
+//     string key = "";
+//     for(int i = 0; i < 4; i++) {
+//         key = key + abArray[i];
+//     }
+//     key = key + to_string(maxLength) + to_string(channels);
+//     cout << "The key is " << key << endl;
+//     return key;
+// }
 
-/**
- * @brief   Determines if a key is valid. If valid, calculates the skip size of pixels to find data in a payload.
- * @param   key The string key that is created at encoding to decode the message within the image.
- * @param   imageSize The number of pixels in the image.
- * @return  The interger value of the skip size between pixels containing payload data.
- */
-int image::decodeKey(string key, int imageSize) {
-    if(isValidHexCharacter(key) == false || key.length() == 0) {
-        cout << "The key contains invalid characters or is empty." << endl;
-        return -1;
-    }
-    int size = key.length();
-    int channels = key[size - 1] - '0';
-    int length = key[size - 2] - '0';
-    std::stringstream ss;
-    long long abPairArray[4];
-    for(int i = 0; i < 4; i++) {
-        string ab = key.substr(i*length, length);
-        ss << std::hex << ab;
-        ss >> abPairArray[i];
-        ss.str("");
-        ss.clear();
-    }
-    long long skipSize1 = abPairArray[0] * abPairArray[1] % imageSize;
-    long long skipSize2 = abPairArray[2] * abPairArray[3] % imageSize;
-    if(skipSize1 == skipSize2) {
-        cout << "The skip size is of the given key is " << skipSize1 << endl;
-        return skipSize1;
-    } else {
-        cout << "The key is not a valid, and a known payload is not present." << endl;
-        return -1;
-    }
-}
+// /**
+//  * @brief   Determines if a key is valid. If valid, calculates the skip size of pixels to find data in a payload.
+//  * @param   key The string key that is created at encoding to decode the message within the image.
+//  * @param   imageSize The number of pixels in the image.
+//  * @return  The interger value of the skip size between pixels containing payload data.
+//  */
+// int image::decodeKey(string key, int imageSize) {
+//     if(isValidHexCharacter(key) == false || key.length() == 0) {
+//         cout << "The key contains invalid characters or is empty." << endl;
+//         return -1;
+//     }
+//     int size = key.length();
+//     int channels = key[size - 1] - '0';
+//     int length = key[size - 2] - '0';
+//     std::stringstream ss;
+//     long long abPairArray[4];
+//     for(int i = 0; i < 4; i++) {
+//         string ab = key.substr(i*length, length);
+//         ss << std::hex << ab;
+//         ss >> abPairArray[i];
+//         ss.str("");
+//         ss.clear();
+//     }
+//     long long skipSize1 = abPairArray[0] * abPairArray[1] % imageSize;
+//     long long skipSize2 = abPairArray[2] * abPairArray[3] % imageSize;
+//     if(skipSize1 == skipSize2) {
+//         cout << "The skip size is of the given key is " << skipSize1 << endl;
+//         return skipSize1;
+//     } else {
+//         cout << "The key is not a valid, and a known payload is not present." << endl;
+//         return -1;
+//     }
+// }
 
-/**
- * @brief   Generates a dummy key to be used for images without a payload.
- * @param   imageSize The size of the image for which a dummyKey is being generated. Required to check that the key couldn't be valid.
- * @return  Returns a dummy string that does NOT satisfy the key model.
- */
-string image::generateDummyKey(int imageSize) {
-    int randHexLength[] = {4, 5, 6, 7, 8};
-    int randomLength = randHexLength[rand() % 5];
-    const char hexChars[] = "0123456789ABCDEF";
-    string dummyKey = "";
-    while(decodeKey(dummyKey, imageSize) != -1 || dummyKey == "") {
-        dummyKey = "";
-        for(int i = 0; i < 4*randomLength; i++) {
-            int randomHex = rand() % 16;
-            dummyKey = dummyKey + hexChars[randomHex];
-        }
-        //To add the randomLength (between 5 and 8 inclusive) and a dummy channel value to the end of the string (between 1 and 4).
-        dummyKey = dummyKey + to_string(randomLength) + to_string((rand() % 4) + 1);
-    }
-    cout << "The dummy key is " << dummyKey << endl;
-    return dummyKey;
-}
+// /**
+//  * @brief   Generates a dummy key to be used for images without a payload.
+//  * @param   imageSize The size of the image for which a dummyKey is being generated. Required to check that the key couldn't be valid.
+//  * @return  Returns a dummy string that does NOT satisfy the key model.
+//  */
+// string image::generateDummyKey(int imageSize) {
+//     int randHexLength[] = {4, 5, 6, 7, 8};
+//     int randomLength = randHexLength[rand() % 5];
+//     const char hexChars[] = "0123456789ABCDEF";
+//     string dummyKey = "";
+//     while(decodeKey(dummyKey, imageSize) != -1 || dummyKey == "") {
+//         dummyKey = "";
+//         for(int i = 0; i < 4*randomLength; i++) {
+//             int randomHex = rand() % 16;
+//             dummyKey = dummyKey + hexChars[randomHex];
+//         }
+//         //To add the randomLength (between 5 and 8 inclusive) and a dummy channel value to the end of the string (between 1 and 4).
+//         dummyKey = dummyKey + to_string(randomLength) + to_string((rand() % 4) + 1);
+//     }
+//     cout << "The dummy key is " << dummyKey << endl;
+//     return dummyKey;
+// }
 

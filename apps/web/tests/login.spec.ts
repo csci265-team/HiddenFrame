@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import path from 'path';
 
 test('has title', async ({ page }) => {
     await page.goto('http://localhost:5173/login');
@@ -13,7 +14,7 @@ test('has login label', async ({ page }) => {
 });
 
 test('should register and log in successfully with valid credentials', async ({ page }) => {
-    await page.goto('http://localhost:5173/register');
+    await page.goto('http://localhost:5173/register/admin');
 
     await page.fill('input[name="username"]', 'correctUsername');
     await page.fill('input[name="password"]', 'correctPassword');
@@ -29,14 +30,12 @@ test('should register and log in successfully with valid credentials', async ({ 
     await page.click('button[type="submit"]');
     await page.waitForLoadState('networkidle');
 
-
-
-
     await expect(page).toHaveURL('http://localhost:5173'); // go back to main page if login successfull
+
 });
 
 test('should not log in successfully with invalid username', async ({ page }) => {
-    await page.goto('http://localhost:5173/register');
+    await page.goto('http://localhost:5173/register/admin');
 
     await page.fill('input[name="username"]', 'correctUsername');
     await page.fill('input[name="password"]', 'correctPassword');
@@ -63,7 +62,7 @@ test('should not log in successfully with invalid username', async ({ page }) =>
 
 
 test('should not log in successfully with invalid password', async ({ page }) => {
-    await page.goto('http://localhost:5173/register');
+    await page.goto('http://localhost:5173/register/admin');
 
     await page.fill('input[name="username"]', 'correctUsername');
     await page.fill('input[name="password"]', 'correctPassword');
@@ -84,7 +83,7 @@ test('should not log in successfully with invalid password', async ({ page }) =>
 });
 
 test('should not log in successfully with invalid credentials', async ({ page }) => {
-    await page.goto('http://localhost:5173/register');
+    await page.goto('http://localhost:5173/register/admin');
 
     await page.fill('input[name="username"]', 'correctUsername');
     await page.fill('input[name="password"]', 'correctPassword');
@@ -106,7 +105,7 @@ test('should not log in successfully with invalid credentials', async ({ page })
 });
 
 test('should show error when username or password is missing', async ({ page }) => {
-    await page.goto('http://localhost:5173/register');
+    await page.goto('http://localhost:5173/register/admin');
 
     await page.fill('input[name="username"]', 'correctUsername');
     await page.fill('input[name="password"]', 'correctPassword');

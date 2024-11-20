@@ -8,7 +8,7 @@ test( 'has title', async ({page}) => {
     await expect(page).toHaveTitle(/HiddenFrame/);
 });
 
-test('should upload an image successfully', async ({ page }) => {
+test('public user should upload an image successfully', async ({ page }) => {
 
     await page.goto('http://localhost:5173');
   
@@ -18,10 +18,11 @@ test('should upload an image successfully', async ({ page }) => {
     
     await fileInput.setInputFiles(filePath);
   
-    await page.fill('input[name="message"]', 'Test message');
-  
     await page.click('button[type="submit"]');
   
     const uploadedImage = page.locator('img[src*="/static/"]').first(); 
     await expect(uploadedImage).toBeVisible();
   });
+
+
+
