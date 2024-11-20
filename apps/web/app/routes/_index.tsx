@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { MetaFunction, ActionFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { useLoaderData, Form, useNavigation } from "@remix-run/react";
+import type { MetaFunction, ActionFunction, LoaderFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { useLoaderData, Form, useActionData, useNavigation } from "@remix-run/react";
 import { Button, PageHeader, Input, Switch } from "../components";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BASE_API_URL } from "../lib/consts";
+import { toast } from "sonner";
+import { getSession } from "../session";
 
 export const meta: MetaFunction = () => {
   return [
@@ -14,30 +16,41 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export async function loader({ request }: { request: Request }) {
-  const resp = await fetch(`${BASE_API_URL}/images`, {
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      "Cookie": request.headers.get("Cookie") || "",
-    }
-  });
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  const token = session.get("token");
+  const username = session.get("username");
 
-  if (resp.ok)
-    return { photos: await resp.json() };
-  else {
-    resp.json().then(console.error);
-    return { photos: [] };
+  try {
+    const resp = await fetch(`${BASE_API_URL}/images`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token || "",
+        "Cookie": `token=${token}`,
+      }
+    });
+
+    if (resp.ok)
+      return { success: true, message: "", photos: await resp.json(), username };
+    else {
+      const error = await resp.json();
+      console.error(error);
+      return { success: false, message: error, photos: [], username };
+    }
+  } catch (error) {
+    return { success: false, message: error, photos: [], username };
   }
-}
+};
 
 export const action: ActionFunction = async ({ request }) => {
+  const session = await getSession(request.headers.get("Cookie"));
+  const token = session.get("token");
   const formData = await request.formData();
   const file = formData.get("file") as File;
   const message = formData.get("message") as string;
 
   if (!file) {
-    return json({ error: "No file uploaded" }, { status: 400 });
+    return json({ success: false, message: "No file uploaded" }, { status: 400 });
   }
 
   let fileExt: string[] | string = file.name.split(".");
@@ -57,32 +70,55 @@ export const action: ActionFunction = async ({ request }) => {
     method: "POST",
     body: formData,
     headers: {
-      contentType: "multipart/form-data",
-      "Cookie": request.headers.get("Cookie") || "",
+      "Authorization": token || "",
+      "Cookie": `token=${token}`,
     }
   });
 
   if (resp.ok) {
-    return redirect("/");
+    return json({ success: true, message: "Image uploaded successfully" }, { status: 200 });
   } else {
-    return json({ error: "Failed to upload image" }, { status: 500 });
+    return json({ success: false, message: "Failed to upload image" }, { status: 500 });
   }
 };
 
+type ActionData = {
+  success: boolean;
+  message: string;
+};
+
 export default function Index() {
-  const { photos } = useLoaderData<typeof loader>();
+  const { photos, success: loaderSuccess, message: loaderMessage, username } = useLoaderData<typeof loader>();
   const transition = useNavigation();
   const loading = transition.state === "submitting";
+  const action = useActionData<ActionData>();
   const [showMessages, setShowMessages] = useState(false);
+
+  useEffect(() => {
+    if (action) {
+      if (!action.success) {
+        toast.error(action.message || "An error occurred");
+      } else {
+        toast.success(action.message || "Image uploaded successfully");
+      }
+    }
+  }, [action]);
+
+  useEffect(() => {
+    if (!loaderSuccess) {
+      toast.error(loaderMessage || "An error occurred");
+    }
+  }, [loaderSuccess, loaderMessage]);
 
   return (
     <div className="flex items-center justify-center h-full">
       <div className="flex flex-col items-center gap-16 h-full">
         <PageHeader />
 
+
         <Form method="post" encType="multipart/form-data" className="flex flex-col gap-2">
           <Input accept=".jpg,.png" id="file" name="file" type="file" />
-          <Input id="message" name="message" type="text" placeholder="Enter message..." />
+          {username && <Input id="message" name="message" type="text" placeholder="Enter message..." />}
           <Button loading={loading} type="submit"> <FaCloudUploadAlt className="w-8" /> Upload New Image</Button>
         </Form>
 
@@ -97,7 +133,7 @@ export default function Index() {
             .sort((a: { id: string }, b: { id: string }) => b.id.localeCompare(a.id))
             .map((photo: any) => (
               <div key={photo.id}>
-                <a href={photo.url} target="_blank" rel="noreferrer">
+                <a href={`/u/${photo.id}`}>
                   <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
                 </a>
                 {photo.payload && <p>{photo.payload}</p>}
