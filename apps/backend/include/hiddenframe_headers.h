@@ -22,7 +22,7 @@ class image{
         void modify_image(int n, string payload);
         string retrieve_payload(int n);
         void write_image(string filename);
-        //unsigned char* original_image;
+        bool valid_image();
     private:
         void load_image(string filepath);
         unsigned char* original_image;

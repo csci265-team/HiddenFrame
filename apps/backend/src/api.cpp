@@ -76,8 +76,8 @@ int main()
                         return crow::response(404, errorResponse);
                     }
 
-                    image *imgptr = new image(imagePath);
-                    string payload = imgptr->retrieve_payload(stoi(key));
+                    image imgptr = image(imagePath);
+                    string payload = imgptr.retrieve_payload(stoi(key));
 
                     crow::json::wvalue jsonResponse;
                     jsonResponse["success"] = true;
@@ -332,14 +332,14 @@ int main()
                             std::vector<unsigned char> convertedData(fileSize + 1);
 
                             memcpy(convertedData.data(), fileData.c_str(), fileSize + 1);
-                            image *imgptr = new image(convertedData.data(), fileSize, fileExt);
+                            image imgptr = image(convertedData.data(), fileSize, fileExt);
 
                             // modify image with payload here if permission granted and desired
                             // convert message to binary string
                             string messageBN = stringToBinary(message);
                             // need to get the first param from Jeremy's functions
-                            imgptr->modify_image(2, messageBN);
-                            imgptr->write_image(filePath);
+                            imgptr.modify_image(2, messageBN);
+                            imgptr.write_image(filePath);
                         }
                         else
                         {
