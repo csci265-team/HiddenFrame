@@ -61,7 +61,7 @@ void AuthorizationMiddleware::before_handle(crow::request &req, crow::response &
 
         cout << "Token: " << token << endl;
 
-        auto [success, result] = verify_token(token, createDB());
+        auto [success, result] = verify_token(token, createDB("database/userdatabase.db"));
 
         if (!success)
         {

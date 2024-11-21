@@ -32,14 +32,23 @@ image::image(const unsigned char* Data, long long unsigned int length, string ex
 
 //destructor
 image::~image(){
+    if (original_image==modified_image){
+        modified_image=nullptr;
+    }
     if (original_image != nullptr){
         stbi_image_free(original_image);
     }
     if (modified_image != nullptr){
-        stbi_image_free(modified_image);
+        delete [] modified_image;
     }
 }
 
+bool image::valid_image(){
+    if (original_image==nullptr){
+        return false;
+    }
+    return true;
+}
 //load an image from a specified location
 void image::load_image(string filepath) {
     filetype=filepath.substr(filepath.find_last_of(".")+1);
@@ -329,16 +338,12 @@ void image::write_image(string filename)
     strcpy(convertedFilename, filename.c_str());
     if (filetype=="png" || filetype=="jpg"){
         stbi_write_png(convertedFilename, width, height, channels, modified_image,width*channels);
-        //check for stbi_write_errors
-        cout << "writing image to file was successful." << endl;
     }
     else if (filetype=="bmp"){
         stbi_write_bmp(convertedFilename, width, height, channels, modified_image);
-        cout << "writing image to file was successful." << endl;
     }
     else if (filetype=="tga"){
         stbi_write_tga(convertedFilename, width, height, channels, modified_image);
-        cout << "writing image to file was successful." << endl;
     }
     else{
         throw std::invalid_argument("Invalid file type");        

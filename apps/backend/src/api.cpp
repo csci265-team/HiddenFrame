@@ -15,7 +15,7 @@ const string BASE_API_URL = "http://localhost:8080";
 
 int main()
 {
-    sqlite3 *db = createDB();
+    sqlite3 *db = createDB("database/userdatabase.db");
     srand(static_cast<unsigned>(time(NULL)));
 
     crow::Crow<crow::CookieParser, crow::CORSHandler, AuthorizationMiddleware> app;
@@ -76,8 +76,8 @@ int main()
                         return crow::response(404, errorResponse);
                     }
 
-                    image *imgptr = new image(imagePath);
-                    string payload = imgptr->retrieve_payload(stoi(key));
+                    image imgptr = image(imagePath);
+                    string payload = imgptr.retrieve_payload(stoi(key));
 
                     crow::json::wvalue jsonResponse;
                     jsonResponse["success"] = true;
@@ -199,29 +199,58 @@ int main()
                 }
             });
 
-    CROW_ROUTE(app, "/invites")
-        .methods(crow::HTTPMethod::POST)(
-            [db](const crow::request &req)
+    CROW_ROUTE(app, "/user")
+        .methods(crow::HTTPMethod::PATCH)
+        .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(
+            [&app, db](const crow::request &req)
             {
                 auto jsonBody = crow::json::load(req.body);
-                // username and password sent as json in req body
-                string username = jsonBody["username"].s();
-                string password = jsonBody["password"].s();
-                int inviteId = jsonBody["inviteId"].i();
+                if (!jsonBody)
+                {
+                    return crow::response(400, "Invalid JSON");
+                }
+
+                auto &ctx = app.get_context<AuthorizationMiddleware>(req);
+                string newPassword = jsonBody["password"].s();
+
                 try
                 {
-                    createNewUser(db, username, password, inviteId);
+                    bool success = changePassword(db, ctx.username, newPassword);
+                    if (success)
+                    {
+                        crow::json::wvalue jsonResponse;
+                        jsonResponse["success"] = true;
+                        jsonResponse["message"] = "Password changed successfully";
+                        return crow::response(200, jsonResponse);
+                    }
+                    else
+                    {
+                        crow::json::wvalue jsonResponse;
+                        jsonResponse["success"] = false;
+                        jsonResponse["message"] = "Failed to change password";
+                        return crow::response(500, jsonResponse);
+                    }
                 }
-                catch (const std::runtime_error &e)
+                catch (const std::exception &e)
                 {
-                    crow::json::wvalue error_json;
-                    error_json["success"] = true;
-                    error_json["error"] = e.what();
-                    return crow::response(401, error_json);
+                    crow::json::wvalue errorResponse;
+                    errorResponse["success"] = false;
+                    errorResponse["message"] = e.what();
+                    return crow::response(500, errorResponse);
                 }
-                crow::json::wvalue success_json;
-                success_json["success"] = true;
-                return crow::response(200, success_json);
+            });
+    CROW_ROUTE(app, "/invites")
+        .methods(crow::HTTPMethod::GET)
+        .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(
+            [&app, db](const crow::request &req)
+            {
+                auto &ctx = app.get_context<AuthorizationMiddleware>(req);
+                vector<crow::json::wvalue> invites = listInvites(db, ctx.userId);
+
+                crow::json::wvalue jsonResponse;
+                jsonResponse = crow::json::wvalue::list(invites.begin(), invites.end());
+
+                return jsonResponse;
             });
 
     CROW_ROUTE(app, "/invites/create")
@@ -235,7 +264,11 @@ int main()
                     int inviteId = createInvite(db, ctx.username);
                     if (inviteId == -1)
                     {
-                        throw std::runtime_error("User has reached the maximum number of invites.");
+                        crow::json::wvalue error_json;
+                        error_json["success"] = false;
+                        error_json["message"] = "User has reached the maximum number of invites.";
+                        res = crow::response(401, error_json);
+                        res.end();
                     }
                     crow::json::wvalue success_json;
                     success_json["success"] = true;
@@ -332,14 +365,14 @@ int main()
                             std::vector<unsigned char> convertedData(fileSize + 1);
 
                             memcpy(convertedData.data(), fileData.c_str(), fileSize + 1);
-                            image *imgptr = new image(convertedData.data(), fileSize, fileExt);
+                            image imgptr = image(convertedData.data(), fileSize, fileExt);
 
                             // modify image with payload here if permission granted and desired
                             // convert message to binary string
                             string messageBN = stringToBinary(message);
                             // need to get the first param from Jeremy's functions
-                            imgptr->modify_image(2, messageBN);
-                            imgptr->write_image(filePath); //MAKE THIS FUNCTION RETURN THE KEY.
+                            imgptr.modify_image(2, messageBN);
+                            imgptr.write_image(filePath);//MAKE THIS FUNCTION RETURN THE KEY.
                         }
                         else
                         {
@@ -381,5 +414,5 @@ int main()
             });
 
     app.port(8080).multithreaded().run();
-    sqlite3_close(db);
+    closeDB(db);
 }
