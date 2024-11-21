@@ -139,6 +139,202 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
 ### Backend
 On the backend we are using the Boost testing library to facilitate automated testing 
 
+#### Image Encoding/Decoding
+##### User Action Scripts
+
+---
+
+#### ENC001: Test Load And Write JPG From File System
+**Description:** Verifies that a JPG file can be loaded from the file system and saved as a PNG.  
+**Pre-requisites:** The file `../../resources/images/test/input/test_image_1.jpg` must exist.  
+**Steps:**  
+1. **Load `test_image_1.jpg` from the input folder:**  
+   - Use the `image` constructor:  
+     ```cpp
+     image test1 = image("../../resources/images/test/input/test_image_1.jpg");
+     ```  
+2. **Verify the image is valid:**  
+   - Call the `valid_image()` function:  
+     ```cpp
+     test1.valid_image();
+     ```  
+3. **Save the image as `test_image_1.png` in the output folder:**  
+   - Call the `write_image()` function:  
+     ```cpp
+     test1.write_image("../../resources/images/test/output/test_image_1.png");
+     ```  
+**Expected Outcome:**  
+- The image loads successfully.  
+- The image is saved in PNG format without errors.  
+
+---
+
+#### ENC002: Test Load And Write PNG From File System
+**Description:** Verifies that a PNG file can be loaded from the file system and saved as a PNG.  
+**Pre-requisites:** The file `../../resources/images/test/input/test_image_2.png` must exist.  
+**Steps:**  
+1. **Load `test_image_2.png` from the input folder:**  
+   - Use the `image` constructor:  
+     ```cpp
+     image test2 = image("../../resources/images/test/input/test_image_2.png");
+     ```  
+2. **Verify the image is valid:**  
+   - Call the `valid_image()` function:  
+     ```cpp
+     test2.valid_image();
+     ```  
+3. **Save the image as `test_image_2.png` in the output folder:**  
+   - Call the `write_image()` function:  
+     ```cpp
+     test2.write_image("../../resources/images/test/output/test_image_2.png");
+     ```  
+**Expected Outcome:**  
+- The image loads successfully.  
+- The image is saved in PNG format without errors.  
+
+---
+
+#### ENC003: Test Write Image To File System
+**Description:** Verifies that an image can be written to the file system and its format can be changed.  
+**Pre-requisites:** Ensure `test_image_1.png` and `test_image_1.jpg` exist in their respective folders.  
+**Steps:**  
+1. **Load `test_image_1.png`:**  
+   - Use the `image` constructor:  
+     ```cpp
+     image test3a = image("../../resources/images/test/output/test_image_1.png");
+     ```  
+2. **Verify the image is valid:**  
+   - Call the `valid_image()` function:  
+     ```cpp
+     test3a.valid_image();
+     ```  
+3. **Load `test_image_1.jpg`:**  
+   - Use the `image` constructor:  
+     ```cpp
+     image test3b = image("../../resources/images/test/input/test_image_1.jpg");
+     ```  
+4. **Verify the file types are different:**  
+   - Compare the file types:  
+     ```cpp
+     test3a.filetype != test3b.filetype;
+     ```  
+**Expected Outcome:**  
+- The images load successfully.  
+- The formats of the two images are confirmed to be different.  
+
+---
+
+#### ENC004: Test Image Reading From Simulated Live Stream
+**Description:** Verifies an image can be read from a simulated live stream.  
+**Pre-requisites:** The file `../../resources/images/test/input/test_image_6.bmp` must exist.  
+**Steps:**  
+1. **Read `test_image_6.bmp` into a buffer:**  
+   - Use the `readFileToBuffer()` function:  
+     ```cpp
+     vector<unsigned char> imageData = readFileToBuffer("../../resources/images/test/input/test_image_6.bmp");
+     ```  
+2. **Load the image from the buffer:**  
+   - Use the `image` constructor:  
+     ```cpp
+     image test5 = image(imageData.data(), static_cast<int>(imageData.size()), "bmp");
+     ```  
+3. **Verify the image is valid:**  
+   - Call the `valid_image()` function:  
+     ```cpp
+     test5.valid_image();
+     ```  
+**Expected Outcome:**  
+- The image is successfully read from the buffer and verified as valid.  
+
+---
+
+#### ENC005: Test Image Embedding And Retrieval
+**Description:** Verifies that data can be embedded into an image and retrieved correctly.  
+**Pre-requisites:** The file `../../resources/images/test/input/test_image_7.png` must exist.  
+**Steps:**  
+1. **Load `test_image_7.png`:**  
+   - Use the `image` constructor:  
+     ```cpp
+     image test6 = image("../../resources/images/test/input/test_image_7.png");
+     ```  
+2. **Embed the binary string equivalent of "Hello, World!" into the image:**  
+   - Convert the string to binary and call `modify_image()`:  
+     ```cpp
+     string teststr = "Hello, World!";
+     string teststrBin = stringToBinary(teststr);
+     int n = 2; // pixel spacing
+     test6.modify_image(n, teststrBin);
+     ```  
+3. **Save the modified image to the output folder:**  
+   - Call the `write_image()` function:  
+     ```cpp
+     test6.write_image("../../resources/images/test/output/test_image_7.png");
+     ```  
+4. **Load the modified image and retrieve the embedded payload:**  
+   - Use the `retrieve_payload()` function:  
+     ```cpp
+     image payloadTest = image("../../resources/images/test/output/test_image_7.png");
+     string payload = payloadTest.retrieve_payload(n);
+     ```  
+5. **Compare the retrieved payload to the original string:**  
+   - Use `binaryToString()` to decode and compare:  
+     ```cpp
+     binaryToString(payload) == teststr;
+     ```  
+**Expected Outcome:**  
+- The string is successfully embedded and retrieved without any errors.  
+
+---
+
+#### Automated testing scripts
+
+Here’s the markdown documentation based on your file structure and code:
+
+---
+
+**Setup Actions:**  
+1. **Install Dependencies**  
+   Ensure you have `Boost.Test` and all necessary libraries installed.  
+   ```
+   sudo apt-get install libboost-test-dev
+   ```  
+
+2. **Navigate to the backend project directory**  
+   Open the terminal and navigate to the project directory:  
+   ```
+   cd apps/backend
+   ```  
+
+3. **Build the test suite**  
+   Use the `make` command to compile the test files:  
+   ```
+   make test
+   ```  
+
+4. **Run the test suite**  
+   Execute the compiled test binary:  
+   ```
+   ./bin/test/HiddenFrame_Test
+   ```  
+
+---
+
+#### 1. test_image_io.cpp  
+**Name and Location:**  
+`apps/backend/test/test_image_io.cpp`
+
+**Source Code and Build Location:**  
+- **Source Code:** [Test Load And Write JPG](../apps/backend/test/test_image_io.cpp)  
+- **Build Location:** [apps/backend/build/test](../apps/backend/build/test)  
+
+**Purpose:**  
+This script tests the ability to load a JPG file from the file system and save it as a PNG. The key functionalities verified include:  
+1. Loading the image file `test_image_1.jpg` from the input directory.  
+2. Verifying the image validity after loading.  
+3. Writing the image to a new location with a different format (`test_image_1.png`).  
+
+---
+
 ### Frontend
 On the frontend we are using cypress to test all the UI components
 
