@@ -26,7 +26,6 @@ public:
     void write_image(string filename);
     bool valid_image();
 private:
-    bool valid_image();
     void load_image(string filepath);
     unsigned char *original_image;
     unsigned char *modified_image;
