@@ -8,11 +8,11 @@ BOOST_AUTO_TEST_SUITE(UserDatabaseTestSuite)
 
 BOOST_AUTO_TEST_CASE(TestCreateAndAuthenticateUser)
 {
-    sqlite3 *db = nullptr;
     try
     {
-        db = createDB();
+        sqlite3 *db = createDB("bin/test/database/testuserdatabase.db");
         createNewAdmin(db, "amitoj", "meow");
+        BOOST_CHECK_THROW(createNewAdmin(db, "amitoj", "notmeow"), std::runtime_error);
 
         // Test authentications
         bool auth1 = authenticateUser(db, "NotPat", "meow");
@@ -31,38 +31,23 @@ BOOST_AUTO_TEST_CASE(TestCreateAndAuthenticateUser)
         {
             BOOST_FAIL("Authentication was not OK! Test of UAC FAILED");
         }
-    }
-    catch (const std::runtime_error &e)
-    {
-        BOOST_FAIL(e.what());
-    }
-    sqlite3_close(db);
-}
 
-BOOST_AUTO_TEST_CASE(TestCreateNewUsers)
-{
-    sqlite3 *db = nullptr;
-    try
-    {
-        db = createDB();
         int id1 = createInvite(db, "amitoj");
         int id2 = createInvite(db, "amitoj");
         int id3 = createInvite(db, "amitoj");
         createNewUser(db, "1", "p1", id1);
         createNewUser(db, "2", "p2", id2);
         createNewUser(db, "3", "p3", id3);
-
         BOOST_CHECK_THROW(createNewUser(db, "4", "p4", 0000), std::runtime_error);
-
-        // createNewUser(db, "6", "p6", 1); // Uncomment if needed
-
         BOOST_TEST_MESSAGE("Created new users successfully!");
+        if (db != nullptr){
+            closeDB(db);
+        }
     }
     catch (const std::runtime_error &e)
     {
         BOOST_FAIL(e.what());
     }
-    sqlite3_close(db);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
