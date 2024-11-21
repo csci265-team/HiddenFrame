@@ -104,7 +104,7 @@ test('should not log in successfully with invalid credentials', async ({ page })
     await expect(page).toHaveURL('http://localhost:5173/login'); // stay on login page if login unsuccessfull
 });
 
-test('should show error when username or password is missing', async ({ page }) => {
+test('should not log in succesfully if username or password is missing', async ({ page }) => {
     await page.goto('http://localhost:5173/register/admin');
 
     await page.fill('input[name="username"]', 'correctUsername');

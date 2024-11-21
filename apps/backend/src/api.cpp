@@ -11,7 +11,7 @@
 
 using namespace std;
 
-const string BASE_API_URL = "http://localhost:8080";
+const string BASE_API_URL = "localhost:8080";
 
 int main()
 {
