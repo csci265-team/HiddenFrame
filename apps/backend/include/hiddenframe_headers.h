@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const int MAX_SIZE_COPRIMES = 10000;
+const int MAX_SIZE = 500000;
 
 class image
 {

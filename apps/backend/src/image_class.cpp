@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <hiddenframe_headers.h>
+#include <utils.h>
 
 
 #define STB_IMAGE_IMPLEMENTATION

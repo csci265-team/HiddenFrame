@@ -9,7 +9,7 @@ all: build build/utils.o build/image_class.o build/authorization.o build/db_oper
 build/utils.o: src/utils.cpp include/hiddenframe_headers.h include/utils.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
 
-build/image_class.o: src/image_class.cpp include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h 
+build/image_class.o: src/image_class.cpp include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h include/utils.h
 	g++ -c $< -o $@ ${CompilationOptions}
 
 build/authorization.o: src/authorization.cpp include/jwt-cpp/* include/picojson/* include/crow/* include/crow/* include/authorization.h
