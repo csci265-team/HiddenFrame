@@ -199,6 +199,45 @@ int main()
                 }
             });
 
+    CROW_ROUTE(app, "/user")
+        .methods(crow::HTTPMethod::PATCH)(
+            [&app, db](const crow::request &req)
+            {
+                auto jsonBody = crow::json::load(req.body);
+                if (!jsonBody)
+                {
+                    return crow::response(400, "Invalid JSON");
+                }
+
+                auto &ctx = app.get_context<AuthorizationMiddleware>(req);
+                string newPassword = jsonBody["password"].s();
+
+                try
+                {
+                    bool success = changePassword(db, ctx.username, newPassword);
+                    if (success)
+                    {
+                        crow::json::wvalue jsonResponse;
+                        jsonResponse["success"] = true;
+                        jsonResponse["message"] = "Password changed successfully";
+                        return crow::response(200, jsonResponse);
+                    }
+                    else
+                    {
+                        crow::json::wvalue jsonResponse;
+                        jsonResponse["success"] = false;
+                        jsonResponse["message"] = "Failed to change password";
+                        return crow::response(500, jsonResponse);
+                    }
+                }
+                catch (const std::exception &e)
+                {
+                    crow::json::wvalue errorResponse;
+                    errorResponse["success"] = false;
+                    errorResponse["message"] = e.what();
+                    return crow::response(500, errorResponse);
+                }
+            });
     CROW_ROUTE(app, "/invites")
         .methods(crow::HTTPMethod::GET)
         .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(

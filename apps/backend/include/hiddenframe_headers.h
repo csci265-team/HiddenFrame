@@ -53,6 +53,7 @@ sqlite3 *createDB();
 void createNewAdmin(sqlite3 *database, const string &username, const string &password);
 void createNewUser(sqlite3 *database, const string &username, const string &password, const int InviteID);
 bool authenticateUser(sqlite3 *database, const string &username, const string &password);
+bool changePassword(sqlite3 *database, const string &username, const string &newPassword);
 int createInvite(sqlite3 *database, const string &username);
 vector<crow::json::wvalue> listInvites(sqlite3 *database, const int &userId);
 pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId);

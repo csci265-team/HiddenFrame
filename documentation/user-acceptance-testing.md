@@ -105,7 +105,11 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
 
 ## Test Infrastructure
 
-This section should outline everything needed in order to carry out the actual testing. The breakdown below provides a suggested structure, but (depending on the nature of your product and operating environment) you are welcome to organize it differently as long as equivalent/suitable information can all be quickly and easily found within the document by a first-time reader.
+### Backend
+On the backend we are using the Boost testing library to facilitate automated testing 
+
+### Frontend
+On the frontend we are using cypress to test all the UI components
 
 ### Software Tools and Environment
 

@@ -265,6 +265,42 @@ vector<crow::json::wvalue> listInvites(sqlite3 *database, const int &userId)
   return invites;
 }
 
+bool changePassword(sqlite3 *database, const string &username, const string &newPassword)
+{
+  // check if DB is opened correctly
+  if (!database)
+  {
+    throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
+  }
+
+  // create a new sql statement
+  sqlite3_stmt *stmt;
+  const char *sql = "UPDATE Users SET password = ?, token_id = NULL WHERE username = ?;";
+
+  // prepare sql statement
+  int rc = sqlite3_prepare_v2(database, sql, -1, &stmt, NULL);
+  if (rc != SQLITE_OK)
+  {
+    throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
+  }
+
+  // bind arguments to SQL statement
+  sqlite3_bind_text(stmt, 1, newPassword.c_str(), -1, SQLITE_STATIC);
+  sqlite3_bind_text(stmt, 2, username.c_str(), -1, SQLITE_STATIC);
+
+  // execute the SQL statement
+  rc = sqlite3_step(stmt);
+  if (rc != SQLITE_DONE)
+  {
+    sqlite3_finalize(stmt);
+    throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
+  }
+
+  // finalize the statement
+  sqlite3_finalize(stmt);
+  return true;
+}
+
 bool authenticateUser(sqlite3 *database, const string &username, const string &password)
 {
   // check if DB is opened correctly
