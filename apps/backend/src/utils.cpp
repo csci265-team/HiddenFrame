@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <bitset>
 #include <string>
 
@@ -40,7 +41,7 @@ std::string intToHex(int num) {
  * @param   key The key to be checked for valid chars.
  * @return  True if all the characters in the key are valid characters; false otherwise.
  */
-bool isValidHexCharacter(const string& key) {
+bool isValidHexCharacter(const std::string& key) {
     for (char c : key) {
         if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'))) {
             return false;
