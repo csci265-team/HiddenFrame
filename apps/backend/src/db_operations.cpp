@@ -8,6 +8,7 @@
 #include <vector>
 #include <tuple>
 #include <crow/json.h>
+#include <utils.h>
 
 using namespace std;
 sqlite3 *createDB(string filepath)
@@ -55,6 +56,9 @@ sqlite3 *createDB(string filepath)
 
 void createNewAdmin(sqlite3 *database, const string &username, const string &password)
 {
+  if (!isValidEmailFormat(username)){
+    throw std::runtime_error("The provided username is not valid");
+  }
   // check if DB is opened correctly
   if (!database)
   {
@@ -92,6 +96,9 @@ void createNewAdmin(sqlite3 *database, const string &username, const string &pas
 
 void createNewUser(sqlite3 *database, const string &username, const string &password, const int inviteID)
 {
+  if (!isValidEmailFormat(username)){
+    throw std::runtime_error("The provided username is not valid");
+  }
   // check if DB is opened correctly
   if (!database)
   {
@@ -233,6 +240,7 @@ int createInvite(sqlite3 *database, const string &username)
     }
     else
     {
+      sqlite3_finalize(stmt);
       return -1; // No invites remaining
     }
   }
@@ -459,5 +467,6 @@ bool usernameExists(sqlite3* database, const string& username){
     sqlite3_finalize(checkStmt); // Finalize the statement if the query fails
     throw std::runtime_error("Error checking for duplicate username - " + string(sqlite3_errmsg(database)));
   }
+  sqlite3_finalize(checkStmt);
   return false;
 }

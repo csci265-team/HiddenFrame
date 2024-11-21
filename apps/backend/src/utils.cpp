@@ -3,6 +3,7 @@
 #include <bitset>
 #include <string>
 #include <sstream>
+#include <regex>
 
 std::string stringToBinary(const std::string &str)
 {
@@ -49,4 +50,8 @@ bool isValidHexCharacter(const std::string& key) {
         }
     }
     return true;
+}
+
+bool isValidEmailFormat(const std::string &possibleEmail){
+    return std::regex_match(possibleEmail,std::regex(R"([_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4}))"));
 }
