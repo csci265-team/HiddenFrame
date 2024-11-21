@@ -2,9 +2,9 @@
 import type { MetaFunction, ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData, Form, useActionData, useNavigation } from "@remix-run/react";
-import { Button, PageHeader, Input, Switch } from "../components";
+import { Button, PageHeader, Input } from "../components";
 import { FaCloudUploadAlt } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { BASE_API_URL } from "../lib/consts";
 import { toast } from "sonner";
 import { getSession } from "../session";
@@ -92,7 +92,6 @@ export default function Index() {
   const transition = useNavigation();
   const loading = transition.state === "submitting";
   const action = useActionData<ActionData>();
-  const [showMessages, setShowMessages] = useState(false);
 
   useEffect(() => {
     if (action) {
@@ -122,11 +121,6 @@ export default function Index() {
           <Button loading={loading} type="submit"> <FaCloudUploadAlt className="w-8" /> Upload New Image</Button>
         </Form>
 
-        <div className="flex items-center space-x-2">
-          <Switch id="show-messages" onClick={() => setShowMessages(!showMessages)} />
-          <label htmlFor="show-messages">What does this do?</label>
-        </div>
-
         <h2 className="text-2xl font-[Outfit] font-black ">Photos from Unsplash</h2>
         <div className="grid grid-cols-3 gap-4 p-4">
           {photos
@@ -136,8 +130,6 @@ export default function Index() {
                 <a href={`/u/${photo.id}`}>
                   <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
                 </a>
-                {photo.payload && <p>{photo.payload}</p>}
-                {showMessages && photo.resolved_payload && <p>{photo.resolved_payload}</p>}
               </div>
             ))}
         </div>
