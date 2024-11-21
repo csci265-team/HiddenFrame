@@ -200,7 +200,8 @@ int main()
             });
 
     CROW_ROUTE(app, "/user")
-        .methods(crow::HTTPMethod::PATCH)(
+        .methods(crow::HTTPMethod::PATCH)
+        .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(
             [&app, db](const crow::request &req)
             {
                 auto jsonBody = crow::json::load(req.body);
