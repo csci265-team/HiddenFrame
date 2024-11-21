@@ -1,8 +1,8 @@
 #include <iostream>
+#include <sstream>
 #include <bitset>
 #include <string>
-#include <sstream>  
-#include <string>   
+#include <sstream>
 
 std::string stringToBinary(const std::string &str)
 {

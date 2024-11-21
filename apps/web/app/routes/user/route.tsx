@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { LoaderFunction, MetaFunction, ActionFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { PageHeader, Button, Input } from "../../components";
 import { getSession } from "../../session";
-import { Form, useActionData, useNavigation } from "@remix-run/react";
+import { Form, useActionData, useLoaderData, useNavigation } from "@remix-run/react";
 import { useEffect } from "react";
 import { BASE_API_URL } from "../../lib/consts";
 import { toast } from "sonner";
@@ -19,7 +19,16 @@ export const loader: LoaderFunction = async ({ request }) => {
     const session = await getSession(request.headers.get("Cookie"));
     const username = session.get("username");
 
+    const resp = await fetch(`${BASE_API_URL}/invites`, {
+        headers: {
+            "Authorization": session.get("token") || "",
+            "Cookie": `token=${session.get("token")}`,
+        }
+    });
+
     if (!username) return redirect("/login");
+
+    if (resp.ok) return { username, invites: await resp.json() };
 
     return { username };
 };
@@ -35,7 +44,7 @@ export const action: ActionFunction = async ({ request }) => {
         const confirmPassword = formData.get("confirm-password") as string;
 
         if (newPassword !== confirmPassword) {
-            return json({ success: false, message: "Passwords do not match" }, { status: 400 });
+            return { success: false, message: "Passwords do not match" };
         }
 
         const resp = await fetch(`${BASE_API_URL}/user`, {
@@ -49,10 +58,10 @@ export const action: ActionFunction = async ({ request }) => {
         });
 
         if (resp.ok) {
-            return json({ success: true, message: "Password changed successfully" }, { status: 200 });
+            return { success: true, message: "Password changed successfully" };
         } else {
             const error = await resp.json();
-            return json({ success: false, message: error.message });
+            return { success: false, message: error.message };
         }
     } else if (actionType === "createInvite") {
         const resp = await fetch(`${BASE_API_URL}/invites/create`, {
@@ -66,14 +75,14 @@ export const action: ActionFunction = async ({ request }) => {
 
         if (resp.ok) {
             const body = await resp.json();
-            return json({ success: true, inviteId: body.inviteId }, { status: 200 });
+            return { success: true, inviteId: body.inviteId };
         } else {
             const error = await resp.json();
-            return json({ success: false, message: error.message });
+            return { success: false, message: error.message };
         }
     }
 
-    return json({ success: false, message: "Invalid action" }, { status: 400 });
+    return { success: false, message: "Invalid action" };
 };
 
 type ActionData = {
@@ -83,6 +92,7 @@ type ActionData = {
 };
 
 export default function Account() {
+    const { invites } = useLoaderData<typeof loader>();
     const actionData = useActionData<ActionData>();
     const transition = useNavigation();
     const loading = transition.state === "submitting";
@@ -116,20 +126,9 @@ export default function Account() {
 
                 <div className="flex flex-col gap-4 p-4">
                     <h3 className="text-xl">Invites</h3>
-                    <p> You have 1 invite left</p>
+                    <p> You have {invites ? 5 - invites.length : 5} invite left</p>
                     <ul className="list-disc list-inside">
-                        <li>
-                            xyzABCAIdio
-                        </li>
-                        <li>
-                            ABCakwfbkwaj
-                        </li>
-                        <li>
-                            235jjkndf8
-                        </li>
-                        <li>
-                            mhawd7awfAJKWD
-                        </li>
+                        {invites && invites.map((invite: any) => <li key={invite.id}>{invite.id}</li>)}
                     </ul>
 
                     <Form method="post" className="flex flex-col gap-4 p-4">
