@@ -11,41 +11,9 @@ The following person has been designated the main contact person for questions f
 
  - Artem Trefilov artlov59@gmail.com
 
-<<<<<<< HEAD
- # Table of Contents
- 1. [Introduction and overview](#section1)
- 2. [Known issues/omissions](#section2)
- 3. [Product features and behavior](#section3)
- 4. [User interface and navigation](#section4)
- 5. [Use cases/scenarios](#section5)
- 6. [Non-functional requirements](#section6)
-    - 6.1. [Public  Aspect](#section61)
-    - 6.2. [Private Aspect](#section62)
-    - 6.3. [Mathematics](#section63)
- 1. [Feature prioritization](#section7)
- 2. [Glossary](#section8)
- 3. [Appendices](#section9)
-
-## 1.Introduction and overview <a name="section1"></a>
-
-HiddenFrame is a unique platform that can be defined as a public picture-sharing board with hidden communication possibilities. The project is built around the idea of creating an otherwise innocent and visually appealing platform where people can share their pictures. From the user's perspective, HiddenFrame is no different from such websites as Pinterest. Users can browse pictures posted by other people and also share their own media. The public nature of the project intends to encourage as many people to participate and share their content. However, beneath this seemingly ordinary exterior lies a sophisticated system for secure, hidden communication. This system relies on a combination of various steganographic techniques to embed a message within shared images. This design makes HiddenFrame a dual-purpose system, where a relatively busy public platform serves as a cover for a covert communication medium.
-
-Technical Implementation:
-- Robust Database Management System (DBMS) for efficient data storage and retrieval
-- WebRTC integration for real-time communication and potential peer-to-peer functionality
-- API integrations to enhance platform features and connectivity
-
-The unique way that HiddenFrame obfuscates hidden messages opens up a wide range of possible applications:
-- Journalism: HiddenFrame provides a secure channel for communicating with those providing vital sources and information to the world’s newspapers, making sure that both the whistleblower and their mission stay protected and secretive.
-- Law enforcement: HiddenFrame also provides a channel for the communication with undercover agents and secret informants, ensuring their safety and security while still being able to deliver vital information.
-- Penetration testing: One can also use HiddenFrame to simulate the use of a steganographic hidden channel between a theoretical enemy and a real law enforcement agency. This way, the ability to detect the misuse of a image-based steganographic channel in a real life scenario can be tested and evaluated.
-
-Project HiddenFrame will launch on desktop first, but is intended for the web platform, that provides best experience and features for users on large screens. This makes it possible to incorporate advanced features and a richer user experience, both of which can be difficult on mobile. The desktop-first approach focuses on building for the power and screen real estate, especially to help people share and engage around photographic products, so users get what looks/feels like a continuous and consistent experience.
-=======
 Alternate contact person:
 
  - Yagna Patel yagna111204@gmail.com
->>>>>>> 8dbcd0523a175e413892da993166bd28d3ed618b
 
  # Table of Contents
  1. [Introduction and overview](#1-introduction-and-overview)
