@@ -372,7 +372,7 @@ int main()
                             string messageBN = stringToBinary(message);
                             // need to get the first param from Jeremy's functions
                             imgptr.modify_image(2, messageBN);
-                            imgptr.write_image(filePath);
+                            imgptr.write_image(filePath);//MAKE THIS FUNCTION RETURN THE KEY.
                         }
                         else
                         {
