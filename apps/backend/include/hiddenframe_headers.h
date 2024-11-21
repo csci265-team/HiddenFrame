@@ -24,7 +24,7 @@ public:
     void modify_image(int n, string payload);
     string retrieve_payload(int n);
     void write_image(string filename);
-    // unsigned char* original_image;
+    bool valid_image();
 private:
     void load_image(string filepath);
     unsigned char *original_image;
@@ -59,7 +59,7 @@ private:
     vector<char> bitStringCompressor(int channels, string toCompress);
 };
 
-sqlite3 *createDB();
+sqlite3* createDB(string filepath);
 void createNewAdmin(sqlite3 *database, const string &username, const string &password);
 void createNewUser(sqlite3 *database, const string &username, const string &password, const int InviteID);
 bool authenticateUser(sqlite3 *database, const string &username, const string &password);
@@ -68,5 +68,6 @@ int createInvite(sqlite3 *database, const string &username);
 vector<crow::json::wvalue> listInvites(sqlite3 *database, const int &userId);
 pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId);
 void saveToken(sqlite3 *database, const string &username, const string &tokenId);
-
+void closeDB(sqlite3* db); 
+bool usernameExists(sqlite3* db,const string& username);
 #endif

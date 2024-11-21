@@ -9,7 +9,7 @@ all: build build/utils.o build/image_class.o build/authorization.o build/db_oper
 build/utils.o: src/utils.cpp include/hiddenframe_headers.h include/utils.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
 
-build/image_class.o: src/image_class.cpp include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h 
+build/image_class.o: src/image_class.cpp include/hiddenframe_headers.h include/stb_image_write.h include/stb_image.h include/utils.h
 	g++ -c $< -o $@ ${CompilationOptions}
 
 build/authorization.o: src/authorization.cpp include/jwt-cpp/* include/picojson/* include/crow/* include/crow/* include/authorization.h
@@ -35,7 +35,9 @@ test: build build/utils.o build/image_class.o build/authorization.o build/db_ope
 	g++ build/utils.o build/image_class.o build/authorization.o build/db_operations.o ${TestObjectFiles} -o bin/test/HiddenFrame_Test ${LinkerOptions} ${CompilationWarnings}
 
 .PHONY: run-test
-run-test: test 
+run-test: test
+	$(CLEAN_DIR) bin/test/database
+	$(MKDIR) bin/test/database 
 	$(RUNTEST)
 
 macos: all
@@ -51,6 +53,7 @@ build:
 	$(MKDIR) static
 	$(MKDIR) bin
 	$(MKDIR) bin/test
+	$(MKDIR) bin/test/database
 	$(MKDIR) database
 
 .PHONY: clean
@@ -58,7 +61,7 @@ clean:
 	$(CLEAN_DIR) build
 	$(CLEAN_DIR) bin
 	$(CLEAN_DIR) static
-#   $(CLEAN_DIR) database
+#	$(CLEAN_DIR) database
 
 IncludePath  ?= -I include/ 
 CompilationOptions= -ggdb -std=c++17 ${IncludePaths}
