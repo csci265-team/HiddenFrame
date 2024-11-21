@@ -70,7 +70,8 @@
  - Addition of routes Administrative Users will be using was added in Section 1. Known Ommisions, to be worked on during the next phase.
 
  ## Phase 5 Summary of Changes
- N/A
+
+ - William Thornley has left our team, so now we don't have a review lead. Instead every member of a team is responsible for reviewing equally.
  
  ## Phase 6 Summary of Changes
  N/A
