@@ -103,6 +103,6 @@ else
 	CLEAN_DIR := del /q static\*
 	EXECUTE := 	@powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
 	RUNTEST := @powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
-	IncludePaths += -I include/ -I C:/msys64/ucrt64/include/asio/include -I C:/ProgramData/chocolatey/lib/*
+	IncludePaths += -I include/  -I C:\ProgramData\chocolatey\lib\*
 	LinkerOptions += -lws2_32 -lmswsock -lssl  
 endif
