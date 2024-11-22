@@ -38,7 +38,7 @@ build/test/main.o: test/main.cpp
 
 .PHONY: test
 test: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
-	g++ build/utils.o build/image_class.o build/authorization.o build/db_operations.o ${TestObjectFiles} -o bin/test/HiddenFrame_Test ${LinkerOptions} ${CompilationWarnings}
+	g++ build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/sqlite.o ${TestObjectFiles} -o bin/test/HiddenFrame_Test ${LinkerOptions} ${CompilationWarnings}
 
 .PHONY: run-test
 run-test: test
