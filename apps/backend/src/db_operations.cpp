@@ -113,7 +113,6 @@ void createNewAdmin(sqlite3 *database, const string &username, const string &pas
 
 void createNewUser(sqlite3 *database, const string &username, const string &password, const int inviteID)
 {
-  std::lock_guard<std::mutex> lock(db_mutex);
 
   if (username.empty() || password.empty())
   {
@@ -123,10 +122,14 @@ void createNewUser(sqlite3 *database, const string &username, const string &pass
   {
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
   }
+
+  db_mutex.unlock();
   if (usernameExists(database, username))
   {
     throw std::runtime_error("User Already Exists");
   }
+
+  std::lock_guard<std::mutex> lock(db_mutex);
 
   sqlite3_exec(database, "BEGIN TRANSACTION;", NULL, NULL, NULL);
   sqlite3_stmt *stmt;
