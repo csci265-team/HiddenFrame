@@ -1,10 +1,10 @@
-.PHONY: run
-run: all
-	$(EXECUTE)
-
 .PHONY: all
 all: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o
 	g++ $(ObjectFiles) -o bin/HiddenFrame ${LinkerOptions} ${CompilationWarnings}
+
+.PHONY: run
+run: all
+	$(EXECUTE)
 
 build/utils.o: src/utils.cpp include/hiddenframe_headers.h include/utils.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
