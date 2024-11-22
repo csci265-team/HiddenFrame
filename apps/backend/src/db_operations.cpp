@@ -566,4 +566,5 @@ bool usernameExists(sqlite3 *database, const string &username)
     }
     throw std::runtime_error("Error checking for duplicate username - " + string(sqlite3_errmsg(database)));
   }
+  return false;
 }
