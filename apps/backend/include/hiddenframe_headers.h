@@ -25,10 +25,21 @@ public:
     string retrieve_payload(int n);
     void write_image(string filename);
     bool valid_image();
+    // Calculates the ideal skip size for an image.
+    int calculateSkipSize(int imageSize, int messageSize);
+    // Generates a valid key for an image of the form (a_1,b_1,a_2,b_2,e,f) where the ab pairs
+    // may be multiplied together mod imageSize so that a*b mod imageSize = idealSkipSize;
+    string generateKey(int imageSize, int messageSize, int channels);
+    // Decodes an image key.  Returns the ideal skip size or -1 if the key is invalid.
+    int decodeKey(string key, int imageSize);
+    // Generates a dummy key that does not meet the requirements of a valid key though looks like a valid
+    // key anyone unfamiliar with how to decode a key.
 private:
-    void load_image(string filepath);
     unsigned char *original_image;
     unsigned char *modified_image;
+    int coprimes[MAX_SIZE];
+    int coprimes_size;
+    void load_image(string filepath);
     // To find the multiplicative inverse of an element a from an Z_n group.
     long long findInverse(long long a, int n);
     // To find a number b, such that, g=ab mod n, where g is a generator of a Z_n group and
@@ -42,21 +53,15 @@ private:
     // Iteratively uses the Euclidean Algorithm on a value n to find value in
     //{0,1,2,3,...,n-1} that are coprime to n and store them in an array, and keeps
     // track of the count of the number of values it finds.
-    void coprime_numbers(int n, int coprimes[], int &count);
+    void coprime_numbers(int n);
     // Performs a binary search of the coprimes array to find an ideal skip size between pixels for
     // A payload going into an image.
-    int binarySearch(int coprimes[], int size, const int idealSkipSize);
-    // Generates a valid key for an image of the form (a_1,b_1,a_2,b_2,e,f) where the ab pairs
-    // may be multiplied together mod imageSize so that a*b mod imageSize = idealSkipSize;
-    string generateKey(int imageSize, int messageSize, int channels);
-    // Decodes an image key.  Returns the ideal skip size or -1 if the key is invalid.
-    int decodeKey(string key, int imageSize);
-    // Generates a dummy key that does not meet the requirements of a valid key though looks like a valid
-    // key anyone unfamiliar with how to decode a key.
+    int binarySearch(int size, const int idealSkipSize);
     string generateDummyKey(int imageSize);
     // Compresses a string of binary bits into an array of integers with the format:
     //[3,1,2,0,4,1,...] that is to be read, "Three 1's, two 0's, four 1's..."
     vector<char> bitStringCompressor(int channels, string toCompress);
+
 };
 
 sqlite3* createDB(string filepath);

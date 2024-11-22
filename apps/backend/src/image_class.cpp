@@ -16,14 +16,14 @@
 using namespace std;
 
 //default consturctor
-image::image():width(0),height(0),channels(0),filetype(),original_image(nullptr),modified_image(nullptr){};
+image::image():width(0),height(0),channels(0),filetype(),original_image(nullptr),modified_image(nullptr), coprimes(), coprimes_size(0) {};
 
 //regular constructor - image is already in the file system
-image::image(string filepath):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr){
+image::image(string filepath):width(0),height(0),channels(0),filetype(),original_image(nullptr), modified_image(nullptr), coprimes(), coprimes_size(0) {
     load_image(filepath);
 };
 //regular constructor - data passed by API server
-image::image(const unsigned char* Data, long long unsigned int length, string ext):width(0),height(0),channels(0),filetype(ext),original_image(nullptr), modified_image(nullptr){
+image::image(const unsigned char* Data, long long unsigned int length, string ext):width(0),height(0),channels(0),filetype(ext),original_image(nullptr), modified_image(nullptr), coprimes(), coprimes_size(0) {
     original_image=stbi_load_from_memory(Data,static_cast<int>(length),&width,&height,&channels,0);
     if (original_image==nullptr){
         throw std::invalid_argument("Image could not be opened - "+string(stbi_failure_reason()));
@@ -419,12 +419,12 @@ int image::euclideanAlgorithm(int n, int b) {
  * @param   count The size of the coprimes array.
  * @return  No return type for a void function.
  */
-void image::coprime_numbers(int n, int coprimes[], int &count) {
+void image::coprime_numbers(int n) {
     for (int i = 2; i < n; ++i) {
         if (euclideanAlgorithm(i, n) == 1) {
-            if (count < MAX_SIZE) {
-                coprimes[count] = i; // Store coprime number in array
-                count++; // Increment the count
+            if (coprimes_size < MAX_SIZE) {
+                coprimes[coprimes_size] = i; // Store coprime number in array
+                coprimes_size++; // Increment the count
             } else {
                 //cout << "Array size exceeded!" << std::endl;
                 break; // Stop if the array is full
@@ -440,7 +440,7 @@ void image::coprime_numbers(int n, int coprimes[], int &count) {
  * @param   idealSkipSize An even division of the characters into the image's pixel count that is not a generator of the total pixels.
  * @return  No return type for a void function.
  */
-int image::binarySearch(int coprimes[], int size, const int idealSkipSize) {
+int image::binarySearch(int size, const int idealSkipSize) {
     int start = 0;
     int end = size-1;
     int mid = (start + end)/2;
@@ -460,6 +460,23 @@ int image::binarySearch(int coprimes[], int size, const int idealSkipSize) {
 }
 
 /**
+ * @brief   Calculates the ideal skip size for a message to be embedded into an image.
+ * @param   imageSize The number of pixels in the image.
+ * @param   messageSize The size of the message.
+ * @return  The ideal skip size for the message and image combination.
+ */
+int image::calculateSkipSize(int imageSize, int messageSize) {
+    if (messageSize <= 1 || messageSize > 1024) {
+        throw std::runtime_error("Invalid message size, exiting.");
+    }
+    coprimes_size = 0;
+    coprime_numbers(imageSize);
+    int idealSkipSize = imageSize / messageSize;
+    idealSkipSize = binarySearch(coprimes_size, idealSkipSize);
+    return idealSkipSize;
+}
+
+/**
  * @brief   Generates a key for an embedded and decoding a message to/from an image.
  * @param   imageSize The number of pixels in the image as an integer.
  * @param   messageSize The number of pixels required to contain the message (including the stopping pixel).
@@ -467,20 +484,12 @@ int image::binarySearch(int coprimes[], int size, const int idealSkipSize) {
  * @return  A string the contains an image key in the format (a_1,b_1,a_2,b_2,e,f) where each pair a*b mod imageSize = idealSkipSize, e is the hex length
  *          of each a, b, and f is the number of channels in the image.
  */
-string image::generateKey(int imageSize, int messageSize, int channels) {
-    if (messageSize <= 1 || messageSize > 1024) {
-        return "Invalid message size, exiting.";
-    }
-    int coprimes[MAX_SIZE];
-    int size = 0;
-    coprime_numbers(imageSize, coprimes, size);
-    int idealSkipSize = imageSize / messageSize;
-    idealSkipSize = binarySearch(coprimes, size, idealSkipSize);
+string image::generateKey(int imageSize, int channels, int idealSkipSize) {
     string abArray[4];
     for(int i = 0; i < 4; i+=2) {
-        long long randomA = coprimes[rand() % size];
+        long long randomA = coprimes[rand() % coprimes_size];
         while (randomA == idealSkipSize) {
-            randomA = coprimes[rand() % size];
+            randomA = coprimes[rand() % coprimes_size];
         }
         cout << "a chosen is " << randomA << endl;
         int inverse = findInverse(randomA, imageSize);

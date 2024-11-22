@@ -371,7 +371,8 @@ int main()
                             // convert message to binary string
                             string messageBN = stringToBinary(message);
                             // need to get the first param from Jeremy's functions
-                            imgptr.modify_image(2, messageBN);
+                            int skip_size = imgptr.calculateSkipSize(imgptr.height*imgptr.width*imgptr.channels, convertedData.size()/2);
+                            imgptr.modify_image(skip_size, messageBN);
                             imgptr.write_image(filePath);//MAKE THIS FUNCTION RETURN THE KEY.
                         }
                         else
