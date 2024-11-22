@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: lts/*
       - name: Install C++ dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential libsqlite3-dev
+        run: sudo apt-get update && sudo apt-get install -y build-essential libsqlite3-dev libasio-dev
       - name: Build C++ project
         run: make
         working-directory: apps/backend
@@ -30,7 +30,6 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
         working-directory: apps/web
-
       - name: Run Playwright tests
         run: npx playwright test
         working-directory: apps/web
