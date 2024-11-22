@@ -1,12 +1,11 @@
 #ifndef AUTHORIZATION_H
 #define AUTHORIZATION_H
 
-#include "crow.h"
+#include <crow_all.h>
 #include <jwt-cpp/jwt.h>
-#include <hiddenframe_headers.h>
 #include <string>
-#include <crow/middlewares/cors.h>
 #include <variant>
+#include <sqlite/sqlite3.h>
 
 struct AuthorizationMiddleware : public crow::ILocalMiddleware
 {

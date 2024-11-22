@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
-#include <sqlite3.h>
-#include <crow/json.h>
+#include <sqlite/sqlite3.h>
+#include <crow_all.h>
 #ifndef hiddenframe_headers
 #define hiddenframe_headers
 
