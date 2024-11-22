@@ -1,10 +1,13 @@
 .PHONY: all
-all: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/snowflake.o build/api.o
+all: build build/sqlite.o build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/snowflake.o build/api.o
 	g++ $(ObjectFiles) -o bin/HiddenFrame ${LinkerOptions} ${CompilationWarnings}
 
 .PHONY: run
 run: all
 	$(EXECUTE)
+
+build/sqlite.o: include/sqlite/*
+ 	g++ -x c -std=c99 -c $< -o $@ ${IncludePaths} ${CompilationWarnings} ${LinkerOptions}
 
 build/utils.o: src/utils.cpp include/hiddenframe_headers.h include/utils.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
@@ -15,7 +18,7 @@ build/image_class.o: src/image_class.cpp include/hiddenframe_headers.h include/s
 build/authorization.o: src/authorization.cpp include/jwt-cpp/* include/picojson/* include/crow/* include/crow/* include/authorization.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
-build/db_operations.o: src/db_operations.cpp include/hiddenframe_headers.h include/sqlite/*
+build/db_operations.o: src/db_operations.cpp include/hiddenframe_headers.h build/sqlite.o
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
 build/snowflake.o: src/snowflake.cpp include/snowflake.h
@@ -27,7 +30,7 @@ build/api.o: src/api.cpp include/hiddenframe_headers.h include/crow.h include/cr
 build/test/test_image_io.o: test/test_image_io.cpp include/hiddenframe_headers.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
 
-build/test/test_user_database.o: test/test_user_database.cpp include/hiddenframe_headers.h include/sqlite/*
+build/test/test_user_database.o: test/test_user_database.cpp include/hiddenframe_headers.h build/sqlite.o
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
 
 build/test/main.o: test/main.cpp
@@ -68,9 +71,9 @@ clean:
 
 IncludePath  ?= -I include/ 
 CompilationOptions= -ggdb -std=c++17 ${IncludePaths}
-LinkerOptions= -lsqlite3 -lcrypto
+LinkerOptions= -lcrypto
 CompilationWarnings=-Wall -Wextra
-ObjectFiles= build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/snowflake.o build/api.o
+ObjectFiles= build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/snowflake.o build/sqlite.o build/api.o
 TestObjectFiles= build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
 
 ifeq ($(OS),Windows_NT)
