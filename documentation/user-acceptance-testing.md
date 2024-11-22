@@ -388,6 +388,133 @@ the exact sequence of actions each tester must follow during the scene covered b
 the expected behaviour/results and how to assess pass/failure
 Note that the descriptions of the actions to be performed must be precise and detailed enough to guarantee we will get the same results if we run the same script in the future.
 
+#### UAS001: Successful Registration
+**Description:** Verifies successful user registration with valid credentials.  
+**Pre-requisites:** None.  
+**Steps:**  
+1. Navigate to `http://localhost:5173/register/admin`.
+2. Enter `correctUsername` in the **Username** field.
+3. Enter `correctPassword` in the **Password** field.
+4. Click the **Submit** button.
+5. Wait for the page to load and observe the URL.  
+**Expected Outcome:** The user is redirected to `http://localhost:5173/login`.
+
+---
+
+#### UAS002: Successful Login
+**Description:** Verifies successful login with valid credentials.  
+**Pre-requisites:** Must follow **UAS001** (registration).  
+**Steps:**  
+1. Navigate to `http://localhost:5173/login`.
+2. Enter `correctUsername` in the **Username** field.
+3. Enter `correctPassword` in the **Password** field.
+4. Click the **Submit** button.
+5. Wait for the page to load and observe the URL.  
+**Expected Outcome:** The user is redirected to `http://localhost:5173`.
+
+---
+
+#### UAS003: Image Upload and Decoding
+**Description:** Verifies successful upload of an image and decoding of a message.  
+**Pre-requisites:** Must follow **UAS002** (login).  
+**Steps:**  
+1. Navigate to `http://localhost:5173`.
+2. Locate the **File Upload** field and upload any image of the following formats: png, jpg, bmp, tga.
+3. Enter `Test message` in the **Message** field.
+4. Click the **Submit** button.
+5. Wait for the image to appear in the uploaded list.
+6. Click on the uploaded image.
+7. Enter the key `2` in the **Key** field.
+8. Click the **Decode** button.  
+**Expected Outcome:** The message "Test message" is displayed under the image.
+
+---
+
+#### UAS004: Duplicate Username Registration
+**Description:** Verifies the system prevents duplicate username registration.  
+**Pre-requisites:** Must follow **UAS001** (registration).  
+**Steps:**  
+1. Navigate to `http://localhost:5173/register/admin`.
+2. Enter `correctUsername` in the **Username** field.
+3. Enter `correctPassword` in the **Password** field.
+4. Click the **Submit** button.
+5. Wait for the page to load and observe the URL.  
+**Expected Outcome:** The user remains on `http://localhost:5173/register/admin` with an appropriate error message.
+
+---
+
+#### UAS005: Invalid Username Login
+**Description:** Verifies the system prevents login with an invalid username.  
+**Pre-requisites:** Must follow **UAS001** (registration).  
+**Steps:**  
+1. Navigate to `http://localhost:5173/login`.
+2. Enter `wrongUsername` in the **Username** field.
+3. Enter `correctPassword` in the **Password** field.
+4. Click the **Submit** button.
+5. Wait for the page to load and observe the URL.  
+**Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
+
+---
+
+#### UAS006: Invalid Password Login
+**Description:** Verifies the system prevents login with an invalid password.  
+**Pre-requisites:** Must follow **UAS001** (registration).  
+**Steps:**  
+1. Navigate to `http://localhost:5173/login`.
+2. Enter `correctUsername` in the **Username** field.
+3. Enter `wrongPassword` in the **Password** field.
+4. Click the **Submit** button.
+5. Wait for the page to load and observe the URL.  
+**Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
+
+---
+
+#### UAS007: Missing Username Login
+**Description:** Verifies the system prevents login if username is missing.  
+**Pre-requisites:** Must follow **UAS001** (registration).  
+**Steps:**  
+1. Navigate to `http://localhost:5173/login`.
+2. Leave the **Username** field empty and enter `somePassword` in the **Password** field.
+3. Click the **Submit** button.
+4. Wait for the page to load and observe the URL.  
+**Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
+
+---
+
+#### UAS008: Missing Password Login
+**Description:** Verifies the system prevents login if password is missing.  
+**Pre-requisites:** Must follow **UAS001** (registration).  
+**Steps:**  
+1. Navigate to `http://localhost:5173/login`.
+2. Leave the **Password** field empty and enter `someUsername` in the **Username** field.
+3. Click the **Submit** button.
+4. Wait for the page to load and observe the URL.  
+**Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
+
+---
+
+#### UAS009: Missing Username Registration
+**Description:** Verifies the system prevents registration if username is missing.  
+**Pre-requisites:** None.  
+**Steps:**  
+1. Navigate to `http://localhost:5173/register/admin`.
+2. Leave the **Username** field empty and enter `password` in the **Password** field.
+3. Click the **Submit** button.
+4. Wait for the page to load and observe the URL.  
+**Expected Outcome:** The user remains on `http://localhost:5173/register/admin` with an appropriate error message.
+
+---
+
+#### UAS010: Missing Password Registration
+**Description:** Verifies the system prevents registration password is missing.  
+**Pre-requisites:** None.  
+**Steps:**  
+1. Navigate to `http://localhost:5173/register/admin`.
+2. Leave the **Password** field empty and enter `username` in the **Username** field.
+3. Click the **Submit** button.
+4. Wait for the page to load and observe the URL.  
+**Expected Outcome:** The user remains on `http://localhost:5173/register/admin` with an appropriate error message.
+
 ### 3.5. Executables (Test Programs/Scripts, Stubs, and Drivers)
 
 This section details any/all the scripts and programs the team has created to help automate the user acceptance test process. This would include programs/scripts such as:
@@ -403,6 +530,102 @@ detailed descriptions (or links to such descriptions) for all the setup actions 
 the exact sequence of actions each tester must follow during execution of the script/executable,
 the expected behaviour/results and how to assess pass/failure,
 any required cleanup after the script has terminated.
+
+This section provides detailed information on the Playwright script used to automate the user acceptance test process for **HiddenFrame** UI. The script is designed to validate the full end-to-end functionality of the application, ensuring seamless integration of its core features.
+
+**Setup Actions:**  
+1. **Run the backend**
+    
+   Open the terminal and enter
+   ```bash
+   cd apps/background
+   make run
+   ```
+2. **Run the frontend**
+
+   Open another terminal and enter
+   ```bash
+   cd apps/web
+   npm i
+   npm run dev
+   ```
+   
+3. **Start the playwright**
+
+   Open another terminal and enter
+   ```bash
+   cd apps/web
+   npm install -D @playwright/test@latest
+   npx playwright install --with-deps
+   npm run test-debug
+   ```
+
+---
+
+#### 1. Full Cycle Tests
+**Name and Location:**  
+`apps/web/tests/full.cycle.spec.ts`
+
+**Source Code and Build Location:**  
+- **Source Code:** [Full Cycle Test Source](../apps/web/tests/full.cycle.spec.ts)  
+- **Build Location:** [apps/web](../apps/web)
+
+**Purpose:**  
+This script automates the complete user flow for **HiddenFrame**, verifying the following key functionalities:
+1. User registration with valid credentials.
+2. User login with the registered credentials.
+3. Image upload with an embedded message.
+4. Decoding of the embedded message from the uploaded image.
+
+---
+
+#### 2. Login Tests
+**Name and Location:**  
+`apps/web/tests/login.spec.ts`
+
+**Source Code and Build Location:**  
+- **Source Code:** [Login Test Source](../apps/web/tests/login.spec.ts)  
+- **Build Location:** [apps/web](../apps/web)
+
+**Purpose:**  
+This script validates the login process for the **HiddenFrame** application, ensuring correct functionality for the following scenarios:
+1. Verifying that the page title is displayed correctly.
+2. Checking if the login label is present on the login page.
+3. Logging in successfully with valid credentials.
+4. Preventing login with invalid usernames or passwords.
+5. Handling scenarios where the username or password is missing.
+
+---
+
+#### 3. Registration Tests
+**Name and Location:**  
+`apps/web/tests/register.spec.ts`
+
+**Source Code and Build Location:**  
+- **Source Code:** [Register Test Source](../apps/web/tests/register.spec.ts)  
+- **Build Location:** [apps/web](../apps/web)
+
+**Purpose:**  
+This script validates the registration process for the **HiddenFrame** application, ensuring correct functionality for the following scenarios:
+1. Verifying that the registration page title is displayed correctly.
+2. Checking if the registration label is present on the page.
+3. Preventing registration when a username already exists.
+4. Preventing registration when required fields (username or password) are missing.
+
+---
+
+#### 4. Main Page Tests
+**Name and Location:**  
+`apps/web/tests/main.spec.ts`
+
+**Source Code and Build Location:**  
+- **Source Code:** [Main Page Test Source](../apps/web/tests/main.spec.ts)  
+- **Build Location:** [apps/web](../apps/web)
+
+**Purpose:**  
+This script validates the following functionalities on the **HiddenFrame** main page:
+1. Verifying the page title.
+2. Ensuring a public user can upload an image successfully.
 
 ### 3.6. Version Control and Branch Structure
 
