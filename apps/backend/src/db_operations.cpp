@@ -8,8 +8,12 @@
 #include <vector>
 #include <tuple>
 #include <crow/json.h>
+#include <mutex>
 
 using namespace std;
+
+std::mutex db_mutex;
+
 sqlite3 *createDB(string filepath)
 {
   sqlite3 *db;
@@ -55,45 +59,53 @@ sqlite3 *createDB(string filepath)
 
 void createNewAdmin(sqlite3 *database, const string &username, const string &password)
 {
-  // check if DB is opened correctly
-  if (username=="" || username==" " || password=="" || password==" "){
+  if (username.empty() || password.empty())
+  {
     throw std::runtime_error("Password and/or username cannot be empty");
   }
+
   if (!database)
   {
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
   }
-  if (usernameExists(database,username)){
-      throw std::runtime_error("User Already Exists "); 
-  }
-  // create a new sql statement
-  sqlite3_stmt *insstmt;
 
-  // setup the SQL statement
+  // Temporarily release the lock before calling usernameExists
+
+  db_mutex.unlock();
+  if (usernameExists(database, username))
+  {
+    throw std::runtime_error("User Already Exists");
+  }
+
+  std::lock_guard<std::mutex> lock(db_mutex);
+
+  sqlite3_stmt *insstmt;
   const char *sql = "INSERT INTO Users (username, password) VALUES(?,?);";
-  // prepare statement
   int rc = sqlite3_prepare_v2(database, sql, -1, &insstmt, NULL);
   if (rc != SQLITE_OK)
   {
-    if (insstmt!=NULL){
+    if (insstmt != NULL)
+    {
       sqlite3_finalize(insstmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
   }
-  // bind arguments to SQL statement
+
   sqlite3_bind_text(insstmt, 1, username.c_str(), -1, SQLITE_STATIC);
   sqlite3_bind_text(insstmt, 2, password.c_str(), -1, SQLITE_STATIC);
-  // Query the DB
+
   rc = sqlite3_step(insstmt);
   if (rc != SQLITE_DONE)
   {
-    if (insstmt!=NULL){
+    if (insstmt != NULL)
+    {
       sqlite3_finalize(insstmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
   }
   // finalize the statement
-  if (insstmt!=NULL){
+  if (insstmt != NULL)
+  {
     sqlite3_finalize(insstmt); // Finalize the statement if preparation fails
   }
   return;
@@ -101,26 +113,30 @@ void createNewAdmin(sqlite3 *database, const string &username, const string &pas
 
 void createNewUser(sqlite3 *database, const string &username, const string &password, const int inviteID)
 {
-  if (username=="" || username==" " || password=="" || password==" "){
+  std::lock_guard<std::mutex> lock(db_mutex);
+
+  if (username.empty() || password.empty())
+  {
     throw std::runtime_error("Password and/or username cannot be empty");
   }
-  // check if DB is opened correctly
   if (!database)
   {
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
   }
-  if (usernameExists(database,username)){
-      throw std::runtime_error("User Already Exists"); 
+  if (usernameExists(database, username))
+  {
+    throw std::runtime_error("User Already Exists");
   }
+
   sqlite3_exec(database, "BEGIN TRANSACTION;", NULL, NULL, NULL);
-  // create a new sql statement
   sqlite3_stmt *stmt;
-  // check if inviteid is valid
+
   const char *sql0 = "SELECT is_valid FROM Invites WHERE id = ?;";
   int rc = sqlite3_prepare_v2(database, sql0, -1, &stmt, NULL);
   if (rc != SQLITE_OK)
   {
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
@@ -130,7 +146,8 @@ void createNewUser(sqlite3 *database, const string &username, const string &pass
   {
     if (sqlite3_column_int(stmt, 0) == 0)
     {
-      if (stmt!=NULL){
+      if (stmt != NULL)
+      {
         sqlite3_finalize(stmt); // Finalize the statement if preparation fails
       }
       throw std::runtime_error("Invite ID is not valid.");
@@ -138,21 +155,23 @@ void createNewUser(sqlite3 *database, const string &username, const string &pass
   }
   else
   {
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("No such invite ID exists.");
   }
-  if (stmt!=NULL){
+  if (stmt != NULL)
+  {
     sqlite3_finalize(stmt); // Finalize the statement if preparation fails
   }
 
-  // if invite is valid create new user
   const char *sql = "INSERT INTO Users (username, password) VALUES(?, ?);";
   rc = sqlite3_prepare_v2(database, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK)
   {
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
@@ -162,16 +181,16 @@ void createNewUser(sqlite3 *database, const string &username, const string &pass
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE)
   {
+    sqlite3_finalize(stmt);
     throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
   }
-  if (stmt!=NULL){
+  if (stmt != NULL)
+  {
     sqlite3_finalize(stmt); // Finalize the statement if preparation fails
   }
 
-  // get the new user's ID
   int newUserID = sqlite3_last_insert_rowid(database);
 
-  // update the invite to set is_valid to false and used_by to the new user ID
   const char *sql2 = "UPDATE Invites SET is_valid = 0, used_by = ? WHERE id = ?;";
   rc = sqlite3_prepare_v2(database, sql2, -1, &stmt, NULL);
   if (rc != SQLITE_OK)
@@ -183,34 +202,36 @@ void createNewUser(sqlite3 *database, const string &username, const string &pass
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE)
   {
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
   }
-  if (stmt!=NULL){
+  if (stmt != NULL)
+  {
     sqlite3_finalize(stmt); // Finalize the statement if preparation fails
   }
   sqlite3_exec(database, "COMMIT;", NULL, NULL, NULL);
-  return;
 }
 
 int createInvite(sqlite3 *database, const string &username)
 {
-  // check if DB is opened correctly
+  std::lock_guard<std::mutex> lock(db_mutex);
+
   if (!database)
   {
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
   }
   sqlite3_exec(database, "BEGIN TRANSACTION;", NULL, NULL, NULL);
-  // create a new sql statement
   sqlite3_stmt *stmt;
-  // check if user exists and get invites_created and id
+
   const char *sql0 = "SELECT id, invites_created FROM Users WHERE username = ?;";
   int rc = sqlite3_prepare_v2(database, sql0, -1, &stmt, NULL);
   if (rc != SQLITE_OK)
   {
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
@@ -221,18 +242,19 @@ int createInvite(sqlite3 *database, const string &username)
     int userID = sqlite3_column_int(stmt, 0);
     int invitesCreated = sqlite3_column_int(stmt, 1);
     cout << "Invites created: " << invitesCreated << endl;
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     // check if user has invites remaining, they can make max 5
     if (invitesCreated < 5)
     {
-      // create new invite and set is valid to true
       const char *sql = "INSERT INTO Invites (is_valid, created_by, used_by) VALUES(1, ?, NULL);";
       rc = sqlite3_prepare_v2(database, sql, -1, &stmt, NULL);
       if (rc != SQLITE_OK)
       {
-        if (stmt!=NULL){
+        if (stmt != NULL)
+        {
           sqlite3_finalize(stmt); // Finalize the statement if preparation fails
         }
         throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
@@ -241,12 +263,14 @@ int createInvite(sqlite3 *database, const string &username)
       rc = sqlite3_step(stmt);
       if (rc != SQLITE_DONE)
       {
-        if (stmt!=NULL){
+        if (stmt != NULL)
+        {
           sqlite3_finalize(stmt); // Finalize the statement if preparation fails
         }
         throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
       }
-      if (stmt!=NULL){
+      if (stmt != NULL)
+      {
         sqlite3_finalize(stmt); // Finalize the statement if preparation fails
       }
       // increment invites_created
@@ -254,7 +278,8 @@ int createInvite(sqlite3 *database, const string &username)
       rc = sqlite3_prepare_v2(database, sql2, -1, &stmt, NULL);
       if (rc != SQLITE_OK)
       {
-        if (stmt!=NULL){
+        if (stmt != NULL)
+        {
           sqlite3_finalize(stmt); // Finalize the statement if preparation fails
         }
         throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
@@ -263,21 +288,23 @@ int createInvite(sqlite3 *database, const string &username)
       rc = sqlite3_step(stmt);
       if (rc != SQLITE_DONE)
       {
-        if (stmt!=NULL){
+        if (stmt != NULL)
+        {
           sqlite3_finalize(stmt); // Finalize the statement if preparation fails
         }
         throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
       }
-      if (stmt!=NULL){
+      if (stmt != NULL)
+      {
         sqlite3_finalize(stmt); // Finalize the statement if preparation fails
       }
       sqlite3_exec(database, "COMMIT;", NULL, NULL, NULL);
-      // return created invite id
       return sqlite3_last_insert_rowid(database);
     }
     else
     {
-      if (stmt!=NULL){
+      if (stmt != NULL)
+      {
         sqlite3_finalize(stmt); // Finalize the statement if preparation fails
       }
       return -1; // No invites remaining
@@ -285,19 +312,20 @@ int createInvite(sqlite3 *database, const string &username)
   }
   else
   {
+    sqlite3_finalize(stmt);
     throw std::runtime_error("User not found.");
   }
 }
 
 vector<crow::json::wvalue> listInvites(sqlite3 *database, const int &userId)
 {
-  // check if DB is opened correctly
+  std::lock_guard<std::mutex> lock(db_mutex);
+
   if (!database)
   {
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
   }
 
-  // create a new sql statement
   sqlite3_stmt *stmt;
   const char *sql = "SELECT id, is_valid, created_by, used_by FROM Invites WHERE created_by = ?;";
   int rc = sqlite3_prepare_v2(database, sql, -1, &stmt, NULL);
@@ -320,7 +348,8 @@ vector<crow::json::wvalue> listInvites(sqlite3 *database, const int &userId)
     invites.push_back(invite);
   }
 
-  if (stmt!=NULL){
+  if (stmt != NULL)
+  {
     sqlite3_finalize(stmt); // Finalize the statement if preparation fails
   }
 
@@ -329,39 +358,38 @@ vector<crow::json::wvalue> listInvites(sqlite3 *database, const int &userId)
 
 bool changePassword(sqlite3 *database, const string &username, const string &newPassword)
 {
-  // check if DB is opened correctly
+  std::lock_guard<std::mutex> lock(db_mutex);
+
   if (!database)
   {
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
   }
 
-  // create a new sql statement
   sqlite3_stmt *stmt;
   const char *sql = "UPDATE Users SET password = ?, token_id = NULL WHERE username = ?;";
 
-  // prepare sql statement
   int rc = sqlite3_prepare_v2(database, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK)
   {
     throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
   }
 
-  // bind arguments to SQL statement
   sqlite3_bind_text(stmt, 1, newPassword.c_str(), -1, SQLITE_STATIC);
   sqlite3_bind_text(stmt, 2, username.c_str(), -1, SQLITE_STATIC);
 
-  // execute the SQL statement
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE)
   {
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
   }
 
   // finalize the statement
-  if (stmt!=NULL){
+  if (stmt != NULL)
+  {
     sqlite3_finalize(stmt); // Finalize the statement if preparation fails
   }
   return true;
@@ -369,84 +397,84 @@ bool changePassword(sqlite3 *database, const string &username, const string &new
 
 bool authenticateUser(sqlite3 *database, const string &username, const string &password)
 {
-  // check if DB is opened correctly
+  std::lock_guard<std::mutex> lock(db_mutex);
+
   if (!database)
   {
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
   }
-  // make a new sql statement
+
   sqlite3_stmt *authstmt;
-  // setup sql statement
   const char *sql = "SELECT password FROM Users WHERE username = ?;";
-  // prepare sql statement
   int rc = sqlite3_prepare_v2(database, sql, -1, &authstmt, NULL);
   if (rc != SQLITE_OK)
   {
-    if (authstmt!=NULL){
+    if (authstmt != NULL)
+    {
       sqlite3_finalize(authstmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
   }
-  // bind arguments to SQL statment
+
   sqlite3_bind_text(authstmt, 1, username.c_str(), -1, SQLITE_STATIC);
 
-  // Query the DB
   rc = sqlite3_step(authstmt);
   if (rc == SQLITE_ROW)
   {
     const unsigned char *dbPassword = sqlite3_column_text(authstmt, 0);
-    // passwords match
     if (password == reinterpret_cast<const char *>(dbPassword))
     {
-      if (authstmt!=NULL){
+      if (authstmt != NULL)
+      {
         sqlite3_finalize(authstmt); // Finalize the statement if preparation fails
       }
       return true;
     }
   }
-  if (authstmt!=NULL){
+  if (authstmt != NULL)
+  {
     sqlite3_finalize(authstmt); // Finalize the statement if preparation fails
   }
   return false;
 }
 
-// verify token fucntion that returns user id and username if token is valid
 pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId)
 {
-  // check if DB is opened correctly
+  std::lock_guard<std::mutex> lock(db_mutex);
+
   if (!database)
   {
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
   }
-  // make a new sql statement
+
   sqlite3_stmt *stmt;
-  // setup sql statement
   const char *sql = "SELECT id, username FROM Users WHERE token_id = ?;";
-  // prepare sql statement
   int rc = sqlite3_prepare_v2(database, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK)
   {
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
   }
-  // bind arguments to SQL statement
+
   sqlite3_bind_text(stmt, 1, tokenId.c_str(), -1, SQLITE_STATIC);
 
-  // Query the DB
   rc = sqlite3_step(stmt);
   if (rc == SQLITE_ROW)
   {
     int userID = sqlite3_column_int(stmt, 0);
     const unsigned char *username = sqlite3_column_text(stmt, 1);
     std::string usernameStr(reinterpret_cast<const char *>(username));
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     return make_pair(userID, usernameStr);
   }
-  if (stmt!=NULL){
+  if (stmt != NULL)
+  {
     sqlite3_finalize(stmt); // Finalize the statement if preparation fails
   }
   throw std::runtime_error("Token not found.");
@@ -454,85 +482,88 @@ pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId)
 
 void saveToken(sqlite3 *database, const string &username, const string &tokenId)
 {
-  // check if DB is opened correctly
+  std::lock_guard<std::mutex> lock(db_mutex);
+
   if (!database)
   {
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
   }
-  // make a new sql statement
+
   sqlite3_stmt *stmt;
-  // setup sql statement
   const char *sql = "UPDATE Users SET token_id = ? WHERE username = ?;";
-  // prepare sql statement
   int rc = sqlite3_prepare_v2(database, sql, -1, &stmt, NULL);
   if (rc != SQLITE_OK)
   {
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Failed to Prepare Statement - " + string(sqlite3_errmsg(database)));
   }
-  // bind arguments to SQL statment
+
   sqlite3_bind_text(stmt, 1, tokenId.c_str(), -1, SQLITE_STATIC);
   sqlite3_bind_text(stmt, 2, username.c_str(), -1, SQLITE_STATIC);
 
-  // Query the DB
   rc = sqlite3_step(stmt);
   if (rc != SQLITE_DONE)
   {
-    if (stmt!=NULL){
+    if (stmt != NULL)
+    {
       sqlite3_finalize(stmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Query execution failed - " + string(sqlite3_errmsg(database)));
   }
-  if (stmt!=NULL){
-      sqlite3_finalize(stmt); // Finalize the statement if preparation fails
+  if (stmt != NULL)
+  {
+    sqlite3_finalize(stmt); // Finalize the statement if preparation fails
   }
   return;
 }
 
-// Function to safely close the database
-void closeDB(sqlite3* db) {
-    if (db) {
-        sqlite3_db_cacheflush(db);
-        sqlite3_close(db);
-    }
+void closeDB(sqlite3 *db)
+{
+  if (db)
+  {
+    sqlite3_db_cacheflush(db);
+    sqlite3_close(db);
+  }
 }
 
-/*
-* @brief - checks if a username already exists in the DB
-*
-*/
-bool usernameExists(sqlite3* database, const string& username){
+bool usernameExists(sqlite3 *database, const string &username)
+{
+  std::lock_guard<std::mutex> lock(db_mutex);
+
   sqlite3_stmt *checkStmt;
   const char *checkSql = "SELECT COUNT(*) FROM Users WHERE username = ?;";
-    
-  // Prepare the SQL statement
+
   int rc = sqlite3_prepare_v2(database, checkSql, -1, &checkStmt, NULL);
   if (rc != SQLITE_OK)
   {
-    if (checkStmt!=NULL){
+    if (checkStmt != NULL)
+    {
       sqlite3_finalize(checkStmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Failed to Prepare Statement for checking duplicate username - " + string(sqlite3_errmsg(database)));
   }
 
-  // Bind the username to the statement
   sqlite3_bind_text(checkStmt, 1, username.c_str(), -1, SQLITE_STATIC);
 
-  // Execute the query
   rc = sqlite3_step(checkStmt);
-  if (rc == SQLITE_ROW){
+  if (rc == SQLITE_ROW)
+  {
     int count = sqlite3_column_int(checkStmt, 0);
-    if (count > 0){
+    if (count > 0)
+    {
       sqlite3_finalize(checkStmt); // Finalize the statement after use
       return true;
     }
-  }else{
-    if (checkStmt!=NULL){
+  }
+  else
+  {
+    if (checkStmt != NULL)
+    {
       sqlite3_finalize(checkStmt); // Finalize the statement if preparation fails
     }
     throw std::runtime_error("Error checking for duplicate username - " + string(sqlite3_errmsg(database)));
   }
-  return false;
 }
