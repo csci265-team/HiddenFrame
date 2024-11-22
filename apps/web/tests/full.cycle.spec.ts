@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import path from 'path';
 
-test.only('should register, log in successfully with valid credentials and the decoded message should be correct', async ({ page }) => {
+test('should register, log in successfully with valid credentials and the decoded message should be correct', async ({ page }) => {
     await page.goto('http://localhost:5173/register/admin');
 
     // Registration
