@@ -40,7 +40,7 @@ Alternate contact person:
  6. [Non-functional requirements](#6-non-functional-requirements)
     - 6.1. [Public Aspect](#61-public--aspect)
     - 6.2. [Private Aspect](#62-private-aspect)
-    - 6.3. [Mathematics](#63-mathematics)
+    - 6.3. [Key Generation](#63-key-generation)
  7. [Feature prioritization](#7-feature-prioritization)
     - 7.1. [Primary Features](#71-primary-features)
     - 7.2. [Secondary Features](#72-secondary-features)
@@ -101,7 +101,7 @@ Our web-based app will allow users to upload any images they want to our servers
 
 This feature will be accessible as a button on our home page right above the image wall.
 
-The public aspect users will have some sort of image upload size limit (TBD).
+The public aspect will limit users to uploading images less than or equal to 10MB in size filesize and less than or equal to $2^{31}$ pixels.
 
 ### 3.3. Private login
 
@@ -116,7 +116,7 @@ This web page will have a simple login form that will ask the user for a usernam
 
 The same web-based app will also have a special upload section for private users, which will include a text box that allows users to type in a message that will get embedded into their image using steganography. Once the image is embedded, we will provide the user with a "key" that can be used to decode the message from the image later. 
 
-The text message will be limited to 1024 UTF-8 characters in an image of not less than 40,000 pixels.
+The text message will be limited to 1024 UTF-8 characters in an image of not less than 40,000 pixels but not more than $2^{31}$ pixels.
 
 The registered users will be able to access this page after logging in from the aforementioned private login page.
 
@@ -127,6 +127,8 @@ The profile web page will also have a button that allows users to create invites
 Once a registered user has created the allocated number of invites, they cannot create any more invites.
 
 The registered users will be able to access this page after logging in from the aforementioned private login page.
+
+If a registerred user's access is removed, everyone they've sent invites to, and everyone those individuals have sent invites to will be removed.  The user database structure will resemble a 5-way tree where removing any node will delete all of its children.
 
 ## 4. User interface and navigation
 
@@ -312,7 +314,7 @@ HiddenFrame's other primary feature is the steganography manipulation of images 
 - Steganography keys -  If the keys for image decoding are stored on the HiddenFrame servers (not ideal), they will be secured in order to ensure security.
 - Misuse of HiddenFrame for Illegal activity - HiddenFrame will moderate the site for content and cooperate with law enforcement in whatever capacity is required. 
 
-### 6.3. Mathematics
+### 6.3. Key Generation
 
 HiddenFrame's steganographic features require that we develop a method for inserting the payload into the carrier and successfully retrieving the payload back from the carrier. As such, we will require the ability to produce 'keys' that will mathematically describe the pixels modified. To accomplish this, we will utilize the algebraic concept of group generators under a binary operation mod N.
 
@@ -326,8 +328,55 @@ Definition of a cyclic group and a generator: Let $A$ be a group. We say that $A
 
 Any set of integers under addtion $\\{0,1,2,...,n-1\\} \\; modulo \\; n$ denoted $\mathbb{Z}_n$ satisfies the definition of a cyclic group. This means that leveraging concepts from group theory and modular arithmetic will work for selecting pixels for modification in an image, regardless of the dimensions of an image provided by the user, where $n$ is the total number of pixels in an image. However, practical computing constraints to image size and message size will need to be considered. To generate the group when performing pixel selection, we may use any generator of the set $\\{0,1,2,...,n-1\\}$.
 
-To find generators of $n$ we may us the Euclidean Algorithm, that is given $n,x \in \mathbb{Z}$ where $x<n$:
-
-$$n=qx + r \\; : \\; q,r \in \mathbb{Z}, 0 \leq r < x$$.
+To find generators of $n$ we may us the Euclidean Algorithm, that is given $n,x \in \mathbb{Z}$ where $x<n$ and $n=qx + r : q,r \in \mathbb{Z}, 0 \leq r < x$.
 
 If $r=0$, then $gcd(n,x)=x$ otherwise, $gcd(n,x)=gcd(x,r)$. We perform these steps iteratively until $r=0$. If in our final iteration of testing the $gcd$ for two integers, the lesser integer being tested was equal to $1$, then $x$ was a generator of $n$. If $gcd(n,x)>1$, then $x$ is NOT a generator of $n$ and should not be used as a jump size between pixels when selecting pixels for modification for messaging encoding and decoding.
+
+Keys should be able to be generated in less than 5 seconds with an average time of less than 3 seconds. Keys should also be psuedo-unique in that if a user uploads the same message with the same image, there should be less than a 1 in 500,000 chance of the same key being produced.
+
+## 7. Feature prioritization
+
+For some of our team members, this is our first attempt at building a website. For all of our team members, this is our first attempt to create a piece of technology using steganography techniques. The following lists include primary features, secondary features, and stretch goals for the scope of our project.
+
+### 7.1. Primary Features
+
+The features our team considers mandatory for our project are:
+- A webpage for creating a username for select users with access to the secret chat feature;
+- A webpage for logging into a username for select users with access to the secret chat feature;
+- A webpage for uploading and posting pictures to a public picture-board sharing site;
+- A secret webpage for uploading an image (carrier) with a hidden message (payload) that includes a hidden message embedded within the image to send to another user. Initially, the payload will be limited to text. This webpage should also indicate if a user has received any unread secret messages, allow them to read them, and display the image they were embedded within;
+- A wall/picture-board sharing webpage to view pictures the user and other users have posted;
+- A program running on the server that can be called by the webpage that encodes payloads into carriers and decodes them for the recipient. Initially, this program should be able to encode text into an image using a key system where the key is embedded into the file's data;
+- A key generation algorithm that fits a key into a filename of not more than 50 characters; 
+- An encoding algorithm that fits not less than 1024 UTF-8 characters into an image containing at least 40,000 pixels but not more than 2,147,483,648 ($2^{31}$); and
+- An invite webpage where select users with access to the secret chat feature may invite others to create a username and utilize the hidden feature(s).
+
+### 7.2. Secondary Features
+
+Our secondary goals that our team hopes to implement depending on the remaining time available for the creation of this project include:
+- A username recovery mechanism;
+- One-time read/receive secret messages by removing the decode key from the file's contents; and
+- A separate payload type of chiptune music tones that may be encoded into images with not less than 150,000 pixels.
+
+### 7.3. Stretch Goals
+
+Our team's stretch goals include that are not expected to make it into our project submission but would be nice to include if all previous items are completed ahead of schedule:
+- Using a separate carrier format for both secret text messages and music files;
+- The ability to like and comment on pictures on the wall;
+- Adding support for embedding images as payloads; and
+- Utilizing a common encryption standard into the process so that secret messages are encrypted into and decrypted from their payloads in addition to being embedded into the file.
+
+## 8. Glossary 
+**Steganography**: The art or practice of concealing a message, image, or file within another message, image, or file
+
+**Public Aspect**: The portion of HiddenFrame that is accessible by the general public.
+
+**Private Aspect**: The portion of HiddenFrame that is accessible by invitation only. Allows the use of Steganography features.
+
+**Carrier**: A file, image, of message used to hide another message, image or file in steganography.
+
+**Payload**: A file, image, of message hidden inside another message, image or file in steganography.
+
+**TBD**: To be decided
+
+## 9. Appendices
