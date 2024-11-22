@@ -19,7 +19,7 @@ jobs:
         run: make
         working-directory: apps/backend
       - name: Run C++ project
-        run: make run
+        run: make run &
         working-directory: apps/backend
       - name: Install dependencies
         run: npm i
@@ -27,6 +27,8 @@ jobs:
       - name: Start Development Server
         run: npm run dev &
         working-directory: apps/web
+      - name: Wait for servers to be ready
+        run: npx wait-on http://localhost:3000 http://localhost:8080
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
         working-directory: apps/web
