@@ -124,10 +124,10 @@ export default function Index() {
         <h2 className="text-2xl font-[Outfit] font-black ">Photos from Unsplash</h2>
         <div className="grid grid-cols-3 gap-4 p-4">
           {photos
-            .sort((a: { id: string }, b: { id: string }) => b.id.localeCompare(a.id))
+            .sort((a: { id: number }, b: { id: number }) => b.id - a.id)
             .map((photo: any) => (
               <div key={photo.id}>
-                <a href={`/u/${photo.id}`}>
+                <a href={`/u/${photo.filename}`}>
                   <img className="w-64 h-64 rounded-lg object-cover" src={photo.url} alt="Img loaded from backend" />
                 </a>
               </div>
