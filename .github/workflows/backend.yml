@@ -25,7 +25,6 @@ jobs:
       - name: Install C++ dependencies on Windows
         if: runner.os == 'Windows'
         run: |
-          choco install sqlite
           choco install asio
           choco install boost-msvc-14.1
           choco install openssl

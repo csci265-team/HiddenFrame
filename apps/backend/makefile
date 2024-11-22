@@ -6,8 +6,8 @@ all: build build/sqlite.o build/utils.o build/image_class.o build/authorization.
 run: all
 	$(EXECUTE)
 
-build/sqlite.o: include/sqlite/*
- 	g++ -x c -std=c99 -c $< -o $@ ${IncludePaths} ${CompilationWarnings} ${LinkerOptions}
+build/sqlite.o: include/sqlite/sqlite3.c
+	g++ -x c -std=c99 -c $< -o $@ ${IncludePaths} ${CompilationWarnings}
 
 build/utils.o: src/utils.cpp include/hiddenframe_headers.h include/utils.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
