@@ -532,10 +532,6 @@ int image::binarySearch(int size, const int idealSkipSize)
  */
 int image::calculateSkipSize(int imageSize, int messageSize)
 {
-    if (messageSize <= 1 || messageSize > 1024)
-    {
-        throw std::runtime_error("Invalid message size, exiting.");
-    }
     coprime_numbers(imageSize);
     int idealSkipSize = imageSize / messageSize;
     idealSkipSize = binarySearch(coprimes.size(), idealSkipSize);
