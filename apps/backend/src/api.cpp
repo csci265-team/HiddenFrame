@@ -8,6 +8,7 @@
 #include <jwt-cpp/jwt.h>
 #include <authorization.h>
 #include <crow/middlewares/cookie_parser.h>
+#include <snowflake.h>
 
 using namespace std;
 
@@ -15,8 +16,9 @@ const string BASE_API_URL = "http://localhost:8080";
 
 int main()
 {
-    sqlite3 *db = createDB("database/userdatabase.db");
-    srand(static_cast<unsigned>(time(NULL)));
+    Snowflake flaker(1, 1);
+
+    sqlite3 *db = createDB("./database/userdatabase.db");
 
     crow::Crow<crow::CookieParser, crow::CORSHandler, AuthorizationMiddleware> app;
 
@@ -39,7 +41,8 @@ int main()
                     string id = filename.substr(0, filename.find_last_of('.')); // Remove the extension
 
                     crow::json::wvalue photo;
-                    photo["id"] = filename;
+                    photo["id"] = id;
+                    photo["filename"] = filename;
                     photo["url"] = BASE_API_URL + "/static/" + filename;
                     photos.push_back(photo);
                 }
@@ -113,6 +116,7 @@ int main()
                     crow::json::wvalue error_json;
                     error_json["success"] = true;
                     error_json["error"] = e.what();
+                    cout << e.what() << endl;
                     return crow::response(401, error_json);
                 }
                 crow::json::wvalue success_json;
@@ -148,7 +152,7 @@ int main()
 
     CROW_ROUTE(app, "/login")
         .methods(crow::HTTPMethod::POST)(
-            [&app, db](const crow::request &req)
+            [&app, &flaker, db](const crow::request &req)
             {
                 auto jsonBody = crow::json::load(req.body);
                 // username and password sent as json in req body
@@ -164,7 +168,7 @@ int main()
                 // if valid, generate token and return it
                 if (validcredentials)
                 {
-                    string tokenId = to_string(rand()); // this needs to more random. store this in DB
+                    string tokenId = to_string(flaker.nextId()); // this needs to more random. store this in DB
                     // store the token in the DB.
                     string secret = std::getenv("JWT_SECRET");
                     // int expTime = (int)std::getenv("JWT_EXP_HOURS");
@@ -288,9 +292,9 @@ int main()
 
     CROW_ROUTE(app, "/image/upload")
         .methods(crow::HTTPMethod::POST)(
-            [&app, db](const crow::request &req)
+            [&app, &flaker, db](const crow::request &req)
             {
-                int random = rand();
+                int64_t random = flaker.nextId();
 
                 string fileData;       // @patrick: this is the image data
                 string metaDataString; // @patrick: this is of format { name: string, size: int, ext: string }, size is file size, ext is file extension
@@ -372,7 +376,7 @@ int main()
                             string messageBN = stringToBinary(message);
                             // need to get the first param from Jeremy's functions
                             imgptr.modify_image(2, messageBN);
-                            imgptr.write_image(filePath);//MAKE THIS FUNCTION RETURN THE KEY.
+                            imgptr.write_image(filePath); // MAKE THIS FUNCTION RETURN THE KEY.
                         }
                         else
                         {
