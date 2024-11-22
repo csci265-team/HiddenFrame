@@ -56,6 +56,9 @@ sqlite3 *createDB(string filepath)
 void createNewAdmin(sqlite3 *database, const string &username, const string &password)
 {
   // check if DB is opened correctly
+  if (username=="" || username==" " || password=="" || password==" "){
+    throw std::runtime_error("Password and/or username cannot be empty");
+  }
   if (!database)
   {
     throw std::runtime_error("Database not opened correctly - " + string(sqlite3_errmsg(database)));
@@ -92,6 +95,9 @@ void createNewAdmin(sqlite3 *database, const string &username, const string &pas
 
 void createNewUser(sqlite3 *database, const string &username, const string &password, const int inviteID)
 {
+  if (username=="" || username==" " || password=="" || password==" "){
+    throw std::runtime_error("Password and/or username cannot be empty");
+  }
   // check if DB is opened correctly
   if (!database)
   {
