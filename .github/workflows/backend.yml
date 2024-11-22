@@ -4,6 +4,8 @@ on:
     branches: [master, staging]
   pull_request:
     branches: [master, staging]
+    paths:
+      - "apps/backend/**"
 jobs:
   test:
     timeout-minutes: 60
