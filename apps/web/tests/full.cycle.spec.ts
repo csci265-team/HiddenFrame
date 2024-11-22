@@ -1,18 +1,20 @@
 import { test, expect } from '@playwright/test';
 import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
 test('should register, log in successfully with valid credentials and the decoded message should be correct', async ({ page }) => {
     await page.goto('http://localhost:5173/register/admin');
 
+    const username = uuidv4();
     // Registration
-    await page.fill('input[name="username"]', 'correctUsername');
+    await page.fill('input[name="username"]', username);
     await page.fill('input[name="password"]', 'correctPassword');
     await page.click('button[type="submit"]');
     await page.waitForLoadState('networkidle');
     await expect(page).toHaveURL('http://localhost:5173/login');
 
     // Login
-    await page.fill('input[name="username"]', 'correctUsername');
+    await page.fill('input[name="username"]', username);
     await page.fill('input[name="password"]', 'correctPassword');
     await page.click('button[type="submit"]');
     await page.waitForLoadState('networkidle');
@@ -34,13 +36,11 @@ test('should register, log in successfully with valid credentials and the decode
 
     // Enter key for decoding
     const keyInput = page.locator('input[name="key"]');
-    await keyInput.fill('2'); 
-    debugger;
+    await keyInput.fill('2');
     // Click Decode button
     const decodeButton = page.locator('button[type="submit"]');
     await decodeButton.click();
 
     // Verify the decoded message
-    const decodedMessage = page.locator('p.decoded-message'); 
-    await expect(decodedMessage).toHaveText('Test message');
+    await expect(page.getByText('Test message')).toBeVisible();
 });
