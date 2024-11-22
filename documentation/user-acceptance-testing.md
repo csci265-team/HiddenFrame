@@ -170,8 +170,7 @@ PwdInv03 Third password failure third consecutive bad password by registered use
     }
     });
     ```
-
-<<<<<<< HEAD
+    
     Input data:
     
         Image file: test_image_1.jpg
