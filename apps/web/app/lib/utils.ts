@@ -6,6 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export async function hashPassword(password: string): Promise<string> {
+  // Return an empty hash if the password is empty
+  if (!password) {
+    return '';
+  }
+
   // Encode the password as a UTF-8 byte array
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
