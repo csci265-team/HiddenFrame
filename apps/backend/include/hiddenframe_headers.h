@@ -37,8 +37,7 @@ public:
 private:
     unsigned char *original_image;
     unsigned char *modified_image;
-    int coprimes[MAX_SIZE];
-    int coprimes_size;
+    vector<int> coprimes;
     void load_image(string filepath);
     // To find the multiplicative inverse of an element a from an Z_n group.
     long long findInverse(long long a, int n);
@@ -61,10 +60,9 @@ private:
     // Compresses a string of binary bits into an array of integers with the format:
     //[3,1,2,0,4,1,...] that is to be read, "Three 1's, two 0's, four 1's..."
     vector<char> bitStringCompressor(int channels, string toCompress);
-
 };
 
-sqlite3* createDB(string filepath);
+sqlite3 *createDB(string filepath);
 void createNewAdmin(sqlite3 *database, const string &username, const string &password);
 void createNewUser(sqlite3 *database, const string &username, const string &password, const int InviteID);
 bool authenticateUser(sqlite3 *database, const string &username, const string &password);
@@ -73,6 +71,6 @@ int createInvite(sqlite3 *database, const string &username);
 vector<crow::json::wvalue> listInvites(sqlite3 *database, const int &userId);
 pair<int, string> verifyTokenWithDb(sqlite3 *database, const string &tokenId);
 void saveToken(sqlite3 *database, const string &username, const string &tokenId);
-void closeDB(sqlite3* db); 
-bool usernameExists(sqlite3* db,const string& username);
+void closeDB(sqlite3 *db);
+bool usernameExists(sqlite3 *db, const string &username);
 #endif
