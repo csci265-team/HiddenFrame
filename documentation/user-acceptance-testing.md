@@ -135,6 +135,15 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
 | User015 | Re-invite the inviter and invitee from User013 test. NEED TO DECIDE AS A GROUP IF THEY SHOULD BE REINVITED/REACTIVATED/ACCESS REVOKED/SENT TO ADMIN FOR APPROVAL. |
 
 #### API Testing
+**Steps to run the following API tests:**
+1. Run the backend and frontend.
+2. Install and open Postman application.
+3. Paste http://localhost:5173 in the URL box.
+4. Select the method and extend the URL with the "Request" of test.
+5. Enter the "Input data" as the Key and Value in the "Params" tab from the test.
+6. To upload any file. Go to the "Body" tab, select the the "form-data" check box, select the file option from the drop down list beside the Key and select the file as the Value
+7. Copy paste the test code in the "Tests" tab.
+8. To run the test click the "Send" button.
 - Uploading an image
     
     Objective: Verify that the API can upload an image successfully.
@@ -142,6 +151,18 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
     Request:
             
          POST /image/upload
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Image uploaded successfully");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Failed to upload image");
+    }
+    });
+    ```
+
     Input data:
     
         Image file: test_image_1.jpg
@@ -156,6 +177,18 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
     Request:
             
          POST /image/upload
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Image uploaded successfully");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Failed to upload image");
+    }
+    });
+    ```
+    
     Input data:
     
         Image file: test_image_2.png
@@ -171,6 +204,18 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
     Request:
             
          GET /images
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Images loaded successfully");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Failed to load images");
+    }
+    });
+    ```
+    
     Output:
             
         Status code: 200
@@ -182,6 +227,18 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
     Request:
             
          POST /login
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Successfully loged in");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Invalid password and username");
+    }
+    });
+    ```
+
     Input data:
     
         username: "acb"
@@ -197,6 +254,18 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
     Request:
             
          POST /login
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Successfully loged in");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Invalid password and username");
+    }
+    });
+    ```
+    
     Input data:
     
         username: "acb"
@@ -212,6 +281,18 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
     Request:
             
          POST /register
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: New user registered");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: The invite is invalid");
+    }
+    });
+    ```
+    
     Input data:
     
         username: "acb"
@@ -228,6 +309,18 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
     Request:
             
          POST /register
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: New user registered");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: The invite is invalid");
+    }
+    });
+    ```
+    
     Input data:
     
         username: "acb"
@@ -244,6 +337,18 @@ PwdInv03	Third password failure	third consecutive bad password by registered use
     Request:
             
          POST /image/upload
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Image uploaded successfully");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Failed to upload image");
+    }
+    });
+    ```
+
     Input data:
     
         Image file: a_small_image.png
