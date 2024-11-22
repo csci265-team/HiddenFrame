@@ -173,8 +173,8 @@ On the backend we are using the Boost testing library to facilitate automated te
 3. **Save the image as `test_image_1.png` in the output folder:**
    - Call the `write_image()` function:  
       `cpp
-test1.write_image("../../resources/images/test/output/test_image_1.png");
-`  
+     test1.write_image("../../resources/images/test/output/test_image_1.png");
+     `  
      **Expected Outcome:**
 
 - The image loads successfully.
@@ -201,8 +201,8 @@ test1.write_image("../../resources/images/test/output/test_image_1.png");
 3. **Save the image as `test_image_2.png` in the output folder:**
    - Call the `write_image()` function:  
       `cpp
-test2.write_image("../../resources/images/test/output/test_image_2.png");
-`  
+     test2.write_image("../../resources/images/test/output/test_image_2.png");
+     `  
      **Expected Outcome:**
 
 - The image loads successfully.
@@ -234,8 +234,8 @@ test2.write_image("../../resources/images/test/output/test_image_2.png");
 4. **Verify the file types are different:**
    - Compare the file types:  
       `cpp
-test3a.filetype != test3b.filetype;
-`  
+     test3a.filetype != test3b.filetype;
+     `  
      **Expected Outcome:**
 
 - The images load successfully.
@@ -262,8 +262,8 @@ test3a.filetype != test3b.filetype;
 3. **Verify the image is valid:**
    - Call the `valid_image()` function:  
       `cpp
-test5.valid_image();
-`  
+     test5.valid_image();
+     `  
      **Expected Outcome:**
 
 - The image is successfully read from the buffer and verified as valid.
@@ -303,8 +303,8 @@ test5.valid_image();
 5. **Compare the retrieved payload to the original string:**
    - Use `binaryToString()` to decode and compare:  
       `cpp
-binaryToString(payload) == teststr;
-`  
+     binaryToString(payload) == teststr;
+     `  
      **Expected Outcome:**
 
 - The string is successfully embedded and retrieved without any errors.

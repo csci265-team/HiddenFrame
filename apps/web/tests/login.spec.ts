@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
-import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
+
 
 test('has title', async ({ page }) => {
     await page.goto('http://localhost:5173/login');
@@ -16,7 +17,9 @@ test('has login label', async ({ page }) => {
 test('should register and log in successfully with valid credentials', async ({ page }) => {
     await page.goto('http://localhost:5173/register/admin');
 
-    await page.fill('input[name="username"]', 'correctUsername');
+    const username = uuidv4();
+
+    await page.fill('input[name="username"]', username);
     await page.fill('input[name="password"]', 'correctPassword');
 
     await page.click('button[type="submit"]');
@@ -24,7 +27,7 @@ test('should register and log in successfully with valid credentials', async ({ 
 
     await expect(page).toHaveURL('http://localhost:5173/login');
 
-    await page.fill('input[name="username"]', 'correctUsername');
+    await page.fill('input[name="username"]', username);
     await page.fill('input[name="password"]', 'correctPassword');
 
     await page.click('button[type="submit"]');
@@ -37,7 +40,9 @@ test('should register and log in successfully with valid credentials', async ({ 
 test('should not log in successfully with invalid username', async ({ page }) => {
     await page.goto('http://localhost:5173/register/admin');
 
-    await page.fill('input[name="username"]', 'correctUsername');
+    const username = uuidv4();
+
+    await page.fill('input[name="username"]', username);
     await page.fill('input[name="password"]', 'correctPassword');
 
     await page.click('button[type="submit"]');
@@ -64,7 +69,9 @@ test('should not log in successfully with invalid username', async ({ page }) =>
 test('should not log in successfully with invalid password', async ({ page }) => {
     await page.goto('http://localhost:5173/register/admin');
 
-    await page.fill('input[name="username"]', 'correctUsername');
+    const username = uuidv4();
+
+    await page.fill('input[name="username"]', username);
     await page.fill('input[name="password"]', 'correctPassword');
 
     await page.click('button[type="submit"]');
@@ -73,7 +80,7 @@ test('should not log in successfully with invalid password', async ({ page }) =>
 
     await expect(page).toHaveURL('http://localhost:5173/login');
 
-    await page.fill('input[name="username"]', 'correctUsername');
+    await page.fill('input[name="username"]', username);
     await page.fill('input[name="password"]', 'wrongPassword');
 
     await page.click('button[type="submit"]');
@@ -84,8 +91,10 @@ test('should not log in successfully with invalid password', async ({ page }) =>
 
 test('should not log in successfully with invalid credentials', async ({ page }) => {
     await page.goto('http://localhost:5173/register/admin');
+    
+    const username = uuidv4();
 
-    await page.fill('input[name="username"]', 'correctUsername');
+    await page.fill('input[name="username"]', username);
     await page.fill('input[name="password"]', 'correctPassword');
 
     await page.click('button[type="submit"]');
@@ -107,7 +116,9 @@ test('should not log in successfully with invalid credentials', async ({ page })
 test('should not log in succesfully if username or password is missing', async ({ page }) => {
     await page.goto('http://localhost:5173/register/admin');
 
-    await page.fill('input[name="username"]', 'correctUsername');
+    const username = uuidv4();
+
+    await page.fill('input[name="username"]', username);
     await page.fill('input[name="password"]', 'correctPassword');
 
     await page.click('button[type="submit"]');

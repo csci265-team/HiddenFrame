@@ -13,12 +13,24 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
+      - name: Install C++ dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential libsqlite3-dev
+      - name: Build C++ project
+        run: make
+        working-directory: apps/backend
+      - name: Run C++ project
+        run: make run
+        working-directory: apps/backend
       - name: Install dependencies
-        run: npm ci
+        run: npm i
+        working-directory: apps/web
+      - name: Start Development Server
+        run: npm run dev &
         working-directory: apps/web
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
         working-directory: apps/web
+
       - name: Run Playwright tests
         run: npx playwright test
         working-directory: apps/web
