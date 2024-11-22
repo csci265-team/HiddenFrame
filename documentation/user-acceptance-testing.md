@@ -148,7 +148,7 @@ PwdInv03 Third password failure third consecutive bad password by registered use
 2. Install and open Postman application.
 3. Paste http://localhost:5173 in the URL box.
 4. Select the method and extend the URL with the "Request" of test.
-5. Enter the "Input data" as the Key and Value in the "Params" tab from the test.
+5. Enter the Keys and Values in the "Params" tab from the test.
 6. To upload any file. Go to the "Body" tab, select the the "form-data" check box, select the file option from the drop down list beside the Key and select the file as the Value
 7. Copy paste the test code in the "Tests" tab.
 8. To run the test click the "Send" button.
@@ -171,10 +171,10 @@ PwdInv03 Third password failure third consecutive bad password by registered use
     });
     ```
     
-    Input data:
+    Key: Value
     
         Image file: test_image_1.jpg
-    Output:
+    Result:
             
         Status code: 200
         Message: Image uploaded successfully
@@ -197,11 +197,11 @@ PwdInv03 Third password failure third consecutive bad password by registered use
     });
     ```
     
-    Input data:
+    Key: Value
     
         Image file: test_image_2.png
         Secret message: "This is a secret"
-    Output:
+    Result:
             
         Status code: 200
         Message: Image uploaded successfully
@@ -224,7 +224,7 @@ PwdInv03 Third password failure third consecutive bad password by registered use
     });
     ```
     
-    Output:
+    Result:
             
         Status code: 200
         Message: Images loaded successfully
@@ -247,11 +247,11 @@ PwdInv03 Third password failure third consecutive bad password by registered use
     });
     ```
 
-    Input data:
+    Key: Value
     
         username: "acb"
         password: "correctpassword"
-    Output:
+    Result:
             
         Status code: 200
         Message: Successfully loged in
@@ -274,11 +274,11 @@ PwdInv03 Third password failure third consecutive bad password by registered use
     });
     ```
     
-    Input data:
+    Key: Value
     
         username: "acb"
         password: "wrongpassword"
-    Output:
+    Result:
             
         Status code: 400
         Message: Invalid password and username
@@ -301,12 +301,12 @@ PwdInv03 Third password failure third consecutive bad password by registered use
     });
     ```
     
-    Input data:
+    Key: Value
     
         username: "acb"
         password: "correctpassword"
         inviteID: 12345
-    Output:
+    Result:
             
         Status code: 200
         Message: New user registered
@@ -329,12 +329,12 @@ PwdInv03 Third password failure third consecutive bad password by registered use
     });
     ```
     
-    Input data:
+    Key: Value
     
         username: "acb"
         password: "correctpassword"
         inviteID: 2468
-    Output:
+    Result:
             
         Status code: 401
         Message: The invite is invalid
@@ -357,11 +357,11 @@ PwdInv03 Third password failure third consecutive bad password by registered use
     });
     ```
 
-    Input data:
+    Key: Value
     
         Image file: a_small_image.png
         Secret message: "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead. I recently discovered I could make fudge with just chocolate chips, sweetened condensed milk, vanilla extract, and a thick pot on slow heat. I tried it with dark chocolate chunks and I tried it with semi-sweet chocolate chips. It's better with both kinds. It comes out pretty bad with just the dark chocolate. The best add-ins are crushed almonds and marshmallows -- what you get from that is Rocky Road. It takes about twenty minutes from start to fridge, and then it takes about six months to work off the twenty pounds you gain from eating it. All things in moderation, friends. All things in moderation. Samantha wanted to be famous. The problem was that she had never considered all the downsides to actually being famous. Had she taken the time to objectively consider these downsides, she would have never agreed to publically sing that first song."
-    Output:
+    Result:
             
         Status code: 500
         Message: Failed to upload image
