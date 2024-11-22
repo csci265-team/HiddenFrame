@@ -7,7 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <tuple>
-#include <crow/json.h>
+#include <crow_all.h>
 #include <mutex>
 
 using namespace std;
