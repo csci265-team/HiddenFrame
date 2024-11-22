@@ -113,6 +113,7 @@ int main()
                     crow::json::wvalue error_json;
                     error_json["success"] = true;
                     error_json["error"] = e.what();
+                    cout << e.what() << endl;
                     return crow::response(401, error_json);
                 }
                 crow::json::wvalue success_json;
