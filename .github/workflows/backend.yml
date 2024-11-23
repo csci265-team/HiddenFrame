@@ -1,0 +1,46 @@
+name: Backend Tests
+on:
+  push:
+    branches: [master, staging]
+  pull_request:
+    branches: [master, staging]
+    paths:
+      - "apps/backend/**"
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install C++ dependencies on Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libsqlite3-dev libasio-dev libboost-all-dev libssl-dev
+      - name: Install C++ dependencies on macOS
+        if: runner.os == 'macOS'
+        run: |
+          brew install sqlite3 asio boost openssl
+      - name: Install Boost on Windows
+        if: runner.os == 'Windows'
+        run: |
+          # Download and extract Boost
+          curl -L -o boost_1_86_0.7z https://pilotfiber.dl.sourceforge.net/project/boost/boost/1.86.0/boost_1_86_0.7z?viasf=1
+          7z x boost_1_86_0.7z -oapps/backend/include
+          mv apps/backend/include/boost_1_86_0/boost apps/backend/include/
+      - name: Install OpenSSL on Windows
+        if: runner.os == 'Windows'
+        run: |
+          choco install openssl --no-progress
+
+      # Build and test project
+      - name: Build C++ project
+        run: make
+        working-directory: apps/backend
+
+      - name: Run C++ project tests
+        run: make run-test
+        working-directory: apps/backend
