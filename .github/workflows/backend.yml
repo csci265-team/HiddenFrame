@@ -24,29 +24,18 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install sqlite3 asio boost openssl
-      - name: Restore cached Chocolatey packages
-        id: cache-primes-restore
-        uses: actions/cache/restore@v4
-        with:
-          path: C:\ProgramData\chocolatey\lib
-          key: ${{ runner.os }}-choco-${{ hashFiles('**/apps/backend/**') }}
+      # - name: Restore cached Chocolatey packages
+      #   id: cache-primes-restore
+      #   uses: actions/cache/restore@v4
+      #   with:
+      #     path: C:\ProgramData\chocolatey\lib
+      #     key: ${{ runner.os }}-choco-${{ hashFiles('**/apps/backend/**') }}
       - name: Install C++ dependencies on Windows
         if: runner.os == 'Windows'
         run: |
-          choco install boost-msvc-14.3 --no-progress
-          choco install openssl --no-progress
-      - name: Upload Chocolatey log
-        if: runner.os == 'Windows' && ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: chocolatey-log
-          path: C:\ProgramData\chocolatey\logs\chocolatey.log
-      - name: Cache Chocolatey packages
-        if: runner.os == 'Windows'
-        uses: actions/cache/save@v4
-        with:
-          path: C:\ProgramData\chocolatey\lib
-          key: ${{ runner.os }}-choco-${{ hashFiles('**/apps/backend/**') }}
+          curl -L -o boost_1_86_0.7z https://pilotfiber.dl.sourceforge.net/project/boost/boost/1.86.0/boost_1_86_0.7z?viasf=1
+          7z x boost_1_86_0.7z -oapps/backend/include
+          mv apps/backend/include/boost_1_86_0/boost apps/backend/include/
       - name: Build C++ project
         run: make
         working-directory: apps/backend
