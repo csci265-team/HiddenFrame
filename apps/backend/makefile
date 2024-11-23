@@ -76,7 +76,6 @@ LinkerOptions= -lcrypto
 CompilationWarnings=-Wall -Wextra
 ObjectFiles= build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/snowflake.o build/sqlite.o build/api.o
 TestObjectFiles= build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
-LibraryPaths = 
 
 ifeq ($(OS),Windows_NT)
 	OS := windows
@@ -105,7 +104,7 @@ else
 	CLEAN_DIR := @powershell -Command "Remove-Item -Recurse -Force"
 	EXECUTE := powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
 	RUNTEST := powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
-	IncludePaths += -I include/boost -I apps/backend/include/openssl
+	IncludePaths += -I include/ include/boost -I apps/backend/include/openssl
 	LinkerOptions += -lws2_32 -lmswsock -lssl 
 
 endif
