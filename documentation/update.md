@@ -72,6 +72,17 @@
  ## Phase 5 Summary of Changes
 
  - William Thornley has left our team, so now we don't have a review lead. Instead every member of a team is responsible for reviewing equally.
+
+ ### 5.1 Requirements
+ Updated the maximum allowed image filesize to be 10MB and not more than $2^{31}$ pixels.
+
+ Updated compute times on keys to be less than 5 seconds with an average time of less than 3 seconds.
+
+ Updated requirements to specify that keys should be psudo-unique and have less than a 1 in 500,000 chance of producing the same key given the same image and message combination.
+
+ Updated the secontion title 6.3 Mathematics to 6.3 Key Generation
+
+ Updated to include team decision regarding revoking access to remove all child invitees of the removed user.
  
  ## Phase 6 Summary of Changes
  N/A

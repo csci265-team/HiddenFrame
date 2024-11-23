@@ -1,13 +1,11 @@
-#include "crow.h"
+#include <crow_all.h>
 #include <hiddenframe_headers.h>
-#include <crow/middlewares/cors.h>
 #include <fstream>
 #include <filesystem>
 #include <string>
 #include <utils.h>
 #include <jwt-cpp/jwt.h>
 #include <authorization.h>
-#include <crow/middlewares/cookie_parser.h>
 #include <snowflake.h>
 
 using namespace std;
@@ -367,16 +365,16 @@ int main()
                         if (message != "" && isAuthed)
                         {
                             std::vector<unsigned char> convertedData(fileSize + 1);
-
                             memcpy(convertedData.data(), fileData.c_str(), fileSize + 1);
                             image imgptr = image(convertedData.data(), fileSize, fileExt);
-
-                            // modify image with payload here if permission granted and desired
-                            // convert message to binary string
                             string messageBN = stringToBinary(message);
-                            // need to get the first param from Jeremy's functions
-                            imgptr.modify_image(2, messageBN);
-                            imgptr.write_image(filePath); // MAKE THIS FUNCTION RETURN THE KEY.
+                            int skipSize = imgptr.calculateSkipSize(imgptr.height*imgptr.width*imgptr.channels, convertedData.size()/2);
+                            cout << "The ideal skip size is " << skipSize << endl;
+                            imgptr.modify_image(skipSize, messageBN);
+                            imgptr.write_image(filePath);
+                            string key = imgptr.generateKey(imgptr.height*imgptr.width*imgptr.channels, imgptr.channels, skipSize);
+                            //AMITOJ, Here is the key.
+                            cout << "The image size is " << imgptr.height*imgptr.width*imgptr.channels << endl;
                         }
                         else
                         {
