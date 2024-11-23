@@ -24,14 +24,8 @@ build/db_operations.o: src/db_operations.cpp include/hiddenframe_headers.h build
 build/snowflake.o: src/snowflake.cpp include/snowflake.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
-<<<<<<< HEAD
-
 build/api.o: src/api.cpp include/hiddenframe_headers.h include/crow.h include/crow/* include/authorization.h include/snowflake.h
 	g++ -c $< -o $@  ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
-=======
-build/api.o: src/api.cpp include/hiddenframe_headers.h include/crow.h include/crow/* include/authorization.h include/snowflake.h
-	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
->>>>>>> 6813f102dc57e6ce87725201f8f001307f924a68
 
 build/test/test_image_io.o: test/test_image_io.cpp include/hiddenframe_headers.h
 	g++ -c $< -o $@ -lboost_unit_test_framework ${CompilationOptions} ${CompilationWarnings}
