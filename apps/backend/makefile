@@ -70,7 +70,7 @@ clean:
 #	$(CLEAN_DIR) database
 
 IncludePath  ?= -I include/ 
-CompilationOptions= -ggdb -std=c++17 ${IncludePaths}
+CompilationOptions= -ggdb -std=c++17 -DCROW_USE_BOOST -DBOOST_VERSION=107000 -DASIO_VERSION=101300 ${IncludePaths}
 LinkerOptions= -lcrypto
 CompilationWarnings=-Wall -Wextra
 ObjectFiles= build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/snowflake.o build/sqlite.o build/api.o
@@ -103,6 +103,6 @@ else
 	CLEAN_DIR := del /q static\*
 	EXECUTE := 	@powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
 	RUNTEST := @powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
-	IncludePaths += -I include/ -I  C:/msys64/ucrt64/include/asio/include 
+	IncludePaths += -I include/ -I C:/msys64/ucrt64/include/asio/include -I C:/ProgramData/chocolatey/lib/*
 	LinkerOptions += -lws2_32 -lmswsock -lssl  
 endif
