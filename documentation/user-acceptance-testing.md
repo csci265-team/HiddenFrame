@@ -183,6 +183,230 @@ The test cases have been split into three primary components, testing user itera
 | Keys011 | [7.1](../documentation/requirements.md#71-primary-features) | Generating a key for an image that is of the maximum pixel size ($2^{31}$) for any valid character length. Should generate a valid key.                                                                                                                                                                                           |
 
 ---
+### 2.8 API Testing
+**Steps to run the following API tests:**
+1. Run the backend and frontend.
+2. Install and open Postman application.
+3. Paste http://localhost:5173 in the URL box.
+4. Select the method and extend the URL with the "Request" of test.
+5. Enter the Keys and Values in the "Params" tab from the test.
+6. To upload any file. Go to the "Body" tab, select the the "form-data" check box, select the file option from the drop down list beside the Key and select the file as the Value
+7. Copy paste the test code in the "Tests" tab.
+8. To run the test click the "Send" button.
+- Uploading an image
+    
+    Objective: Verify that the API can upload an image successfully.
+    
+    Request:
+            
+         POST /image/upload
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Image uploaded successfully");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Failed to upload image");
+    }
+    });
+    ```
+    
+    Key: Value
+    
+        file: test_image_1.jpg
+    Result:
+            
+        Status code: 200
+        Message: Image uploaded successfully
+- Uploading an image with a secret message
+    
+    Objective: Verify that the API can upload an image and embed a secret message successfully.
+    
+    Request:
+            
+         POST /image/upload
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Image uploaded successfully");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Failed to upload image");
+    }
+    });
+    ```
+    
+    Key: Value
+    
+        file: test_image_2.png
+        message: "This is a secret"
+    Result:
+            
+        Status code: 200
+        Message: Image uploaded successfully
+- Displaying the images on the image wall
+
+    Objective: Verify that the API can load all the images from the database successfully.
+
+    Request:
+            
+         GET /images
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Images loaded successfully");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Failed to load images");
+    }
+    });
+    ```
+    
+    Result:
+            
+        Status code: 200
+        Message: Images loaded successfully
+- Logging in to the private section with the correct password
+
+    Objective: Verifing that the login function correctly processes valid credentials.
+
+    Request:
+            
+         POST /login
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Successfully loged in");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Invalid password and username");
+    }
+    });
+    ```
+
+    Key: Value
+    
+        username: "acb"
+        password: "correctpassword"
+    Result:
+            
+        Status code: 200
+        Message: Successfully loged in
+- Logging in to the private section with incorrect password
+
+    Objective: Verifing that the login function rejects invalid credentials.
+
+    Request:
+            
+         POST /login
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Successfully loged in");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Invalid password and username");
+    }
+    });
+    ```
+    
+    Key: Value
+    
+        username: "acb"
+        password: "wrongpassword"
+    Result:
+            
+        Status code: 400
+        Message: Invalid password and username
+- Registering a user with valid invite
+
+    Objective: Verifing that the register function creates a new account for a user with a valid invite
+
+    Request:
+            
+         POST /register
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: New user registered");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: The invite is invalid");
+    }
+    });
+    ```
+    
+    Key: Value
+    
+        username: "acb"
+        password: "correctpassword"
+        inviteID: 12345
+    Result:
+            
+        Status code: 200
+        Message: New user registered
+- Registering a user with invalid invite
+
+    Objective: Verifing that the register function rejects the request to create a new account for a user with invalid invite
+
+    Request:
+            
+         POST /register
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: New user registered");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: The invite is invalid");
+    }
+    });
+    ```
+    
+    Key: Value
+    
+        username: "acb"
+        password: "correctpassword"
+        inviteID: 2468
+    Result:
+            
+        Status code: 401
+        Message: The invite is invalid
+- Uploading an image with a secret message bigger than the image
+    
+    Objective: Verify that the API can handle validation tests like this.
+    
+    Request:
+            
+         POST /image/upload
+    Test code:
+    ```
+    pm.test("Status code check", function () {
+        pm.response.to.have.status(200);
+        if (pm.response.code === 200) {
+        console.log("Status code: ${pm.response.code}\n Message: Image uploaded successfully");
+    } else {
+        console.log("Status code: ${pm.response.code}\n Message: Failed to upload image");
+    }
+    });
+    ```
+
+    Key: Value
+    
+        file: a_small_image.png
+        message: "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead. I recently discovered I could make fudge with just chocolate chips, sweetened condensed milk, vanilla extract, and a thick pot on slow heat. I tried it with dark chocolate chunks and I tried it with semi-sweet chocolate chips. It's better with both kinds. It comes out pretty bad with just the dark chocolate. The best add-ins are crushed almonds and marshmallows -- what you get from that is Rocky Road. It takes about twenty minutes from start to fridge, and then it takes about six months to work off the twenty pounds you gain from eating it. All things in moderation, friends. All things in moderation. Samantha wanted to be famous. The problem was that she had never considered all the downsides to actually being famous. Had she taken the time to objectively consider these downsides, she would have never agreed to publically sing that first song."
+    Result:
+            
+        Status code: 500
+        Message: Failed to upload image
+
 ## 3.0 User Action Scripts
 
 ### 3.1 User009: Successful Registration
@@ -516,6 +740,7 @@ This script validates the following functionalities on the **HiddenFrame** main 
 
 ProjectHidden frame has been developed on, built, and tested by the development team using:
 - Windows 11 running 5.15.167.4-microsoft-standard-WSL2 (debian);
+- Windows 10
 - macOS 15.1.1; and
 - libboost1.74-dev
 - Playwright 10.9.0
