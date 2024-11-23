@@ -34,7 +34,7 @@ jobs:
       - name: Install OpenSSL on Windows
         if: runner.os == 'Windows'
         run: |
-          choco install openssl
+          choco install openssl --no-progress
 
       # Build and test project
       - name: Build C++ project
