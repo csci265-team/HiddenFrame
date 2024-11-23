@@ -43,12 +43,12 @@ jobs:
         with:
           name: chocolatey-log
           path: C:\ProgramData\chocolatey\logs\chocolatey.log
-      - name: Cache Chocolatey packages
-        if: runner.os == 'Windows'
-        uses: actions/cache/save@v4
-        with:
-          path: C:\ProgramData\chocolatey\lib
-          key: ${{ runner.os }}-choco-${{ hashFiles('**/apps/backend/**') }}
+      # - name: Cache Chocolatey packages
+      #   if: runner.os == 'Windows'
+      #   uses: actions/cache/save@v4
+      #   with:
+      #     path: C:\ProgramData\chocolatey\lib
+      #     key: ${{ runner.os }}-choco-${{ hashFiles('**/apps/backend/**') }}
       - name: Build C++ project
         run: make
         working-directory: apps/backend
