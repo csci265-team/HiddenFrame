@@ -70,7 +70,7 @@ clean:
 #	$(CLEAN_DIR) database
 
 IncludePath  ?= -I include/ 
-CompilationOptions= -ggdb -std=c++17 -DCROW_USE_BOOST -DBOOST_VERSION=107000 -DASIO_VERSION=101300 ${IncludePaths}
+CompilationOptions= -ggdb -std=c++17 -DCROW_USE_BOOST ${IncludePaths}
 LinkerOptions= -lcrypto
 CompilationWarnings=-Wall -Wextra
 ObjectFiles= build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/snowflake.o build/sqlite.o build/api.o
