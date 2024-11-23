@@ -88,21 +88,21 @@ ifeq ($(OS),Linux)
 	CLEAN_DIR := rm -rf static/*
 	EXECUTE := JWT_SECRET=secret ./bin/HiddenFrame
 	RUNTEST := BOOST_TEST_LOG_LEVEL=message ./bin/test/HiddenFrame_Test
-	IncludePaths+= -I include/ -I /usr/local/include
+	IncludePaths += -I include/ -I /usr/local/include
 else ifeq ($(OS),Darwin)
 	RM := rm -rf
 	MKDIR := mkdir -p
 	CLEAN_DIR := rm -rf static/*
 	EXECUTE := JWT_SECRET=secret ./bin/HiddenFrame
 	RUNTEST := BOOST_TEST_LOG_LEVEL=message ./bin/test/HiddenFrame_Test
-	IncludePaths+= -I include/ -I /opt/homebrew/include
-	LinkerOptions += -L /opt/homebrew/opt/openssl/lib 
+	IncludePaths += -I include/ -I /opt/homebrew/include
+	LinkerOptions += -L /opt/homebrew/opt/openssl/lib
 else
 	RM := rmdir /s /q 
 	MKDIR := @powershell -Command "New-Item -ItemType Directory -Force -Path " 
 	CLEAN_DIR := @powershell -Command "Remove-Item -Recurse -Force"
 	EXECUTE := powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
 	RUNTEST := powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
-	IncludePaths += -I include/ -I include/boost -I include/openssl
-	LinkerOptions += -lws2_32 -lmswsock -lssl -lcrypto
+	IncludePaths += -I include/ -I include/boost -I C:/OpenSSL-Win64/include
+	LinkerOptions += -L C:/OpenSSL-Win64/lib -lssl -lcrypto -lws2_32 -lmswsock
 endif

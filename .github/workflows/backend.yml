@@ -24,20 +24,28 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install sqlite3 asio boost openssl
-      - name: Download and install Boost and OpenSSL on Windows
+      - name: Install Boost and OpenSSL on Windows
         if: runner.os == 'Windows'
         run: |
           # Download and extract Boost
           curl -L -o boost_1_86_0.7z https://pilotfiber.dl.sourceforge.net/project/boost/boost/1.86.0/boost_1_86_0.7z?viasf=1
           7z x boost_1_86_0.7z -oapps/backend/include
           mv apps/backend/include/boost_1_86_0/boost apps/backend/include/
-          # Download and extract OpenSSL
-          curl -L -o openssl-1.1.1k.tar.gz https://www.openssl.org/source/openssl-1.1.1k.tar.gz
-          tar -xzf openssl-1.1.1k.tar.gz -C apps/backend/include
-          mv apps/backend/include/openssl-1.1.1k/include/openssl apps/backend/include/
+          
+          # Download and install OpenSSL
+          curl -L -o Win64OpenSSL_Light-3_1_0.exe https://slproweb.com/download/Win64OpenSSL_Light-3_1_0.exe
+          Start-Process -Wait -FilePath .\Win64OpenSSL_Light-3_1_0.exe -ArgumentList "/silent /verysilent /dir=C:\OpenSSL-Win64"
+          
+          # Set environment variables for OpenSSL
+          echo "C:\OpenSSL-Win64\include" | Out-File -Encoding utf8 $env:GITHUB_ENV
+          echo "C:\OpenSSL-Win64\lib" | Out-File -Encoding utf8 $env:GITHUB_ENV
+          echo "C:\OpenSSL-Win64\bin" | Out-File -Encoding utf8 $env:GITHUB_ENV
+      
+      # Build and test project
       - name: Build C++ project
         run: make
         working-directory: apps/backend
+      
       - name: Run C++ project tests
         run: make run-test
         working-directory: apps/backend
