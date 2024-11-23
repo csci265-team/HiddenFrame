@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdint.h>
-#include <sqlite3.h>
+#include <sqlite/sqlite3.h>
 #include <hiddenframe_headers.h>
 #include <stdexcept>
 #include <string>
 #include <iostream>
 #include <vector>
 #include <tuple>
-#include <crow/json.h>
+#include <crow_all.h>
 #include <mutex>
 
 using namespace std;
