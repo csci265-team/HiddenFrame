@@ -32,9 +32,15 @@ jobs:
           7z x boost_1_86_0.7z -oapps/backend/include
           mv apps/backend/include/boost_1_86_0/boost apps/backend/include/
           
-          # Download and install OpenSSL
-          curl -L -o Win64OpenSSL_Light-3_1_0.exe https://slproweb.com/download/Win64OpenSSL_Light-3_1_0.exe
-          Start-Process -Wait -FilePath .\Win64OpenSSL_Light-3_1_0.exe -ArgumentList "/silent /verysilent /dir=C:\OpenSSL-Win64"
+          # Download and build OpenSSL
+          curl -L -o openssl-3.1.0.tar.gz https://www.openssl.org/source/openssl-3.1.0.tar.gz
+          tar -xzf openssl-3.1.0.tar.gz
+          cd openssl-3.1.0
+          
+          # Configure and build with Visual Studio
+          perl Configure VC-WIN64A no-shared --prefix=C:/OpenSSL-Win64
+          nmake
+          nmake install
           
           # Set environment variables for OpenSSL
           echo "C:\OpenSSL-Win64\include" | Out-File -Encoding utf8 $env:GITHUB_ENV
