@@ -1,7 +1,8 @@
 #include "authorization.h"
 #include <jwt-cpp/jwt.h>
 #include <hiddenframe_headers.h>
-#include <crow_all.h>
+#include <crow/middlewares/cookie_parser.h>
+#include <crow/middlewares/cors.h>
 #include <iostream>
 
 using namespace std;

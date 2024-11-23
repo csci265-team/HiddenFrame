@@ -35,6 +35,7 @@ jobs:
       - name: Install C++ dependencies on Windows
         if: runner.os == 'Windows'
         run: |
+          choco install asio --no-progress
           choco install boost-msvc-14.1 --no-progress
           choco install openssl --no-progress
       - name: Build C++ project

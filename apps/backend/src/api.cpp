@@ -1,11 +1,13 @@
-#include <crow_all.h>
+#include "crow.h"
 #include <hiddenframe_headers.h>
+#include <crow/middlewares/cors.h>
 #include <fstream>
 #include <filesystem>
 #include <string>
 #include <utils.h>
 #include <jwt-cpp/jwt.h>
 #include <authorization.h>
+#include <crow/middlewares/cookie_parser.h>
 #include <snowflake.h>
 
 using namespace std;
