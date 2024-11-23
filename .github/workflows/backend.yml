@@ -33,7 +33,7 @@ jobs:
       - name: Install C++ dependencies on Windows
         if: runner.os == 'Windows'
         run: |
-          choco install boost-msvc-14.1 --no-progress
+          choco install boost-msvc-14.3 --no-progress
           choco install openssl --no-progress
       - name: Upload Chocolatey log
         if: runner.os == 'Windows' && ${{ !cancelled() }}
@@ -48,7 +48,7 @@ jobs:
           path: C:\ProgramData\chocolatey\lib
           key: ${{ runner.os }}-choco-${{ hashFiles('**/apps/backend/**') }}
       - name: Build C++ project
-        run: make clean && make
+        run: make
         working-directory: apps/backend
       - name: Run C++ project tests
         run: make run-test

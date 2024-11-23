@@ -14,7 +14,6 @@ _note which person has been designated the main contact person for questions fro
 - Amitoj Singh amitojsingh.chopra@my.viu.ca
 - Jeremy Shumuk admin@payrollinsights.ca
 - Patrick Candy candy.pat@gmail.com
-- William Thornley will.fet23@gmail.com
 - Yagna Patel yagna111204@gmail.com
 
 ## Project intro

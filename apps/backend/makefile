@@ -25,16 +25,17 @@ build/snowflake.o: src/snowflake.cpp include/snowflake.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
 build/api.o: src/api.cpp include/hiddenframe_headers.h include/crow.h include/crow/* include/authorization.h include/snowflake.h
-	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
+	g++ -c $< -o $@  ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
 build/test/test_image_io.o: test/test_image_io.cpp include/hiddenframe_headers.h
-	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
+	g++ -c $< -o $@ -lboost_unit_test_framework ${CompilationOptions} ${CompilationWarnings}
 
-build/test/test_user_database.o: test/test_user_database.cpp include/hiddenframe_headers.h build/sqlite.o
-	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
+
+build/test/test_user_database.o: test/test_user_database.cpp include/hiddenframe_headers.h include/sqlite/*
+	g++ -c $< -o $@ -lboost_unit_test_framework ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
 
 build/test/main.o: test/main.cpp
-	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
+	g++ -c $< -o $@ -lboost_unit_test_framework ${CompilationOptions} ${CompilationWarnings} ${includePath}
 
 .PHONY: test
 test: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
@@ -42,9 +43,9 @@ test: build build/utils.o build/image_class.o build/authorization.o build/db_ope
 
 .PHONY: run-test
 run-test: test
-	$(CLEAN_DIR) bin/test/database
+	$(CLEAN_DIR) bin/test/database 
 	$(MKDIR) bin/test/database 
-	$(RUNTEST)
+	$(RUNTEST)	
 
 macos: all
 
@@ -75,6 +76,7 @@ LinkerOptions= -lcrypto
 CompilationWarnings=-Wall -Wextra
 ObjectFiles= build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/snowflake.o build/sqlite.o build/api.o
 TestObjectFiles= build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
+LibraryPaths = 
 
 ifeq ($(OS),Windows_NT)
 	OS := windows
@@ -100,9 +102,12 @@ else ifeq ($(OS),Darwin)
 else
 	RM := rmdir /s /q 
 	MKDIR := @powershell -Command "New-Item -ItemType Directory -Force -Path " 
-	CLEAN_DIR := del /q static\*
-	EXECUTE := 	@powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
-	RUNTEST := @powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
+	CLEAN_DIR := @powershell -Command "Remove-Item -Recurse -Force"
+	EXECUTE := powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
+	RUNTEST := powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
+	IncludePaths += -I include/
+	IncludePaths += -I "C:\local\boost_1_86_0\boost"
 	IncludePaths += -I include/ -I C:\ProgramData\chocolatey\lib\*
-	LinkerOptions += -lws2_32 -lmswsock -lssl  
+	LinkerOptions += -lws2_32 -lmswsock -lssl 
+
 endif
