@@ -24,8 +24,8 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install sqlite3 asio boost openssl
-      - name: Install Boost and OpenSSL on Windows
       - uses: ilammy/msvc-dev-cmd@v1
+      - name: Install Boost and OpenSSL on Windows
         if: runner.os == 'Windows'
         run: |
           # Download and extract Boost
