@@ -24,35 +24,41 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install sqlite3 asio boost openssl
-      - uses: ilammy/msvc-dev-cmd@v1
       - name: Install Boost and OpenSSL on Windows
         if: runner.os == 'Windows'
         run: |
+          # Install NASM
+          choco install nasm -y
+          nasm -v
+
+          # Initialize Visual Studio environment
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+
           # Download and extract Boost
           curl -L -o boost_1_86_0.7z https://pilotfiber.dl.sourceforge.net/project/boost/boost/1.86.0/boost_1_86_0.7z?viasf=1
           7z x boost_1_86_0.7z -oapps/backend/include
           mv apps/backend/include/boost_1_86_0/boost apps/backend/include/
-          
+
           # Download and build OpenSSL
           curl -L -o openssl-3.1.0.tar.gz https://www.openssl.org/source/openssl-3.1.0.tar.gz
           tar -xzf openssl-3.1.0.tar.gz
           cd openssl-3.1.0
-          
-          # Configure and build with Visual Studio
+
+          # Configure and build OpenSSL
           perl Configure VC-WIN64A no-shared --prefix=C:/OpenSSL-Win64
           nmake
           nmake install
-          
+
           # Set environment variables for OpenSSL
           echo "C:\OpenSSL-Win64\include" | Out-File -Encoding utf8 $env:GITHUB_ENV
           echo "C:\OpenSSL-Win64\lib" | Out-File -Encoding utf8 $env:GITHUB_ENV
           echo "C:\OpenSSL-Win64\bin" | Out-File -Encoding utf8 $env:GITHUB_ENV
-      
+
       # Build and test project
       - name: Build C++ project
         run: make
         working-directory: apps/backend
-      
+
       - name: Run C++ project tests
         run: make run-test
         working-directory: apps/backend
