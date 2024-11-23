@@ -46,7 +46,7 @@ jobs:
       #     restore-keys: |
       #       ${{ runner.os }}-choco-
       - name: Build C++ project
-        run: make clean && make
+        run: make
         working-directory: apps/backend
       - name: Run C++ project tests
         run: make run-test
