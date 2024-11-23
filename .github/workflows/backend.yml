@@ -4,6 +4,8 @@ on:
     branches: [master, staging]
   pull_request:
     branches: [master, staging]
+    paths:
+      - 'apps/backend/**'
 jobs:
   test:
     timeout-minutes: 60
@@ -22,6 +24,14 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install sqlite3 asio boost openssl
+      - name: Cache Chocolatey packages
+        if: runner.os == 'Windows'
+        uses: actions/cache@v3
+        with:
+          path: C:\ProgramData\chocolatey\lib
+          key: ${{ runner.os }}-choco-${{ hashFiles('**/apps/backend/**') }}
+          restore-keys: |
+            ${{ runner.os }}-choco-
       - name: Install C++ dependencies on Windows
         if: runner.os == 'Windows'
         run: |
