@@ -25,17 +25,16 @@ build/snowflake.o: src/snowflake.cpp include/snowflake.h
 	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
 build/api.o: src/api.cpp include/hiddenframe_headers.h include/crow.h include/crow/* include/authorization.h include/snowflake.h
-	g++ -c $< -o $@  ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
+	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
 build/test/test_image_io.o: test/test_image_io.cpp include/hiddenframe_headers.h
-	g++ -c $< -o $@ -lboost_unit_test_framework ${CompilationOptions} ${CompilationWarnings}
-
+	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
 
 build/test/test_user_database.o: test/test_user_database.cpp include/hiddenframe_headers.h include/sqlite/*
-	g++ -c $< -o $@ -lboost_unit_test_framework ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
+	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${IncludePaths}
 
 build/test/main.o: test/main.cpp
-	g++ -c $< -o $@ -lboost_unit_test_framework ${CompilationOptions} ${CompilationWarnings} ${includePath}
+	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${IncludePaths}
 
 .PHONY: test
 test: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
@@ -70,7 +69,7 @@ clean:
 	$(CLEAN_DIR) static
 #	$(CLEAN_DIR) database
 
-IncludePath  ?= -I include/ 
+IncludePaths  ?= -I include/ 
 CompilationOptions= -ggdb -std=c++17 -DCROW_USE_BOOST ${IncludePaths}
 LinkerOptions= -lcrypto
 CompilationWarnings=-Wall -Wextra
@@ -104,7 +103,6 @@ else
 	CLEAN_DIR := @powershell -Command "Remove-Item -Recurse -Force"
 	EXECUTE := powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
 	RUNTEST := powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
-	IncludePaths += -I include/ include/boost -I apps/backend/include/openssl
-	LinkerOptions += -lws2_32 -lmswsock -lssl 
-
+	IncludePaths += -I include/ -I include/boost -I include/openssl
+	LinkerOptions += -lws2_32 -lmswsock -lssl -lcrypto
 endif
