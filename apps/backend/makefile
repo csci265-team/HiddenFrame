@@ -71,18 +71,10 @@ clean:
 #	$(CLEAN_DIR) database
 
 IncludePath  ?= -I include/ 
-<<<<<<< HEAD
-CompilationOptions= -ggdb -std=c++17 ${IncludePaths}
-LinkerOptions= -lsqlite3 -lcrypto
-CompilationWarnings=-Wall -Wextra -DCROW_USE_BOOST
-ObjectFiles= build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/snowflake.o build/api.o
-
-=======
 CompilationOptions= -ggdb -std=c++17 -DCROW_USE_BOOST ${IncludePaths}
 LinkerOptions= -lcrypto
 CompilationWarnings=-Wall -Wextra
 ObjectFiles= build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/snowflake.o build/sqlite.o build/api.o
->>>>>>> eea54444745a6326626aa0490903d3d8fa4d5021
 TestObjectFiles= build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
 LibraryPaths = 
 
@@ -114,7 +106,7 @@ else
 	EXECUTE := powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
 	RUNTEST := powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
 	IncludePaths += -I include/
-#	IncludePaths += -I "C:\local\boost_1_86_0\boost"
+	IncludePaths += -I "C:\local\boost_1_86_0\boost"
 	IncludePaths += -I include/ -I C:\ProgramData\chocolatey\lib\*
 	LinkerOptions += -lws2_32 -lmswsock -lssl 
 
