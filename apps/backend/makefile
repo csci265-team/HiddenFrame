@@ -25,13 +25,13 @@ build/api.o: src/api.cpp include/hiddenframe_headers.h include/crow.h include/cr
 	g++ -c $< -o $@  ${CompilationOptions} ${CompilationWarnings} ${LinkerOptions}
 
 build/test/test_image_io.o: test/test_image_io.cpp include/hiddenframe_headers.h
-	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings}
+	g++ -c $< -o $@ -lboost_unit_test_framework ${CompilationOptions} ${CompilationWarnings}
 
 build/test/test_user_database.o: test/test_user_database.cpp include/hiddenframe_headers.h include/sqlite/*
-	g++ -c $< -o $@ ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
+	g++ -c $< -o $@ -lboost_unit_test_framework ${CompilationOptions} ${CompilationWarnings} ${IncludePath}
 
 build/test/main.o: test/main.cpp
-	g++ -c $< -o $@  ${CompilationOptions} ${CompilationWarnings} ${includePath}
+	g++ -c $< -o $@ -lboost_unit_test_framework ${CompilationOptions} ${CompilationWarnings} ${includePath}
 
 .PHONY: test
 test: build build/utils.o build/image_class.o build/authorization.o build/db_operations.o build/api.o build/test/test_image_io.o build/test/test_user_database.o build/test/main.o
@@ -39,8 +39,8 @@ test: build build/utils.o build/image_class.o build/authorization.o build/db_ope
 
 .PHONY: run-test
 run-test: test
-	$(CLEAN_DIR) bin/test/database
-	$(MKDIR) bin/test/database 
+#	$(CLEAN_DIR) bin/test/database
+#	$(MKDIR) bin/test/database 
 	$(RUNTEST)
 
 macos: all
@@ -98,12 +98,11 @@ else ifeq ($(OS),Darwin)
 else
 	RM := rmdir /s /q 
 	MKDIR := @powershell -Command "New-Item -ItemType Directory -Force -Path " 
-	CLEAN_DIR := del /q static\*
-	EXECUTE := 	@powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
-	RUNTEST := @powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
+	CLEAN_DIR := rmdir /S /Q
+	EXECUTE := powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
+	RUNTEST := powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
 	IncludePaths += -I include/
-	IncludePaths += -I "C:/local/boost_1_86_0" -std=c++17
-	LibraryPaths += -L "C:/local/boost_1_86_0/libs"
+	IncludePaths += -I "C:\msys64\mingw64\include\boost" -std=c++17	
 	LinkerOptions += -lws2_32 -lmswsock -lssl 
 
 endif
