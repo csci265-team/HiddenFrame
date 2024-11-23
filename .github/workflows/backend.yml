@@ -37,14 +37,14 @@ jobs:
         run: |
           choco install boost-msvc-14.3 --no-progress
           choco install openssl --no-progress
-      - name: Cache Chocolatey packages
-        if: runner.os == 'Windows'
-        uses: actions/cache/save@v4
-        with:
-          path: C:\ProgramData\chocolatey
-          key: ${{ runner.os }}-choco-${{ hashFiles('**/apps/backend/**') }}
-          restore-keys: |
-            ${{ runner.os }}-choco-
+      # - name: Cache Chocolatey packages
+      #   if: runner.os == 'Windows'
+      #   uses: actions/cache/save@v4
+      #   with:
+      #     path: C:\ProgramData\chocolatey
+      #     key: ${{ runner.os }}-choco-${{ hashFiles('**/apps/backend/**') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-choco-
       - name: Build C++ project
         run: make clean && make
         working-directory: apps/backend
