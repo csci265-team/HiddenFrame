@@ -90,7 +90,7 @@ ifeq ($(OS),Linux)
 	CLEAN_DIR := rm -rf static/*
 	EXECUTE := JWT_SECRET=secret ./bin/HiddenFrame
 	RUNTEST := BOOST_TEST_LOG_LEVEL=message ./bin/test/HiddenFrame_Test
-	IncludePaths+= -I include -I /usr/local/include
+	IncludePaths+= -I include/ -I /usr/local/include
 else ifeq ($(OS),Darwin)
 	RM := rm -rf
 	MKDIR := mkdir -p
