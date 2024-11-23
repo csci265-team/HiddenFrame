@@ -11,7 +11,7 @@ Test compoent lead:
 - Artem: UI
 - Yagna: API
 - Amitoj: encoding/decoding
-- Patrick: Universal testing
+- Patrick: Universal testing, Image I/O
 - Jermey: User Account Control
 - Will: Image I/O
 
