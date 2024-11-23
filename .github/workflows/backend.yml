@@ -25,10 +25,10 @@ jobs:
       - name: Install C++ dependencies on Windows
         if: runner.os == 'Windows'
         run: |
-          choco install sqlite
-          choco install asio
-          choco install boost-msvc-14.1
-          choco install openssl
+          choco isntall mysys2
+          C:\tools\msys64\usr\bin\bash.exe -lc "pacman -Syu --noconfirm"
+          C:\tools\msys64\usr\bin\bash.exe -lc "pacman -S --noconfirm gcc make libsqlite3 boost asio openssl"
+          
       - name: Build C++ project
         run: make
         working-directory: apps/backend
