@@ -25,6 +25,7 @@ jobs:
         run: |
           brew install sqlite3 asio boost openssl
       - name: Install Boost and OpenSSL on Windows
+      - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
         run: |
           # Download and extract Boost
