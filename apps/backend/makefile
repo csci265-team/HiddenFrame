@@ -105,9 +105,7 @@ else
 	CLEAN_DIR := @powershell -Command "Remove-Item -Recurse -Force"
 	EXECUTE := powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
 	RUNTEST := powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
-	IncludePaths += -I include/
-	IncludePaths += -I "C:\local\boost_1_86_0\boost"
-	IncludePaths += -I include/boost -I C:\ProgramData\chocolatey\lib\*
+	IncludePaths += -I include/boost -I apps/backend/include/openssl
 	LinkerOptions += -lws2_32 -lmswsock -lssl 
 
 endif
