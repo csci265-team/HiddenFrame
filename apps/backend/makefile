@@ -102,7 +102,7 @@ else
 	EXECUTE := powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
 	RUNTEST := powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
 	IncludePaths += -I include/
-	IncludePaths += -I "C:\msys64\mingw64\include\boost" -std=c++17	
+	IncludePaths += -I "C:\local\boost_1_86_0\boost" -std=c++17		
 	LinkerOptions += -lws2_32 -lmswsock -lssl 
 
 endif
