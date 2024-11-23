@@ -39,9 +39,9 @@ test: build build/utils.o build/image_class.o build/authorization.o build/db_ope
 
 .PHONY: run-test
 run-test: test
-#	$(CLEAN_DIR) bin/test/database
-#	$(MKDIR) bin/test/database 
-	$(RUNTEST)
+	$(CLEAN_DIR) bin/test/database 
+	$(MKDIR) bin/test/database 
+	$(RUNTEST)	
 
 macos: all
 
@@ -98,7 +98,7 @@ else ifeq ($(OS),Darwin)
 else
 	RM := rmdir /s /q 
 	MKDIR := @powershell -Command "New-Item -ItemType Directory -Force -Path " 
-	CLEAN_DIR := rmdir /S /Q
+	CLEAN_DIR := @powershell -Command "Remove-Item -Recurse -Force"
 	EXECUTE := powershell -Command "$$env:JWT_SECRET='secret'; & ./bin/HiddenFrame.exe"
 	RUNTEST := powershell -Command "$$env:BOOST_TEST_LOG_LEVEL='message'; & ./bin/test/HiddenFrame_Test.exe"
 	IncludePaths += -I include/
