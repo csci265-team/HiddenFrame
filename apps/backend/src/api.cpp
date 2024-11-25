@@ -80,7 +80,8 @@ int main()
                     }
 
                     image imgptr = image(imagePath);
-                    string payload = imgptr.retrieve_payload(stoi(key));
+                    int skipsize = imgptr.decodeKey(key, imgptr.height * imgptr.width * imgptr.channels);
+                    string payload = imgptr.retrieve_payload(skipsize);
 
                     crow::json::wvalue jsonResponse;
                     jsonResponse["success"] = true;
@@ -353,6 +354,7 @@ int main()
                         string fileExt = meta["ext"].s();
                         string fileName = to_string(random) + "." + fileExt;
                         string filePath = "./static/" + fileName;
+                        string key;
 
                         int fileSize = meta["size"].i();
 
@@ -370,13 +372,13 @@ int main()
                             memcpy(convertedData.data(), fileData.c_str(), fileSize + 1);
                             image imgptr = image(convertedData.data(), fileSize, fileExt);
                             string messageBN = stringToBinary(message);
-                            int skipSize = imgptr.calculateSkipSize(imgptr.height*imgptr.width*imgptr.channels, convertedData.size()/2);
+                            int skipSize = imgptr.calculateSkipSize(imgptr.height * imgptr.width * imgptr.channels, convertedData.size() / 2);
                             cout << "The ideal skip size is " << skipSize << endl;
                             imgptr.modify_image(skipSize, messageBN);
                             imgptr.write_image(filePath);
-                            string key = imgptr.generateKey(imgptr.height*imgptr.width*imgptr.channels, imgptr.channels, skipSize);
-                            //AMITOJ, Here is the key.
-                            cout << "The image size is " << imgptr.height*imgptr.width*imgptr.channels << endl;
+                            key = imgptr.generateKey(imgptr.height * imgptr.width * imgptr.channels, imgptr.channels, skipSize);
+                            // AMITOJ, Here is the key.
+                            cout << "The image size is " << imgptr.height * imgptr.width * imgptr.channels << endl;
                         }
                         else
                         {
@@ -398,6 +400,9 @@ int main()
                         crow::json::wvalue success_json;
                         success_json["success"] = true;
                         success_json["url"] = BASE_API_URL + "/static/" + fileName;
+                        if (!key.empty())
+                            success_json["key"] = key;
+
                         return crow::response(200, success_json);
                     }
                     catch (const exception &e)

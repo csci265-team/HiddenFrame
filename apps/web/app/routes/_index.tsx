@@ -76,7 +76,9 @@ export const action: ActionFunction = async ({ request }) => {
   });
 
   if (resp.ok) {
-    return json({ success: true, message: "Image uploaded successfully" }, { status: 200 });
+    const data = await resp.json();
+    if (!data) return json({ success: true, message: "Image uploaded successfully" }, { status: 200 });
+    return json({ success: true, message: "Image uploaded successfully", key: data.key }, { status: 200 });
   } else {
     return json({ success: false, message: "Failed to upload image" }, { status: 500 });
   }
@@ -85,6 +87,7 @@ export const action: ActionFunction = async ({ request }) => {
 type ActionData = {
   success: boolean;
   message: string;
+  key?: string;
 };
 
 export default function Index() {
@@ -120,6 +123,8 @@ export default function Index() {
           {username && <Input id="message" name="message" type="text" placeholder="Enter message..." />}
           <Button loading={loading} type="submit"> <FaCloudUploadAlt className="w-8" /> Upload New Image</Button>
         </Form>
+
+        {action && action.key && <p>The key for the uplaoded image is: <code className="font-mono">{action.key}</code></p>}
 
         <h2 className="text-2xl font-[Outfit] font-black ">Photos from Unsplash</h2>
         <div className="grid grid-cols-3 gap-4 p-4">
