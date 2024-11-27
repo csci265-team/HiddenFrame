@@ -27,6 +27,9 @@ test('should register, log in successfully with valid credentials and the decode
     await page.fill('input[name="message"]', 'Test message');
     await page.click('button[type="submit"]');
 
+    const secretKeyElement = page.getByText('The key for the uplaoded image is: ').first();
+    const secretKey = (await secretKeyElement.innerText()).split(': ').pop();
+
     // Verify image is uploaded
     const uploadedImage = page.locator('img[src*="/static/"]').first();
     await expect(uploadedImage).toBeVisible();
@@ -36,7 +39,7 @@ test('should register, log in successfully with valid credentials and the decode
 
     // Enter key for decoding
     const keyInput = page.locator('input[name="key"]');
-    await keyInput.fill('2');
+    await keyInput.fill(secretKey || "2");
     // Click Decode button
     const decodeButton = page.locator('button[type="submit"]');
     await decodeButton.click();
