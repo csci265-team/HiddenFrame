@@ -3,12 +3,12 @@ This repo contains the team charter document (charter.md), team's initial projec
 Details on the project can be found at url:
 csci.viu.ca/~wesselsd/courses/csci265/project.html
 
-Phase 1 - Complete
-Phase 2 - Complete
-Phase 3 - Complete
-Phase 4 - Complete
-Phase 5 - In-progress
-Phase 6 - Not Started
+- Phase 1 - Complete
+- Phase 2 - Complete
+- Phase 3 - Complete
+- Phase 4 - Complete
+- Phase 5 - In-progress
+- Phase 6 - Not Started
 
 ## How to get strated
 
