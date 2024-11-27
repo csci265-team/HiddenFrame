@@ -27,8 +27,8 @@ test('should register, log in successfully with valid credentials and the decode
     await page.fill('input[name="message"]', 'Test message');
     await page.click('button[type="submit"]');
 
-    const secretKeyElement = page.getByText('The key for the uplaoded image is: ').first();
-    const secretKey = (await secretKeyElement.innerText()).split(': ').pop();
+    await page.waitForSelector('[data-testid="secret-key"]');
+    const secretKey = await page.getByTestId("secret-key").first().innerText();
 
     // Verify image is uploaded
     const uploadedImage = page.locator('img[src*="/static/"]').first();

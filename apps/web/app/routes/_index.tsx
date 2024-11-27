@@ -133,7 +133,7 @@ export default function Index() {
         </Form>
 
         {action && action.key && <p className="flex flex-row gap-2 items-center">
-          The key for the uplaoded image is: <code className="font-mono">{action.key}</code>
+          The key for the uplaoded image is: <code data-testid="secret-key" className="font-mono">{action.key}</code>
           <Button variant="ghost" size="sm" onClick={copyKeyToClipboard}><Copy /></Button>
         </p>}
 
