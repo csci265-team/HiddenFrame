@@ -30,7 +30,9 @@ jobs:
         run: npm run build
         working-directory: apps/web
       - name: Start Web Server
-        run: npm start &
+        run: |
+          export SESSION_SECRET=secret
+          npm start &
         working-directory: apps/web
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
