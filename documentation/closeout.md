@@ -19,19 +19,19 @@
 
 ## 2.0 Review the Organization
 
-The overall team structure and roles/responsibilities we initially assigned for HiddenFrame worked fairly well throughout the span of the project. The primary area where our organizational choices did not serve us well was in the division of labour and time management for the coding of the project. While the documentation was, for the most part, completed in a timely and high quality manner; our coding fell largely on only a few members of the team. In retrospect a few choices that might have more evenly divided the coding tasks would be:
+The overall team structure and roles/responsibilities we initially assigned for HiddenFrame worked fairly well throughout the span of the project. The primary area where our organizational choices did not serve us well was in the division of labour and time management for the coding of the project. While the documentation was, for the most part, completed in a timely and high-quality manner, our coding fell largely on only a few members of the team. In retrospect a few choices that might have more evenly divided the coding tasks would be:
 
-- Instead of breaking the team into two rough subgroups (frontend and backend), A better approach might have been performing a rough decompositions of the main modules of the product at conception; then assigning those modules to team members.
+- Instead of breaking the team into two subgroups (frontend and backend), A better approach might have been performing a rough decomposition of the main modules of the product at conception; then assigning those modules to team members.
 
-- Instead of only requiring a deliverables for the project documentation throught the course of the project, we should have self-imposed a timeline and deliverables for project modules.
+- Instead of only requiring a deliverables for the project documentation throughout the course of the project, we should have self-imposed a timeline and deliverables for project modules.
 
 - Immediately after completing the requirements document, we should have begun work on developing test code.
 
-Other than that a few other organizational choices we made that were under utilized or hampered our project:
+A few other organizational choices we made that were underutilized or hampered our project:
 
-- The group meeting on thursday afternoons; was partially successful but a 2nd meeting perhaps over discord or organized small group programing sessions might have been helpful. 
+- The group meeting on Thursday afternoons; was partially successful but a 2nd meeting perhaps over discord or organized small group programing sessions might have been helpful. 
 
-- 
+- Explicit assignment of reviewer's for the git submission policies may have been useful. 
 
 ## 3.0 Review the Technical Aspects
 (Jeremy)
