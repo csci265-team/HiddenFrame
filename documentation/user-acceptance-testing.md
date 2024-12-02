@@ -8,77 +8,123 @@
 
 Test compoent lead:
 
-- Artem: UI
+- Artem: UI & User Account Control
 - Yagna: API
 - Amitoj: encoding/decoding
 - Patrick: Universal testing
-- Jermey: User Account Control
-- Will: Image I/O
+- Jeremy: Keys & Image I/O
 
 ---
 
 # Table of Contents
 
-## Known Issues
+1.  [Known Issues](#10-known-issues)
+2.  [The Test Plan](#20-the-test-plan)
+    - 2.1 [Testing Overview](#21-testing-overview)
+    - 2.2 [Key Front-End Testing Challenges](#22-key-front-end-testing-challenges)
+    - 2.3 [Key Back-End Testing Challenges](#23-key-back-end-testing-challenges)
+    - 2.4 [Testing Timeline](#24-testing-timeline)
+    - 2.5 [Test Process](#25-test-process)
+    - 2.6 [Test Cases Summary and Organization](#26-test-cases-summary-and-organization)
+    - 2.7 [Test Case List](#27-test-case-list)
+3.  [User Action Scripts](#30-user-action-scripts)
+    - 3.1 [User009: Successful Registration](#31-user009-successful-registration)
+    - 3.2 [User013: Successful Login](#32-user013-successful-login)
+    - 3.3 [User014: Duplicate Username Registration](#33-user014-duplicate-username-registration)
+    - 3.4 [User015: Invalid Username Login](#34-user015-invalid-username-login)
+    - 3.5 [User016: Invalid Password Login](#35-user016-invalid-password-login)
+    - 3.6 [User017: Missing Username Login](#36-user017-missing-username-login)
+    - 3.7 [User018: Missing Password Login](#37-user018-missing-password-login)
+    - 3.8 [User019: Missing Username Registration](#38-user019-missing-username-registration)
+    - 3.9 [User020: Missing Password Registration](#39-user020-missing-password-registration)
+    - 3.10 [Image001: Test Load And Write JPG From File System](#310-image001-test-load-and-write-jpg-from-file-system)
+    - 3.11 [Image002: Test Load And Write PNG From File System](#311-image002-test-load-and-write-png-from-file-system)
+    - 3.12 [Image005: Test Image Embedding And Retrieval](#312-image005-test-image-embedding-and-retrieval)
+4.  [Automated Testing](#40-automated-testing)
+    - 4.1 [Backend Automated Testing](#41-backend-automated-testing)
+    - 4.2 [Frontend Automated Testing](#42-frontend-automated-testing)
+      - 4.2.1 [Full Cycle Tests](#421-full-cycle-tests)
+      - 4.2.2 [Login Tests](#422-login-tests)
+      - 4.2.3 [Registration Tests](#423-registration-tests)
+      - 4.2.4 [Main Page Tests](#424-main-page-tests)
+    - 4.3 [Automated Testing on CI](#43-automated-testing-on-ci)
+      - 4.3.1 [Backend Tests](#431-backend-tests)
+      - 4.3.2 [Frontend Playwright Tests](#432-frontend-playwright-tests)
+5.  [Software Tools and Environment](#50-software-tools-and-environment)
+    - 5.1 [Version Control and Branch Structure](#51-version-control-and-branch-structure)
+    - 5.2 [Directory and File Structure and Content](#52-directory-and-file-structure-and-content)
+    - 5.3 [Independent Subsystems and External Resources](#53-independent-subsystems-and-external-resources-project-webdatabase-servers)
+6.  [Appendix: Detailed Test Case Descriptions](#60-appendix-detailed-test-case-descriptions)
 
-This is likely to be a large and highly detailed document, describing many scripts, files, and other resources on the team repo (and possibly elsewhere). It is likely that the team will not have the time to fully complete all the various repo-side test content, so the known issues section should clearly and precisely identify what is incomplete (along with any other known errors/omissions in the document).
+## 1.0 Known Issues
 
-## The Test Plan
+For the complete list of the tests we've thought of so far and have been able to document, see the Test Case List in this document. Given the time constraints of this project, we recognize the tests we've provided are by no means an exhaustive list that would be expected to be provided to a client upon the delivery of a product in a real-world scenario. For this reason, we have chosen to focus on test cases that are related to key features of the product, and not ones that would certainly be performed before the final delivery of a product but may go completely unnoticed by the client and are only of concern to the development team. Additionally, not all test cases described in the Test Case List have been scripted.
 
-This section should provide the user with a full understanding of the process to be followed: starting with an overview of the process and an introduction to the key anticipated challenges, then laying out the intended timeline, the roles and responsibilities for the different testers, the process to be followed in detail, and a summary of all the test cases to be applied. (The full detailed description of each test case can then be included in a document appendix.)
+## 2.0 The Test Plan
 
-The testing of HiddenFrame requires 3 overarching tests be performed. The functionality of the 'backend' needs to be confirmed. In order to do so, we need to measure the performance of several sub-components.
+The testing of HiddenFrame requires 3 overarching tests to be performed. The functionality of the backend needs to be confirmed. In order to do so, we need to measure the performance of several sub-components.
 
-In particular the backend needs to be tested to confirm:
+In particular, the backend needs to be tested to confirm:
 
-- The Image I/O operations are successful of images of varying sizes and formats.
+- The Image I/O operations are successful for images of varying sizes and formats.
 - Image Encoding/Decoding is successful on varying image sizes and formats, with messages of various sizes.
-- User Authentication is successful/unsuccessful corresponding to username/password combinations
-- User invitations and signup process correctly makes users, and tracks who invited them
-- (stretch?) Revoking user status works correctly
+- User Authentication is successful/unsuccessful corresponding to username/password combinations.
+- User invitations and signup processes correctly make users and track who invited them.
+- Revoking user status works correctly.
 
 The 'frontend' testing will also require a suite of particular tests including:
 
-- Successful display of UI elements
-- Responsiveness to user input
-- Correct display of resources to users
-- Successful utilization of UAC to allow authorized users to private section
-- Successful UAC denial of unauthorized users to private section, privileged information (payloads), and privileged features (encoding/decoding).
+- Successful display of UI elements.
+- Responsiveness to user input.
+- Correct display of resources to users.
+- Successful utilization of UAC to allow authorized users to the private section.
+- Successful UAC denial of unauthorized users to the private section, privileged information (payloads), and privileged features (encoding/decoding).
 
-The two systems must also work together so a whole system test should examine all of the components that each of the above tests describe as well as:
+The two systems must also work together, so a whole system test should examine all of the components that each of the above tests describes as well as:
 
 - Communication using the API server is correct and responsive.
-- The front end can access all, appropriate to user permission, features.
-- Confirm that the HiddenFrame works in a client-server configuration (i.e.: works over a LAN), and that the communication is secured (HTTPS).
+- The front end can access all appropriate to user permission features.
+- Confirm that HiddenFrame works in a client-server configuration (i.e., works over a LAN), and that the communication is secured (HTTPS).
 
-### Testing Overview
+### 2.1 Testing Overview
 
-This section needs to provide a general description of the testing environment, process, test cases, challenges, and timeline for the user acceptance testing of your project. In essence it summarizes the most important points of each of the other sections of the document and gives the reader the needed background/context/organizational structure before reading the various (more detailed) later sections.
+All of the various required tests will run, at a minimum, in a Windows and in a Macintosh environment. Further testing utilizing Linux, Android, or other operating systems will be considered and attempted with time permitting. Each of the test suites will be designed based off of the requirements.md and will be generated by team members who did not directly create the driver code for the module under test. The various test cases and challenges will be described in the sections pertaining to their overarching test plan. The testing schedule can be seen in section Testing Timeline.
 
-All of the various required tests will run, at a minimum, in a Windows and in a Macintosh, environment. Further testing utilizing Linux, Android, or other operating systems will be considered, and attempted with time permitting. Each of the test suites will be designed based off of the requirements.md, and will be generated by team members who did not directly create the driver code for the module under test. The various test cases and challenges will be described in the sections pertaining to their overarching test plan. The testing schedule can be see in section $BLAH$.
+### 2.2 Key Front-End Testing Challenges
 
-### Key Front-End Testing Challenges
+Key frontend testing challenges included deciding whether or not to attempt automated frontend testing. Testing a GUI using code presents greater coding challenges than testing backend functional output given known parameters. Another testing challenge included thinking about how we could include load times and other real-world considerations. In its current state, HiddenFrame runs locally in a browser and not on the web. Imagining how our current implementation could be tested for real-world metrics like load times, screen size considerations, and other real-user situations like performance with accessibility features proved difficult to conceptualize.
 
-In this section the objective is to give the reader a clear understanding of the biggest challenges/obstacles in the thorough testing of all the requirements for your product. (The challenges faced will be very particular to the specific product and its runtime environment.)
+### 2.3 Key Back-End Testing Challenges
 
-### Key Back-End Testing Challenges
+Key back-end challenges included determining whether tests would be manual or automated, the testing framework to use, and the makefile structure. As stated in known omissions, we are aware that the test list we have compiled is by no means exhaustive, so determining which types of tests to prioritize both in terms of conceptualizing and implementing where possible also proved challenging given that we wanted to use this opportunity to both gain insight into how we could improve our code in its current state while also thinking about test cases that were reflective of the goals set out in the requirements document.
 
-Key back-end challenges where as follows:
+### 2.4 Testing Timeline
 
-- Determining the test folder and makefile structure
-- Determining if testing would be automated or manual
-- Determining which, if any test framework was going to be used
+Each week, the team would meet twice for periodic code review with a focus on improving code usability and redundancy. This could include making functions data-type agnostic to allow for more types of payload embedding in future versions of the product. Team members will also fix bugs as they appear in tests.
 
-### Testing Timeline
+December 6 - 27, 2024 - All team members focus on conceptualizing more test cases because we recognize the cases we currently have are a non-exhaustive list, with each team member continuing to focus on their current section(s) outlined at the beginning of this document. Amitoj, Artem, and Yagna use this time to decide on a front-end automated-testing suite since Boost is not typically used for testing GUIs and implementing HiddenFrame to run as a functional website. Patrick and Jeremy develop subsystem tests for backend systems, including image I/O and the image and user databases. (200 hours cumulative).
 
-This will be a purely hypothetical exercise that assumes the core product/features are completed by Dec. 6th and that each member of the team has about 10 hours per week available for the project testing after Dec. 6th.
-Based on those assumptions, provide a short timeline that covers
-the completion of each unfinished part of the test infrastructure (scripts, data files, etc),
-the completion of each unfinished part of the test documentation (e.g. the test case appendices),
-one complete run of every test case and all the associated reporting.
-For each aspect, be sure the timeline notes which team member will be carrying out the task.
+Code review - Week 1: December 6 - 13, 2024 - API frameworks.
+Code review - Week 2: December 14 - 27, 2024 - User database operations and Image I/O operations.
 
-### Test Process
+December 28, 2024 - January 10, 2025 - The team continues writing code not previously conceptualized or included in this document or not yet implemented, with Amitoj, Artem, and Yagna focusing on front-end test code and Jeremy and Patrick focusing on back-end module test code. The frontend team focuses on subsystem tests and then module tests on the frontend server, webpages, and API Server. The backend team focuses on module tests for Image I/O, including key generation, payload embedding and retrieval, and the user and image databases (200 hours cumulative).
+
+Code review - Weeks 3 & 4: December 28, 2024 - January 10, 2025 - Front-end design.
+
+January 11 - 24, 2025: Both teams begin writing unit tests with the backend team to focus on the image manipulation and retrieval, image manipulation and embedding, and key generation modules, namely image_class.cpp and utils.cpp files. The front-end team will focus on the websites unit test code. During this time, we are reviewing the user acceptance tests, subsystem tests, and module tests in code review.
+
+January 25 - February 7, 2025 - Continue reviewing module tests and writing unit tests with the front-end to focus on the API server in api.cpp and the backend to focus on the user and image databases in db_operations.cpp.
+
+February 7 - 14, 2025 - Code review of unit tests and final bug fixes.
+
+### 2.5 Test Process
+
+Testers should have admin access to Project HiddenFrame as well as admin access to their machines they're running & testing the product on, in the event they need to rebuild the product, or enter any sudo commands when doing so. Testers will also need to have the following dependancies installed via a package manager on their machines:
+
+- gcc 14.2.0_1 or later,
+- asio 1.30.2 or later,
+- sqlite 3.47.0 or later, &
+- node 23.3.0 or later.
 
 The intent of this section is to ensure the reader understands the process the testers will follow with each of the different types of test. This section should provide an overview of
 the general roles/responsibilities of the testers,
@@ -89,229 +135,419 @@ the typical process for evaluating and reporting on a test case,
 any details needed to ensure the test process adheres to the version control process laid out in the team standards.
 This is essentially a high level/intuitive summary of the remaining sections of the document.
 
-### Test Cases Summary and Organization
+### 2.6 Test Cases Summary and Organization
 
-This section should describe the core different types of test case relevant to your product and how the test cases have been organized. As an example, a breakdown might be something like:
-tests involving visual inspections of the screen elements,
-tests involving navigation between different parts of the system,
-tests involving interactions with the database,
-tests involving interactions with the AI,
-testing of the map structure,
-testing of NPC behaviour,
-testing of combat mechanics,
-etc etc etc.
-Since this is specifically for user acceptance testing, the organization of your test cases should make it very easy for a reader to confirm that every aspect of the requirements document is indeed covered by these tests. One suggestion would be to organize the test cases to parallel the structure of the requirements document (so you could have the two documents open side-by-side and as you read through the requirements sections you could see the matching tests in the test document), while another might be to provide an additional field in the list/table below to identify which (sub/subsub)section of the requirements is addressed by each test case.
+The test cases have been split into three primary components, testing user iteraction with the database with tests labelled User###, tests invovling image manipulation with tests labelled ImageI/O###, and tests involving the key generation lablled Keys###.
 
-### Test Case List
+### 2.7 Test Case List
 
-A table or list of all the test cases to be applied, organized into intuitive sections/subsections, with each entry providing the test case id/name (linked to its detailed description in the appendix), and a few words clarifying the unique purpose/aspect of the test case.
-A couple of sample entries might be something like the following (links not represented here):
-PwdInv01 First bad password one entry of bad password by registered user
-PwdInv03 Third password failure third consecutive bad password by registered user
-
-#### Key Generation Testing
-
-| Test #  | Description                                                                                                                                                                                                                                                                                                                            |
-| ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Keys001 | Generating a dummy key. This should generate a dummy key that looks like a typical key but does NOT match a valid key's requirements.                                                                                                                                                                                                  |
-| Keys002 | Generating a key for an image/message with more than the maximum number of characters. Should return a throw error.                                                                                                                                                                                                                    |
-| Keys003 | Generating a key for a message with the minimum number of characters. Should return a valid key.                                                                                                                                                                                                                                       |
-| Keys004 | Generating a key for a message with the maximum number of characters. Should return a valid key.                                                                                                                                                                                                                                       |
-| Keys005 | Generating two keys for identical images and messages. Should generate unique valid keys for both carriers/payloads.                                                                                                                                                                                                                   |
-| Keys006 | Generating 500 random image sizes and 500 random text string sizes to calculate the average time for each key generation. Generating the image sizes and text string sizes should not be included in the average time calculation. NEED TO DECIDE WHAT AN ACCEPTABLE TIME THRESHOLD SHOULD BE TO GENERATE A KEY AND/OR EMBED AN IMAGE. |
-| Keys007 | Generating a key for an image that does not exist. Should return a throw error.                                                                                                                                                                                                                                                        |
-| Keys008 | Generating a key for an image that is greater than the maximum allowed image size ((2^31)+1 pixels). Should return a throw error.                                                                                                                                                                                                      |
-| Keys009 | Generating a key for an image that is of the minimum size (3 pixels for a 4 channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key.                                                                                                                                        |
-| Keys010 | Generating a key for an image that is the minimum size (4 pixels for a 3-channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key.                                                                                                                                           |
-| Keys011 | Generating a key for an image that is the minimum size (9 pixels for a 2-channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.                                                                                                                                                |
-| Keys012 | Generating a key for an image that is the minimum size (9 pixels for a 1-channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.                                                                                                                                                |
-| Keys013 | Generating a key for an image that is of the maximum pixel size (largest 32-bit integer (2^31)) for any valid character length. Should generate a valid key.                                                                                                                                                                           |
-| User001 | Create an invalid username with more than one "@" characters. Username should not be created.                                                                                                                                                                                                                                          |
-| User002 | Create an invalid username with more than one "." characters after the singular "@" character. Username should not be created.                                                                                                                                                                                                         |
-| User003 | Create an invalid username where the first character in the username is an "@" character (ie no user before the @domain). Username should not be created.                                                                                                                                                                              |
-| User004 | Create an invalid username with no "@" character (ie no indication of where the @domain begins). Username should not be created.                                                                                                                                                                                                       |
-| User005 | Create an invalid username with no "." after the singular "@" character (ie no indication of where .com .ca .other after the @domain begins). Username should not be created.                                                                                                                                                          |
-| User006 | Create an invalid username with no "a-z" characters between the singular "@" and singular trailing "." characters (no domain in @domain). Username should not be created.                                                                                                                                                              |
-| User007 | Create an invalid username with no "a-z" characters after the singular "." character following the singular "@" character (ie no indication of .com .ca .other type). Username should not be created.                                                                                                                                  |
-| User008 | Create a special character (!@#$%^&\*()\_-+=) appears after the "." character following the singular "@" character. Username should not be created.                                                                                                                                                                                    |
-| User009 | Create a valid user account using an email address. User should be added.                                                                                                                                                                                                                                                              |
-| User010 | Create five valid user accounts from invites from the valid user account in User008 test. The five users should be added.                                                                                                                                                                                                              |
-| User011 | Attempt the creation of a sixth user account as an invite from a valid user account in User008 test. The sixth invite should not be created.                                                                                                                                                                                           |
-| User012 | Create a new user account with a username matching an existing user account. The user should not be created.                                                                                                                                                                                                                           |
-| User013 | Create a new unique invite account from an existing invite account. The user account should be created.                                                                                                                                                                                                                                |
-| User014 | Remove the inviter account from which the invitee was created for User013 test. Both the inviter and invitee should be removed.                                                                                                                                                                                                        |
-| User015 | Re-invite the inviter and invitee from User013 test. NEED TO DECIDE AS A GROUP IF THEY SHOULD BE REINVITED/REACTIVATED/ACCESS REVOKED/SENT TO ADMIN FOR APPROVAL.                                                                                                                                                                      |
-
-## Test Infrastructure
-
-### Backend
-
-On the backend we are using the Boost testing library to facilitate automated testing
-
-#### Image Encoding/Decoding
-
-##### User Action Scripts
+| Test #      | Requirement(s) Section                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| User001     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with more than one "@" characters. Username should not be created.                                                                                                                                                                                                                                                                                                                                           |
+| User002     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with more than one "." characters after the singular "@" character. Username should not be created.                                                                                                                                                                                                                                                                                                          |
+| User003     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username where the first character in the username is an "@" character (ie no user before the @domain). Username should not be created.                                                                                                                                                                                                                                                                               |
+| User004     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with no "@" character (ie no indication of where the @domain begins). Username should not be created.                                                                                                                                                                                                                                                                                                        |
+| User005     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with no "." after the singular "@" character (ie no indication of where .com .ca .other after the @domain begins). Username should not be created.                                                                                                                                                                                                                                                           |
+| User006     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with no "a-z" characters between the singular "@" and singular trailing "." characters (no domain in @domain). Username should not be created.                                                                                                                                                                                                                                                               |
+| User007     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with no "a-z" characters after the singular "." character following the singular "@" character (ie no indication of .com .ca .other type). Username should not be created.                                                                                                                                                                                                                                   |
+| User008     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create a special character (!@#$%^&\*()\_-+=) appears after the "." character following the singular "@" character. Username should not be created.                                                                                                                                                                                                                                                                                     |
+| User009     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create a valid user account using an email address. User should be added.                                                                                                                                                                                                                                                                                                                                                               |
+| User010     | [3.5](../documentation/requirements.md#35-creating-invites)                                                          | Create five valid user accounts from invites from the valid user account in User008 test. The five users should be added.                                                                                                                                                                                                                                                                                                               |
+| User011     | [3.5](../documentation/requirements.md#35-creating-invites)                                                          | Attempt the creation of a sixth user account as an invite from a valid user account in User008 test. The sixth invite should not be created.                                                                                                                                                                                                                                                                                            |
+| User012     | [3.5](../documentation/requirements.md#35-creating-invites)                                                          | Remove the inviter account from which the invitee was created for User009 test. Confirm both the users in tests User009 and User010 have been removed.                                                                                                                                                                                                                                                                                  |
+| User013     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Successfully login as a privleged user.                                                                                                                                                                                                                                                                                                                                                                                                 |
+| User014     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to create a duplicate user with the same credentials as test User009. The user should not be created.                                                                                                                                                                                                                                                                                                                           |
+| User015     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to login with an incorrect username. The user should not be logged in.                                                                                                                                                                                                                                                                                                                                                          |
+| User016     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to login with an incorrect password. The user should not be logged in.                                                                                                                                                                                                                                                                                                                                                          |
+| User017     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to login with no username entered. The user should not be logged in.                                                                                                                                                                                                                                                                                                                                                            |
+| User018     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to login with no password entered. The user should not be registerred.                                                                                                                                                                                                                                                                                                                                                          |
+| User020     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to register with no password entered. The user should not be registerred.                                                                                                                                                                                                                                                                                                                                                       |
+| User019     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to register with no username entered. The user should not be logged in.                                                                                                                                                                                                                                                                                                                                                         |
+| ImageI/O001 | [3.2](../documentation/requirements.md#32-uploading-images)                                                          | Upload a supported JPG image. The image should upload successfully. Tests a supported format.                                                                                                                                                                                                                                                                                                                                           |
+| ImageI/O002 | [3.2](../documentation/requirements.md#32-uploading-images)                                                          | Upload a supported PNG image. The image should upload successfully. Tests a supported format.                                                                                                                                                                                                                                                                                                                                           |
+| ImageI/O003 | [3.2](../documentation/requirements.md#32-uploading-images)                                                          | Upload a supported JPG and PNG image. The JPG will be converted to a PNG but the images should not be equal. Required as JPGs are lossy. Confirms using a JPG can work as a payload carrier once it has been converted.                                                                                                                                                                                                                 |
+| ImageI/O004 | [3.2](../documentation/requirements.md#32-uploading-images)                                                          | Test reading an image from a simulated livestream. Should read succesfully. Part of dev testing, outside of requirements.                                                                                                                                                                                                                                                                                                               |
+| ImageI/O005 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures)                                           | Test embedding and retrieval. Attempts to embed the message "Hello World!" into an image. Message should be embedded into the image with minimal change to the image.                                                                                                                                                                                                                                                                   |
+| ImageI/O006 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures)                                           | Upload an image containing 40,000 pixels. The image should upload successfully. Tests the lower limit of an acceptable image size.                                                                                                                                                                                                                                                                                                      |
+| ImageI/O007 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures)                                           | Upload an image containing 39,999 pixels. The image should not upload successfully and an error should be displayed. Tests the lower limit of an acceptable image size.                                                                                                                                                                                                                                                                 |
+| ImageI/O008 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures)                                           | Upload an image containing 2,147,483,648 pixels. The image should upload successfully. Tests the upper limit for an acceptable image size.                                                                                                                                                                                                                                                                                              |
+| ImageI/O009 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures)                                           | Upload an image containing 2,147,483,649 pixels. The image should not upload successfully and an error should be displayed. Tests the upper limit for an acceptable image size.                                                                                                                                                                                                                                                         |
+| ImageI/O010 | [3.2](../documentation/requirements.md#32-uploading-images)                                                          | Upload a file that is not a supported image file (uploading a .txt file). The file should not upload successfully and an error message should be displayed. Tests attempting uploading an unsupported format.                                                                                                                                                                                                                           |
+| Keys001     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating a key for an image/message with more than the maximum number of characters. Should return a throw error.                                                                                                                                                                                                                                                                                                                     |
+| Keys002     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating a key for a message with the minimum number of characters. Should return a valid key.                                                                                                                                                                                                                                                                                                                                        |
+| Keys003     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating a key for a message with the maximum number of characters. Should return a valid key.                                                                                                                                                                                                                                                                                                                                        |
+| Keys004     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating two keys for identical images and messages 500,000 times and calculate the number of times the keys match. Should generate unique valid keys for both carriers/payloads.                                                                                                                                                                                                                                                     |
+| Keys005     | [6.3](../documentation/requirements.md#63-mathematics) & [7.1](../documentation/requirements.md#71-primary-features) | Generating two keys for identical images and messages 500,000 times and calculate the number of times the keys match. Should generate unique valid keys for both carriers/payloads. Verify the time efficency of the key generation portion only (not the string matching). No key should take longer than 7 seconds and the average time per key should be less than 5 seconds. Verify that all keys are less than 50 characters each. |
+| Keys006     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating a key for an image that is greater than the maximum allowed image size ((2^{31}) pixels). Should return a throw error.                                                                                                                                                                                                                                                                                                       |
+| Keys007     | [6.3](../documentation/requirements.md#63-mathematics)                                                               | Generating a key for an image that is of the minimum size (3 pixels for a 4 channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key. Used for backend testing.                                                                                                                                                                                                               |
+| Keys008     | [6.3](../documentation/requirements.md#63-mathematics)                                                               | Generating a key for an image that is the minimum size (4 pixels for a 3-channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key. Used for backen testing.                                                                                                                                                                                                                   |
+| Keys009     | [6.3](../documentation/requirements.md#63-mathematics)                                                               | Generating a key for an image that is the minimum size (9 pixels for a 2-channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key. Used for backend testing.                                                                                                                                                                                                                       |
+| Keys010     | [6.3](../documentation/requirements.md#63-mathematics)                                                               | Generating a key for an image that is the minimum size (9 pixels for a 1-channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.                                                                                                                                                                                                                                                 |
+| Keys011     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating a key for an image that is of the maximum pixel size ($2^{31}$) for any valid character length. Should generate a valid key.                                                                                                                                                                                                                                                                                                 |
 
 ---
 
-#### ENC001: Test Load And Write JPG From File System
+### 2.8 API Testing Guidelines
 
-**Description:** Verifies that a JPG file can be loaded from the file system and saved as a PNG.  
+#### General Steps for Running API Tests:
+
+1. **Initiate Backend & Frontend Services**: Ensure both backend and frontend applications are running.
+2. **Setup Postman**: Download, install, and open the Postman application.
+3. **Configure URL**: Input `http://localhost:5173` into Postman's URL field.
+4. **Define HTTP Method & URL**: Choose the HTTP method and append the test-specific request path to the URL.
+5. **Set Headers for Authorization**: Provide an `Authorization` header containing the token string (Token is generated from the `/login` endpoint).
+6. Ensure the `Content-Type` header is set to `application/json`, except on the `/image/upload` route which uses `multipart/form-data`
+7. **Insert Test Code**: Paste relevant test scripts into the "Tests" tab in Postman.
+8. **Execute Test**: Click the "Send" button to run the test.
+
+#### Specific API Tests:
+
+1. **Image Upload Verification**
+
+   **Objective**: Ensure successful image uploads via the API.
+
+   - **Endpoint**: `POST /image/upload`
+   - **Content-Type**: `multipart/form-data`
+   - **Authorization**: Does not requires `Authorization` header if no message needs to be embedded
+   - **Parameters**:
+     - **form-data**:
+       ```json
+       {
+         "file": "test_image_1.jpg"
+       }
+       ```
+   - **Test Code**:
+     ```javascript
+     pm.test("Status code check", function () {
+       pm.response.to.have.status(200);
+       if (pm.response.code === 200) {
+         console.log(
+           `Status code: ${pm.response.code}\n Message: Image uploaded successfully`
+         );
+       } else {
+         console.log(
+           `Status code: ${pm.response.code}\n Message: Failed to upload image`
+         );
+       }
+     });
+     ```
+   - **Expected Results**:
+     - **Status Code**: 200
+     - **Message**: Image uploaded successfully
+
+2. **Image Upload With Secret Message**
+
+   **Objective**: Confirm API’s capability to embed secret messages.
+
+   - **Endpoint**: `POST /image/upload`
+   - **Content-Type**: `multipart/form-data`
+   - **Authorization**: Requires `Authorization` header with a token string to embed message (if none provided, message is ignored)
+   - **Parameters**:
+     - **form-data**:
+       ```json
+       {
+         "file": "test_image_2.png",
+         "message": "This is a secret"
+       }
+       ```
+   - **Expected Results**: Same as previous
+
+3. **Image Wall Display**
+
+   **Objective**: Verify loading of images from the database.
+
+   - **Endpoint**: `GET /images`
+   - **Content-Type**: `application/json`
+   - **Test Code**:
+     ```javascript
+     pm.test("Status code check", function () {
+       pm.response.to.have.status(200);
+       if (pm.response.code === 200) {
+         console.log(
+           `Status code: ${pm.response.code}\n Message: Images loaded successfully`
+         );
+       } else {
+         console.log(
+           `Status code: ${pm.response.code}\n Message: Failed to load images`
+         );
+       }
+     });
+     ```
+   - **Expected Results**:
+     - **Status Code**: 200
+     - **Message**: Images loaded successfully
+
+4. **Login Functionality**
+
+   **Objective**: Test login with both correct and incorrect credentials.
+
+   - **Endpoint**: `POST /login`
+   - **Content-Type**: `application/json`
+   - **Test Parameters for Correct Password**:
+     - **JSON Body**:
+       ```json
+       {
+         "username": "acb",
+         "password": "correctpassword"
+       }
+       ```
+   - **Expected Results (Correct)**:
+
+     - **Status Code**: 200
+     - **Message**: Successfully logged in
+
+   - **Test Parameters for Incorrect Password**:
+     - **JSON Body**:
+       ```json
+       {
+         "username": "acb",
+         "password": "wrongpassword"
+       }
+       ```
+   - **Expected Results (Incorrect)**:
+     - **Status Code**: 401
+     - **Message**: Invalid password and username
+
+5. **User Registration**
+
+   **Objective**: Register users using valid and invalid invites.
+
+   - **Endpoint**: `POST /register`
+   - **Content-Type**: `application/json`
+   - **Test Parameters for Valid Invite**:
+     - **JSON Body**:
+       ```json
+       {
+         "username": "acb",
+         "password": "correctpassword",
+         "inviteID": 12345
+       }
+       ```
+   - **Expected Results (Valid)**:
+
+     - **Status Code**: 200
+     - **Message**: New user registered
+
+   - **Test Parameters for Invalid Invite**:
+     - **JSON Body**:
+       ```json
+       {
+         "username": "acb",
+         "password": "correctpassword",
+         "inviteID": 2468
+       }
+       ```
+   - **Expected Results (Invalid)**:
+     - **Status Code**: 401
+     - **Message**: The invite is invalid
+
+6. **Excessively Large Secret Message**
+
+   **Objective**: Test validation when the secret message exceeds the image size.
+
+   - **Endpoint**: `POST /image/upload`
+   - **Content-Type**: `application/x-www-form-urlencoded`
+   - **Authorization**: Same as previous.
+   - **Parameters**:
+     - **form-data**:
+       ```json
+       {
+         "file": "a_small_image.png",
+         "message": "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead. I recently discovered I could make fudge with just chocolate chips, sweetened condensed milk, vanilla extract, and a thick pot on slow heat. I tried it with dark chocolate chunks and I tried it with semi-sweet chocolate chips. It's better with both kinds. It comes out pretty bad with just the dark chocolate. The best add-ins are crushed almonds and marshmallows -- what you get from that is Rocky Road. It takes about twenty minutesfrom start to fridge, and then it takes about six months to work off the twenty pounds you gain from eating it. All things in moderation, friends. All things in moderation. Samantha wanted to be famous. The problem was that she had never considered all the downsides to actually being famous. Had she taken the time to objectively consider these downsides, she would have never agreed to publicly sing that first song."
+       }
+       ```
+   - **Expected Results**:
+     - **Status Code**: 500
+     - **Message**: Failed to upload image
+
+## 3.0 User Action Scripts
+
+### 3.1 User009: Successful Registration
+
+**Description:** Verifies successful user registration with valid credentials.  
+**Pre-requisites:** None.  
+**Steps:**
+
+1. Navigate to `http://localhost:5173/register/admin`.
+2. Enter `correctUsername` in the **Username** field.
+3. Enter `correctPassword` in the **Password** field.
+4. Click the **Submit** button.
+5. Wait for the page to load and observe the URL.  
+   **Expected Outcome:** The user is redirected to `http://localhost:5173/login`.
+
+---
+
+### 3.2 User013: Successful Login
+
+**Description:** Verifies successful login with valid credentials.  
+**Pre-requisites:** Must follow **UAS001** (registration).  
+**Steps:**
+
+1. Navigate to `http://localhost:5173/login`.
+2. Enter `correctUsername` in the **Username** field.
+3. Enter `correctPassword` in the **Password** field.
+4. Click the **Submit** button.
+5. Wait for the page to load and observe the URL.  
+   **Expected Outcome:** The user is redirected to `http://localhost:5173`.
+
+---
+
+### 3.3 User014: Duplicate Username Registration
+
+**Description:** Verifies the system prevents duplicate username registration.  
+**Pre-requisites:** Must follow **UAS001** (registration).  
+**Steps:**
+
+1. Navigate to `http://localhost:5173/register/admin`.
+2. Enter `correctUsername` in the **Username** field.
+3. Enter `correctPassword` in the **Password** field.
+4. Click the **Submit** button.
+5. Wait for the page to load and observe the URL.  
+   **Expected Outcome:** The user remains on `http://localhost:5173/register/admin` with an appropriate error message.
+
+---
+
+### 3.4 User015: Invalid Username Login
+
+**Description:** Verifies the system prevents login with an invalid username.  
+**Pre-requisites:** None
+**Steps:**
+
+1. Navigate to `http://localhost:5173/login`.
+2. Enter `wrongUsername` in the **Username** field.
+3. Enter `correctPassword` in the **Password** field.
+4. Click the **Submit** button.
+5. Wait for the page to load and observe the URL.  
+   **Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
+
+---
+
+### 3.5 User016: Invalid Password Login
+
+**Description:** Verifies the system prevents login with an invalid password.  
+**Pre-requisites:** None  
+**Steps:**
+
+1. Navigate to `http://localhost:5173/login`.
+2. Enter `correctUsername` in the **Username** field.
+3. Enter `wrongPassword` in the **Password** field.
+4. Click the **Submit** button.
+5. Wait for the page to load and observe the URL.  
+   **Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
+
+---
+
+### 3.6 User017: Missing Username Login
+
+**Description:** Verifies the system prevents login if username is missing.  
+**Pre-requisites:** None
+**Steps:**
+
+1. Navigate to `http://localhost:5173/login`.
+2. Leave the **Username** field empty and enter `somePassword` in the **Password** field.
+3. Click the **Submit** button.
+4. Wait for the page to load and observe the URL.  
+   **Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
+
+---
+
+### 3.7 User018: Missing Password Login
+
+**Description:** Verifies the system prevents login if password is missing.  
+**Pre-requisites:** Must follow **User001** (registration).  
+**Steps:**
+
+1. Navigate to `http://localhost:5173/login`.
+2. Leave the **Password** field empty and enter `someUsername` in the **Username** field.
+3. Click the **Submit** button.
+4. Wait for the page to load and observe the URL.  
+   **Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
+
+---
+
+### 3.8 User019: Missing Username Registration
+
+**Description:** Verifies the system prevents registration if username is missing.  
+**Pre-requisites:** None.  
+**Steps:**
+
+1. Navigate to `http://localhost:5173/register/admin`.
+2. Leave the **Username** field empty and enter `password` in the **Password** field.
+3. Click the **Submit** button.
+4. Wait for the page to load and observe the URL.  
+   **Expected Outcome:** The user remains on `http://localhost:5173/register/admin` with an appropriate error message.
+
+---
+
+### 3.9 User020: Missing Password Registration
+
+**Description:** Verifies the system prevents registration password is missing.  
+**Pre-requisites:** None.  
+**Steps:**
+
+1. Navigate to `http://localhost:5173/register/admin`.
+2. Leave the **Password** field empty and enter `username` in the **Username** field.
+3. Click the **Submit** button.
+4. Wait for the page to load and observe the URL.  
+   **Expected Outcome:** The user remains on `http://localhost:5173/register/admin` with an appropriate error message.
+
+### 3.10 Image001: Test Load And Write JPG From File System
+
+**Description:** Verifies that a JPG file can be loaded from the file system and saved as a PNG.
 **Pre-requisites:** The file `../../resources/images/test/input/test_image_1.jpg` must exist.  
 **Steps:**
 
-1. **Load `test_image_1.jpg` from the input folder:**
-   - Use the `image` constructor:
-     ```cpp
-     image test1 = image("../../resources/images/test/input/test_image_1.jpg");
-     ```
-2. **Verify the image is valid:**
-   - Call the `valid_image()` function:
-     ```cpp
-     test1.valid_image();
-     ```
-3. **Save the image as `test_image_1.png` in the output folder:**
-   - Call the `write_image()` function:  
-      `cpp
-     test1.write_image("../../resources/images/test/output/test_image_1.png");
-     `  
-     **Expected Outcome:**
+1. Navigate to `http://localhost:5173/` in your web browser
+2. Click **"Choose File"** and browse for the required image.
+3. Click **"Upload New Image"**
+   **Expected Outcome:**
 
-- The image loads successfully.
+- The image loads successfully and is visible on the reloaded webpage without errors.
 - The image is saved in PNG format without errors.
 
 ---
 
-#### ENC002: Test Load And Write PNG From File System
+### 3.11 Image002: Test Load And Write PNG From File System
 
 **Description:** Verifies that a PNG file can be loaded from the file system and saved as a PNG.  
 **Pre-requisites:** The file `../../resources/images/test/input/test_image_2.png` must exist.  
 **Steps:**
 
-1. **Load `test_image_2.png` from the input folder:**
-   - Use the `image` constructor:
-     ```cpp
-     image test2 = image("../../resources/images/test/input/test_image_2.png");
-     ```
-2. **Verify the image is valid:**
-   - Call the `valid_image()` function:
-     ```cpp
-     test2.valid_image();
-     ```
-3. **Save the image as `test_image_2.png` in the output folder:**
-   - Call the `write_image()` function:  
-      `cpp
-     test2.write_image("../../resources/images/test/output/test_image_2.png");
-     `  
-     **Expected Outcome:**
+1. Navigate to `http://localhost:5173/` in your web browser
+2. Click **"Choose File"** and browse for the required image.
+3. Click **"Upload New Image"**
+   **Expected Outcome:**
 
-- The image loads successfully.
+- The image loads successfully and is visible on the reloaded webpage without errors.
 - The image is saved in PNG format without errors.
 
 ---
 
-#### ENC003: Test Write Image To File System
-
-**Description:** Verifies that an image can be written to the file system and its format can be changed.  
-**Pre-requisites:** Ensure `test_image_1.png` and `test_image_1.jpg` exist in their respective folders.  
-**Steps:**
-
-1. **Load `test_image_1.png`:**
-   - Use the `image` constructor:
-     ```cpp
-     image test3a = image("../../resources/images/test/output/test_image_1.png");
-     ```
-2. **Verify the image is valid:**
-   - Call the `valid_image()` function:
-     ```cpp
-     test3a.valid_image();
-     ```
-3. **Load `test_image_1.jpg`:**
-   - Use the `image` constructor:
-     ```cpp
-     image test3b = image("../../resources/images/test/input/test_image_1.jpg");
-     ```
-4. **Verify the file types are different:**
-   - Compare the file types:  
-      `cpp
-     test3a.filetype != test3b.filetype;
-     `  
-     **Expected Outcome:**
-
-- The images load successfully.
-- The formats of the two images are confirmed to be different.
-
----
-
-#### ENC004: Test Image Reading From Simulated Live Stream
-
-**Description:** Verifies an image can be read from a simulated live stream.  
-**Pre-requisites:** The file `../../resources/images/test/input/test_image_6.bmp` must exist.  
-**Steps:**
-
-1. **Read `test_image_6.bmp` into a buffer:**
-   - Use the `readFileToBuffer()` function:
-     ```cpp
-     vector<unsigned char> imageData = readFileToBuffer("../../resources/images/test/input/test_image_6.bmp");
-     ```
-2. **Load the image from the buffer:**
-   - Use the `image` constructor:
-     ```cpp
-     image test5 = image(imageData.data(), static_cast<int>(imageData.size()), "bmp");
-     ```
-3. **Verify the image is valid:**
-   - Call the `valid_image()` function:  
-      `cpp
-     test5.valid_image();
-     `  
-     **Expected Outcome:**
-
-- The image is successfully read from the buffer and verified as valid.
-
----
-
-#### ENC005: Test Image Embedding And Retrieval
+### 3.12 Image005: Test Image Embedding And Retrieval
 
 **Description:** Verifies that data can be embedded into an image and retrieved correctly.  
-**Pre-requisites:** The file `../../resources/images/test/input/test_image_7.png` must exist.  
+**Pre-requisites:** The file `../../resources/images/test/input/test_image_7.png` must exist. The tester must have two valid usernames and passwords login to the private website.
 **Steps:**
 
-1. **Load `test_image_7.png`:**
-   - Use the `image` constructor:
-     ```cpp
-     image test6 = image("../../resources/images/test/input/test_image_7.png");
-     ```
-2. **Embed the binary string equivalent of "Hello, World!" into the image:**
-   - Convert the string to binary and call `modify_image()`:
-     ```cpp
-     string teststr = "Hello, World!";
-     string teststrBin = stringToBinary(teststr);
-     int n = 2; // pixel spacing
-     test6.modify_image(n, teststrBin);
-     ```
-3. **Save the modified image to the output folder:**
-   - Call the `write_image()` function:
-     ```cpp
-     test6.write_image("../../resources/images/test/output/test_image_7.png");
-     ```
-4. **Load the modified image and retrieve the embedded payload:**
-   - Use the `retrieve_payload()` function:
-     ```cpp
-     image payloadTest = image("../../resources/images/test/output/test_image_7.png");
-     string payload = payloadTest.retrieve_payload(n);
-     ```
-5. **Compare the retrieved payload to the original string:**
-   - Use `binaryToString()` to decode and compare:  
-      `cpp
-     binaryToString(payload) == teststr;
-     `  
-     **Expected Outcome:**
+1. Navigate to `http://localhost:5173/login`
+2. Enter the first valid username and password and login.
+3. Click **"Choose File"** and browse for the required image.
+4. Enter the message "Hello world"
+5. Upload the image and copy the key provided.
+6. Logout
+7. Login with the second valid username and password.
+8. Enter your key from step 5 and confirm the corresponding message is "Hello world."
+   **Expected Outcome:**
 
-- The string is successfully embedded and retrieved without any errors.
+- The correct message is displayed.
 
 ---
 
-#### Automated testing scripts
+## 4.0 Automated Testing
+
+### 4.1 Backend Automated Testing
+
+On the backend we are using the Boost testing library to facilitate automated testings.
 
 ---
 
@@ -344,181 +580,9 @@ On the backend we are using the Boost testing library to facilitate automated te
    ./bin/test/HiddenFrame_Test
    ```
 
----
+### 4.2 Frontend Automated Testing
 
-#### 1. test_image_io.cpp
-
-**Name and Location:**  
-`apps/backend/test/test_image_io.cpp`
-
-**Source Code and Build Location:**
-
-- **Source Code:** [Test Load And Write JPG](../apps/backend/test/test_image_io.cpp)
-- **Build Location:** [apps/backend/build/test](../apps/backend/build/test)
-
-**Purpose:**  
-This script tests the ability to load a JPG file from the file system and save it as a PNG. The key functionalities verified include:
-
-1. Loading the image file `test_image_1.jpg` from the input directory.
-2. Verifying the image validity after loading.
-3. Writing the image to a new location with a different format (`test_image_1.png`).
-
----
-
-### Frontend
-
-On the frontend we are using cypress to test all the UI components
-
-#### User Action Scripts
-
-#### UAS001: Successful Registration
-
-**Description:** Verifies successful user registration with valid credentials.  
-**Pre-requisites:** None.  
-**Steps:**
-
-1. Navigate to `http://localhost:5173/register/admin`.
-2. Enter `correctUsername` in the **Username** field.
-3. Enter `correctPassword` in the **Password** field.
-4. Click the **Submit** button.
-5. Wait for the page to load and observe the URL.  
-   **Expected Outcome:** The user is redirected to `http://localhost:5173/login`.
-
----
-
-#### UAS002: Successful Login
-
-**Description:** Verifies successful login with valid credentials.  
-**Pre-requisites:** Must follow **UAS001** (registration).  
-**Steps:**
-
-1. Navigate to `http://localhost:5173/login`.
-2. Enter `correctUsername` in the **Username** field.
-3. Enter `correctPassword` in the **Password** field.
-4. Click the **Submit** button.
-5. Wait for the page to load and observe the URL.  
-   **Expected Outcome:** The user is redirected to `http://localhost:5173`.
-
----
-
-#### UAS003: Image Upload and Decoding
-
-**Description:** Verifies successful upload of an image and decoding of a message.  
-**Pre-requisites:** Must follow **UAS002** (login).  
-**Steps:**
-
-1. Navigate to `http://localhost:5173`.
-2. Locate the **File Upload** field and upload any image of the following formats: png, jpg, bmp, tga.
-3. Enter `Test message` in the **Message** field.
-4. Click the **Submit** button.
-5. Wait for the image to appear in the uploaded list.
-6. Click on the uploaded image.
-7. Enter the key `2` in the **Key** field.
-8. Click the **Decode** button.  
-   **Expected Outcome:** The message "Test message" is displayed under the image.
-
----
-
-#### UAS004: Duplicate Username Registration
-
-**Description:** Verifies the system prevents duplicate username registration.  
-**Pre-requisites:** Must follow **UAS001** (registration).  
-**Steps:**
-
-1. Navigate to `http://localhost:5173/register/admin`.
-2. Enter `correctUsername` in the **Username** field.
-3. Enter `correctPassword` in the **Password** field.
-4. Click the **Submit** button.
-5. Wait for the page to load and observe the URL.  
-   **Expected Outcome:** The user remains on `http://localhost:5173/register/admin` with an appropriate error message.
-
----
-
-#### UAS005: Invalid Username Login
-
-**Description:** Verifies the system prevents login with an invalid username.  
-**Pre-requisites:** Must follow **UAS001** (registration).  
-**Steps:**
-
-1. Navigate to `http://localhost:5173/login`.
-2. Enter `wrongUsername` in the **Username** field.
-3. Enter `correctPassword` in the **Password** field.
-4. Click the **Submit** button.
-5. Wait for the page to load and observe the URL.  
-   **Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
-
----
-
-#### UAS006: Invalid Password Login
-
-**Description:** Verifies the system prevents login with an invalid password.  
-**Pre-requisites:** Must follow **UAS001** (registration).  
-**Steps:**
-
-1. Navigate to `http://localhost:5173/login`.
-2. Enter `correctUsername` in the **Username** field.
-3. Enter `wrongPassword` in the **Password** field.
-4. Click the **Submit** button.
-5. Wait for the page to load and observe the URL.  
-   **Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
-
----
-
-#### UAS007: Missing Username Login
-
-**Description:** Verifies the system prevents login if username is missing.  
-**Pre-requisites:** Must follow **UAS001** (registration).  
-**Steps:**
-
-1. Navigate to `http://localhost:5173/login`.
-2. Leave the **Username** field empty and enter `somePassword` in the **Password** field.
-3. Click the **Submit** button.
-4. Wait for the page to load and observe the URL.  
-   **Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
-
----
-
-#### UAS008: Missing Password Login
-
-**Description:** Verifies the system prevents login if password is missing.  
-**Pre-requisites:** Must follow **UAS001** (registration).  
-**Steps:**
-
-1. Navigate to `http://localhost:5173/login`.
-2. Leave the **Password** field empty and enter `someUsername` in the **Username** field.
-3. Click the **Submit** button.
-4. Wait for the page to load and observe the URL.  
-   **Expected Outcome:** The user remains on `http://localhost:5173/login` with an appropriate error message.
-
----
-
-#### UAS009: Missing Username Registration
-
-**Description:** Verifies the system prevents registration if username is missing.  
-**Pre-requisites:** None.  
-**Steps:**
-
-1. Navigate to `http://localhost:5173/register/admin`.
-2. Leave the **Username** field empty and enter `password` in the **Password** field.
-3. Click the **Submit** button.
-4. Wait for the page to load and observe the URL.  
-   **Expected Outcome:** The user remains on `http://localhost:5173/register/admin` with an appropriate error message.
-
----
-
-#### UAS010: Missing Password Registration
-
-**Description:** Verifies the system prevents registration password is missing.  
-**Pre-requisites:** None.  
-**Steps:**
-
-1. Navigate to `http://localhost:5173/register/admin`.
-2. Leave the **Password** field empty and enter `username` in the **Username** field.
-3. Click the **Submit** button.
-4. Wait for the page to load and observe the URL.  
-   **Expected Outcome:** The user remains on `http://localhost:5173/register/admin` with an appropriate error message.
-
-#### Automated Testing Scripts
+This section provides detailed information on the Playwright script used to automate the user acceptance test process for **HiddenFrame** UI. The script is designed to validate the full end-to-end functionality of the application, ensuring seamless integration of its core features.
 
 **Setup Actions:**
 
@@ -551,7 +615,7 @@ On the frontend we are using cypress to test all the UI components
 
 ---
 
-#### 1. Full Cycle Tests
+### 4.2.1. Full Cycle Tests
 
 **Name and Location:**  
 `apps/web/tests/full.cycle.spec.ts`
@@ -571,7 +635,7 @@ This script automates the complete user flow for **HiddenFrame**, verifying the 
 
 ---
 
-#### 2. Login Tests
+#### 4.2.2 Login Tests
 
 **Name and Location:**  
 `apps/web/tests/login.spec.ts`
@@ -592,7 +656,7 @@ This script validates the login process for the **HiddenFrame** application, ens
 
 ---
 
-#### 3. Registration Tests
+### 4.2.3 Registration Tests
 
 **Name and Location:**  
 `apps/web/tests/register.spec.ts`
@@ -612,7 +676,7 @@ This script validates the registration process for the **HiddenFrame** applicati
 
 ---
 
-#### 4. Main Page Tests
+### 4.2.4 Main Page Tests
 
 **Name and Location:**  
 `apps/web/tests/main.spec.ts`
@@ -628,72 +692,312 @@ This script validates the following functionalities on the **HiddenFrame** main 
 1. Verifying the page title.
 2. Ensuring a public user can upload an image successfully.
 
-### Software Tools and Environment
+### 4.3 Automated Testing on CI
 
-The objective for this section is to describe the environment(s) in which you'll be running the product while testing and any additional tools you'll be using to conduct/monitor/report the test results.
-This can vary considerably depending on the project/team, e.g.:
-For a simple client-side game this might just specify whose laptop(s) and OS/version(s) you're testing on and that you're following manual 'user action scripts' as the process.
-For a product that connects to other elements (AI, databases, web servers, etc) it will also need to specify which ones and how (this can be an overview, with details given in the 'External resources' section below).
-If you're using third party tools (e.g. to record/playback UI actions) then those need to be listed and their use outlined here.
+We utilize [GitHub Actions](https://github.com/features/actions) to automate our CI testing process. For every pull request made to the `staging` and `master` branches, the relevant GitHub workflows are triggered to execute the necessary tests on the code.
 
-### User Action Scripts
+### 4.3.1 Backend Tests
 
-To ensure test results are reproducible when carrying out manual user acceptance tests, we can prepare and follow 'user action scripts'. These can be thought of similarly to the script for a play: they detail precisely what actions each user/tester must take and when, with the assumption that during testing the tester will be reading through the script, performing the actions as described.
-The scripts can be organized into logical sections (or scenes, if we're using a theatrical analogue), e.g. a script that just covers the registration process, a script that just covers the login process (and assumes a previous registration script has been followed), a script that just covers a user sending a message to another user (and assumes both users have been previously registered and the sender has already logged in).
-For each script there should be (at least):
-a unique id/name for the script
-a short description/overview of the script
-a list of which other scripts must have been 'run' (followed) prior to running this script (ideally linked to the descriptions of the other scripts)
-the exact sequence of actions each tester must follow during the scene covered by the script
-the expected behaviour/results and how to assess pass/failure
-Note that the descriptions of the actions to be performed must be precise and detailed enough to guarantee we will get the same results if we run the same script in the future.
+**Name and Location:**  
+`.github/workflows/backend.yml`
 
-### Executables (Test Programs/Scripts, Stubs, and Drivers)
+**Source Code and Build Location:**
 
-This section details any/all the scripts and programs the team has created to help automate the user acceptance test process. This would include programs/scripts such as:
-those used to run specific test cases or batches of test cases,
-stubs and drivers used to apply user acceptance tests to isolated portions of the system,
-programs/scripts used in the process of setting up, evaluating, or cleaning up after different test cases (or sets of test cases),
-any special-purpose scripts/programs related to the unique nature of an individual product.
-For each script there should be (at least):
-the name and location of the script/executable,
-a link to the necessary source code and build location for executables,
-a short description/overview of the purpose of the script/executable,
-detailed descriptions (or links to such descriptions) for all the setup actions that need to be performed prior to running this script/executable,
-the exact sequence of actions each tester must follow during execution of the script/executable,
-the expected behaviour/results and how to assess pass/failure,
-any required cleanup after the script has terminated.
+- **Source Code:** [Backend Tests Workflow Source](../.github/workflows/backend.yml)
 
-This section provides detailed information on the Playwright script used to automate the user acceptance test process for **HiddenFrame** UI. The script is designed to validate the full end-to-end functionality of the application, ensuring seamless integration of its core features.
+**Purpose:**  
+This GitHub Actions workflow automates the CI testing process for the backend code. It is triggered on every push and pull request to the `staging` and `master` branches, specifically when changes are made to the `apps/backend` directory. The workflow runs on Ubuntu, macOS, and Windows environments and performs the following steps:
 
-### Version Control and Branch Structure
+1. **Install C++ Dependencies on Linux**: Installs necessary C++ dependencies using `apt-get`.
+2. **Install C++ Dependencies on macOS**: Installs necessary C++ dependencies using `brew`.
+3. **Install Boost on Windows**: Downloads and extracts Boost from a specified URL.
+4. **Install OpenSSL on Windows**: Installs OpenSSL using Chocolatey.
+5. **Build C++ Project**: Builds the backend C++ project using `make`.
+6. **Run C++ Project Tests**: Runs the backend C++ project tests using `make run-test`.
 
-This section should clearly describe how the testing process fits with the teams version control standards and processes (i.e. what branches are used for testing, how they are set up/brought up to date immediately prior to testing).
+### 4.3.2 Frontend Playwright Tests
 
-### Directory and File Structure and Content
+**Name and Location:**  
+`.github/workflows/playwright.yml`
 
-This section should clearly outline the directory structure and file organization for the project test content, providing things like:
-an overview of what kinds of files are located where in the directory tree (action scripts, test executables and their sources, files containing test case input, files containing expected output, etc),
-an overview of any naming conventions for the different kinds of files used: ideally names provide an indication of what kind of file it is (action script, stub, driver, test executable, user input data, expected output, etc) and what kind of testing it is used for (e.g. uix tests, navigation tests, etc).
+**Source Code and Build Location:**
 
-### Independent Subsystems and External Resources (Project Web/Database Servers)
+- **Source Code:** [Playwright Tests Workflow Source](../.github/workflows/playwright.yml)
 
-This section needs to provide full details on all the external resources the client side of the product relies upon/connects to, including things like
-any AI components, web servers, and/or database servers run as part of the project,
-any third party web servers and database servers that the product interacts with,
-any third party AI components the product interacts with.
-This section needs to provide all the details needed during testing to setup/run or connect to the relevant resources. These details can be provided in this document section or the document can link to later sections (appendices possibly?) where those details are provided in full.
+**Purpose:**  
+This GitHub Actions workflow automates the CI testing process for the web application using Playwright. It is triggered on every push and pull request to the `staging` and `master` branches, specifically when changes are made to the `apps/web` directory. The workflow runs on an Ubuntu environment and performs the following steps:
 
-### Appendix: Detailed Test Case Descriptions
+1. **Install Node.js**: Sets up the Node.js environment on the latest LTS version.
+2. **Install C++ Dependencies**: Installs necessary C++ dependencies using `apt-get`.
+3. **Build C++ Project**: Builds the backend C++ project using `make`.
+4. **Run C++ Project**: Runs the backend C++ project in the background.
+5. **Install Dependencies**: Installs the necessary Node.js dependencies for the web application using `npm`.
+6. **Start Development Server**: Starts the development server for the web application in the background.
+7. **Install Playwright Browsers**: Installs the necessary Playwright browsers and dependencies.
+8. **Run Playwright Tests**: Executes the Playwright tests for the web application.
+9. **Upload Playwright Report**: Uploads the Playwright test report as an artifact for later review.
 
-For every test case listed in the earlier summary, this section should provide all the details about that case, typically with a one-page form for each test case. Depending on the nature of your product and the test case, this likely includes most of the following:
-the test case id, name, one-line description,
-an overview of the test covering both the specific purpose of this test case and the key steps involved in running the test case,
-a link to the specific section of the requirements document that describes the portion/aspect/feature of the product that is being tested here,
-how many testers are needed and what they are labelled as in the test case actions,
-what scripts (action and/or executable) need to be run prior to running this test case and what (specific) arguments/options need to be used when running them, ideally with links to the scripts themselves,
-exact details on all other settings/ actions that need to be performed prior to running the test case (e.g. what fixed seed is used by the pseudo-random number generator if the game/product makes use of any form of randomness), (these may link to files/documents detailing sets of actions that are used in multiple test cases),
-what scripts (action and/or executable) need to be run to conduct this test case and what (specific) arguments/options need to be used when running them, ideally with links to the scripts themselves,
-all expected results/output from the test case, in precise enough detail to allow pass/fail evaluation,
-any cleanup scripts that need to be run or other actions that need to be taken to 'tidy up' following the test case (e.g. your test case might involve things like changing permissions or contents for specific files/directories/users: things you'll want to undo those following the test),
-the reporting process to be followed: e.g. links to which forms are to be filled in, who to notify with pass/fail results, etc (this may be a link to one of several standard reporting processes the team has created for their project testing).
+## 5.0 Software Tools and Environment
+
+ProjectHidden frame has been developed on, built, and tested by the development team using:
+
+- Windows 11 running 5.15.167.4-microsoft-standard-WSL2 (debian);
+- Windows 10
+- macOS 15.1.1; and
+- libboost1.74-dev
+- Playwright 10.9.0
+
+### 5.1 Version Control and Branch Structure
+
+The `staging` branch is used for testing. Automated tests are as detailed in the preceeding sections, we have written github workflows (see section [4.3 Automated Testing on CI](#43-automated-testing-on-ci)) that run these tests on each PR to staging and master, hence almost every aspect is tested except the dev/custom branches.
+Our `master` branch is now protected using these tests and hence a PR to it can only be merged when the tests pass.
+
+### 5.2 Directory and File Structure and Content
+
+Testing resources can be found in the following locations. The fist expanded location contains the backend automated tests, the second expanded location contains the automated frontend tests, and the third expanded location contains input and output files that may be used for testing or are called in automated tests.
+
+- project
+  - apps
+    - backend
+      - bin
+        - database
+          - testuserdatabase.db
+      - test
+        - main.cpp
+        - test_image_io.cpp
+        - test_user_database.cpp
+    - web
+      - tests
+        - full.cycle.spec.ts
+        - login.spec.ts
+        - main.spec.ts
+        - register.spec.ts
+      - test-examples
+        - demo-todo-app.spec.ts
+  - resources
+    - images
+      - test
+        - input
+          - test_image_1.jpg
+          - test_image_2.png
+          - test_image_3.png
+          - test_image_4.png
+        - output
+          - test_image_1.png
+          - test_image_2.png
+          - test_image_7.png
+
+### 5.3 Independent Subsystems and External Resources (Project Web/Database Servers)
+
+Project HiddenFrame requires the following packages and dependencies and requires that the versions installed be at least what is listed or newer.
+
+| Package   | Version  | Use                                                  |
+| --------- | -------- | ---------------------------------------------------- |
+| Boost     | 1.86.0_2 | Automated testing - required for testing and install |
+| Playwrite | 1.47.0   | Automated testing - required for testing and install |
+| Sqlite3   | 3.47.0   | User database - required for install                 |
+| Node      | 23.3.0   | Server framework - required for install              |
+| Asio      | 1.30.2   | Connection handling - required for install           |
+
+Boost, Sqlite3, Node, and Asio can be installed using a package manager of your choice and running the executing the install keyword from a terminal. For example, if using homebrew on macOS they may be installed by running the following command:
+
+brew install boost sqlite3 node asio
+
+or if using Advanced Package Tool in a Linux environment:
+
+apt-get install boost sqlite3 node asio
+
+Playwright will be installed when `npm i` is run in the `apps/web` folder, you will need to run `npx playwright install --with-deps` to install the 3 browsers (chromium, firefox, webkit) it tests on.
+
+<div style="page-break-after: always;"></div>
+
+## 6.0 Appendix: Detailed Test Case Descriptions
+
+## Test Case ID: User009 - Peformed in Playwrite
+
+Description:
+
+This test case ensures that a user can successfully register by entering valid credentials. The process includes navigating to the registration page, entering the correct username and password, submitting the form, and verifying the redirection to the login page.
+
+[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement
+
+Pre-requisites:
+
+Ensure that the server is running and accessible at http://localhost:5173.
+
+1. Navigate to http://localhost:5173/register/admin.
+
+2. Enter correctUsername in the Username field.
+
+3. Enter correctPassword in the Password field.
+
+Click the Submit button.
+Wait for the page to load and observe the URL.
+Expected Outcome: The user is redirected to http://localhost:5173/login.
+
+Expected Results:
+
+Registration form submission redirects the user to the login page without errors.
+
+<div style="page-break-before: always;"></div>
+
+## Test Case ID: User013 - Peformed in Playwrite
+
+Description:
+
+This test case checks that the user is able to log in successfully with valid credentials following a registration process. It ensures the login functionality works as expected.
+
+[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement
+
+Pre-requisites:
+
+This test follows User001 (successful registration).
+The server should be running.
+
+1. Navigate to http://localhost:5173/login.
+2. Enter correctUsername in the Username field.
+3. Enter correctPassword in the Password field.
+4. Click the Submit button.
+5. Wait for the page to load and observe the URL.
+6. Expected Outcome: The user is redirected to http://localhost:5173.
+
+Expected Results:
+The user should be redirected to the homepage after successful login with the option to upload both a picture and a message.
+
+<div style="page-break-before: always;"></div>
+
+## Test Case ID: User014 - Peformed in Playwrite
+
+Description:
+
+This test case checks that the system correctly prevents registration when a duplicate username is entered, ensuring that unique usernames are required for new registrations. It verifies the backend logic for handling duplicate usernames during the registration process.
+
+[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement
+
+Pre-requisites:
+
+This test follows User009 (successful registration).
+
+Ensure that the server is running at http://localhost:5173.
+A valid user (correctUsername) should already be registered prior to running this test.
+
+Steps:
+
+1. Navigate to http://localhost:5173/register/admin.
+2. Enter correctUsername in the Username field (ensure this is the same username used during the registration in Usr009).
+3. Enter correctPassword in the Password field.
+4. Click the Submit button.
+5. Wait for the page to load and observe the URL.
+   Expected Outcome:
+
+The user remains on http://localhost:5173/register/admin, and an appropriate error message is displayed, indicating that the username is already taken and duplicate registrations are not allowed.
+
+<div style="page-break-before: always;"></div>
+
+## User015: Invalid Username Login - Peformed in Playwrite
+
+Description: Verifies the system prevents login when an incorrect username is entered while the password is correct.
+Pre-requisites: None
+
+[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement
+
+Steps:
+
+1. Navigate to http://localhost:5173/login.
+2. Enter wrongUsername in the Username field.
+3. Enter correctPassword in the Password field.
+4. Click the Submit button.
+   Wait for the page to load and observe the URL.
+   Expected Outcome: The user remains on http://localhost:5173/login with an appropriate error message.
+
+<div style="page-break-before: always;"></div>
+
+## ImageI/O001: Test Load and Save JPG Image - Peformed in Playwrite
+
+Description:
+This test verifies that the application can successfully handle JPG image uploads and convert them to PNG format. It ensures compatibility with supported image formats and validates that the upload and saving process runs as expected.
+
+[Requirement 3.2](../documentation/requirements.md#32-uploading-images) Uploading Images
+
+Pre-requisites:
+
+1. The file ../../resources/images/test/input/test_image_1.jpg must be present on the local file system.
+2. The application server must be running and accessible at http://localhost:5173/.
+
+Steps:
+
+1. Open a web browser and navigate to http://localhost:5173/.
+2. Click the "Choose File" button.
+3. Select the file test_image_1.jpg from the specified directory.
+4. Click the "Upload New Image" button to upload the selected file.
+
+Expected Outcome:
+
+The image is uploaded successfully and is displayed on the webpage without any errors.
+The system converts the uploaded JPG file to PNG format and saves it.
+The PNG file is accessible and retains the original image's visual fidelity.
+Pass Criteria:
+The test is considered successful if the uploaded image is displayed correctly on the webpage, the file is saved in PNG format, and no errors occur during the process.
+
+<div style="page-break-before: always;"></div>
+
+## ImageI/O002: Test Load and Save PNG Image - Peformed in Playwrite
+
+Description:
+
+This test verifies that the application can successfully handle PNG image uploads. It ensures compatibility with supported image formats and validates that the upload and saving process runs as expected.
+
+[Requirement 3.2](../documentation/requirements.md#32-uploading-images) Uploading Images
+
+Pre-requisites:
+
+1. The file ../../resources/images/test/input/test_image_1.png must be present on the local file system.
+2. The application server must be running and accessible at http://localhost:5173/.
+
+Steps:
+
+1. Open a web browser and navigate to http://localhost:5173/.
+2. Click the "Choose File" button.
+3. Select the file test_image_1.png from the specified directory.
+4. Click the "Upload New Image" button to upload the selected file.
+
+Expected Outcome:
+
+The image is uploaded successfully and is displayed on the webpage without any errors.
+The PNG file is accessible and retains the original image's visual fidelity.
+Pass Criteria:
+The test is considered successful if the uploaded image is displayed correctly on the webpage, the file is saved in PNG format, and no errors occur during the process.
+
+<div style="page-break-before: always;"></div>
+
+## ImageI/O005: Test Image Embedding and Retrieval - Peformed in Playwrite
+
+Description:
+This test verifies the system's ability to embed a secret message into an image and accurately retrieve it. The process ensures that the image remains visually unchanged while securely storing the embedded data, demonstrating compliance with the feature requirements.
+
+[Requirement 3.2](../documentation/requirements.md#32-uploading-images) Uploading Images
+
+Pre-requisites:
+
+The file ../../resources/images/test/input/test_image_7.png must be available on the local file system.
+Two valid user accounts with distinct usernames and passwords must exist.
+The application server must be running and accessible at http://localhost:5173/.
+
+Steps:
+
+1. Open a web browser and navigate to http://localhost:5173/login.
+2. Log in using the first valid username and password.
+3. Click the "Choose File" button and select test_image_7.png from the local file system.
+4. Enter the message "Hello world" into the text field provided for embedding.
+5. Click the "Upload New Image" button.
+6. Copy the unique key generated for retrieving the embedded message.
+7. Log out from the current account.
+8. Log in using the second valid username and password.
+9. Enter the copied key from step 6 into the retrieval field.
+10. Confirm that the retrieved message matches "Hello world".
+
+Expected Outcome:
+
+- The image is successfully uploaded and the message "Hello world" is embedded with minimal alteration to the visual quality of the image.
+- A unique key is generated and displayed for future retrieval.
+- Upon entering the key, the system retrieves and displays the exact message "Hello world" without errors.
