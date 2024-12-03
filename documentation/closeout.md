@@ -9,6 +9,9 @@
 1.  [End State of the Product](#10-end-state-of-the-product)
 2.  [Review of Organization](#20-review-the-organization)
 3.  [Review the technical aspects of the project](#30-review-the-technical-aspects)
+4.  [End State of the Product](#40-end-state-of-the-product)
+     - 4.1 [Successfully Incorporated Features](#41-successfully-incorporated-features)
+     
 
 ## 1.0 End state of the product
 (Amitoj & Artem)
