@@ -20,14 +20,14 @@ Test compoent lead:
 
 1.  [Known Issues](#10-known-issues)
 2.  [The Test Plan](#20-the-test-plan)
-    - 2.1  [Testing Overview](#21-testing-overview)
-    - 2.2  [Key Front-End Testing Challenges](#22-key-front-end-testing-challenges)
+    - 2.1 [Testing Overview](#21-testing-overview)
+    - 2.2 [Key Front-End Testing Challenges](#22-key-front-end-testing-challenges)
     - 2.3 [Key Back-End Testing Challenges](#23-key-back-end-testing-challenges)
     - 2.4 [Testing Timeline](#24-testing-timeline)
     - 2.5 [Test Process](#25-test-process)
     - 2.6 [Test Cases Summary and Organization](#26-test-cases-summary-and-organization)
     - 2.7 [Test Case List](#27-test-case-list)
-3. [User Action Scripts](#30-user-action-scripts)
+3.  [User Action Scripts](#30-user-action-scripts)
     - 3.1 [User009: Successful Registration](#31-user009-successful-registration)
     - 3.2 [User013: Successful Login](#32-user013-successful-login)
     - 3.3 [User014: Duplicate Username Registration](#33-user014-duplicate-username-registration)
@@ -43,18 +43,22 @@ Test compoent lead:
 4.  [Automated Testing](#40-automated-testing)
     - 4.1 [Backend Automated Testing](#41-backend-automated-testing)
     - 4.2 [Frontend Automated Testing](#42-frontend-automated-testing)
-    - 4.3 [Full Cycle Tests](#43-full-cycle-tests)
-    - 4.4 [Registration Tests](#44-registration-tests)
-    - 4.5 [Main Page Tests](#45-main-page-tests)
+      - 4.2.1 [Full Cycle Tests](#421-full-cycle-tests)
+      - 4.2.2 [Login Tests](#422-login-tests)
+      - 4.2.3 [Registration Tests](#423-registration-tests)
+      - 4.2.4 [Main Page Tests](#424-main-page-tests)
+    - 4.3 [Automated Testing on CI](#43-automated-testing-on-ci)
+      - 4.3.1 [Backend Tests](#431-backend-tests)
+      - 4.3.2 [Frontend Playwright Tests](#432-frontend-playwright-tests)
 5.  [Software Tools and Environment](#50-software-tools-and-environment)
     - 5.1 [Version Control and Branch Structure](#51-version-control-and-branch-structure)
     - 5.2 [Directory and File Structure and Content](#52-directory-and-file-structure-and-content)
     - 5.3 [Independent Subsystems and External Resources](#53-independent-subsystems-and-external-resources-project-webdatabase-servers)
-6. [Appendix: Detailed Test Case Descriptions](#60-appendix-detailed-test-case-descriptions)
+6.  [Appendix: Detailed Test Case Descriptions](#60-appendix-detailed-test-case-descriptions)
 
 ## 1.0 Known Issues
 
-For the complete list of the tests we've thought of so far and have been able to document, see the Test Case List in this document.  Given the time constraints of this project, we recognize the tests we've provided are by no means an exhaustive list that would be expected to be provided to a client upon the delivery of a product in a real-world scenario. For this reason, we have chosen to focus on test cases that are related to key features of the product, and not ones that would certainly be performed before the final delivery of a product but may go completely unnoticed by the client and are only of concern to the development team. Additionally, not all test cases described in the Test Case List have been scripted.
+For the complete list of the tests we've thought of so far and have been able to document, see the Test Case List in this document. Given the time constraints of this project, we recognize the tests we've provided are by no means an exhaustive list that would be expected to be provided to a client upon the delivery of a product in a real-world scenario. For this reason, we have chosen to focus on test cases that are related to key features of the product, and not ones that would certainly be performed before the final delivery of a product but may go completely unnoticed by the client and are only of concern to the development team. Additionally, not all test cases described in the Test Case List have been scripted.
 
 ## 2.0 The Test Plan
 
@@ -107,7 +111,7 @@ December 28, 2024 - January 10, 2025 - The team continues writing code not previ
 
 Code review - Weeks 3 & 4: December 28, 2024 - January 10, 2025 - Front-end design.
 
-January 11 - 24, 2025: Both teams begin writing unit tests with the backend team to focus on the image manipulation and retrieval, image manipulation and embedding, and key generation modules, namely image_class.cpp and utils.cpp files.  The front-end team will focus on the websites unit test code.  During this time, we are reviewing the user acceptance tests, subsystem tests, and module tests in code review.
+January 11 - 24, 2025: Both teams begin writing unit tests with the backend team to focus on the image manipulation and retrieval, image manipulation and embedding, and key generation modules, namely image_class.cpp and utils.cpp files. The front-end team will focus on the websites unit test code. During this time, we are reviewing the user acceptance tests, subsystem tests, and module tests in code review.
 
 January 25 - February 7, 2025 - Continue reviewing module tests and writing unit tests with the front-end to focus on the API server in api.cpp and the backend to focus on the user and image databases in db_operations.cpp.
 
@@ -121,7 +125,6 @@ Testers should have admin access to Project HiddenFrame as well as admin access 
 - asio 1.30.2 or later,
 - sqlite 3.47.0 or later, &
 - node 23.3.0 or later.
-
 
 The intent of this section is to ensure the reader understands the process the testers will follow with each of the different types of test. This section should provide an overview of
 the general roles/responsibilities of the testers,
@@ -138,51 +141,225 @@ The test cases have been split into three primary components, testing user itera
 
 ### 2.7 Test Case List
 
-| Test #  | Requirement(s) Section|Description                                                                                                                                                                                                                                                                                                                                                     |
-| ------- | - |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| User001 | [4.2](../documentation/requirements.md#42-login-page) | Create an invalid username with more than one "@" characters. Username should not be created.                                                                                                                                                                                                                                          |
-| User002 | [4.2](../documentation/requirements.md#42-login-page) | Create an invalid username with more than one "." characters after the singular "@" character. Username should not be created.                                                                                                                                                                                                         |
-| User003 | [4.2](../documentation/requirements.md#42-login-page) | Create an invalid username where the first character in the username is an "@" character (ie no user before the @domain). Username should not be created.                                                                                                                                                                              |
-| User004 | [4.2](../documentation/requirements.md#42-login-page) | Create an invalid username with no "@" character (ie no indication of where the @domain begins). Username should not be created.                                                                                                                                                                                                       |
-| User005 | [4.2](../documentation/requirements.md#42-login-page) | Create an invalid username with no "." after the singular "@" character (ie no indication of where .com .ca .other after the @domain begins). Username should not be created.                                                                                                                                                          |
-| User006 | [4.2](../documentation/requirements.md#42-login-page) | Create an invalid username with no "a-z" characters between the singular "@" and singular trailing "." characters (no domain in @domain). Username should not be created.                                                                                                                                                              |
-| User007 | [4.2](../documentation/requirements.md#42-login-page) | Create an invalid username with no "a-z" characters after the singular "." character following the singular "@" character (ie no indication of .com .ca .other type). Username should not be created.                                                                                                                                 |
-| User008 | [4.2](../documentation/requirements.md#42-login-page) | Create a special character (!@#$%^&\*()\_-+=) appears after the "." character following the singular "@" character. Username should not be created.                                                                                                                                                                                    |
-| User009 | [4.2](../documentation/requirements.md#42-login-page) | Create a valid user account using an email address. User should be added.                                                                                                                                                                                                                                                              |
-| User010 | [3.5](../documentation/requirements.md#35-creating-invites) | Create five valid user accounts from invites from the valid user account in User008 test. The five users should be added.                                                                                                                                                                                                              |
-| User011 | [3.5](../documentation/requirements.md#35-creating-invites) | Attempt the creation of a sixth user account as an invite from a valid user account in User008 test. The sixth invite should not be created.                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| User012 | [3.5](../documentation/requirements.md#35-creating-invites) | Remove the inviter account from which the invitee was created for User009 test. Confirm both the users in tests User009 and User010 have been removed.                                                                                                                                                                                                        |
-| User013 | [4.2](../documentation/requirements.md#42-login-page) | Successfully login as a privleged user.                                                                                                                                                                                                        |
-| User014 | [4.2](../documentation/requirements.md#42-login-page) | Attempt to create a duplicate user with the same credentials as test User009. The user should not be created.                                                                                                                                                                                               |
-| User015 | [4.2](../documentation/requirements.md#42-login-page) | Attempt to login with an incorrect username. The user should not be logged in.                                                                                                                                                                                                |
-| User016 | [4.2](../documentation/requirements.md#42-login-page) | Attempt to login with an incorrect password. The user should not be logged in.                                                                                                                                                                                                |
-| User017 | [4.2](../documentation/requirements.md#42-login-page) | Attempt to login with no username entered. The user should not be logged in.                                                                                                                                                                                                |
-| User018 | [4.2](../documentation/requirements.md#42-login-page) | Attempt to login with no password entered. The user should not be registerred.                                                                                                                                                                                                |
-| User020 | [4.2](../documentation/requirements.md#42-login-page) | Attempt to register with no password entered. The user should not be registerred.                                                                                                                                                                                                |
-| User019 | [4.2](../documentation/requirements.md#42-login-page) | Attempt to register with no username entered. The user should not be logged in.                                                                                                                                                                                                |
-| ImageI/O001 | [3.2](../documentation/requirements.md#32-uploading-images) | Upload a supported JPG image. The image should upload successfully. Tests a supported format.     |
-| ImageI/O002 | [3.2](../documentation/requirements.md#32-uploading-images) | Upload a supported PNG image. The image should upload successfully. Tests a supported format.     |
-| ImageI/O003 | [3.2](../documentation/requirements.md#32-uploading-images) | Upload a supported JPG and PNG image. The JPG will be converted to a PNG but the images should not be equal. Required as JPGs are lossy. Confirms using a JPG can work as a payload carrier once it has been converted.   |
-| ImageI/O004 | [3.2](../documentation/requirements.md#32-uploading-images) | Test reading an image from a simulated livestream. Should read succesfully. Part of dev testing, outside of requirements.  |
-| ImageI/O005 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures) | Test embedding and retrieval. Attempts to embed the message "Hello World!" into an image. Message should be embedded into the image with minimal change to the image.  |
-| ImageI/O006 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures) | Upload an image containing 40,000 pixels. The image should upload successfully. Tests the lower limit of an acceptable image size.          |
-| ImageI/O007 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures) | Upload an image containing 39,999 pixels.  The image should not upload successfully and an error should be displayed. Tests the lower limit of an acceptable image size.           |
-| ImageI/O008 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures) | Upload an image containing 2,147,483,648 pixels.  The image should upload successfully. Tests the upper limit for an acceptable image size. |
-| ImageI/O009 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures) | Upload an image containing 2,147,483,649 pixels.  The image should not upload successfully and an error should be displayed. Tests the upper limit for an acceptable image size. |
-| ImageI/O010 | [3.2](../documentation/requirements.md#32-uploading-images) | Upload a file that is not a supported image file (uploading a .txt file).  The file should not upload successfully and an error message should be displayed. Tests attempting uploading an unsupported format. |
-| Keys001 | [7.1](../documentation/requirements.md#71-primary-features) | Generating a key for an image/message with more than the maximum number of characters. Should return a throw error.                                                                                                                                                                                                                    |
-| Keys002 | [7.1](../documentation/requirements.md#71-primary-features) | Generating a key for a message with the minimum number of characters. Should return a valid key.                                                                                                                                                                                                                                       |
-| Keys003 | [7.1](../documentation/requirements.md#71-primary-features) | Generating a key for a message with the maximum number of characters. Should return a valid key.                                                                                                                                                                                                                                       |
-| Keys004 | [7.1](../documentation/requirements.md#71-primary-features) | Generating two keys for identical images and messages 500,000 times and calculate the number of times the keys match. Should generate unique valid keys for both carriers/payloads.                                                                                                                                                                                                             |
-| Keys005 | [6.3](../documentation/requirements.md#63-mathematics) & [7.1](../documentation/requirements.md#71-primary-features) | Generating two keys for identical images and messages 500,000 times and calculate the number of times the keys match. Should generate unique valid keys for both carriers/payloads.  Verify the time efficency of the key generation portion only (not the string matching). No key should take longer than 7 seconds and the average time per key should be less than 5 seconds. Verify that all keys are less than 50 characters each.                                                                                                                                            |
-| Keys006 | [7.1](../documentation/requirements.md#71-primary-features) | Generating a key for an image that is greater than the maximum allowed image size ((2^{31}) pixels). Should return a throw error.                                                                                                                                                                                                      |
-| Keys007 | [6.3](../documentation/requirements.md#63-mathematics) | Generating a key for an image that is of the minimum size (3 pixels for a 4 channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key. Used for backend testing.                                                                                                                                        |
-| Keys008 | [6.3](../documentation/requirements.md#63-mathematics) | Generating a key for an image that is the minimum size (4 pixels for a 3-channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key. Used for backen testing.                                                                                                                                           |
-| Keys009 | [6.3](../documentation/requirements.md#63-mathematics) | Generating a key for an image that is the minimum size (9 pixels for a 2-channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key. Used for backend testing.                                                                                                                                                |
-| Keys010 | [6.3](../documentation/requirements.md#63-mathematics) | Generating a key for an image that is the minimum size (9 pixels for a 1-channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.                                                                                                                                                |
-| Keys011 | [7.1](../documentation/requirements.md#71-primary-features) | Generating a key for an image that is of the maximum pixel size ($2^{31}$) for any valid character length. Should generate a valid key.                                                                                                                                                                                           |
+| Test #      | Requirement(s) Section                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| ----------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| User001     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with more than one "@" characters. Username should not be created.                                                                                                                                                                                                                                                                                                                                           |
+| User002     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with more than one "." characters after the singular "@" character. Username should not be created.                                                                                                                                                                                                                                                                                                          |
+| User003     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username where the first character in the username is an "@" character (ie no user before the @domain). Username should not be created.                                                                                                                                                                                                                                                                               |
+| User004     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with no "@" character (ie no indication of where the @domain begins). Username should not be created.                                                                                                                                                                                                                                                                                                        |
+| User005     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with no "." after the singular "@" character (ie no indication of where .com .ca .other after the @domain begins). Username should not be created.                                                                                                                                                                                                                                                           |
+| User006     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with no "a-z" characters between the singular "@" and singular trailing "." characters (no domain in @domain). Username should not be created.                                                                                                                                                                                                                                                               |
+| User007     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create an invalid username with no "a-z" characters after the singular "." character following the singular "@" character (ie no indication of .com .ca .other type). Username should not be created.                                                                                                                                                                                                                                   |
+| User008     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create a special character (!@#$%^&\*()\_-+=) appears after the "." character following the singular "@" character. Username should not be created.                                                                                                                                                                                                                                                                                     |
+| User009     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Create a valid user account using an email address. User should be added.                                                                                                                                                                                                                                                                                                                                                               |
+| User010     | [3.5](../documentation/requirements.md#35-creating-invites)                                                          | Create five valid user accounts from invites from the valid user account in User008 test. The five users should be added.                                                                                                                                                                                                                                                                                                               |
+| User011     | [3.5](../documentation/requirements.md#35-creating-invites)                                                          | Attempt the creation of a sixth user account as an invite from a valid user account in User008 test. The sixth invite should not be created.                                                                                                                                                                                                                                                                                            |
+| User012     | [3.5](../documentation/requirements.md#35-creating-invites)                                                          | Remove the inviter account from which the invitee was created for User009 test. Confirm both the users in tests User009 and User010 have been removed.                                                                                                                                                                                                                                                                                  |
+| User013     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Successfully login as a privleged user.                                                                                                                                                                                                                                                                                                                                                                                                 |
+| User014     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to create a duplicate user with the same credentials as test User009. The user should not be created.                                                                                                                                                                                                                                                                                                                           |
+| User015     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to login with an incorrect username. The user should not be logged in.                                                                                                                                                                                                                                                                                                                                                          |
+| User016     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to login with an incorrect password. The user should not be logged in.                                                                                                                                                                                                                                                                                                                                                          |
+| User017     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to login with no username entered. The user should not be logged in.                                                                                                                                                                                                                                                                                                                                                            |
+| User018     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to login with no password entered. The user should not be registerred.                                                                                                                                                                                                                                                                                                                                                          |
+| User020     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to register with no password entered. The user should not be registerred.                                                                                                                                                                                                                                                                                                                                                       |
+| User019     | [4.2](../documentation/requirements.md#42-login-page)                                                                | Attempt to register with no username entered. The user should not be logged in.                                                                                                                                                                                                                                                                                                                                                         |
+| ImageI/O001 | [3.2](../documentation/requirements.md#32-uploading-images)                                                          | Upload a supported JPG image. The image should upload successfully. Tests a supported format.                                                                                                                                                                                                                                                                                                                                           |
+| ImageI/O002 | [3.2](../documentation/requirements.md#32-uploading-images)                                                          | Upload a supported PNG image. The image should upload successfully. Tests a supported format.                                                                                                                                                                                                                                                                                                                                           |
+| ImageI/O003 | [3.2](../documentation/requirements.md#32-uploading-images)                                                          | Upload a supported JPG and PNG image. The JPG will be converted to a PNG but the images should not be equal. Required as JPGs are lossy. Confirms using a JPG can work as a payload carrier once it has been converted.                                                                                                                                                                                                                 |
+| ImageI/O004 | [3.2](../documentation/requirements.md#32-uploading-images)                                                          | Test reading an image from a simulated livestream. Should read succesfully. Part of dev testing, outside of requirements.                                                                                                                                                                                                                                                                                                               |
+| ImageI/O005 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures)                                           | Test embedding and retrieval. Attempts to embed the message "Hello World!" into an image. Message should be embedded into the image with minimal change to the image.                                                                                                                                                                                                                                                                   |
+| ImageI/O006 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures)                                           | Upload an image containing 40,000 pixels. The image should upload successfully. Tests the lower limit of an acceptable image size.                                                                                                                                                                                                                                                                                                      |
+| ImageI/O007 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures)                                           | Upload an image containing 39,999 pixels. The image should not upload successfully and an error should be displayed. Tests the lower limit of an acceptable image size.                                                                                                                                                                                                                                                                 |
+| ImageI/O008 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures)                                           | Upload an image containing 2,147,483,648 pixels. The image should upload successfully. Tests the upper limit for an acceptable image size.                                                                                                                                                                                                                                                                                              |
+| ImageI/O009 | [3.4](../documentation/requirements.md#34-hiding-messages-in-the-pictures)                                           | Upload an image containing 2,147,483,649 pixels. The image should not upload successfully and an error should be displayed. Tests the upper limit for an acceptable image size.                                                                                                                                                                                                                                                         |
+| ImageI/O010 | [3.2](../documentation/requirements.md#32-uploading-images)                                                          | Upload a file that is not a supported image file (uploading a .txt file). The file should not upload successfully and an error message should be displayed. Tests attempting uploading an unsupported format.                                                                                                                                                                                                                           |
+| Keys001     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating a key for an image/message with more than the maximum number of characters. Should return a throw error.                                                                                                                                                                                                                                                                                                                     |
+| Keys002     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating a key for a message with the minimum number of characters. Should return a valid key.                                                                                                                                                                                                                                                                                                                                        |
+| Keys003     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating a key for a message with the maximum number of characters. Should return a valid key.                                                                                                                                                                                                                                                                                                                                        |
+| Keys004     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating two keys for identical images and messages 500,000 times and calculate the number of times the keys match. Should generate unique valid keys for both carriers/payloads.                                                                                                                                                                                                                                                     |
+| Keys005     | [6.3](../documentation/requirements.md#63-mathematics) & [7.1](../documentation/requirements.md#71-primary-features) | Generating two keys for identical images and messages 500,000 times and calculate the number of times the keys match. Should generate unique valid keys for both carriers/payloads. Verify the time efficency of the key generation portion only (not the string matching). No key should take longer than 7 seconds and the average time per key should be less than 5 seconds. Verify that all keys are less than 50 characters each. |
+| Keys006     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating a key for an image that is greater than the maximum allowed image size ((2^{31}) pixels). Should return a throw error.                                                                                                                                                                                                                                                                                                       |
+| Keys007     | [6.3](../documentation/requirements.md#63-mathematics)                                                               | Generating a key for an image that is of the minimum size (3 pixels for a 4 channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key. Used for backend testing.                                                                                                                                                                                                               |
+| Keys008     | [6.3](../documentation/requirements.md#63-mathematics)                                                               | Generating a key for an image that is the minimum size (4 pixels for a 3-channel image, with one 8-bit character of all 0s or all 1s, plus the stopping pixel). Should generate a valid key. Used for backen testing.                                                                                                                                                                                                                   |
+| Keys009     | [6.3](../documentation/requirements.md#63-mathematics)                                                               | Generating a key for an image that is the minimum size (9 pixels for a 2-channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key. Used for backend testing.                                                                                                                                                                                                                       |
+| Keys010     | [6.3](../documentation/requirements.md#63-mathematics)                                                               | Generating a key for an image that is the minimum size (9 pixels for a 1-channel image, with one 8-bit character of any pattern, plus the stopping pixel). Should generate a valid key.                                                                                                                                                                                                                                                 |
+| Keys011     | [7.1](../documentation/requirements.md#71-primary-features)                                                          | Generating a key for an image that is of the maximum pixel size ($2^{31}$) for any valid character length. Should generate a valid key.                                                                                                                                                                                                                                                                                                 |
 
 ---
+
+### 2.8 API Testing Guidelines
+
+#### General Steps for Running API Tests:
+
+1. **Initiate Backend & Frontend Services**: Ensure both backend and frontend applications are running.
+2. **Setup Postman**: Download, install, and open the Postman application.
+3. **Configure URL**: Input `http://localhost:5173` into Postman's URL field.
+4. **Define HTTP Method & URL**: Choose the HTTP method and append the test-specific request path to the URL.
+5. **Set Headers for Authorization**: Provide an `Authorization` header containing the token string (Token is generated from the `/login` endpoint).
+6. Ensure the `Content-Type` header is set to `application/json`, except on the `/image/upload` route which uses `multipart/form-data`
+7. **Insert Test Code**: Paste relevant test scripts into the "Tests" tab in Postman.
+8. **Execute Test**: Click the "Send" button to run the test.
+
+#### Specific API Tests:
+
+1. **Image Upload Verification**
+
+   **Objective**: Ensure successful image uploads via the API.
+
+   - **Endpoint**: `POST /image/upload`
+   - **Content-Type**: `multipart/form-data`
+   - **Authorization**: Does not requires `Authorization` header if no message needs to be embedded
+   - **Parameters**:
+     - **form-data**:
+       ```json
+       {
+         "file": "test_image_1.jpg"
+       }
+       ```
+   - **Test Code**:
+     ```javascript
+     pm.test("Status code check", function () {
+       pm.response.to.have.status(200);
+       if (pm.response.code === 200) {
+         console.log(
+           `Status code: ${pm.response.code}\n Message: Image uploaded successfully`
+         );
+       } else {
+         console.log(
+           `Status code: ${pm.response.code}\n Message: Failed to upload image`
+         );
+       }
+     });
+     ```
+   - **Expected Results**:
+     - **Status Code**: 200
+     - **Message**: Image uploaded successfully
+
+2. **Image Upload With Secret Message**
+
+   **Objective**: Confirm API’s capability to embed secret messages.
+
+   - **Endpoint**: `POST /image/upload`
+   - **Content-Type**: `multipart/form-data`
+   - **Authorization**: Requires `Authorization` header with a token string to embed message (if none provided, message is ignored)
+   - **Parameters**:
+     - **form-data**:
+       ```json
+       {
+         "file": "test_image_2.png",
+         "message": "This is a secret"
+       }
+       ```
+   - **Expected Results**: Same as previous
+
+3. **Image Wall Display**
+
+   **Objective**: Verify loading of images from the database.
+
+   - **Endpoint**: `GET /images`
+   - **Content-Type**: `application/json`
+   - **Test Code**:
+     ```javascript
+     pm.test("Status code check", function () {
+       pm.response.to.have.status(200);
+       if (pm.response.code === 200) {
+         console.log(
+           `Status code: ${pm.response.code}\n Message: Images loaded successfully`
+         );
+       } else {
+         console.log(
+           `Status code: ${pm.response.code}\n Message: Failed to load images`
+         );
+       }
+     });
+     ```
+   - **Expected Results**:
+     - **Status Code**: 200
+     - **Message**: Images loaded successfully
+
+4. **Login Functionality**
+
+   **Objective**: Test login with both correct and incorrect credentials.
+
+   - **Endpoint**: `POST /login`
+   - **Content-Type**: `application/json`
+   - **Test Parameters for Correct Password**:
+     - **JSON Body**:
+       ```json
+       {
+         "username": "acb",
+         "password": "correctpassword"
+       }
+       ```
+   - **Expected Results (Correct)**:
+
+     - **Status Code**: 200
+     - **Message**: Successfully logged in
+
+   - **Test Parameters for Incorrect Password**:
+     - **JSON Body**:
+       ```json
+       {
+         "username": "acb",
+         "password": "wrongpassword"
+       }
+       ```
+   - **Expected Results (Incorrect)**:
+     - **Status Code**: 401
+     - **Message**: Invalid password and username
+
+5. **User Registration**
+
+   **Objective**: Register users using valid and invalid invites.
+
+   - **Endpoint**: `POST /register`
+   - **Content-Type**: `application/json`
+   - **Test Parameters for Valid Invite**:
+     - **JSON Body**:
+       ```json
+       {
+         "username": "acb",
+         "password": "correctpassword",
+         "inviteID": 12345
+       }
+       ```
+   - **Expected Results (Valid)**:
+
+     - **Status Code**: 200
+     - **Message**: New user registered
+
+   - **Test Parameters for Invalid Invite**:
+     - **JSON Body**:
+       ```json
+       {
+         "username": "acb",
+         "password": "correctpassword",
+         "inviteID": 2468
+       }
+       ```
+   - **Expected Results (Invalid)**:
+     - **Status Code**: 401
+     - **Message**: The invite is invalid
+
+6. **Excessively Large Secret Message**
+
+   **Objective**: Test validation when the secret message exceeds the image size.
+
+   - **Endpoint**: `POST /image/upload`
+   - **Content-Type**: `application/x-www-form-urlencoded`
+   - **Authorization**: Same as previous.
+   - **Parameters**:
+     - **form-data**:
+       ```json
+       {
+         "file": "a_small_image.png",
+         "message": "She was in a hurry. Not the standard hurry when you're in a rush to get someplace, but a frantic hurry. The type of hurry where a few seconds could mean life or death. She raced down the road ignoring speed limits and weaving between cars. She was only a few minutes away when traffic came to a dead standstill on the road ahead. I recently discovered I could make fudge with just chocolate chips, sweetened condensed milk, vanilla extract, and a thick pot on slow heat. I tried it with dark chocolate chunks and I tried it with semi-sweet chocolate chips. It's better with both kinds. It comes out pretty bad with just the dark chocolate. The best add-ins are crushed almonds and marshmallows -- what you get from that is Rocky Road. It takes about twenty minutesfrom start to fridge, and then it takes about six months to work off the twenty pounds you gain from eating it. All things in moderation, friends. All things in moderation. Samantha wanted to be famous. The problem was that she had never considered all the downsides to actually being famous. Had she taken the time to objectively consider these downsides, she would have never agreed to publicly sing that first song."
+       }
+       ```
+   - **Expected Results**:
+     - **Status Code**: 500
+     - **Message**: Failed to upload image
+
 ## 3.0 User Action Scripts
 
 ### 3.1 User009: Successful Registration
@@ -263,7 +440,7 @@ The test cases have been split into three primary components, testing user itera
 ### 3.6 User017: Missing Username Login
 
 **Description:** Verifies the system prevents login if username is missing.  
-**Pre-requisites:** None 
+**Pre-requisites:** None
 **Steps:**
 
 1. Navigate to `http://localhost:5173/login`.
@@ -323,7 +500,8 @@ The test cases have been split into three primary components, testing user itera
 1. Navigate to `http://localhost:5173/` in your web browser
 2. Click **"Choose File"** and browse for the required image.
 3. Click **"Upload New Image"**
-     **Expected Outcome:**
+   **Expected Outcome:**
+
 - The image loads successfully and is visible on the reloaded webpage without errors.
 - The image is saved in PNG format without errors.
 
@@ -338,7 +516,8 @@ The test cases have been split into three primary components, testing user itera
 1. Navigate to `http://localhost:5173/` in your web browser
 2. Click **"Choose File"** and browse for the required image.
 3. Click **"Upload New Image"**
-     **Expected Outcome:**
+   **Expected Outcome:**
+
 - The image loads successfully and is visible on the reloaded webpage without errors.
 - The image is saved in PNG format without errors.
 
@@ -355,10 +534,11 @@ The test cases have been split into three primary components, testing user itera
 3. Click **"Choose File"** and browse for the required image.
 4. Enter the message "Hello world"
 5. Upload the image and copy the key provided.
-7. Logout
-8. Login with the second valid username and password.
-9. Enter your key from step 5 and confirm the corresponding message is "Hello world."
-     **Expected Outcome:**
+6. Logout
+7. Login with the second valid username and password.
+8. Enter your key from step 5 and confirm the corresponding message is "Hello world."
+   **Expected Outcome:**
+
 - The correct message is displayed.
 
 ---
@@ -435,7 +615,7 @@ This section provides detailed information on the Playwright script used to auto
 
 ---
 
-### 4.3. Full Cycle Tests
+### 4.2.1. Full Cycle Tests
 
 **Name and Location:**  
 `apps/web/tests/full.cycle.spec.ts`
@@ -455,7 +635,7 @@ This script automates the complete user flow for **HiddenFrame**, verifying the 
 
 ---
 
-#### 2. Login Tests
+#### 4.2.2 Login Tests
 
 **Name and Location:**  
 `apps/web/tests/login.spec.ts`
@@ -476,7 +656,7 @@ This script validates the login process for the **HiddenFrame** application, ens
 
 ---
 
-### 4.4 Registration Tests
+### 4.2.3 Registration Tests
 
 **Name and Location:**  
 `apps/web/tests/register.spec.ts`
@@ -496,7 +676,7 @@ This script validates the registration process for the **HiddenFrame** applicati
 
 ---
 
-### 4.5 Main Page Tests
+### 4.2.4 Main Page Tests
 
 **Name and Location:**  
 `apps/web/tests/main.spec.ts`
@@ -512,67 +692,114 @@ This script validates the following functionalities on the **HiddenFrame** main 
 1. Verifying the page title.
 2. Ensuring a public user can upload an image successfully.
 
+### 4.3 Automated Testing on CI
+
+We utilize [GitHub Actions](https://github.com/features/actions) to automate our CI testing process. For every pull request made to the `staging` and `master` branches, the relevant GitHub workflows are triggered to execute the necessary tests on the code.
+
+### 4.3.1 Backend Tests
+
+**Name and Location:**  
+`.github/workflows/backend.yml`
+
+**Source Code and Build Location:**
+
+- **Source Code:** [Backend Tests Workflow Source](../.github/workflows/backend.yml)
+
+**Purpose:**  
+This GitHub Actions workflow automates the CI testing process for the backend code. It is triggered on every push and pull request to the `staging` and `master` branches, specifically when changes are made to the `apps/backend` directory. The workflow runs on Ubuntu, macOS, and Windows environments and performs the following steps:
+
+1. **Install C++ Dependencies on Linux**: Installs necessary C++ dependencies using `apt-get`.
+2. **Install C++ Dependencies on macOS**: Installs necessary C++ dependencies using `brew`.
+3. **Install Boost on Windows**: Downloads and extracts Boost from a specified URL.
+4. **Install OpenSSL on Windows**: Installs OpenSSL using Chocolatey.
+5. **Build C++ Project**: Builds the backend C++ project using `make`.
+6. **Run C++ Project Tests**: Runs the backend C++ project tests using `make run-test`.
+
+### 4.3.2 Frontend Playwright Tests
+
+**Name and Location:**  
+`.github/workflows/playwright.yml`
+
+**Source Code and Build Location:**
+
+- **Source Code:** [Playwright Tests Workflow Source](../.github/workflows/playwright.yml)
+
+**Purpose:**  
+This GitHub Actions workflow automates the CI testing process for the web application using Playwright. It is triggered on every push and pull request to the `staging` and `master` branches, specifically when changes are made to the `apps/web` directory. The workflow runs on an Ubuntu environment and performs the following steps:
+
+1. **Install Node.js**: Sets up the Node.js environment on the latest LTS version.
+2. **Install C++ Dependencies**: Installs necessary C++ dependencies using `apt-get`.
+3. **Build C++ Project**: Builds the backend C++ project using `make`.
+4. **Run C++ Project**: Runs the backend C++ project in the background.
+5. **Install Dependencies**: Installs the necessary Node.js dependencies for the web application using `npm`.
+6. **Start Development Server**: Starts the development server for the web application in the background.
+7. **Install Playwright Browsers**: Installs the necessary Playwright browsers and dependencies.
+8. **Run Playwright Tests**: Executes the Playwright tests for the web application.
+9. **Upload Playwright Report**: Uploads the Playwright test report as an artifact for later review.
+
 ## 5.0 Software Tools and Environment
 
 ProjectHidden frame has been developed on, built, and tested by the development team using:
+
 - Windows 11 running 5.15.167.4-microsoft-standard-WSL2 (debian);
+- Windows 10
 - macOS 15.1.1; and
 - libboost1.74-dev
 - Playwright 10.9.0
 
 ### 5.1 Version Control and Branch Structure
 
-The staging branch is used for testing. Automated tests are as detailed in the preceeding sections, we have written github workflows that run these tests on each PR to staging and master, hence almost every aspect is tested except the dev/custom branches.
+The `staging` branch is used for testing. Automated tests are as detailed in the preceeding sections, we have written github workflows (see section [4.3 Automated Testing on CI](#43-automated-testing-on-ci)) that run these tests on each PR to staging and master, hence almost every aspect is tested except the dev/custom branches.
+Our `master` branch is now protected using these tests and hence a PR to it can only be merged when the tests pass.
 
 ### 5.2 Directory and File Structure and Content
 
-Testing resources can be found in the following locations.  The fist expanded location contains the backend automated tests, the second expanded location contains the automated frontend tests, and the third expanded location contains input and output files that may be used for testing or are called in automated tests.
+Testing resources can be found in the following locations. The fist expanded location contains the backend automated tests, the second expanded location contains the automated frontend tests, and the third expanded location contains input and output files that may be used for testing or are called in automated tests.
 
 - project
-   - apps
-      - backend
-         - bin
-            - database
-               - testuserdatabase.db
-         - test
-            - main.cpp
-            - test_image_io.cpp
-            - test_user_database.cpp
-      - web
-         - tests
-            - full.cycle.spec.ts
-            - login.spec.ts
-            - main.spec.ts
-            - register.spec.ts
-         - test-examples
-            - demo-todo-app.spec.ts
-   - resources
-      - images
-         - test
-            - input
-               - test_image_1.jpg
-               - test_image_2.png
-               - test_image_3.png
-               - test_image_4.png
-            - output
-               - test_image_1.png
-               - test_image_2.png
-               - test_image_7.png
-
-
+  - apps
+    - backend
+      - bin
+        - database
+          - testuserdatabase.db
+      - test
+        - main.cpp
+        - test_image_io.cpp
+        - test_user_database.cpp
+    - web
+      - tests
+        - full.cycle.spec.ts
+        - login.spec.ts
+        - main.spec.ts
+        - register.spec.ts
+      - test-examples
+        - demo-todo-app.spec.ts
+  - resources
+    - images
+      - test
+        - input
+          - test_image_1.jpg
+          - test_image_2.png
+          - test_image_3.png
+          - test_image_4.png
+        - output
+          - test_image_1.png
+          - test_image_2.png
+          - test_image_7.png
 
 ### 5.3 Independent Subsystems and External Resources (Project Web/Database Servers)
 
 Project HiddenFrame requires the following packages and dependencies and requires that the versions installed be at least what is listed or newer.
-| Package  | Version |Use                                                                         |
-| ------- | - |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Boost | 1.86.0_2 | Automated testing - required for testing and install |
-| Playwrite | 1.47.0 | Automated testing - required for testing and install |
-| Sqlite3 | 3.47.0 | User database - required for install |
-| Node | 23.3.0 | Server framework - required for install |
-| Asio | 1.30.2 | Connection handling - required for install |
 
-Boost, Sqlite3, Node, and Asio can be installed using a package manager of your choice and running the executing the install keyword from a terminal.  For example, if using homebrew on macOS they may be installed by running the following command:
+| Package   | Version  | Use                                                  |
+| --------- | -------- | ---------------------------------------------------- |
+| Boost     | 1.86.0_2 | Automated testing - required for testing and install |
+| Playwrite | 1.47.0   | Automated testing - required for testing and install |
+| Sqlite3   | 3.47.0   | User database - required for install                 |
+| Node      | 23.3.0   | Server framework - required for install              |
+| Asio      | 1.30.2   | Connection handling - required for install           |
+
+Boost, Sqlite3, Node, and Asio can be installed using a package manager of your choice and running the executing the install keyword from a terminal. For example, if using homebrew on macOS they may be installed by running the following command:
 
 brew install boost sqlite3 node asio
 
@@ -580,7 +807,7 @@ or if using Advanced Package Tool in a Linux environment:
 
 apt-get install boost sqlite3 node asio
 
-See https://playwright.dev/docs/intro for more information on how to install playwrite.
+Playwright will be installed when `npm i` is run in the `apps/web` folder, you will need to run `npx playwright install --with-deps` to install the 3 browsers (chromium, firefox, webkit) it tests on.
 
 <div style="page-break-after: always;"></div>
 
@@ -592,7 +819,7 @@ Description:
 
 This test case ensures that a user can successfully register by entering valid credentials. The process includes navigating to the registration page, entering the correct username and password, submitting the form, and verifying the redirection to the login page.
 
-[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement  
+[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement
 
 Pre-requisites:
 
@@ -620,7 +847,7 @@ Description:
 
 This test case checks that the user is able to log in successfully with valid credentials following a registration process. It ensures the login functionality works as expected.
 
-[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement  
+[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement
 
 Pre-requisites:
 
@@ -641,11 +868,11 @@ The user should be redirected to the homepage after successful login with the op
 
 ## Test Case ID: User014 - Peformed in Playwrite
 
-Description: 
+Description:
 
 This test case checks that the system correctly prevents registration when a duplicate username is entered, ensuring that unique usernames are required for new registrations. It verifies the backend logic for handling duplicate usernames during the registration process.
 
-[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement  
+[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement
 
 Pre-requisites:
 
@@ -661,7 +888,7 @@ Steps:
 3. Enter correctPassword in the Password field.
 4. Click the Submit button.
 5. Wait for the page to load and observe the URL.
-Expected Outcome:
+   Expected Outcome:
 
 The user remains on http://localhost:5173/register/admin, and an appropriate error message is displayed, indicating that the username is already taken and duplicate registrations are not allowed.
 
@@ -672,7 +899,7 @@ The user remains on http://localhost:5173/register/admin, and an appropriate err
 Description: Verifies the system prevents login when an incorrect username is entered while the password is correct.
 Pre-requisites: None
 
-[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement                                              
+[Requirement 4.2](../documentation/requirements.md#42-login-page) Login Requirement
 
 Steps:
 
@@ -680,8 +907,8 @@ Steps:
 2. Enter wrongUsername in the Username field.
 3. Enter correctPassword in the Password field.
 4. Click the Submit button.
-Wait for the page to load and observe the URL.
-Expected Outcome: The user remains on http://localhost:5173/login with an appropriate error message.
+   Wait for the page to load and observe the URL.
+   Expected Outcome: The user remains on http://localhost:5173/login with an appropriate error message.
 
 <div style="page-break-before: always;"></div>
 
@@ -698,6 +925,7 @@ Pre-requisites:
 2. The application server must be running and accessible at http://localhost:5173/.
 
 Steps:
+
 1. Open a web browser and navigate to http://localhost:5173/.
 2. Click the "Choose File" button.
 3. Select the file test_image_1.jpg from the specified directory.
