@@ -34,3 +34,21 @@ A few other organizational choices we made that were underutilized or hampered o
 ## 3.0 Review the Technical Aspects
 (Jeremy)
 - This section is much like the previous one, but this time focused on the design and implementation choices made by the team: which ones worked well and how would the team do things differently given the opportunity. 
+
+## 4.0. End State of the Product
+
+### 4.1. Successfully Incorporated Features
+
+- Image wall (Users are able to see uploaded pictures on the main page).
+- Uploading images (Users are able to upload images on the main page).
+- Registration (Invited users are able to create a profile).
+- Login (Users that have been invited by other privileged users and have registered are able to log in).
+- Hiding messages in the pictures (Privileged users are able to embed hidden messages).
+- Creating invites (Priveleged users are able to invite other users).
+- Changing password (Privileged users are able to change their password).
+- Logout (Priveleged users are able to logout of their profile).
+- Seeing a hidden message (Priveleged users are able to decode embedded messages from the picture, if there is any).
+- Changing a theme (Users can choose between dark and light theme).
+- Enlarged image (Users are able to see a larger version of pictures).
+
+
