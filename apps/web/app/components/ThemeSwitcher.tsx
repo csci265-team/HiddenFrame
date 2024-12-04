@@ -18,7 +18,7 @@ export const ThemeSwitcher = () => {
         setIsDark((dark) => {
             const newTheme = !dark;
             localStorage.setItem('@app/theme', newTheme ? 'dark' : 'light')
-            return !newTheme
+            return newTheme;
         })
     };
 
@@ -30,3 +30,4 @@ export const ThemeSwitcher = () => {
         {isDark ? <FaMoon /> : <FaSun />} Change theme
     </Button>);
 }
+
