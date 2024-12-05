@@ -32,5 +32,18 @@ A few other organizational choices we made that were underutilized or hampered o
 - Explicit assignment of reviewer's for the git submission policies may have been useful. 
 
 ## 3.0 Review the Technical Aspects
-(Jeremy)
-- This section is much like the previous one, but this time focused on the design and implementation choices made by the team: which ones worked well and how would the team do things differently given the opportunity. 
+
+Much of the packages that we used to do the specific jobs they are designed for, for example, we were happy with Node, SQLite, etc.  One topic that came up within group discussion was implementing C++ for db_operations.cpp, which was a steep learning curve.  If given the opportunity again, we would have used a language better suited to this task; however, we decided on C++ for this project because of the team's prior experience in this language. 
+
+Additionally, we would have spent more time in the planning phase before implementing ideas.  For instance, when embedding text into images, we later developed as a concept a simpler and more space-efficient way to embed text into images. If given the opportunity to repeat the project, we would have embedded single bits into all LSBs of the channels of a pixel selected for modification.  In the best case, this would have resulted in no difference/improvements (i.e. the bitstring contains consecutive ones or zeros matching the number of channels in an image). However, when in practical scenarios when the bit pattern keeps alternating, we would have been able to embed more text in the worst cases. We had already implemented the logic we decided on earlier and did not have time to change it. This was also not our primary concern since the current logic was performing adequately.
+
+### 4.3 Features Not Implemented
+
+We have not limited the character count in a message to the max value described in the requirements document (1,024 characters). Our primary focus was to get the system working before coming back to meet this requirement. Additionally, we did not implement any of our secondary features or stretch goals. These included:
+- A username recovery mechanism;
+- One-time read/receive secret messages by removing the decode key from the file's contents;
+- A separate payload type of chiptune music tones that may be encoded into images with not less than 150,000 pixels;
+- Using a separate carrier format for both secret text messages and music files;
+- The ability to like and comment on pictures on the wall;
+- Adding support for embedding images as payloads; and
+- Utilizing a common encryption standard into the process so that secret messages are encrypted into and decrypted from their payloads in addition to being embedded into the file.
