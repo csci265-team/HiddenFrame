@@ -10,6 +10,10 @@ csci.viu.ca/~wesselsd/courses/csci265/project.html
 - Phase 5 - In-progress
 - Phase 6 - Not Started
 
+## Hosted
+
+HiddenFrame is currently hosted on [https://hiddenframe.art](https://hiddenframe.art). Feel free to check it out!
+
 ## How to get strated
 
 ### Backend

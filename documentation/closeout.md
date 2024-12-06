@@ -11,7 +11,7 @@
     - 1.2 [Features Not Implemented](#12-features-not-implemented)
 2.  [Review of Organization](#20-review-the-organization)
 3.  [Review the technical aspects of the project](#30-review-the-technical-aspects)
-4.  [End State of the Product](#40-end-state-of-the-product)
+4.  [Final Demo](#40-final-demo)
 
 ## 1.0 End state of the product
 
@@ -63,3 +63,12 @@ Much of the packages that we used to do the specific jobs they are designed for,
 
 Additionally, we would have spent more time in the planning phase before implementing ideas. For instance, when embedding text into images, we later developed as a concept a simpler and more space-efficient way to embed text into images. If given the opportunity to repeat the project, we would have embedded single bits into all LSBs of the channels of a pixel selected for modification. In the best case, this would have resulted in no difference/improvements (i.e. the bitstring contains consecutive ones or zeros matching the number of channels in an image). However, when in practical scenarios when the bit pattern keeps alternating, we would have been able to embed more text in the worst cases. We had already implemented the logic we decided on earlier and did not have time to change it. This was also not our primary concern since the current logic was performing adequately.
 
+## 4.0 Final Demo
+
+For our final presentation demo, we had to overcome several challenges. DNS caching caused issues, and SSL chain certificates weren’t cooperative either.
+
+We opted to use [Vercel](https://vercel.com) for hosting the frontend and an [OCI](https://www.oracle.com/cloud/) instance running Ubuntu 22.04 for the backend, with an Nginx reverse proxy handling SSL setup.
+
+We purchased the domain `hiddenframe.art` and configured [`hiddenframe.art`](https://hiddenframe.art) and [`www.hiddenframe.art`](https://www.hiddenframe.art) to point to Vercel, while [`api.hiddenframe.art`](https://api.hiddenframe.art) was directed to our OCI instance hosting the backend through the Nginx proxy.
+
+Please visit [https://hiddenframe.art](https://hiddenframe.art) to try the demo.
