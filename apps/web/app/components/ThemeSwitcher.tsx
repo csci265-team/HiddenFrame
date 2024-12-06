@@ -30,3 +30,4 @@ export const ThemeSwitcher = () => {
         {isDark ? <FaMoon /> : <FaSun />} Change theme
     </Button>);
 }
+
