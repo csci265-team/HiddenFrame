@@ -18,8 +18,6 @@ int main()
 {
     Snowflake flaker(1, 1);
 
-    sqlite3 *db = createDB("./database/userdatabase.db");
-
     crow::Crow<crow::CookieParser, crow::CORSHandler, AuthorizationMiddleware> app;
 
     CROW_ROUTE(app, "/")
@@ -80,7 +78,8 @@ int main()
                     }
 
                     image imgptr = image(imagePath);
-                    string payload = imgptr.retrieve_payload(stoi(key));
+                    int skipsize = imgptr.decodeKey(key, imgptr.height * imgptr.width * imgptr.channels);
+                    string payload = imgptr.retrieve_payload(skipsize);
 
                     crow::json::wvalue jsonResponse;
                     jsonResponse["success"] = true;
@@ -99,7 +98,7 @@ int main()
     // internal route for POC pourposes only
     CROW_ROUTE(app, "/register/admin")
         .methods(crow::HTTPMethod::POST)(
-            [db](const crow::request &req)
+            [](const crow::request &req)
             {
                 try
                 {
@@ -109,7 +108,7 @@ int main()
                     string password = jsonBody["password"].s();
                     // int inviteId = jsonBody["inviteId"].i();
 
-                    createNewAdmin(db, username, password);
+                    createNewAdmin(username, password);
                 }
                 catch (const std::runtime_error &e)
                 {
@@ -126,7 +125,7 @@ int main()
 
     CROW_ROUTE(app, "/register")
         .methods(crow::HTTPMethod::POST)(
-            [db](const crow::request &req)
+            [](const crow::request &req)
             {
                 try
                 {
@@ -134,9 +133,10 @@ int main()
                     // username and password sent as json in req body
                     string username = jsonBody["username"].s();
                     string password = jsonBody["password"].s();
-                    int inviteId = jsonBody["inviteId"].i();
+                    int64_t inviteId =jsonBody["inviteId"].i();
+                    // cout << req.body << endl;
 
-                    createNewUser(db, username, password, inviteId);
+                   createNewUser(username, password, inviteId);
                 }
                 catch (const std::runtime_error &e)
                 {
@@ -152,14 +152,14 @@ int main()
 
     CROW_ROUTE(app, "/login")
         .methods(crow::HTTPMethod::POST)(
-            [&app, &flaker, db](const crow::request &req)
+            [&app, &flaker](const crow::request &req)
             {
                 auto jsonBody = crow::json::load(req.body);
                 // username and password sent as json in req body
                 string username = jsonBody["username"].s();
                 string password = jsonBody["password"].s();
                 // check username and password against database here
-                bool validcredentials = authenticateUser(db, username, password);
+                bool validcredentials = authenticateUser(username, password);
                 // TEST
                 if (validcredentials)
                 {
@@ -168,8 +168,8 @@ int main()
                 // if valid, generate token and return it
                 if (validcredentials)
                 {
-                    string tokenId = to_string(flaker.nextId()); // this needs to more random. store this in DB
-                    // store the token in the DB.
+                    string tokenId = to_string(flaker.nextId()); // this needs to more random. store this in
+                    // store the token in the .
                     string secret = std::getenv("JWT_SECRET");
                     // int expTime = (int)std::getenv("JWT_EXP_HOURS");
                     //  create token and set to exp in 3 days
@@ -182,7 +182,7 @@ int main()
                                      .set_expires_at(std::chrono::system_clock::now() + std::chrono::hours{3000})
                                      .sign(jwt::algorithm::hs256{secret});
 
-                    saveToken(db, username, tokenId);
+                    saveToken(username, tokenId);
 
                     auto &ctx = app.get_context<crow::CookieParser>(req);
                     ctx.set_cookie("token", token)
@@ -206,7 +206,7 @@ int main()
     CROW_ROUTE(app, "/user")
         .methods(crow::HTTPMethod::PATCH)
         .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(
-            [&app, db](const crow::request &req)
+            [&app](const crow::request &req)
             {
                 auto jsonBody = crow::json::load(req.body);
                 if (!jsonBody)
@@ -219,7 +219,7 @@ int main()
 
                 try
                 {
-                    bool success = changePassword(db, ctx.username, newPassword);
+                    bool success = changePassword(ctx.username, newPassword);
                     if (success)
                     {
                         crow::json::wvalue jsonResponse;
@@ -246,10 +246,10 @@ int main()
     CROW_ROUTE(app, "/invites")
         .methods(crow::HTTPMethod::GET)
         .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(
-            [&app, db](const crow::request &req)
+            [&app](const crow::request &req)
             {
                 auto &ctx = app.get_context<AuthorizationMiddleware>(req);
-                vector<crow::json::wvalue> invites = listInvites(db, ctx.userId);
+                vector<crow::json::wvalue> invites = listInvites(ctx.userId);
 
                 crow::json::wvalue jsonResponse;
                 jsonResponse = crow::json::wvalue::list(invites.begin(), invites.end());
@@ -260,12 +260,14 @@ int main()
     CROW_ROUTE(app, "/invites/create")
         .methods(crow::HTTPMethod::POST)
         .CROW_MIDDLEWARES(app, AuthorizationMiddleware)(
-            [&app, db](const crow::request &req, crow::response &res)
+            [&app, &flaker](const crow::request &req, crow::response &res)
             {
                 auto &ctx = app.get_context<AuthorizationMiddleware>(req);
                 try
                 {
-                    int inviteId = createInvite(db, ctx.username);
+                    int64_t id = flaker.nextId();
+                    cout << id << endl;
+                    int64_t inviteId = createInvite(ctx.username,id);
                     if (inviteId == -1)
                     {
                         crow::json::wvalue error_json;
@@ -292,7 +294,7 @@ int main()
 
     CROW_ROUTE(app, "/image/upload")
         .methods(crow::HTTPMethod::POST)(
-            [&app, &flaker, db](const crow::request &req)
+            [&app, &flaker](const crow::request &req)
             {
                 int64_t random = flaker.nextId();
 
@@ -353,13 +355,14 @@ int main()
                         string fileExt = meta["ext"].s();
                         string fileName = to_string(random) + "." + fileExt;
                         string filePath = "./static/" + fileName;
+                        string key;
 
                         int fileSize = meta["size"].i();
 
                         // check if token is sent, then verify token
                         auto &cookie_ctx = app.get_context<crow::CookieParser>(req);
                         std::string token = cookie_ctx.get_cookie("token");
-                        auto [isAuthed, _] = verify_token(token, db);
+                        auto [isAuthed, _] = verify_token(token);
 
                         cout << "token" << token << endl;
                         cout << "isAuthed: " << isAuthed << endl;
@@ -370,13 +373,13 @@ int main()
                             memcpy(convertedData.data(), fileData.c_str(), fileSize + 1);
                             image imgptr = image(convertedData.data(), fileSize, fileExt);
                             string messageBN = stringToBinary(message);
-                            int skipSize = imgptr.calculateSkipSize(imgptr.height*imgptr.width*imgptr.channels, convertedData.size()/2);
+                            int skipSize = imgptr.calculateSkipSize(imgptr.height * imgptr.width * imgptr.channels, convertedData.size() / 2);
                             cout << "The ideal skip size is " << skipSize << endl;
                             imgptr.modify_image(skipSize, messageBN);
                             imgptr.write_image(filePath);
-                            string key = imgptr.generateKey(imgptr.height*imgptr.width*imgptr.channels, imgptr.channels, skipSize);
-                            //AMITOJ, Here is the key.
-                            cout << "The image size is " << imgptr.height*imgptr.width*imgptr.channels << endl;
+                            key = imgptr.generateKey(imgptr.height * imgptr.width * imgptr.channels, imgptr.channels, skipSize);
+                            // AMITOJ, Here is the key.
+                            cout << "The image size is " << imgptr.height * imgptr.width * imgptr.channels << endl;
                         }
                         else
                         {
@@ -398,6 +401,9 @@ int main()
                         crow::json::wvalue success_json;
                         success_json["success"] = true;
                         success_json["url"] = BASE_API_URL + "/static/" + fileName;
+                        if (!key.empty())
+                            success_json["key"] = key;
+
                         return crow::response(200, success_json);
                     }
                     catch (const exception &e)
@@ -418,5 +424,4 @@ int main()
             });
 
     app.port(8080).multithreaded().run();
-    closeDB(db);
 }
